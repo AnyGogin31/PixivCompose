@@ -1,0 +1,18 @@
+[versions]
+
+# Gradle Plugins
+androidGradlePlugin = "8.7.2"
+kotlinGradlePlugin = "2.0.21"
+
+
+[libraries]
+
+
+
+[plugins]
+
+# Android
+androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+
+# Kotlin
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
