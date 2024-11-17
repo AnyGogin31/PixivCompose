@@ -12,6 +12,10 @@ plugins {
 
 dependencies {
 
+    // Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)

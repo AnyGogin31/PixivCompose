@@ -7,6 +7,15 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
 }
 
+dependencies {
+
+    // Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
+}
+
 android {
     namespace = "neilt.mobile.pixiv"
     compileSdk = 35

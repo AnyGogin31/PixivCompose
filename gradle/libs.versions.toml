@@ -5,6 +5,9 @@ androidGradlePlugin = "8.7.2"
 kotlinGradlePlugin = "2.0.21"
 kspGradlePlugin = "2.0.21-1.0.27"
 
+# Koin
+koin = "4.0.0"
+
 # Retrofit
 retrofit = "2.11.0"
 
@@ -16,6 +19,12 @@ moshi = "1.15.1"
 
 
 [libraries]
+
+# Koin
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 
 # Retrofit
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
