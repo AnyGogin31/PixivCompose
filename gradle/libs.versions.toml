@@ -3,10 +3,31 @@
 # Gradle Plugins
 androidGradlePlugin = "8.7.2"
 kotlinGradlePlugin = "2.0.21"
+kspGradlePlugin = "2.0.21-1.0.27"
+
+# Retrofit
+retrofit = "2.11.0"
+
+# OkHttp
+okhttp3 = "4.12.0"
+
+# Moshi
+moshi = "1.15.1"
 
 
 [libraries]
 
+# Retrofit
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+
+# OkHttp
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
+okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
+
+# Moshi
+moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
+moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
 
 
 [plugins]
@@ -17,3 +38,6 @@ androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugi
 
 # Kotlin
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
+
+# KSP
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }

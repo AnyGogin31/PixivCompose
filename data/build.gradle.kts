@@ -1,6 +1,29 @@
 plugins {
+
+    // Android
     alias(libs.plugins.androidLibrary)
+
+    // Kotlin
     alias(libs.plugins.kotlinAndroid)
+
+    // KSP
+    alias(libs.plugins.ksp)
+}
+
+dependencies {
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+
+    // OkHttp
+    implementation(libs.okhttp3)
+    implementation(libs.okhttp3.logging.interceptor)
+
+    // Moshi
+    implementation(libs.moshi)
+    ksp(libs.moshi.kotlin.codegen)
+
 }
 
 android {

@@ -7,4 +7,7 @@ plugins {
 
     // Kotlin
     alias(libs.plugins.kotlinAndroid) apply false
+
+    // KSP
+    alias(libs.plugins.ksp) apply false
 }
