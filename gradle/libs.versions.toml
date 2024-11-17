@@ -13,6 +13,7 @@ kotlinGradlePlugin = "2.0.21"
 
 # Android
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 
 # Kotlin
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
