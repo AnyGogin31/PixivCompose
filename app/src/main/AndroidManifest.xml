@@ -10,6 +10,19 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Material.NoActionBar"
-        tools:targetApi="31" />
+        tools:targetApi="31">
 
+        <activity android:name=".ui.screens.main.MainActivity" />
+
+        <activity-alias
+            android:name=".DefaultActivity"
+            android:exported="true"
+            android:targetActivity=".ui.screens.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+    </application>
 </manifest>
