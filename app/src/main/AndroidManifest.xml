@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".PixivApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@null"
         android:fullBackupContent="@null"
