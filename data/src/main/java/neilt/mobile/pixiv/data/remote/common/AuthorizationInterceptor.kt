@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.auth
+package neilt.mobile.pixiv.data.remote.common
 
 import okhttp3.Interceptor
 import okhttp3.Response
