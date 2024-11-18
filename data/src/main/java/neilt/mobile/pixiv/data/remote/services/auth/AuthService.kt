@@ -22,31 +22,24 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.services.auth
 
-import neilt.mobile.pixiv.data.remote.services.auth.AuthService
-import okhttp3.OkHttpClient
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import neilt.mobile.pixiv.data.remote.responses.auth.TokenResponse
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
-private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
-private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
+interface AuthService {
 
-private fun provideRetrofit(baseUrl: String): Retrofit {
-    val clientBuilder = OkHttpClient.Builder()
-
-    return Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(clientBuilder.build())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
-}
-
-internal val remoteModule = module {
-    single(named("OAuthApi")) { provideRetrofit(baseUrl = OAUTH_BASE_URL) }
-    single(named("PixivApi")) { provideRetrofit(baseUrl = PIXIV_BASE_URL) }
-
-    single { get<Retrofit>(named("OAuthApi")).create(AuthService::class.java) }
+    @FormUrlEncoded
+    @POST("/auth/token")
+    suspend fun requestToken(
+        @Field("client_id") clientId: String,
+        @Field("client_secret") clientSecret: String,
+        @Field("grant_type") grantType: String,
+        @Field("code") codeAuthorization: String,
+        @Field("code_verifier") codeVerifier: String,
+        @Field("redirect_uri") redirectUri: String,
+        @Field("include_policy") includePolicy: Boolean,
+    ): TokenResponse
 }

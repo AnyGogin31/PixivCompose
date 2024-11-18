@@ -22,31 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.responses.auth
 
-import neilt.mobile.pixiv.data.remote.services.auth.AuthService
-import okhttp3.OkHttpClient
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
-private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
-
-private fun provideRetrofit(baseUrl: String): Retrofit {
-    val clientBuilder = OkHttpClient.Builder()
-
-    return Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(clientBuilder.build())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
-}
-
-internal val remoteModule = module {
-    single(named("OAuthApi")) { provideRetrofit(baseUrl = OAUTH_BASE_URL) }
-    single(named("PixivApi")) { provideRetrofit(baseUrl = PIXIV_BASE_URL) }
-
-    single { get<Retrofit>(named("OAuthApi")).create(AuthService::class.java) }
-}
+@JsonClass(generateAdapter = true)
+data class TokenResponse(
+    @Json(name = "access_token") val accessToken: String,
+)
