@@ -3,7 +3,7 @@
 # Gradle Plugins
 androidGradlePlugin = "8.7.2"
 kotlinGradlePlugin = "2.0.21"
-kspGradlePlugin = "2.0.21-1.0.27"
+kspGradlePlugin = "2.0.21-1.0.28"
 
 # Kotlin
 kotlinCompiler = "1.5.15"
