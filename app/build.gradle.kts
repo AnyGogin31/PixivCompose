@@ -5,9 +5,26 @@ plugins {
 
     // Kotlin
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinCompose)
 }
 
 dependencies {
+
+    // Compose
+    implementation(platform(libs.compose.bom))
+
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+
+    debugImplementation(libs.compose.ui.tooling)
+
+    implementation(libs.compose.activity)
+    implementation(libs.compose.material)
+
+    // AndroidX
+    implementation(libs.android.core)
+    implementation(libs.android.lifecycle.runtime)
 
     // Koin
     implementation(platform(libs.koin.bom))
@@ -30,6 +47,14 @@ android {
         versionName = "1.0"
     }
 
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompiler.toString()
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,5 +62,11 @@ android {
 
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    packaging {
+        jniLibs {
+            keepDebugSymbols.add("**/libandroidx.graphics.path.so")
+        }
     }
 }

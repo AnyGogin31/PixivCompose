@@ -5,6 +5,17 @@ androidGradlePlugin = "8.7.2"
 kotlinGradlePlugin = "2.0.21"
 kspGradlePlugin = "2.0.21-1.0.27"
 
+# Kotlin
+kotlinCompiler = "1.5.15"
+
+# Compose
+composeBom = "2024.11.00"
+composeActivity = "1.9.3"
+
+# AndroidX
+androidCore = "1.15.0"
+androidLifecycle = "2.8.7"
+
 # Koin
 koin = "4.0.0"
 
@@ -19,6 +30,21 @@ moshi = "1.15.1"
 
 
 [libraries]
+
+# Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
+compose-material = { group = "androidx.compose.material3", name = "material3" }
+
+# AndroidX
+android-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidCore" }
+android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidLifecycle" }
 
 # Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
@@ -47,6 +73,7 @@ androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugi
 
 # Kotlin
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
+kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
 
 # KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
