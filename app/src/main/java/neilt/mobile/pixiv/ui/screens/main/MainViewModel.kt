@@ -25,28 +25,12 @@
 package neilt.mobile.pixiv.ui.screens.main
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import neilt.mobile.pixiv.ui.screens.root.RootContent
+import android.net.Uri
+import androidx.lifecycle.ViewModel
 
-class MainActivity : ComponentActivity() {
+class MainViewModel : ViewModel() {
 
-    private val viewModel: MainViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        viewModel.handleDeepLink(intent)
-        setContent {
-            RootContent()
-        }
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        viewModel.handleDeepLink(intent)
+    fun handleDeepLink(intent: Intent?) {
+        val data: Uri? = intent?.data ?: return
     }
 }
