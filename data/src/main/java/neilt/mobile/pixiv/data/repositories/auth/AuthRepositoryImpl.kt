@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.data.repositories.auth
 import android.util.Base64
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import java.security.MessageDigest
 import java.security.SecureRandom
 
 class AuthRepositoryImpl(
@@ -46,16 +47,27 @@ class AuthRepositoryImpl(
             clientSecret = CLIENT_SECRET,
             grantType = AUTH_GRANT_TYPE,
             codeAuthorization = code,
-            codeVerifier = generateCodeVerifier(),
+            codeVerifier = TempObject.codeVerifier,
             redirectUri = CALL_BACK,
             includePolicy = true
         )
     }
+}
 
-    private fun generateCodeVerifier(): String {
+object TempObject {
+
+    val codeChallenge by lazy {
+        val bytes = codeVerifier.toByteArray(Charsets.US_ASCII)
+        val messageDigest = MessageDigest.getInstance("SHA-256")
+        messageDigest.update(bytes, 0, bytes.size)
+        val digest = messageDigest.digest()
+        Base64.encodeToString(digest, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
+    }
+
+    val codeVerifier by lazy {
         val random = SecureRandom()
         val bytes = ByteArray(32)
         random.nextBytes(bytes)
-        return Base64.encodeToString(bytes, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
+        Base64.encodeToString(bytes, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
     }
 }
