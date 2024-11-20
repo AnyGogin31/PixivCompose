@@ -12,6 +12,8 @@ plugins {
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
