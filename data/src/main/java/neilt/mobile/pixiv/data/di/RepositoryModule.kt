@@ -22,20 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.data.di
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-class PixivApplication : Application() {
+val repositoryModule = module {
+    includes(remoteModule)
 
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(repositoryModule)
-        }
-    }
+    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
 }

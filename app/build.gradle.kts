@@ -10,6 +10,9 @@ plugins {
 
 dependencies {
 
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     // Compose
     implementation(platform(libs.compose.bom))
 
