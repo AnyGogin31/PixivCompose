@@ -22,31 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.main
+package neilt.mobile.pixiv.di
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import neilt.mobile.pixiv.ui.screens.root.RootContent
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import neilt.mobile.pixiv.ui.screens.main.MainViewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
-class MainActivity : ComponentActivity() {
-
-    private val viewModel: MainViewModel by viewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        viewModel.handleDeepLink(intent)
-        setContent {
-            RootContent()
-        }
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        viewModel.handleDeepLink(intent)
-    }
+val viewModelModule = module {
+    viewModelOf(::MainViewModel)
 }

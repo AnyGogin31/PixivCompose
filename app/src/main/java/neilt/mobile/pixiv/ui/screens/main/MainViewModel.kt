@@ -26,14 +26,22 @@ package neilt.mobile.pixiv.ui.screens.main
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     fun handleDeepLink(intent: Intent) {
         val deepLinkUri = intent.data?.takeIf { it.scheme == "pixiv" } ?: return
         if (deepLinkUri.host == "account" && deepLinkUri.path == "/login") {
-            val code = deepLinkUri.getQueryParameter("code")
-//            authRepository.getAccessToken(code)
+            val code = deepLinkUri.getQueryParameter("code") ?: return
+            viewModelScope.launch(Dispatchers.IO) {
+                authRepository.getAccessToken(code)
+            }
         }
     }
 }
