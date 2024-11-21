@@ -22,32 +22,37 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.auth
+package neilt.mobile.pixiv.domain.utils
 
-import neilt.mobile.pixiv.data.remote.services.auth.AuthService
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.utils.PKCEUtil
+import android.util.Base64
+import java.security.MessageDigest
+import java.security.SecureRandom
 
-class AuthRepositoryImpl(
-    private val authService: AuthService,
-) : AuthRepository {
+object PKCEUtil {
 
-    private companion object {
-        const val CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT"
-        const val CLIENT_SECRET = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj"
-        const val AUTH_GRANT_TYPE = "authorization_code"
-        const val CALL_BACK = "https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"
+    val codeVerifier: String by lazy {
+        generateCodeVerifier()
     }
 
-    override suspend fun getAccessToken(code: String) {
-        authService.requestToken(
-            clientId = CLIENT_ID,
-            clientSecret = CLIENT_SECRET,
-            grantType = AUTH_GRANT_TYPE,
-            codeAuthorization = code,
-            codeVerifier = PKCEUtil.codeVerifier,
-            redirectUri = CALL_BACK,
-            includePolicy = true
-        )
+    val codeChallenge: String by lazy {
+        generateCodeChallenge(codeVerifier)
+    }
+
+    private fun generateCodeVerifier(length: Int = 32): String {
+        val random = SecureRandom.getInstance("SHA1PRNG")
+        val bytes = ByteArray(length)
+        random.nextBytes(bytes)
+        return Base64.encodeToString(bytes, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
+    }
+
+    private fun generateCodeChallenge(codeVerifier: String): String {
+        return try {
+            val bytes = codeVerifier.toByteArray(Charsets.US_ASCII)
+            val messageDigest = MessageDigest.getInstance("SHA-256")
+            val digest = messageDigest.digest(bytes)
+            Base64.encodeToString(digest, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
+        } catch (e: Exception) {
+            throw IllegalStateException("Unable to generate code challenge", e)
+        }
     }
 }

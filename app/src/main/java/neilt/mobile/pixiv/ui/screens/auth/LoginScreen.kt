@@ -40,7 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import neilt.mobile.pixiv.data.repositories.auth.TempObject
+import neilt.mobile.pixiv.domain.utils.PKCEUtil
 
 @Composable
 fun LoginScreen() {
@@ -64,7 +64,7 @@ fun LoginScreen() {
             onClick = {
                 val url =
                     "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
-                            TempObject.codeChallenge +
+                            PKCEUtil.codeChallenge +
                             "&code_challenge_method=S256&client=pixiv-android"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 context.startActivity(intent)
