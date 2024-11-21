@@ -30,6 +30,10 @@ dependencies {
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
 
+    // Room
+    implementation(libs.room)
+    implementation(libs.room.kotlin)
+    ksp(libs.room.compiler)
 }
 
 android {

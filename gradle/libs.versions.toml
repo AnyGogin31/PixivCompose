@@ -28,6 +28,9 @@ okhttp3 = "4.12.0"
 # Moshi
 moshi = "1.15.1"
 
+# Room
+room = "2.6.1"
+
 
 [libraries]
 
@@ -63,6 +66,11 @@ okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-
 # Moshi
 moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
+
+# Room
+room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-kotlin = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 
 [plugins]
