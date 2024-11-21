@@ -24,19 +24,13 @@
 
 package neilt.mobile.pixiv.ui.screens.root
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import neilt.mobile.pixiv.data.repositories.auth.TempObject
+import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
 import neilt.mobile.pixiv.ui.theme.PixivTheme
 
 @Composable
 fun RootContent() {
     PixivTheme {
-        val context = LocalContext.current
-        val url = "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" + TempObject.codeChallenge + "&code_challenge_method=S256&client=pixiv-android"
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        context.startActivity(intent)
+        LoginScreen()
     }
 }
