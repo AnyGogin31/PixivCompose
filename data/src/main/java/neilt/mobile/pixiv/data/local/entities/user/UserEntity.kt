@@ -30,7 +30,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "token") val token: String,
     @ColumnInfo(name = "is_active") val isActive: Boolean,
+    @ColumnInfo(name = "access_token") val accessToken: String,
+    @ColumnInfo(name = "refresh_token") val refreshToken: String,
+    @PrimaryKey @ColumnInfo(name = "user_id") val userId: String,
+    @ColumnInfo(name = "user_name") val userName: String,
+    @ColumnInfo(name = "user_account") val userAccount: String,
+    @ColumnInfo(name = "user_mail_address") val userMailAddress: String,
 )

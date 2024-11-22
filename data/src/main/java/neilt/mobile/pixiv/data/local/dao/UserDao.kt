@@ -52,6 +52,6 @@ interface UserDao {
     @Query("UPDATE users SET is_active = 0 WHERE is_active = 1")
     suspend fun deactivateAllUsers()
 
-    @Query("UPDATE users SET is_active = 1 WHERE id = :userId")
-    suspend fun activateUser(userId: Int)
+    @Query("UPDATE users SET is_active = 1 WHERE user_id = :userId")
+    suspend fun activateUser(userId: String)
 }

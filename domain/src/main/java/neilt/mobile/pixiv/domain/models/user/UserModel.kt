@@ -22,13 +22,11 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.auth
+package neilt.mobile.pixiv.domain.models.user
 
-import neilt.mobile.pixiv.domain.models.user.UserModel
-
-interface AuthRepository {
-    suspend fun getAllUsers(): List<UserModel>
-    suspend fun getActiveUser(): UserModel?
-    suspend fun setActiveUser(userId: String): Result<Unit>
-    suspend fun authorizeUser(code: String): Result<Unit>
-}
+data class UserModel(
+    val id: String,
+    val name: String,
+    val account: String,
+    val mailAddress: String,
+)

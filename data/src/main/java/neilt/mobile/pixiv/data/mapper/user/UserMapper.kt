@@ -22,13 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.auth
+package neilt.mobile.pixiv.data.mapper.user
 
+import neilt.mobile.pixiv.data.local.entities.user.UserEntity
+import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
 import neilt.mobile.pixiv.domain.models.user.UserModel
 
-interface AuthRepository {
-    suspend fun getAllUsers(): List<UserModel>
-    suspend fun getActiveUser(): UserModel?
-    suspend fun setActiveUser(userId: String): Result<Unit>
-    suspend fun authorizeUser(code: String): Result<Unit>
-}
+internal fun UserEntity.toModel() = UserModel(
+    id = this.userId,
+    name = this.userName,
+    account = this.userAccount,
+    mailAddress = this.userMailAddress
+)
+
+internal fun AuthResponse.toEntity() = UserEntity(
+    isActive = true,
+    accessToken = this.accessToken,
+    refreshToken = this.refreshToken,
+    userId = this.user.id,
+    userName = this.user.name,
+    userAccount = this.user.account,
+    userMailAddress = this.user.mailAddress
+)

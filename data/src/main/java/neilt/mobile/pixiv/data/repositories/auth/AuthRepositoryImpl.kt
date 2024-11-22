@@ -24,12 +24,17 @@
 
 package neilt.mobile.pixiv.data.repositories.auth
 
+import neilt.mobile.pixiv.data.local.dao.UserDao
+import neilt.mobile.pixiv.data.mapper.user.toEntity
+import neilt.mobile.pixiv.data.mapper.user.toModel
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
+import neilt.mobile.pixiv.domain.models.user.UserModel
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.domain.utils.PKCEUtil
 
 class AuthRepositoryImpl(
     private val authService: AuthService,
+    private val userDao: UserDao,
 ) : AuthRepository {
 
     private companion object {
@@ -39,8 +44,33 @@ class AuthRepositoryImpl(
         const val CALL_BACK = "https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"
     }
 
-    override suspend fun getAccessToken(code: String) {
-        authService.requestToken(
+    override suspend fun getAllUsers(): List<UserModel> {
+        return userDao.getAllUsers().map { it.toModel() }
+    }
+
+    override suspend fun getActiveUser(): UserModel? {
+        return userDao.getActiveUser()?.toModel()
+    }
+
+    override suspend fun setActiveUser(userId: String): Result<Unit> {
+        val user = userDao.getAllUsers().find { it.userId == userId }
+        if (user == null) {
+            return Result.failure(Exception("User not found."))
+        }
+
+        userDao.deactivateAllUsers()
+        userDao.activateUser(userId)
+
+        return Result.success(Unit)
+    }
+
+    override suspend fun authorizeUser(code: String): Result<Unit> {
+        val userCount = userDao.getUserCount()
+        if (userCount >= 3) {
+            return Result.failure(Exception("Maximum number of users reached."))
+        }
+
+        val response = authService.requestForAuthorization(
             clientId = CLIENT_ID,
             clientSecret = CLIENT_SECRET,
             grantType = AUTH_GRANT_TYPE,
@@ -49,5 +79,10 @@ class AuthRepositoryImpl(
             redirectUri = CALL_BACK,
             includePolicy = true
         )
+
+        userDao.deactivateAllUsers()
+        userDao.insertUser(response.toEntity())
+
+        return Result.success(Unit)
     }
 }

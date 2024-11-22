@@ -22,13 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.auth
+package neilt.mobile.pixiv.data.remote.responses.auth
 
-import neilt.mobile.pixiv.domain.models.user.UserModel
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-interface AuthRepository {
-    suspend fun getAllUsers(): List<UserModel>
-    suspend fun getActiveUser(): UserModel?
-    suspend fun setActiveUser(userId: String): Result<Unit>
-    suspend fun authorizeUser(code: String): Result<Unit>
-}
+@JsonClass(generateAdapter = true)
+data class UserResponse(
+    @Json(name = "id") val id: String,
+    @Json(name = "name") val name: String,
+    @Json(name = "account") val account: String,
+    @Json(name = "mail_address") val mailAddress: String,
+)

@@ -40,7 +40,7 @@ class MainViewModel(
         if (deepLinkUri.host == "account" && deepLinkUri.path == "/login") {
             val code = deepLinkUri.getQueryParameter("code") ?: return
             viewModelScope.launch(Dispatchers.IO) {
-                authRepository.getAccessToken(code)
+                authRepository.authorizeUser(code)
             }
         }
     }
