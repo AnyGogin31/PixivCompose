@@ -24,15 +24,9 @@
 
 package neilt.mobile.pixiv.data.di
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
+import neilt.mobile.pixiv.data.local.db.PixivDatabase
 import org.koin.dsl.module
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(remoteModule)
-
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
+val localModule = module {
+    single { PixivDatabase.createInstance(context = get()) }
 }

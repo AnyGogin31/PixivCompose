@@ -22,17 +22,23 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.local.db
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(remoteModule)
+private const val DATABASE_NAME = "PixivCompose.db"
 
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
+@Database(entities = [], version = 1)
+abstract class PixivDatabase : RoomDatabase() {
+
+    companion object {
+        fun createInstance(context: Context): PixivDatabase {
+            return Room.databaseBuilder(context, PixivDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+    }
 }
