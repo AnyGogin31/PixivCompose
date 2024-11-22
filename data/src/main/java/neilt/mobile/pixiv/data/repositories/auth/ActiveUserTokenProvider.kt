@@ -22,12 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.models.user
+package neilt.mobile.pixiv.data.repositories.auth
 
-data class UserModel(
-    val id: String,
-    val name: String,
-    val account: String,
-    val mailAddress: String,
-        val token: String,
-)
+import kotlinx.coroutines.runBlocking
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
+
+class ActiveUserTokenProvider(private val authRepository: AuthRepository) : TokenProvider {
+    override fun getToken(): String? {
+        return runBlocking {
+            authRepository.getActiveUser()?.token
+        }
+    }
+}

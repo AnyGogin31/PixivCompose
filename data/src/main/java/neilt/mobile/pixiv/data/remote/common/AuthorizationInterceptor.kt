@@ -24,11 +24,12 @@
 
 package neilt.mobile.pixiv.data.remote.common
 
+import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 import okhttp3.Interceptor
 import okhttp3.Response
 import retrofit2.Invocation
 
-class AuthorizationInterceptor(private val tokenProvider: () -> String?) : Interceptor {
+class AuthorizationInterceptor(private val tokenProvider: TokenProvider) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
@@ -44,7 +45,7 @@ class AuthorizationInterceptor(private val tokenProvider: () -> String?) : Inter
         }
 
         // Retrieve the token from the token provider
-        val token = tokenProvider.invoke()
+        val token = tokenProvider.getToken()
         if (token.isNullOrEmpty()) {
             // Throw an exception if the token is missing
             throw IllegalStateException("Authorization failed: Missing token for authenticated request")

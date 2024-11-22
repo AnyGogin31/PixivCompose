@@ -32,7 +32,8 @@ internal fun UserEntity.toModel() = UserModel(
     id = this.userId,
     name = this.userName,
     account = this.userAccount,
-    mailAddress = this.userMailAddress
+    mailAddress = this.userMailAddress,
+    token = this.accessToken
 )
 
 internal fun AuthResponse.toEntity() = UserEntity(

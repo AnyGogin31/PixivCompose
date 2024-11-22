@@ -24,7 +24,10 @@
 
 package neilt.mobile.pixiv.data.di
 
+import neilt.mobile.pixiv.data.remote.common.AuthorizationInterceptor
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
+import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
+import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 import okhttp3.OkHttpClient
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -34,8 +37,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
 private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
 
-private fun provideRetrofit(baseUrl: String): Retrofit {
+private fun provideRetrofit(baseUrl: String, tokenProvider: TokenProvider? = null): Retrofit {
     val clientBuilder = OkHttpClient.Builder()
+    tokenProvider?.let { clientBuilder.addInterceptor(AuthorizationInterceptor(it)) }
 
     return Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -45,8 +49,15 @@ private fun provideRetrofit(baseUrl: String): Retrofit {
 }
 
 internal val remoteModule = module {
+    single<TokenProvider> { ActiveUserTokenProvider(authRepository = get()) }
+
     single(named("OAuthApi")) { provideRetrofit(baseUrl = OAUTH_BASE_URL) }
-    single(named("PixivApi")) { provideRetrofit(baseUrl = PIXIV_BASE_URL) }
+    single(named("PixivApi")) {
+        provideRetrofit(
+            baseUrl = PIXIV_BASE_URL,
+            tokenProvider = get()
+        )
+    }
 
     single { get<Retrofit>(named("OAuthApi")).create(AuthService::class.java) }
 }

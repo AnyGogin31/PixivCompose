@@ -22,12 +22,8 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.models.user
+package neilt.mobile.pixiv.domain.repositories.auth
 
-data class UserModel(
-    val id: String,
-    val name: String,
-    val account: String,
-    val mailAddress: String,
-        val token: String,
-)
+interface TokenProvider {
+    fun getToken(): String?
+}
