@@ -22,12 +22,36 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.local.dao
 
-import neilt.mobile.pixiv.data.local.db.PixivDatabase
-import org.koin.dsl.module
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import neilt.mobile.pixiv.data.local.entities.user.UserEntity
 
-val localModule = module {
-    single { PixivDatabase.createInstance(context = get()) }
-    single { get<PixivDatabase>().userDao() }
+@Dao
+interface UserDao {
+
+    @Query("SELECT COUNT(*) FROM users")
+    suspend fun getUserCount(): Int
+
+    @Query("SELECT * FROM users")
+    fun getAllUsers(): List<UserEntity>
+
+    @Query("SELECT * FROM users WHERE is_active = 1 LIMIT 1")
+    fun getActiveUser(): UserEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUser(user: UserEntity)
+
+    @Delete
+    suspend fun deleteUser(user: UserEntity)
+
+    @Query("UPDATE users SET is_active = 0 WHERE is_active = 1")
+    suspend fun deactivateAllUsers()
+
+    @Query("UPDATE users SET is_active = 1 WHERE id = :userId")
+    suspend fun activateUser(userId: Int)
 }

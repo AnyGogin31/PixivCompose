@@ -28,10 +28,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import neilt.mobile.pixiv.data.local.dao.UserDao
+import neilt.mobile.pixiv.data.local.entities.user.UserEntity
 
 private const val DATABASE_NAME = "PixivCompose.db"
 
-@Database(entities = [], version = 1)
+@Database(entities = [UserEntity::class], version = 1)
 abstract class PixivDatabase : RoomDatabase() {
 
     companion object {
@@ -41,4 +43,6 @@ abstract class PixivDatabase : RoomDatabase() {
                 .build()
         }
     }
+
+    abstract fun userDao(): UserDao
 }

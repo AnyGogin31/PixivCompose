@@ -22,12 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.local.entities.user
 
-import neilt.mobile.pixiv.data.local.db.PixivDatabase
-import org.koin.dsl.module
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-val localModule = module {
-    single { PixivDatabase.createInstance(context = get()) }
-    single { get<PixivDatabase>().userDao() }
-}
+@Entity(tableName = "users")
+data class UserEntity(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @ColumnInfo(name = "token") val token: String,
+    @ColumnInfo(name = "is_active") val isActive: Boolean,
+)
