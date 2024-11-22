@@ -8,6 +8,9 @@ plugins {
 
     // KSP
     alias(libs.plugins.ksp)
+
+    // Room
+    alias(libs.plugins.room)
 }
 
 dependencies {
@@ -43,6 +46,10 @@ android {
     defaultConfig {
         minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     compileOptions {

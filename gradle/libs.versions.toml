@@ -4,6 +4,7 @@
 androidGradlePlugin = "8.7.2"
 kotlinGradlePlugin = "2.0.21"
 kspGradlePlugin = "2.0.21-1.0.28"
+roomGradlePlugin = "2.6.1"
 
 # Kotlin
 kotlinCompiler = "1.5.15"
@@ -27,9 +28,6 @@ okhttp3 = "4.12.0"
 
 # Moshi
 moshi = "1.15.1"
-
-# Room
-room = "2.6.1"
 
 
 [libraries]
@@ -68,9 +66,9 @@ moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
 
 # Room
-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-kotlin = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room = { group = "androidx.room", name = "room-runtime", version.ref = "roomGradlePlugin" }
+room-kotlin = { group = "androidx.room", name = "room-ktx", version.ref = "roomGradlePlugin" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomGradlePlugin" }
 
 
 [plugins]
@@ -85,3 +83,6 @@ kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kot
 
 # KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
+
+# Room
+room = { id = "androidx.room", version.ref = "roomGradlePlugin" }
