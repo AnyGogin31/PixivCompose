@@ -45,6 +45,7 @@ dependencies {
 
     // Kotlin Test
     testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.coroutines.test)
 
     // Mockito
     testImplementation(libs.mockito.core)

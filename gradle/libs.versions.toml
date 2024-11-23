@@ -8,6 +8,7 @@ roomGradlePlugin = "2.6.1"
 
 # Kotlin
 kotlinCompiler = "1.5.15"
+kotlinCoroutines = "1.9.0"
 
 # Compose
 composeBom = "2024.11.00"
@@ -34,7 +35,6 @@ moshi = "1.15.1"
 
 # Testing
 junitJupiter = "5.10.0"
-kotlinTest = "2.0.20"
 mokito = "5.14.2"
 mokitoKotlin = "5.4.0"
 
@@ -85,9 +85,12 @@ room = { group = "androidx.room", name = "room-runtime", version.ref = "roomGrad
 room-kotlin = { group = "androidx.room", name = "room-ktx", version.ref = "roomGradlePlugin" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomGradlePlugin" }
 
+# Kotlin
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinGradlePlugin" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
+
 # Testing
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
 
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mokito" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokitoKotlin" }
