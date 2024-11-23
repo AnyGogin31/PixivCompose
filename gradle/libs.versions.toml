@@ -35,6 +35,8 @@ moshi = "1.15.1"
 # Testing
 junitJupiter = "5.10.0"
 kotlinTest = "2.0.20"
+mokito = "5.14.2"
+mokitoKotlin = "5.4.0"
 
 
 [libraries]
@@ -86,6 +88,9 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 # Testing
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
+
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mokito" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokitoKotlin" }
 
 
 [plugins]

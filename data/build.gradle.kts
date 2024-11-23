@@ -46,6 +46,10 @@ dependencies {
     // Kotlin Test
     testImplementation(libs.kotlin.test)
 
+    // Mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
     // Android-specific dependencies
     androidTestImplementation(libs.android.test.core)
     androidTestImplementation(libs.android.test.ext)
