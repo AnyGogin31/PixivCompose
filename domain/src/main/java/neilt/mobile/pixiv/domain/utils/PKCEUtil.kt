@@ -24,35 +24,55 @@
 
 package neilt.mobile.pixiv.domain.utils
 
-import android.util.Base64
 import java.security.MessageDigest
 import java.security.SecureRandom
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 object PKCEUtil {
 
-    val codeVerifier: String by lazy {
-        generateCodeVerifier()
-    }
+    // Default length for the code verifier
+    private const val CODE_VERIFIER_LENGTH = 32
 
-    val codeChallenge: String by lazy {
-        generateCodeChallenge(codeVerifier)
-    }
+    // SecureRandom instance for cryptographically strong randomness
+    private val secureRandom: SecureRandom by lazy { SecureRandom.getInstance("SHA1PRNG") }
 
-    private fun generateCodeVerifier(length: Int = 32): String {
-        val random = SecureRandom.getInstance("SHA1PRNG")
-        val bytes = ByteArray(length)
-        random.nextBytes(bytes)
-        return Base64.encodeToString(bytes, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
-    }
+    // Lazily initialized code verifier
+    val codeVerifier: String by lazy { generateRandomString() }
 
-    private fun generateCodeChallenge(codeVerifier: String): String {
-        return try {
-            val bytes = codeVerifier.toByteArray(Charsets.US_ASCII)
-            val messageDigest = MessageDigest.getInstance("SHA-256")
-            val digest = messageDigest.digest(bytes)
-            Base64.encodeToString(digest, Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING)
-        } catch (e: Exception) {
-            throw IllegalStateException("Unable to generate code challenge", e)
+    // Lazily initialized code challenge
+    val codeChallenge: String by lazy { generateSHA256Base64(codeVerifier) }
+
+    /**
+     * Generates a random URL-safe string of the given length.
+     * Used for creating the code verifier.
+     *
+     * @return A Base64 URL-safe string.
+     */
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun generateRandomString(): String {
+        // Generate random bytes and encode to URL-safe Base64 without padding
+        val bytes = ByteArray(CODE_VERIFIER_LENGTH).apply {
+            secureRandom.nextBytes(this)
         }
+        return Base64.UrlSafe.encode(bytes).trimEnd('=')
+    }
+
+    /**
+     * Generates a SHA-256 hash of the input string and encodes it in Base64 URL-safe format.
+     * Used for creating the code challenge.
+     *
+     * @param input The input string to hash.
+     * @return The Base64-encoded SHA-256 hash.
+     */
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun generateSHA256Base64(input: String): String {
+        // Compute SHA-256 hash of the code verifier
+        val digest = MessageDigest
+            .getInstance("SHA-256")
+            .digest(input.toByteArray(Charsets.US_ASCII))
+
+        // Encode the hash to URL-safe Base64 without padding
+        return Base64.UrlSafe.encode(digest).trimEnd('=')
     }
 }
