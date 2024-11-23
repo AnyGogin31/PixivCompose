@@ -25,6 +25,7 @@
 package neilt.mobile.pixiv.data.di
 
 import neilt.mobile.pixiv.data.remote.common.AuthorizationInterceptor
+import neilt.mobile.pixiv.data.remote.common.PixivHeaderInterceptor
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
@@ -40,6 +41,7 @@ private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
 private fun provideRetrofit(baseUrl: String, tokenProvider: TokenProvider? = null): Retrofit {
     val clientBuilder = OkHttpClient.Builder()
     tokenProvider?.let { clientBuilder.addInterceptor(AuthorizationInterceptor(it)) }
+    clientBuilder.addInterceptor(PixivHeaderInterceptor())
 
     return Retrofit.Builder()
         .baseUrl(baseUrl)
