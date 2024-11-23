@@ -22,20 +22,31 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.domain.repositories.home
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+interface HomeRepository {
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(remoteModule)
+    suspend fun getRecommendedIllustrations(
+        includeRankingIllustrations: Boolean,
+        includePrivacyPolicy: Boolean,
+    )
 
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
+    suspend fun getRecommendedManga(
+        includeRankingIllustrations: Boolean,
+        includePrivacyPolicy: Boolean,
+    )
+
+    suspend fun submitPrivacyPolicyAgreement(
+        agreement: String?,
+        version: String?,
+    )
+
+    suspend fun submitRecommendedNovels(
+        includeRankingNovels: Boolean,
+        includePrivacyPolicy: Boolean,
+        readNovelIds: List<Long?>?,
+        viewNovelIds: List<Long?>?,
+        readNovelTimestamps: List<String?>?,
+        viewNovelTimestamps: List<String?>?,
+    )
 }

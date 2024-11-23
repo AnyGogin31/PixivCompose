@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.data.di
 import neilt.mobile.pixiv.data.remote.common.AuthorizationInterceptor
 import neilt.mobile.pixiv.data.remote.common.PixivHeaderInterceptor
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
+import neilt.mobile.pixiv.data.remote.services.home.HomeService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 import okhttp3.OkHttpClient
@@ -64,4 +65,5 @@ internal val remoteModule = module {
     }
 
     single { get<Retrofit>(named("OAuthApi")).create(AuthService::class.java) }
+    single { get<Retrofit>(named("PixivApi")).create(HomeService::class.java) }
 }
