@@ -20,6 +20,8 @@ dependencies {
     // Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -37,6 +39,16 @@ dependencies {
     implementation(libs.room)
     implementation(libs.room.kotlin)
     ksp(libs.room.compiler)
+
+    // JUnit 5
+    testImplementation(libs.junit.jupiter)
+
+    // Kotlin Test
+    testImplementation(libs.kotlin.test)
+
+    // Android-specific dependencies
+    testImplementation(libs.android.test.core)
+    testImplementation(libs.android.test.ext)
 }
 
 android {
