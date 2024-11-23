@@ -16,6 +16,8 @@ composeActivity = "1.9.3"
 # AndroidX
 androidCore = "1.15.0"
 androidLifecycle = "2.8.7"
+androidTestCore = "1.6.1"
+androidTestExt = "1.2.1"
 
 # Koin
 koin = "4.0.0"
@@ -28,6 +30,10 @@ okhttp3 = "4.12.0"
 
 # Moshi
 moshi = "1.15.1"
+
+# Testing
+junitJupiter = "5.10.0"
+kotlinTest = "2.0.10"
 
 
 [libraries]
@@ -46,6 +52,9 @@ compose-material = { group = "androidx.compose.material3", name = "material3" }
 # AndroidX
 android-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidCore" }
 android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidLifecycle" }
+
+android-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
+android-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidTestExt" }
 
 # Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
@@ -69,6 +78,10 @@ moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-code
 room = { group = "androidx.room", name = "room-runtime", version.ref = "roomGradlePlugin" }
 room-kotlin = { group = "androidx.room", name = "room-ktx", version.ref = "roomGradlePlugin" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomGradlePlugin" }
+
+# Testing
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
 
 
 [plugins]
