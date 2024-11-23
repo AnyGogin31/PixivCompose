@@ -30,6 +30,7 @@ import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -42,6 +43,7 @@ private fun provideRetrofit(baseUrl: String, tokenProvider: TokenProvider? = nul
     val clientBuilder = OkHttpClient.Builder()
     tokenProvider?.let { clientBuilder.addInterceptor(AuthorizationInterceptor(it)) }
     clientBuilder.addInterceptor(PixivHeaderInterceptor())
+    clientBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
 
     return Retrofit.Builder()
         .baseUrl(baseUrl)
