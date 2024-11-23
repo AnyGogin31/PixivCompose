@@ -47,8 +47,9 @@ dependencies {
     testImplementation(libs.kotlin.test)
 
     // Android-specific dependencies
-    testImplementation(libs.android.test.core)
-    testImplementation(libs.android.test.ext)
+    androidTestImplementation(libs.android.test.core)
+    androidTestImplementation(libs.android.test.ext)
+    androidTestImplementation(libs.android.test.runner)
 }
 
 android {
@@ -57,6 +58,7 @@ android {
 
     defaultConfig {
         minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 

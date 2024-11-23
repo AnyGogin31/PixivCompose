@@ -17,6 +17,7 @@ composeActivity = "1.9.3"
 androidCore = "1.15.0"
 androidLifecycle = "2.8.7"
 androidTestCore = "1.6.1"
+androidTestRunner = "1.6.2"
 androidTestExt = "1.2.1"
 
 # Koin
@@ -33,7 +34,7 @@ moshi = "1.15.1"
 
 # Testing
 junitJupiter = "5.10.0"
-kotlinTest = "2.0.10"
+kotlinTest = "2.0.20"
 
 
 [libraries]
@@ -54,6 +55,7 @@ android-core = { group = "androidx.core", name = "core-ktx", version.ref = "andr
 android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidLifecycle" }
 
 android-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
+android-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidTestRunner" }
 android-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidTestExt" }
 
 # Koin
