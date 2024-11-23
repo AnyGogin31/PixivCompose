@@ -24,10 +24,10 @@
 
 package neilt.mobile.pixiv.di
 
-import neilt.mobile.pixiv.ui.screens.main.MainViewModel
+import neilt.mobile.pixiv.ui.LauncherViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModelOf(::MainViewModel)
+    viewModelOf(::LauncherViewModel)
 }

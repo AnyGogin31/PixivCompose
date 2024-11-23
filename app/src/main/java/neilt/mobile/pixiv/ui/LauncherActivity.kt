@@ -22,26 +22,30 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.main
+package neilt.mobile.pixiv.ui
 
 import android.content.Intent
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import neilt.mobile.pixiv.ui.screens.root.RootContent
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainViewModel(
-    private val authRepository: AuthRepository
-) : ViewModel() {
+class LauncherActivity : ComponentActivity() {
 
-    fun handleDeepLink(intent: Intent) {
-        val deepLinkUri = intent.data?.takeIf { it.scheme == "pixiv" } ?: return
-        if (deepLinkUri.host == "account" && deepLinkUri.path == "/login") {
-            val code = deepLinkUri.getQueryParameter("code") ?: return
-            viewModelScope.launch(Dispatchers.IO) {
-                authRepository.authorizeUser(code)
-            }
+    private val viewModel: LauncherViewModel by viewModel()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            RootContent()
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        viewModel.handleDeepLink(intent)
     }
 }
