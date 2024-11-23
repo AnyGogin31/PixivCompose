@@ -22,26 +22,26 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui
+package neilt.mobile.pixiv.ui.extensions
 
-import android.os.Bundle
+import android.content.Intent
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import neilt.mobile.pixiv.ui.extensions.bindOnNewIntentListener
-import neilt.mobile.pixiv.ui.screens.root.RootContent
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.core.util.Consumer
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 
-class LauncherActivity : ComponentActivity() {
+fun ComponentActivity.bindOnNewIntentListener(listener: (Intent) -> Unit) {
+    val intentConsumer = Consumer<Intent> { listener(it) }
 
-    private val viewModel: LauncherViewModel by viewModel()
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            RootContent()
+        override fun onCreate(owner: LifecycleOwner) {
+            addOnNewIntentListener(intentConsumer)
         }
-        bindOnNewIntentListener(viewModel::handleDeepLink)
-    }
+
+        override fun onDestroy(owner: LifecycleOwner) {
+            removeOnNewIntentListener(intentConsumer)
+            lifecycle.removeObserver(this)
+        }
+    })
 }
