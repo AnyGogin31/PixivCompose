@@ -134,3 +134,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
 
 # Room
 room = { id = "androidx.room", version.ref = "roomGradlePlugin" }
+
+# Plugins defined by this project
+neilt-mobile-android-application = { id = "neilt.mobile.android.application" }
+neilt-mobile-android-library = { id = "neilt.mobile.android.library" }

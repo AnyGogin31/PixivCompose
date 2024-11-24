@@ -22,48 +22,22 @@
  * SOFTWARE.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.android.build.api.dsl.LibraryExtension
+import neilt.mobile.convention.configureAndroidKotlin
+import neilt.mobile.convention.configureAndroidLibrary
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.libs
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 
-plugins {
-    `kotlin-dsl`
-}
+class AndroidLibraryConventionPlugin : AndroidConventionPluginBase() {
 
-group = "neilt.mobile.convention"
+    override fun Project.getPluginId() = libs.getPlugin("androidLibrary").get().pluginId
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
-    }
-}
-
-dependencies {
-
-    // Android
-    compileOnly(libs.android.tools.gradlePlugin)
-
-    // Kotlin
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.kotlin.compose.gradlePlugin)
-
-    // Room
-    compileOnly(libs.room.gradlePlugin)
-}
-
-gradlePlugin {
-    plugins {
-        register("androidApplication") {
-            id = "neilt.mobile.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
-        }
-
-        register("androidLibrary") {
-            id = "neilt.mobile.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
+    override fun Project.configureAndroid() {
+        extensions.configure<LibraryExtension> {
+            configureAndroidLibrary(this)
+            configureAndroidKotlin(this)
         }
     }
 }

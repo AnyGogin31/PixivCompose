@@ -22,48 +22,29 @@
  * SOFTWARE.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-plugins {
-    `kotlin-dsl`
-}
+abstract class AndroidConventionPluginBase: Plugin<Project> {
 
-group = "neilt.mobile.convention"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
-    }
-}
-
-dependencies {
-
-    // Android
-    compileOnly(libs.android.tools.gradlePlugin)
-
-    // Kotlin
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.kotlin.compose.gradlePlugin)
-
-    // Room
-    compileOnly(libs.room.gradlePlugin)
-}
-
-gradlePlugin {
-    plugins {
-        register("androidApplication") {
-            id = "neilt.mobile.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
-        }
-
-        register("androidLibrary") {
-            id = "neilt.mobile.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
+    override fun apply(target: Project) {
+        with(target) {
+            configurePlugin()
+            configureDetekt()
+            configureKtlint()
+            configureAndroid()
         }
     }
+
+    protected abstract fun Project.getPluginId(): String
+
+    private fun Project.configurePlugin() {
+        pluginManager.apply(getPluginId())
+    }
+
+    private fun Project.configureDetekt() = Unit
+
+    private fun Project.configureKtlint() = Unit
+
+    protected abstract fun Project.configureAndroid()
 }
