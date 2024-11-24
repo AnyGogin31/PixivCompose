@@ -55,6 +55,10 @@ dependencies {
 
     // Room
     compileOnly(libs.room.gradlePlugin)
+
+    // Static Analyzer
+    compileOnly(libs.detekt.gradlePlugin)
+    compileOnly(libs.ktlint.gradlePlugin)
 }
 
 gradlePlugin {

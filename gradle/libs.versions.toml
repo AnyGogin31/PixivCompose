@@ -38,6 +38,12 @@ junitJupiter = "5.10.0"
 mokito = "5.14.2"
 mokitoKotlin = "5.4.0"
 
+# Detekt
+detektGradlePlugin = "1.23.7"
+
+# Ktlint
+ktlintGradlePlugin = "12.1.1"
+
 
 [libraries]
 
@@ -49,6 +55,9 @@ kotlin-compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-
 
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "kspGradlePlugin" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomGradlePlugin" }
+
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
+ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlintGradlePlugin" }
 
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -135,6 +144,10 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
 
 # Room
 room = { id = "androidx.room", version.ref = "roomGradlePlugin" }
+
+# Static Analyzer
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
 
 # Plugins defined by this project
 neilt-mobile-android-application = { id = "neilt.mobile.android.application" }

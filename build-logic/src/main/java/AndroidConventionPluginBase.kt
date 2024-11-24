@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+import neilt.mobile.convention.configureAndroidDetekt
+import neilt.mobile.convention.configureAndroidKtlint
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -30,8 +32,8 @@ abstract class AndroidConventionPluginBase: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             configurePlugin()
-            configureDetekt()
-            configureKtlint()
+            configureAndroidDetekt()
+            configureAndroidKtlint()
             configureAndroid()
         }
     }
@@ -41,10 +43,6 @@ abstract class AndroidConventionPluginBase: Plugin<Project> {
     private fun Project.configurePlugin() {
         pluginManager.apply(getPluginId())
     }
-
-    private fun Project.configureDetekt() = Unit
-
-    private fun Project.configureKtlint() = Unit
 
     protected abstract fun Project.configureAndroid()
 }

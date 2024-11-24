@@ -22,18 +22,21 @@
  * SOFTWARE.
  */
 
-rootProject.name = "build-logic"
+package neilt.mobile.convention
 
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/") // for ktlint gradle plugin
-    }
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.getVersion
+import neilt.mobile.convention.extensions.libs
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
+internal fun Project.configureAndroidDetekt() {
+    pluginManager.apply(libs.getPlugin("detekt").get().pluginId)
+
+    extensions.configure<DetektExtension> {
+        toolVersion = libs.getVersion("detektGradlePlugin").toString()
+        parallel = true
+        autoCorrect = true
     }
 }
