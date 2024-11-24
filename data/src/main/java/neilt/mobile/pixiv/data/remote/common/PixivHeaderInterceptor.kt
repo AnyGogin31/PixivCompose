@@ -33,7 +33,6 @@ import java.util.Locale
 import java.util.TimeZone
 
 class PixivHeaderInterceptor : Interceptor {
-
     private companion object {
         const val HASH_SECRET = "28c1fdd170a5204386cb1313c7077b34f83e4aaf4aa829ce78c231e05b0bae2c"
     }
@@ -43,7 +42,10 @@ class PixivHeaderInterceptor : Interceptor {
 
         val requestWithHeaders = chain.request()
             .newBuilder()
-            .addHeader("User-Agent", "PixivAndroidApp/6.66.1 (Android ${Build.VERSION.RELEASE})") // In the future, we could boldly reach out to Pixiv and discuss setting up a unique user agent to prevent requests from being blocked. It's mostly for aesthetic purposes.
+            .addHeader(
+                "User-Agent",
+                "PixivAndroidApp/6.66.1 (Android ${Build.VERSION.RELEASE})",
+            )
             .addHeader("X-Client-Time", clientTime)
             .addHeader("X-Client-Hash", clientHash)
             .build()

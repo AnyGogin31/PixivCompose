@@ -33,7 +33,7 @@ internal fun UserEntity.toModel() = UserModel(
     name = this.userName,
     account = this.userAccount,
     mailAddress = this.userMailAddress,
-    token = this.accessToken
+    token = this.accessToken,
 )
 
 internal fun AuthResponse.toEntity() = UserEntity(
@@ -43,5 +43,5 @@ internal fun AuthResponse.toEntity() = UserEntity(
     userId = this.user.id,
     userName = this.user.name,
     userAccount = this.user.account,
-    userMailAddress = this.user.mailAddress
+    userMailAddress = this.user.mailAddress,
 )

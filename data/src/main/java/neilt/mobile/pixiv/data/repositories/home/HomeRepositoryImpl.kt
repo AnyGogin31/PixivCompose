@@ -24,20 +24,21 @@
 
 package neilt.mobile.pixiv.data.repositories.home
 
+import neilt.mobile.pixiv.data.remote.requests.home.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
+import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 
 class HomeRepositoryImpl(
-    private val homeService: HomeService
+    private val homeService: HomeService,
 ) : HomeRepository {
-
     override suspend fun getRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
     ) {
         homeService.fetchRecommendedIllustrations(
             includeRankingIllustrations,
-            includePrivacyPolicy
+            includePrivacyPolicy,
         )
     }
 
@@ -47,7 +48,7 @@ class HomeRepositoryImpl(
     ) {
         homeService.fetchRecommendedManga(
             includeRankingIllustrations,
-            includePrivacyPolicy
+            includePrivacyPolicy,
         )
     }
 
@@ -57,25 +58,11 @@ class HomeRepositoryImpl(
     ) {
         homeService.submitPrivacyPolicyAgreement(
             agreement,
-            version
+            version,
         )
     }
 
-    override suspend fun submitRecommendedNovels(
-        includeRankingNovels: Boolean,
-        includePrivacyPolicy: Boolean,
-        readNovelIds: List<Long?>?,
-        viewNovelIds: List<Long?>?,
-        readNovelTimestamps: List<String?>?,
-        viewNovelTimestamps: List<String?>?,
-    ) {
-        homeService.submitRecommendedNovels(
-            includeRankingNovels,
-            includePrivacyPolicy,
-            readNovelIds,
-            viewNovelIds,
-            readNovelTimestamps,
-            viewNovelTimestamps
-        )
+    override suspend fun submitRecommendedNovels(request: RecommendedNovelsRequest) {
+        homeService.submitRecommendedNovels(request.toFieldMap())
     }
 }

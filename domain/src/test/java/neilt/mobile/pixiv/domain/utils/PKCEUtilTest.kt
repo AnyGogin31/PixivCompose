@@ -24,18 +24,19 @@
 
 package neilt.mobile.pixiv.domain.utils
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.security.MessageDigest
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 class PKCEUtilTest {
-
     private fun isUrlSafe(base64String: String): Boolean {
         return !base64String.contains('=') &&
-                !base64String.contains('+') &&
-                !base64String.contains('/')
+            !base64String.contains('+') &&
+            !base64String.contains('/')
     }
 
     @OptIn(ExperimentalEncodingApi::class)
@@ -47,10 +48,11 @@ class PKCEUtilTest {
         assertTrue("Code verifier should not be empty", codeVerifier.isNotEmpty())
         assertTrue("Code verifier should be URL-safe", isUrlSafe(codeVerifier))
 
+        // Base64 encoding of 32 bytes = 43 characters without padding
         assertEquals(
             "Code verifier should have the expected length",
-            43, // Base64 encoding of 32 bytes = 43 characters without padding
-            codeVerifier.length
+            43,
+            codeVerifier.length,
         )
     }
 
@@ -68,7 +70,11 @@ class PKCEUtilTest {
             .digest(codeVerifier.toByteArray(Charsets.US_ASCII))
             .let { Base64.UrlSafe.encode(it).trimEnd('=') }
 
-        assertEquals("Code challenge should match the expected value", expectedCodeChallenge, codeChallenge)
+        assertEquals(
+            "Code challenge should match the expected value",
+            expectedCodeChallenge,
+            codeChallenge,
+        )
     }
 
     @Test
@@ -78,8 +84,16 @@ class PKCEUtilTest {
         val firstChallenge = PKCEUtil.codeChallenge
         val secondChallenge = PKCEUtil.codeChallenge
 
-        assertEquals("Code verifier should remain consistent across accesses", firstVerifier, secondVerifier)
-        assertEquals("Code challenge should remain consistent across accesses", firstChallenge, secondChallenge)
+        assertEquals(
+            "Code verifier should remain consistent across accesses",
+            firstVerifier,
+            secondVerifier,
+        )
+        assertEquals(
+            "Code challenge should remain consistent across accesses",
+            firstChallenge,
+            secondChallenge,
+        )
     }
 
     @OptIn(ExperimentalEncodingApi::class)
@@ -87,14 +101,21 @@ class PKCEUtilTest {
     fun `codeChallenge initializes codeVerifier if not already generated`() {
         val codeChallenge = PKCEUtil.codeChallenge
 
-        assertNotNull("Code verifier should be generated when accessing code challenge", PKCEUtil.codeVerifier)
+        assertNotNull(
+            "Code verifier should be generated when accessing code challenge",
+            PKCEUtil.codeVerifier,
+        )
         assertTrue("Code verifier should not be empty", PKCEUtil.codeVerifier.isNotEmpty())
 
         val expectedCodeChallenge = MessageDigest.getInstance("SHA-256")
             .digest(PKCEUtil.codeVerifier.toByteArray(Charsets.US_ASCII))
             .let { Base64.UrlSafe.encode(it).trimEnd('=') }
 
-        assertEquals("Code challenge should match the expected value", expectedCodeChallenge, codeChallenge)
+        assertEquals(
+            "Code challenge should match the expected value",
+            expectedCodeChallenge,
+            codeChallenge,
+        )
     }
 
 //    @Test

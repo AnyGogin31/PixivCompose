@@ -24,8 +24,9 @@
 
 package neilt.mobile.pixiv.domain.repositories.home
 
-interface HomeRepository {
+import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 
+interface HomeRepository {
     suspend fun getRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
@@ -41,12 +42,5 @@ interface HomeRepository {
         version: String?,
     )
 
-    suspend fun submitRecommendedNovels(
-        includeRankingNovels: Boolean,
-        includePrivacyPolicy: Boolean,
-        readNovelIds: List<Long?>?,
-        viewNovelIds: List<Long?>?,
-        readNovelTimestamps: List<String?>?,
-        viewNovelTimestamps: List<String?>?,
-    )
+    suspend fun submitRecommendedNovels(request: RecommendedNovelsRequest)
 }

@@ -22,26 +22,26 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.local.db
+package neilt.mobile.pixiv.data.remote.requests.auth
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import neilt.mobile.pixiv.data.local.dao.UserDao
-import neilt.mobile.pixiv.data.local.entities.user.UserEntity
+data class AuthorizationRequest(
+    val clientId: String,
+    val clientSecret: String,
+    val grantType: String,
+    val codeAuthorization: String,
+    val codeVerifier: String,
+    val redirectUri: String,
+    val includePolicy: Boolean,
+)
 
-private const val DATABASE_NAME = "PixivCompose.db"
-
-@Database(entities = [UserEntity::class], version = 1)
-abstract class PixivDatabase : RoomDatabase() {
-    companion object {
-        fun createInstance(context: Context): PixivDatabase {
-            return Room.databaseBuilder(context, PixivDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-    }
-
-    abstract fun userDao(): UserDao
+fun AuthorizationRequest.toFieldMap(): Map<String, Any> {
+    return mapOf(
+        "client_id" to clientId,
+        "client_secret" to clientSecret,
+        "grant_type" to grantType,
+        "code" to codeAuthorization,
+        "code_verifier" to codeVerifier,
+        "redirect_uri" to redirectUri,
+        "include_policy" to includePolicy,
+    )
 }

@@ -38,7 +38,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.argThat
 
 class PixivHeaderInterceptorTest {
-
     private lateinit var interceptor: PixivHeaderInterceptor
 
     @Before
@@ -59,11 +58,13 @@ class PixivHeaderInterceptorTest {
 
         interceptor.intercept(mockChain)
 
-        verify(mockChain).proceed(argThat {
-            header("User-Agent") == "PixivAndroidApp/6.66.1 (Android ${Build.VERSION.RELEASE})" &&
+        verify(mockChain).proceed(
+            argThat {
+                header("User-Agent") == "PixivAndroidApp/6.66.1 (Android ${Build.VERSION.RELEASE})" &&
                     header("X-Client-Time") != null &&
                     header("X-Client-Hash") != null
-        })
+            },
+        )
     }
 
     private fun createMockResponse(request: Request): Response {

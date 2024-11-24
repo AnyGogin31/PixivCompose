@@ -34,7 +34,6 @@ fun ComponentActivity.bindOnNewIntentListener(listener: (Intent) -> Unit) {
     val intentConsumer = Consumer<Intent> { listener(it) }
 
     lifecycle.addObserver(object : DefaultLifecycleObserver {
-
         override fun onCreate(owner: LifecycleOwner) {
             addOnNewIntentListener(intentConsumer)
         }

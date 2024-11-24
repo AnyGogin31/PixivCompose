@@ -25,21 +25,14 @@
 package neilt.mobile.pixiv.data.remote.services.auth
 
 import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
-import retrofit2.http.Field
+import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface AuthService {
-
     @FormUrlEncoded
     @POST("/auth/token")
     suspend fun requestForAuthorization(
-        @Field("client_id") clientId: String,
-        @Field("client_secret") clientSecret: String,
-        @Field("grant_type") grantType: String,
-        @Field("code") codeAuthorization: String,
-        @Field("code_verifier") codeVerifier: String,
-        @Field("redirect_uri") redirectUri: String,
-        @Field("include_policy") includePolicy: Boolean,
+        @FieldMap request: Map<String, @JvmSuppressWildcards Any>,
     ): AuthResponse
 }

@@ -46,9 +46,8 @@ class AuthorizationInterceptor(private val tokenProvider: TokenProvider) : Inter
 
         // Retrieve the token from the token provider
         val token = tokenProvider.getToken()
-        if (token.isNullOrEmpty()) {
-            // Throw an exception if the token is missing
-            throw IllegalStateException("Authorization failed: Missing token for authenticated request")
+        check(!token.isNullOrEmpty()) {
+            "Authorization failed: Missing token for authenticated request"
         }
 
         // Add the Authorization header to the request

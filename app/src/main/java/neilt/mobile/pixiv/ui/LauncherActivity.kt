@@ -33,7 +33,6 @@ import neilt.mobile.pixiv.ui.screens.root.RootContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LauncherActivity : ComponentActivity() {
-
     private val viewModel: LauncherViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

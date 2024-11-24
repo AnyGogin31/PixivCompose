@@ -30,7 +30,6 @@ import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 object PKCEUtil {
-
     // Default length for the code verifier
     private const val CODE_VERIFIER_LENGTH = 32
 

@@ -60,7 +60,7 @@ internal val remoteModule = module {
     single(named("PixivApi")) {
         provideRetrofit(
             baseUrl = PIXIV_BASE_URL,
-            tokenProvider = get()
+            tokenProvider = get(),
         )
     }
 

@@ -22,26 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.local.db
+package neilt.mobile.pixiv.domain.models.requests
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import neilt.mobile.pixiv.data.local.dao.UserDao
-import neilt.mobile.pixiv.data.local.entities.user.UserEntity
-
-private const val DATABASE_NAME = "PixivCompose.db"
-
-@Database(entities = [UserEntity::class], version = 1)
-abstract class PixivDatabase : RoomDatabase() {
-    companion object {
-        fun createInstance(context: Context): PixivDatabase {
-            return Room.databaseBuilder(context, PixivDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-    }
-
-    abstract fun userDao(): UserDao
-}
+data class RecommendedNovelsRequest(
+    val includeRankingNovels: Boolean,
+    val includePrivacyPolicy: Boolean,
+    val readNovelIds: List<Long?>?,
+    val viewNovelIds: List<Long?>?,
+    val readNovelTimestamps: List<String?>?,
+    val viewNovelTimestamps: List<String?>?,
+)

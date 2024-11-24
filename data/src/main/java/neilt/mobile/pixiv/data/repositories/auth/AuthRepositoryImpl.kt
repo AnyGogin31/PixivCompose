@@ -27,6 +27,8 @@ package neilt.mobile.pixiv.data.repositories.auth
 import neilt.mobile.pixiv.data.local.dao.UserDao
 import neilt.mobile.pixiv.data.mapper.user.toEntity
 import neilt.mobile.pixiv.data.mapper.user.toModel
+import neilt.mobile.pixiv.data.remote.requests.auth.AuthorizationRequest
+import neilt.mobile.pixiv.data.remote.requests.auth.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.domain.models.user.UserModel
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
@@ -36,12 +38,13 @@ class AuthRepositoryImpl(
     private val authService: AuthService,
     private val userDao: UserDao,
 ) : AuthRepository {
-
     private companion object {
         const val CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT"
         const val CLIENT_SECRET = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj"
         const val AUTH_GRANT_TYPE = "authorization_code"
         const val CALL_BACK = "https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"
+
+        const val MAX_USER_COUNT = 3
     }
 
     override suspend fun getAllUsers(): List<UserModel> {
@@ -66,19 +69,21 @@ class AuthRepositoryImpl(
 
     override suspend fun authorizeUser(code: String): Result<Unit> {
         val userCount = userDao.getUserCount()
-        if (userCount >= 3) {
+        if (userCount >= MAX_USER_COUNT) {
             return Result.failure(Exception("Maximum number of users reached."))
         }
 
-        val response = authService.requestForAuthorization(
+        val request = AuthorizationRequest(
             clientId = CLIENT_ID,
             clientSecret = CLIENT_SECRET,
             grantType = AUTH_GRANT_TYPE,
             codeAuthorization = code,
             codeVerifier = PKCEUtil.codeVerifier,
             redirectUri = CALL_BACK,
-            includePolicy = true
+            includePolicy = true,
         )
+
+        val response = authService.requestForAuthorization(request.toFieldMap())
 
         userDao.deactivateAllUsers()
         userDao.insertUser(response.toEntity())

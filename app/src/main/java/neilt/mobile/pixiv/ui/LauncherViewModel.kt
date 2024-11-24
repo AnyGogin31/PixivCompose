@@ -32,9 +32,8 @@ import kotlinx.coroutines.launch
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 
 class LauncherViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
-
     fun handleDeepLink(intent: Intent) {
         val deepLinkUri = intent.data?.takeIf { it.scheme == "pixiv" } ?: return
         if (deepLinkUri.host == "account" && deepLinkUri.path == "/login") {

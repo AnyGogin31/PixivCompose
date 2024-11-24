@@ -40,7 +40,6 @@ import retrofit2.Invocation
 import java.lang.reflect.Method
 
 class AuthorizationInterceptorTest {
-
     private lateinit var tokenProvider: TokenProvider
     private lateinit var interceptor: AuthorizationInterceptor
 

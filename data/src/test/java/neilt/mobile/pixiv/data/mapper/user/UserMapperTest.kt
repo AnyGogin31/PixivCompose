@@ -27,11 +27,11 @@ package neilt.mobile.pixiv.data.mapper.user
 import neilt.mobile.pixiv.data.local.entities.user.UserEntity
 import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
 import neilt.mobile.pixiv.data.remote.responses.auth.UserResponse
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class UserMapperTest {
-
     @Test
     fun `UserEntity toModel maps correctly`() {
         val userEntity = UserEntity(
@@ -41,7 +41,7 @@ class UserMapperTest {
             userMailAddress = "john@example.com",
             accessToken = "access_123",
             refreshToken = "refresh_123",
-            isActive = true
+            isActive = true,
         )
 
         val userModel = userEntity.toModel()
@@ -62,11 +62,11 @@ class UserMapperTest {
                 id = "123",
                 name = "John Doe",
                 account = "john_doe",
-                mailAddress = "john@example.com"
+                mailAddress = "john@example.com",
             ),
             expiresIn = 3600,
             tokenType = "bearer",
-            scope = ""
+            scope = "",
         )
 
         val userEntity = authResponse.toEntity()
@@ -77,6 +77,10 @@ class UserMapperTest {
         assertEquals("User ID should be mapped correctly", authResponse.user.id, userEntity.userId)
         assertEquals("User name should be mapped correctly", authResponse.user.name, userEntity.userName)
         assertEquals("User account should be mapped correctly", authResponse.user.account, userEntity.userAccount)
-        assertEquals("User mail address should be mapped correctly", authResponse.user.mailAddress, userEntity.userMailAddress)
+        assertEquals(
+            "User mail address should be mapped correctly",
+            authResponse.user.mailAddress,
+            userEntity.userMailAddress,
+        )
     }
 }

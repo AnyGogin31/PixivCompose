@@ -25,14 +25,15 @@
 package neilt.mobile.pixiv.data.repositories.home
 
 import kotlinx.coroutines.test.runTest
+import neilt.mobile.pixiv.data.remote.requests.home.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
+import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.verify
 
 class HomeRepositoryImplTest {
-
     private lateinit var repository: HomeRepositoryImpl
     private val homeService: HomeService = mock()
 
@@ -43,19 +44,25 @@ class HomeRepositoryImplTest {
 
     @Test
     fun `getRecommendedIllustrations calls service with correct parameters`() = runTest {
-        repository.getRecommendedIllustrations(includeRankingIllustrations = true, includePrivacyPolicy = true)
+        repository.getRecommendedIllustrations(
+            includeRankingIllustrations = true,
+            includePrivacyPolicy = true,
+        )
         verify(homeService).fetchRecommendedIllustrations(
             includeRankingIllustrations = true,
-            includePrivacyPolicy = true
+            includePrivacyPolicy = true,
         )
     }
 
     @Test
     fun `getRecommendedManga calls service with correct parameters`() = runTest {
-        repository.getRecommendedManga(includeRankingIllustrations = false, includePrivacyPolicy = false)
+        repository.getRecommendedManga(
+            includeRankingIllustrations = false,
+            includePrivacyPolicy = false,
+        )
         verify(homeService).fetchRecommendedManga(
             includeRankingIllustrations = false,
-            includePrivacyPolicy = false
+            includePrivacyPolicy = false,
         )
     }
 
@@ -75,21 +82,16 @@ class HomeRepositoryImplTest {
         val readTimestamps = listOf("2023-11-01T12:00:00Z")
         val viewTimestamps = listOf("2023-11-02T15:00:00Z")
 
-        repository.submitRecommendedNovels(
+        val request = RecommendedNovelsRequest(
             includeRankingNovels = true,
             includePrivacyPolicy = false,
             readNovelIds = readNovelIds,
             viewNovelIds = viewNovelIds,
             readNovelTimestamps = readTimestamps,
-            viewNovelTimestamps = viewTimestamps
+            viewNovelTimestamps = viewTimestamps,
         )
-        verify(homeService).submitRecommendedNovels(
-            includeRankingNovels = true,
-            includePrivacyPolicy = false,
-            readNovelIds = readNovelIds,
-            viewNovelIds = viewNovelIds,
-            readNovelTimestamps = readTimestamps,
-            viewNovelTimestamps = viewTimestamps
-        )
+
+        repository.submitRecommendedNovels(request)
+        verify(homeService).submitRecommendedNovels(request.toFieldMap())
     }
 }

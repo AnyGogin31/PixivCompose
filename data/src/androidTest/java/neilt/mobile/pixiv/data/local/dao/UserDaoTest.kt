@@ -38,7 +38,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class UserDaoTest {
-
     private lateinit var database: PixivDatabase
     private lateinit var userDao: UserDao
 
@@ -46,7 +45,7 @@ class UserDaoTest {
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            PixivDatabase::class.java
+            PixivDatabase::class.java,
         ).allowMainThreadQueries().build()
         userDao = database.userDao()
     }
@@ -65,7 +64,7 @@ class UserDaoTest {
             userMailAddress = "john@example.com",
             accessToken = "access_123",
             refreshToken = "refresh_123",
-            isActive = false
+            isActive = false,
         )
 
         userDao.insertUser(user)
@@ -84,7 +83,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
-                isActive = false
+                isActive = false,
             ),
             UserEntity(
                 userId = "2",
@@ -93,8 +92,8 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
-                isActive = false
-            )
+                isActive = false,
+            ),
         )
 
         users.forEach { userDao.insertUser(it) }
@@ -114,7 +113,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
-                isActive = false
+                isActive = false,
             ),
             UserEntity(
                 userId = "2",
@@ -123,8 +122,8 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
-                isActive = true
-            )
+                isActive = true,
+            ),
         )
 
         users.forEach { userDao.insertUser(it) }
@@ -144,7 +143,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
-                isActive = true
+                isActive = true,
             ),
             UserEntity(
                 userId = "2",
@@ -153,8 +152,8 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
-                isActive = true
-            )
+                isActive = true,
+            ),
         )
 
         users.forEach { userDao.insertUser(it) }
@@ -174,7 +173,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
-                isActive = false
+                isActive = false,
             ),
             UserEntity(
                 userId = "2",
@@ -183,8 +182,8 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
-                isActive = false
-            )
+                isActive = false,
+            ),
         )
 
         users.forEach { userDao.insertUser(it) }
@@ -204,7 +203,7 @@ class UserDaoTest {
             userMailAddress = "john@example.com",
             accessToken = "access_123",
             refreshToken = "refresh_123",
-            isActive = false
+            isActive = false,
         )
 
         userDao.insertUser(user)

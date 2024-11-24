@@ -51,27 +51,27 @@ fun LoginScreen() {
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "Pixiv Authorization",
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 32.dp),
         )
 
         Button(
             onClick = {
                 val url =
                     "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
-                            PKCEUtil.codeChallenge +
-                            "&code_challenge_method=S256&client=pixiv-android"
+                        PKCEUtil.codeChallenge +
+                        "&code_challenge_method=S256&client=pixiv-android"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 context.startActivity(intent)
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
         ) {
             Text(text = "Login with Pixiv")
         }

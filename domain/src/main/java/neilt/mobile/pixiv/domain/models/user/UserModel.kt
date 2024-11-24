@@ -29,5 +29,5 @@ data class UserModel(
     val name: String,
     val account: String,
     val mailAddress: String,
-        val token: String,
+    val token: String,
 )

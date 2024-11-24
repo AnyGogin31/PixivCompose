@@ -36,7 +36,8 @@ import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
 import neilt.mobile.pixiv.data.remote.responses.auth.UserResponse
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -46,7 +47,6 @@ import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 
 class AuthRepositoryImplTest {
-
     private lateinit var repository: AuthRepositoryImpl
     private val authService: AuthService = mock()
     private val userDao: UserDao = mock()
@@ -75,8 +75,8 @@ class AuthRepositoryImplTest {
                 userId = "id1",
                 userName = "name1",
                 userAccount = "account1",
-                userMailAddress = "mail1"
-            )
+                userMailAddress = "mail1",
+            ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
 
@@ -97,8 +97,8 @@ class AuthRepositoryImplTest {
                 userId = userId,
                 userName = "name1",
                 userAccount = "account1",
-                userMailAddress = "mail1"
-            )
+                userMailAddress = "mail1",
+            ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
 
@@ -118,14 +118,14 @@ class AuthRepositoryImplTest {
                 id = "id1",
                 name = "name1",
                 account = "account1",
-                mailAddress = "mail1"
+                mailAddress = "mail1",
             ),
             expiresIn = 3600,
             tokenType = "bearer",
-            scope = ""
+            scope = "",
         )
         `when`(userDao.getUserCount()).thenReturn(2)
-        `when`(authService.requestForAuthorization(any(), any(), any(), any(), any(), any(), any()))
+        `when`(authService.requestForAuthorization(any()))
             .thenReturn(mockResponse)
 
         val result = repository.authorizeUser(code)

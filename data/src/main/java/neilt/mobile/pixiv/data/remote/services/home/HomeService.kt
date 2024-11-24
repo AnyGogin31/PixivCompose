@@ -26,6 +26,7 @@ package neilt.mobile.pixiv.data.remote.services.home
 
 import neilt.mobile.pixiv.data.remote.common.Authorization
 import retrofit2.http.Field
+import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -33,7 +34,6 @@ import retrofit2.http.Query
 
 // Cut from the original application. There might be discrepancies.
 interface HomeService {
-
     @Authorization
     @GET("/v1/illust/recommended?filter=for_android")
     suspend fun fetchRecommendedIllustrations(
@@ -60,11 +60,6 @@ interface HomeService {
     @FormUrlEncoded
     @POST("/v1/novel/recommended")
     suspend fun submitRecommendedNovels(
-        @Field("include_ranking_novels") includeRankingNovels: Boolean,
-        @Field("include_privacy_policy") includePrivacyPolicy: Boolean,
-        @Field("read_novel_ids[]") readNovelIds: List<Long?>?,
-        @Field("view_novel_ids[]") viewNovelIds: List<Long?>?,
-        @Field("read_novel_datetimes[]") readNovelTimestamps: List<String?>?,
-        @Field("view_novel_datetimes[]") viewNovelTimestamps: List<String?>?,
+        @FieldMap request: Map<String, @JvmSuppressWildcards Any?>,
     )
 }

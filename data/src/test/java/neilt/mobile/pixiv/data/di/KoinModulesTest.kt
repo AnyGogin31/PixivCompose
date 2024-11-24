@@ -31,7 +31,6 @@ import org.koin.test.KoinTest
 import org.koin.test.verify.verifyAll
 
 class KoinModulesTest : KoinTest {
-
     private val testModules = listOf<Module>(localModule, remoteModule, repositoryModule)
 
     @OptIn(KoinExperimentalAPI::class)

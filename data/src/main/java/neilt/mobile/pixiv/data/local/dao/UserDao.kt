@@ -33,7 +33,6 @@ import neilt.mobile.pixiv.data.local.entities.user.UserEntity
 
 @Dao
 interface UserDao {
-
     @Query("SELECT COUNT(*) FROM users")
     suspend fun getUserCount(): Int
 
