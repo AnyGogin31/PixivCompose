@@ -40,3 +40,16 @@ kotlin {
         jvmTarget = JvmTarget.JVM_11
     }
 }
+
+dependencies {
+
+    // Android
+    compileOnly(libs.android.tools.gradlePlugin)
+
+    // Kotlin
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.kotlin.compose.gradlePlugin)
+
+    // Room
+    compileOnly(libs.room.gradlePlugin)
+}

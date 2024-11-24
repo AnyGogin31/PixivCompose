@@ -41,6 +41,14 @@ mokitoKotlin = "5.4.0"
 
 [libraries]
 
+# Gradle Plugins
+android-tools-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+kotlin-compose-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomGradlePlugin" }
+
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 
