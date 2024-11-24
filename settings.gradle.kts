@@ -1,6 +1,7 @@
 rootProject.name = "PixivCompose"
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
