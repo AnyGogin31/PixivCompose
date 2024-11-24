@@ -22,56 +22,33 @@
  * SOFTWARE.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+package neilt.mobile.convention
 
-plugins {
-    `kotlin-dsl`
-}
+import androidx.room.gradle.RoomExtension
+import com.google.devtools.ksp.gradle.KspExtension
+import neilt.mobile.convention.extensions.getLibrary
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.implementation
+import neilt.mobile.convention.extensions.ksp
+import neilt.mobile.convention.extensions.libs
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
-group = "neilt.mobile.convention"
+internal fun Project.configureAndroidRoom() {
+    pluginManager.apply(libs.getPlugin("ksp").get().pluginId)
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
+    extensions.configure<KspExtension> {
+        arg("room.generateKotlin", "true")
     }
-}
 
-dependencies {
+    extensions.configure<RoomExtension> {
+        schemaDirectory("$projectDir/schemas")
+    }
 
-    // Android
-    compileOnly(libs.android.tools.gradlePlugin)
-
-    // Kotlin
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.kotlin.compose.gradlePlugin)
-
-    // KSP
-    compileOnly(libs.ksp.gradlePlugin)
-
-    // Room
-    compileOnly(libs.room.gradlePlugin)
-}
-
-gradlePlugin {
-    plugins {
-        register("androidApplication") {
-            id = "neilt.mobile.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
-        }
-
-        register("androidLibrary") {
-            id = "neilt.mobile.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
-
-        register("androidRoom") {
-            id = "neilt.mobile.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
-        }
+    dependencies {
+        implementation(libs.getLibrary("room"))
+        implementation(libs.getLibrary("room-kotlin"))
+        ksp(libs.getLibrary("room-compiler"))
     }
 }

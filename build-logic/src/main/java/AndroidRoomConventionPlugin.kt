@@ -22,56 +22,16 @@
  * SOFTWARE.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import neilt.mobile.convention.configureAndroidRoom
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.libs
+import org.gradle.api.Project
 
-plugins {
-    `kotlin-dsl`
-}
+class AndroidRoomConventionPlugin : AndroidConventionPluginBase() {
 
-group = "neilt.mobile.convention"
+    override fun Project.getPluginId() = libs.getPlugin("room").get().pluginId
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
-    }
-}
-
-dependencies {
-
-    // Android
-    compileOnly(libs.android.tools.gradlePlugin)
-
-    // Kotlin
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.kotlin.compose.gradlePlugin)
-
-    // KSP
-    compileOnly(libs.ksp.gradlePlugin)
-
-    // Room
-    compileOnly(libs.room.gradlePlugin)
-}
-
-gradlePlugin {
-    plugins {
-        register("androidApplication") {
-            id = "neilt.mobile.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
-        }
-
-        register("androidLibrary") {
-            id = "neilt.mobile.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
-
-        register("androidRoom") {
-            id = "neilt.mobile.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
-        }
+    override fun Project.configureAndroid() {
+        configureAndroidRoom()
     }
 }
