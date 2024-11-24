@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,11 +37,21 @@ import androidx.navigation.compose.rememberNavController
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
 import neilt.mobile.pixiv.ui.screens.home.HomeScreen
 import neilt.mobile.pixiv.ui.theme.PixivTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RootContent() {
+fun RootContent(
+    viewModel: RootViewModel = koinViewModel(),
+) {
     PixivTheme {
         val navController = rememberNavController()
+
+        LaunchedEffect(Unit) {
+            val startDestination = viewModel.determineStartDestination()
+            navController.navigate(startDestination) {
+                popUpTo("AuthSection") { inclusive = true }
+            }
+        }
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),

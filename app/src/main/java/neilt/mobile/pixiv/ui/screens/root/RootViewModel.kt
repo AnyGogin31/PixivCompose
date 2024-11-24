@@ -22,14 +22,20 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.di
+package neilt.mobile.pixiv.ui.screens.root
 
-import neilt.mobile.pixiv.ui.LauncherViewModel
-import neilt.mobile.pixiv.ui.screens.root.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 
-val viewModelModule = module {
-    viewModelOf(::LauncherViewModel)
-    viewModelOf(::RootViewModel)
+class RootViewModel(
+    private val authRepository: AuthRepository,
+) : ViewModel() {
+    suspend fun determineStartDestination(): String {
+        return withContext(Dispatchers.IO) {
+            val activeUser = authRepository.getActiveUser()
+            if (activeUser != null) "MainSection" else "AuthSection"
+        }
+    }
 }
