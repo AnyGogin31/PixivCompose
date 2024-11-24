@@ -15,6 +15,7 @@ kotlinCoroutines = "1.9.0"
 # Compose
 composeBom = "2024.11.00"
 composeActivity = "1.9.3"
+composeNavigation = "2.8.4"
 
 # AndroidX
 androidBrowser = "1.8.0"
@@ -72,6 +73,7 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-material = { group = "androidx.compose.material3", name = "material3" }
 
 # AndroidX

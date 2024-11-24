@@ -10,6 +10,9 @@ dependencies {
     // AndroidX
     implementation(libs.android.browser)
 
+    // Navigation
+    implementation(libs.compose.navigation)
+
     // Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)

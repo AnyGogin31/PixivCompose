@@ -24,13 +24,50 @@
 
 package neilt.mobile.pixiv.ui.screens.root
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
+import neilt.mobile.pixiv.ui.screens.home.HomeScreen
 import neilt.mobile.pixiv.ui.theme.PixivTheme
 
 @Composable
 fun RootContent() {
     PixivTheme {
-        LoginScreen()
+        val navController = rememberNavController()
+
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+        ) { innerPadding ->
+            NavHost(
+                modifier = Modifier.padding(innerPadding),
+                navController = navController,
+                startDestination = "AuthSection",
+            ) {
+                navigation(
+                    route = "MainSection",
+                    startDestination = "MainSection_HomeScreen",
+                ) {
+                    composable(route = "MainSection_HomeScreen") {
+                        HomeScreen()
+                    }
+                }
+
+                navigation(
+                    route = "AuthSection",
+                    startDestination = "AuthSection_LoginScreen",
+                ) {
+                    composable(route = "AuthSection_LoginScreen") {
+                        LoginScreen()
+                    }
+                }
+            }
+        }
     }
 }
