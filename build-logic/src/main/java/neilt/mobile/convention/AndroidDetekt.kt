@@ -25,11 +25,14 @@
 package neilt.mobile.convention
 
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import neilt.mobile.convention.extensions.detektPlugins
+import neilt.mobile.convention.extensions.getLibrary
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.getVersion
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
 internal fun Project.configureAndroidDetekt() {
     pluginManager.apply(libs.getPlugin("detekt").get().pluginId)
@@ -38,5 +41,10 @@ internal fun Project.configureAndroidDetekt() {
         toolVersion = libs.getVersion("detektGradlePlugin").toString()
         parallel = true
         autoCorrect = true
+
+        dependencies {
+            detektPlugins(libs.getLibrary("detekt-formatting"))
+            detektPlugins(libs.getLibrary("detekt-rules-compose"))
+        }
     }
 }

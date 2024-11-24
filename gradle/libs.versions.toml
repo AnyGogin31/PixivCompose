@@ -5,6 +5,8 @@ androidGradlePlugin = "8.7.2"
 kotlinGradlePlugin = "2.0.21"
 kspGradlePlugin = "2.0.21-1.0.28"
 roomGradlePlugin = "2.6.1"
+detektGradlePlugin = "1.23.7"
+ktlintGradlePlugin = "12.1.1"
 
 # Kotlin
 kotlinCompiler = "1.5.15"
@@ -39,10 +41,7 @@ mokito = "5.14.2"
 mokitoKotlin = "5.4.0"
 
 # Detekt
-detektGradlePlugin = "1.23.7"
-
-# Ktlint
-ktlintGradlePlugin = "12.1.1"
+detektRulesCompose = "0.4.19"
 
 
 [libraries]
@@ -58,6 +57,10 @@ room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", vers
 
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
 ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlintGradlePlugin" }
+
+# Detekt
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektGradlePlugin" }
+detekt-rules-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektRulesCompose" }
 
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
