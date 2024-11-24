@@ -1,6 +1,5 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.neilt.mobile.android.library)
 }
 
 dependencies {
@@ -18,19 +17,4 @@ dependencies {
 
 android {
     namespace = "neilt.mobile.pixiv.domain"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }

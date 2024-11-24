@@ -1,16 +1,6 @@
 plugins {
-
-    // Android
-    alias(libs.plugins.androidLibrary)
-
-    // Kotlin
-    alias(libs.plugins.kotlinAndroid)
-
-    // KSP
-    alias(libs.plugins.ksp)
-
-    // Room
-    alias(libs.plugins.room)
+    alias(libs.plugins.neilt.mobile.android.library)
+    alias(libs.plugins.neilt.mobile.android.room)
 }
 
 dependencies {
@@ -35,11 +25,6 @@ dependencies {
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
 
-    // Room
-    implementation(libs.room)
-    implementation(libs.room.kotlin)
-    ksp(libs.room.compiler)
-
     // JUnit 5
     testImplementation(libs.junit.jupiter)
 
@@ -59,24 +44,4 @@ dependencies {
 
 android {
     namespace = "neilt.mobile.pixiv.data"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    room {
-        schemaDirectory("$projectDir/schemas")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }
