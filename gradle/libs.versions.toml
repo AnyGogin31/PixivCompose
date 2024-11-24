@@ -104,6 +104,21 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokitoKotlin" }
 
 
+[bundles]
+
+# Compose
+compose-ui = [
+    "compose-ui",
+    "compose-ui-graphics",
+    "compose-ui-tooling",
+]
+
+compose-additions = [
+    "compose-activity",
+    "compose-material",
+]
+
+
 [plugins]
 
 # Android
