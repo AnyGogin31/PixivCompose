@@ -30,8 +30,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 object Configuration {
 
     object Java {
-        val JAVA_TARGET = JvmTarget.JVM_11
-        val JAVA_VERSION = JavaVersion.VERSION_11
+        val JAVA_TARGET = JvmTarget.JVM_17
+        val JAVA_VERSION = JavaVersion.VERSION_17
     }
 
     object Sdk {
