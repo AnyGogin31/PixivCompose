@@ -24,8 +24,10 @@
 
 package neilt.mobile.pixiv.ui.screens.auth
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,8 +68,10 @@ fun LoginScreen() {
                     "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
                         PKCEUtil.codeChallenge +
                         "&code_challenge_method=S256&client=pixiv-android"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                context.startActivity(intent)
+                openCustomTab(
+                    context = context,
+                    url = Uri.parse(url),
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,5 +79,15 @@ fun LoginScreen() {
         ) {
             Text(text = "Login with Pixiv")
         }
+    }
+}
+
+private fun openCustomTab(context: Context, url: Uri) {
+    try {
+        val customTabsIntent = CustomTabsIntent.Builder().build()
+        customTabsIntent.launchUrl(context, url)
+    } catch (_: Exception) {
+        val intent = Intent(Intent.ACTION_VIEW, url)
+        context.startActivity(intent)
     }
 }

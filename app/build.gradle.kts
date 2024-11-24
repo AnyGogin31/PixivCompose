@@ -7,6 +7,9 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
+    // AndroidX
+    implementation(libs.android.browser)
+
     // Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
