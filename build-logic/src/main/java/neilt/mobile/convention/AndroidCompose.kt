@@ -52,8 +52,8 @@ internal fun Project.configureAndroidCompose(
         dependencies {
 
             // AndroidX
-            implementation(libs.getLibrary("androidCore"))
-            implementation(libs.getLibrary("androidLifecycleRuntime"))
+            implementation(libs.getLibrary("android-core"))
+            implementation(libs.getLibrary("android-lifecycle-runtime"))
 
             // Compose
             implementation(platform(libs.getLibrary("compose-bom")))
