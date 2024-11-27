@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.neilt.mobile.android.application)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 dependencies {
@@ -12,6 +13,9 @@ dependencies {
 
     // Navigation
     implementation(libs.compose.navigation)
+
+    // Kotlin
+    implementation(libs.kotlin.serialization.json)
 
     // Koin
     implementation(platform(libs.koin.bom))
