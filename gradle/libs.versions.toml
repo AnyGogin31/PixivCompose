@@ -2,7 +2,7 @@
 
 # Gradle Plugins
 androidGradlePlugin = "8.7.2"
-kotlinGradlePlugin = "2.0.21"
+kotlinGradlePlugin = "2.1.0"
 kspGradlePlugin = "2.0.21-1.0.28"
 roomGradlePlugin = "2.6.1"
 detektGradlePlugin = "1.23.7"
