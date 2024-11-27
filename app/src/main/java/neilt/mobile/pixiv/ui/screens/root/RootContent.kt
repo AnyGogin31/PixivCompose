@@ -37,8 +37,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
+import neilt.mobile.pixiv.ui.navigation.PixivDestination
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
+import neilt.mobile.pixiv.ui.screens.explore.ExploreScreen
 import neilt.mobile.pixiv.ui.screens.home.HomeScreen
+import neilt.mobile.pixiv.ui.screens.profile.ProfileScreen
 import neilt.mobile.pixiv.ui.theme.PixivTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -55,7 +58,7 @@ fun RootContent(
         LaunchedEffect(Unit) {
             val startDestination = viewModel.determineStartDestination()
             navController.navigate(startDestination) {
-                popUpTo("AuthSection") { inclusive = true }
+                popUpTo<PixivDestination.AuthSection> { inclusive = true }
             }
         }
 
@@ -63,31 +66,27 @@ fun RootContent(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
                 PixivBottomNavigation(
-                    currentRoute = currentDestination?.route,
+                    currentDestination = currentDestination,
                 )
             },
         ) { innerPadding ->
             NavHost(
                 modifier = Modifier.padding(innerPadding),
                 navController = navController,
-                startDestination = "AuthSection",
+                startDestination = PixivDestination.AuthSection,
             ) {
-                navigation(
-                    route = "MainSection",
-                    startDestination = "MainSection_HomeScreen",
+                navigation<PixivDestination.MainSection>(
+                    startDestination = PixivDestination.MainSection.HomeScreen,
                 ) {
-                    composable(route = "MainSection_HomeScreen") {
-                        HomeScreen()
-                    }
+                    composable<PixivDestination.MainSection.HomeScreen> { HomeScreen() }
+                    composable<PixivDestination.MainSection.ExploreScreen> { ExploreScreen() }
+                    composable<PixivDestination.MainSection.ProfileScreen> { ProfileScreen() }
                 }
 
-                navigation(
-                    route = "AuthSection",
-                    startDestination = "AuthSection_LoginScreen",
+                navigation<PixivDestination.AuthSection>(
+                    startDestination = PixivDestination.AuthSection.LoginScreen,
                 ) {
-                    composable(route = "AuthSection_LoginScreen") {
-                        LoginScreen()
-                    }
+                    composable<PixivDestination.AuthSection.LoginScreen> { LoginScreen() }
                 }
             }
         }

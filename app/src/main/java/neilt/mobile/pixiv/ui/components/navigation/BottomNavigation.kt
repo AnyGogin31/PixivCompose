@@ -24,6 +24,7 @@
 
 package neilt.mobile.pixiv.ui.components.navigation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,6 +45,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +55,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 @Immutable
 data class BadgeStyle(
@@ -79,16 +87,17 @@ data class NavigationItemContent(
 
 @Stable
 data class BottomNavigationItem(
-    val route: String,
+    val destination: PixivDestination,
     val content: NavigationItemContent,
     val onSelect: () -> Unit = {},
     val onReselect: () -> Unit = {},
 )
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavigationItem>,
-    currentRoute: String,
+    currentDestination: NavDestination,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -101,7 +110,7 @@ fun BottomNavigationBar(
         tonalElevation = tonalElevation,
     ) {
         items.forEach { item ->
-            val isSelected = item.route == currentRoute
+            val isSelected = currentDestination.hierarchy.any { it.hasRoute(item.destination::class) } == true
 
             NavigationBarItem(
                 icon = {
@@ -131,7 +140,7 @@ private fun NavigationIcon(item: BottomNavigationItem, isSelected: Boolean) {
     ) {
         Icon(
             imageVector = if (isSelected) item.content.selectedIcon else item.content.unselectedIcon,
-            contentDescription = "${if (isSelected) "Selected" else "Unselected"} ${item.route}",
+            contentDescription = "${if (isSelected) "Selected" else "Unselected"} ${item.destination}",
         )
     }
 }
@@ -159,7 +168,7 @@ private fun BottomNavigationBarPreview() {
     MaterialTheme {
         val items = listOf(
             BottomNavigationItem(
-                route = "home",
+                destination = PixivDestination.MainSection.HomeScreen,
                 content = NavigationItemContent(
                     label = { "Home" },
                     selectedIcon = Icons.Filled.Home,
@@ -168,7 +177,7 @@ private fun BottomNavigationBarPreview() {
                 ),
             ),
             BottomNavigationItem(
-                route = "search",
+                destination = PixivDestination.MainSection.ExploreScreen,
                 content = NavigationItemContent(
                     label = { "Search" },
                     selectedIcon = Icons.Default.Search,
@@ -176,7 +185,7 @@ private fun BottomNavigationBarPreview() {
                 ),
             ),
             BottomNavigationItem(
-                route = "profile",
+                destination = PixivDestination.MainSection.ProfileScreen,
                 content = NavigationItemContent(
                     label = { "Profile" },
                     selectedIcon = Icons.Filled.Person,
@@ -186,9 +195,15 @@ private fun BottomNavigationBarPreview() {
             ),
         )
 
-        BottomNavigationBar(
-            items = items,
-            currentRoute = "home",
-        )
+        val navController = rememberNavController()
+        val currentBackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = currentBackEntry?.destination
+
+        currentDestination?.let {
+            BottomNavigationBar(
+                items = items,
+                currentDestination = it,
+            )
+        }
     }
 }

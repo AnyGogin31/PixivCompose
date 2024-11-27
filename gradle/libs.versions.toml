@@ -11,6 +11,7 @@ ktlintGradlePlugin = "12.1.1"
 # Kotlin
 kotlinCompiler = "1.5.15"
 kotlinCoroutines = "1.9.0"
+kotlinSerializationJson = "1.7.3"
 
 # Compose
 composeBom = "2024.11.00"
@@ -113,6 +114,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 # Kotlin
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinGradlePlugin" }
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
+kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
 
 # Testing
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
@@ -145,6 +147,7 @@ androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugi
 # Kotlin
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
 
 # KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }

@@ -31,6 +31,9 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import neilt.mobile.pixiv.R
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationBar
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationItem
@@ -42,10 +45,11 @@ import neilt.mobile.pixiv.ui.icons.filled.Profile
 import neilt.mobile.pixiv.ui.icons.outlined.Explore
 import neilt.mobile.pixiv.ui.icons.outlined.Home
 import neilt.mobile.pixiv.ui.icons.outlined.Profile
+import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 private val bottomNavigationItems = listOf(
     BottomNavigationItem(
-        route = "MainSection_HomeScreen",
+        destination = PixivDestination.MainSection.HomeScreen,
         content = NavigationItemContent(
             label = { stringResource(R.string.navigation_home) },
             selectedIcon = PixivIcons.Filled.Home,
@@ -53,7 +57,7 @@ private val bottomNavigationItems = listOf(
         ),
     ),
     BottomNavigationItem(
-        route = "MainSection_ExploreScreen",
+        destination = PixivDestination.MainSection.ExploreScreen,
         content = NavigationItemContent(
             label = { stringResource(R.string.navigation_explore) },
             selectedIcon = PixivIcons.Filled.Explore,
@@ -61,7 +65,7 @@ private val bottomNavigationItems = listOf(
         ),
     ),
     BottomNavigationItem(
-        route = "MainSection_ProfileScreen",
+        destination = PixivDestination.MainSection.ProfileScreen,
         content = NavigationItemContent(
             label = { stringResource(R.string.navigation_profile) },
             selectedIcon = PixivIcons.Filled.Profile,
@@ -73,16 +77,18 @@ private val bottomNavigationItems = listOf(
 @Composable
 fun PixivBottomNavigation(
     items: List<BottomNavigationItem> = bottomNavigationItems,
-    currentRoute: String? = null,
+    currentDestination: NavDestination? = null,
 ) {
     AnimatedVisibility(
-        visible = currentRoute?.startsWith("MainSection") == true,
+        visible = currentDestination?.hierarchy?.any { it.hasRoute<PixivDestination.MainSection>() } == true,
         enter = fadeIn() + slideInVertically { it },
         exit = fadeOut() + slideOutVertically { it },
     ) {
-        BottomNavigationBar(
-            items = items,
-            currentRoute = currentRoute.orEmpty(),
-        )
+        currentDestination?.let {
+            BottomNavigationBar(
+                items = items,
+                currentDestination = it,
+            )
+        }
     }
 }
