@@ -26,16 +26,7 @@ package neilt.mobile.pixiv.ui.screens.root
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
 import neilt.mobile.pixiv.ui.screens.home.HomeScreen
 import neilt.mobile.pixiv.ui.theme.PixivTheme
@@ -69,52 +61,10 @@ fun RootContent(
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            bottomBar = { // Temporary solution
-                val isInMainSection = currentDestination?.route?.startsWith("MainSection") == true
-                if (isInMainSection) {
-                    BottomAppBar {
-                        NavigationBarItem(
-                            selected = true,
-                            icon = {
-                                Icon(Icons.Default.Home, contentDescription = "Home")
-                            },
-                            label = {
-                                Text("Home")
-                            },
-                            onClick = {},
-                        )
-                        NavigationBarItem(
-                            selected = false,
-                            icon = {
-                                Icon(Icons.Default.Search, contentDescription = "Search")
-                            },
-                            label = {
-                                Text("Search")
-                            },
-                            onClick = {},
-                        )
-                        NavigationBarItem(
-                            selected = false,
-                            icon = {
-                                Icon(Icons.Default.Notifications, contentDescription = "Notifications")
-                            },
-                            label = {
-                                Text("Notifications")
-                            },
-                            onClick = {},
-                        )
-                        NavigationBarItem(
-                            selected = false,
-                            icon = {
-                                Icon(Icons.Default.Person, contentDescription = "My Page")
-                            },
-                            label = {
-                                Text("My Page")
-                            },
-                            onClick = {},
-                        )
-                    }
-                }
+            bottomBar = {
+                PixivBottomNavigation(
+                    currentRoute = currentDestination?.route,
+                )
             },
         ) { innerPadding ->
             NavHost(
