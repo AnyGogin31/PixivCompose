@@ -29,42 +29,43 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import neilt.mobile.pixiv.R
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationBar
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.ui.components.navigation.NavigationItemContent
+import neilt.mobile.pixiv.ui.icons.PixivIcons
+import neilt.mobile.pixiv.ui.icons.filled.Explore
+import neilt.mobile.pixiv.ui.icons.filled.Home
+import neilt.mobile.pixiv.ui.icons.filled.Profile
+import neilt.mobile.pixiv.ui.icons.outlined.Explore
+import neilt.mobile.pixiv.ui.icons.outlined.Home
+import neilt.mobile.pixiv.ui.icons.outlined.Profile
 
 private val bottomNavigationItems = listOf(
     BottomNavigationItem(
         route = "MainSection_HomeScreen",
         content = NavigationItemContent(
             label = { stringResource(R.string.navigation_home) },
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
+            selectedIcon = PixivIcons.Filled.Home,
+            unselectedIcon = PixivIcons.Outlined.Home,
         ),
     ),
     BottomNavigationItem(
         route = "MainSection_ExploreScreen",
         content = NavigationItemContent(
             label = { stringResource(R.string.navigation_explore) },
-            selectedIcon = Icons.Default.Search,
-            unselectedIcon = Icons.Default.Search,
+            selectedIcon = PixivIcons.Filled.Explore,
+            unselectedIcon = PixivIcons.Outlined.Explore,
         ),
     ),
     BottomNavigationItem(
         route = "MainSection_ProfileScreen",
         content = NavigationItemContent(
             label = { stringResource(R.string.navigation_profile) },
-            selectedIcon = Icons.Filled.Person,
-            unselectedIcon = Icons.Outlined.Person,
+            selectedIcon = PixivIcons.Filled.Profile,
+            unselectedIcon = PixivIcons.Outlined.Profile,
         ),
     ),
 )
