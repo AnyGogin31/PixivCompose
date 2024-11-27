@@ -90,8 +90,8 @@ fun BottomNavigationBar(
     items: List<BottomNavigationItem>,
     currentRoute: String,
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.background,
-    contentColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
     tonalElevation: Dp = 0.dp,
 ) {
     BottomAppBar(
@@ -155,7 +155,7 @@ private fun BadgeView(badge: Badge) {
 
 @Preview(showBackground = true)
 @Composable
-fun BottomNavigationBarPreview() {
+private fun BottomNavigationBarPreview() {
     MaterialTheme {
         val items = listOf(
             BottomNavigationItem(
