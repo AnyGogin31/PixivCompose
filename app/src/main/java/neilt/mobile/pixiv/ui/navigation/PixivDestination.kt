@@ -22,21 +22,26 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.root
+package neilt.mobile.pixiv.ui.navigation
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import kotlinx.serialization.Serializable
 
-class RootViewModel(
-    private val authRepository: AuthRepository,
-) : ViewModel() {
-    suspend fun determineStartDestination(): PixivDestination {
-        return withContext(Dispatchers.IO) {
-            val activeUser = authRepository.getActiveUser()
-            if (activeUser != null) PixivDestination.MainSection else PixivDestination.AuthSection
-        }
+sealed interface PixivDestination {
+    @Serializable
+    data object MainSection : PixivDestination {
+        @Serializable
+        data object HomeScreen : PixivDestination
+
+        @Serializable
+        data object ExploreScreen : PixivDestination
+
+        @Serializable
+        data object ProfileScreen : PixivDestination
+    }
+
+    @Serializable
+    data object AuthSection : PixivDestination {
+        @Serializable
+        data object LoginScreen : PixivDestination
     }
 }
