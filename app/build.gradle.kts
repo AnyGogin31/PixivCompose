@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+apply(from = "../scripts/git-hooks.gradle.kts")
+
 dependencies {
 
     implementation(project(":data"))
