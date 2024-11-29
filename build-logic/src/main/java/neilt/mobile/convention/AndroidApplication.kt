@@ -43,5 +43,39 @@ internal fun Project.configureAndroidApplication(
                 useSupportLibrary = true
             }
         }
+
+        signingConfigs {
+            create("release") {
+                storeFile = file("keystore/key")
+                storePassword = System.getenv("KEY_STORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+
+                enableV1Signing = false
+                enableV2Signing = true
+                enableV3Signing = true
+                enableV4Signing = true
+            }
+        }
+
+        buildTypes {
+            release {
+                isMinifyEnabled = false
+                isShrinkResources = false
+                isCrunchPngs = true
+                isDebuggable = false
+                multiDexEnabled = true
+                renderscriptOptimLevel = 3
+
+                signingConfig = signingConfigs.getByName("release")
+
+                proguardFiles(
+                    getDefaultProguardFile(
+                        "proguard-android-optimize.txt"
+                    ),
+                    "proguard-rules.pro"
+                )
+            }
+        }
     }
 }
