@@ -22,23 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.root
+package neilt.mobile.pixiv.ui.navigation
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.AndroidNavigator
 import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-class RootViewModel(
-    val navigator: Navigator,
-    private val authRepository: AuthRepository,
-) : ViewModel() {
-    suspend fun determineStartDestination(): PixivDestination {
-        return withContext(Dispatchers.IO) {
-            val activeUser = authRepository.getActiveUser()
-            if (activeUser != null) PixivDestination.MainSection else PixivDestination.AuthSection
-        }
-    }
+val navigationModule = module {
+    single { AndroidNavigator(PixivDestination.MainSection) } bind Navigator::class
 }
