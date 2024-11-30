@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.mapper.user
+package neilt.mobile.pixiv.data.mapper.home
 
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse

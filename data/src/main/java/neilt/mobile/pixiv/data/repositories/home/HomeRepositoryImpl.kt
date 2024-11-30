@@ -24,7 +24,7 @@
 
 package neilt.mobile.pixiv.data.repositories.home
 
-import neilt.mobile.pixiv.data.mapper.user.toModel
+import neilt.mobile.pixiv.data.mapper.home.toModel
 import neilt.mobile.pixiv.data.remote.requests.home.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
 import neilt.mobile.pixiv.domain.models.home.Illustration
