@@ -30,5 +30,5 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val navigationModule = module {
-    single { AndroidNavigator(PixivDestination.MainSection) } bind Navigator::class
+    single { AndroidNavigator(PixivDestination.AuthSection) } bind Navigator::class
 }

@@ -56,10 +56,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 @Immutable
@@ -110,7 +109,7 @@ fun BottomNavigationBar(
         tonalElevation = tonalElevation,
     ) {
         items.forEach { item ->
-            val isSelected = currentDestination.hierarchy.any { it.hasRoute(item.destination::class) } == true
+            val isSelected = currentDestination.hasDestination(item.destination)
 
             NavigationBarItem(
                 icon = {
