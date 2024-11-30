@@ -62,7 +62,7 @@ fun RootContent(
 
         LaunchedEffect(Unit) {
             val startDestination = viewModel.determineStartDestination()
-            navController.navigate(startDestination) {
+            viewModel.navigator.navigateTo(startDestination) {
                 popUpTo<PixivDestination.AuthSection> { inclusive = true }
             }
         }
@@ -71,6 +71,7 @@ fun RootContent(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
                 PixivBottomNavigation(
+                    items = viewModel.bottomNavigationItems,
                     currentDestination = currentDestination,
                 )
             },
