@@ -15,6 +15,10 @@ dependencies {
     // AndroidX
     implementation(libs.android.browser)
 
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
+
     // Navigation
     implementation(libs.compose.navigation)
 

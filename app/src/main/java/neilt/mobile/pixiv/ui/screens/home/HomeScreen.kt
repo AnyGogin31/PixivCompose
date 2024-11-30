@@ -24,7 +24,70 @@
 
 package neilt.mobile.pixiv.ui.screens.home
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.request.transformations
+import neilt.mobile.pixiv.domain.models.home.Illustration
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen() = Unit
+fun HomeScreen(
+    viewModel: HomeViewModel = koinViewModel(),
+) {
+    val illustrations = remember { mutableStateListOf<Illustration>() }
+
+    LaunchedEffect(Unit) {
+        val data = viewModel.getRecommendedIllustrations()
+        illustrations.clear()
+        illustrations.addAll(data)
+    }
+
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        modifier = Modifier.padding(8.dp),
+    ) {
+        items(illustrations) { illustration ->
+            IllustrationItem(illustration = illustration)
+        }
+    }
+}
+
+@Composable
+private fun IllustrationItem(
+    modifier: Modifier = Modifier,
+    illustration: Illustration,
+) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(illustration.imageUrls.mediumUrl)
+            .httpHeaders(
+                NetworkHeaders.Builder()
+                    .set("referer", "https://app-api.pixiv.net/")
+                    .build(),
+            )
+            .crossfade(true)
+            .transformations()
+            .build(),
+        contentDescription = illustration.title,
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+            .padding(4.dp)
+            .fillMaxWidth(),
+    )
+}

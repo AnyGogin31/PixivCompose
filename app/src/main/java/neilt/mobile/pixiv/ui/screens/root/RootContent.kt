@@ -62,7 +62,7 @@ fun RootContent(
 
         LaunchedEffect(Unit) {
             val startDestination = viewModel.determineStartDestination()
-            viewModel.navigator.navigateTo(startDestination) {
+            navigator.navigateTo(startDestination) {
                 popUpTo<PixivDestination.AuthSection> { inclusive = true }
             }
         }

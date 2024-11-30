@@ -26,6 +26,9 @@ androidTestCore = "1.6.1"
 androidTestRunner = "1.6.2"
 androidTestExt = "1.2.1"
 
+# Coil
+coil = "3.0.4"
+
 # Koin
 koin = "4.0.0"
 
@@ -85,6 +88,10 @@ android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-ru
 android-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
 android-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidTestRunner" }
 android-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidTestExt" }
+
+# Coil
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 # Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
