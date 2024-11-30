@@ -10,6 +10,8 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
 
+    implementation(project(":core:navigation"))
+
     // AndroidX
     implementation(libs.android.browser)
 
