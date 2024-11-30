@@ -25,8 +25,9 @@
 package neilt.mobile.pixiv.ui.navigation
 
 import kotlinx.serialization.Serializable
+import neilt.mobile.core.navigation.Destination
 
-sealed interface PixivDestination {
+sealed interface PixivDestination : Destination {
     @Serializable
     data object MainSection : PixivDestination {
         @Serializable

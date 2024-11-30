@@ -22,25 +22,11 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.core.navigation
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import androidx.navigation.NavOptionsBuilder
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
-}
+/**
+ * Typealias for a lambda function used to configure [NavOptionsBuilder] when navigating.
+ */
+typealias NavOptions = NavOptionsBuilder.() -> Unit

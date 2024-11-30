@@ -24,15 +24,72 @@
 
 package neilt.mobile.pixiv.ui.screens.root
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.R
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationItem
+import neilt.mobile.pixiv.ui.components.navigation.NavigationItemContent
+import neilt.mobile.pixiv.ui.icons.PixivIcons
+import neilt.mobile.pixiv.ui.icons.filled.Explore
+import neilt.mobile.pixiv.ui.icons.filled.Home
+import neilt.mobile.pixiv.ui.icons.filled.Profile
+import neilt.mobile.pixiv.ui.icons.outlined.Explore
+import neilt.mobile.pixiv.ui.icons.outlined.Home
+import neilt.mobile.pixiv.ui.icons.outlined.Profile
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 class RootViewModel(
+    val navigator: Navigator,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
+    val bottomNavigationItems = listOf(
+        BottomNavigationItem(
+            destination = PixivDestination.MainSection.HomeScreen,
+            content = NavigationItemContent(
+                label = { stringResource(R.string.navigation_home) },
+                selectedIcon = PixivIcons.Filled.Home,
+                unselectedIcon = PixivIcons.Outlined.Home,
+            ),
+            onSelect = {
+                viewModelScope.launch {
+                    navigator.navigateTo(PixivDestination.MainSection.HomeScreen)
+                }
+            },
+        ),
+        BottomNavigationItem(
+            destination = PixivDestination.MainSection.ExploreScreen,
+            content = NavigationItemContent(
+                label = { stringResource(R.string.navigation_explore) },
+                selectedIcon = PixivIcons.Filled.Explore,
+                unselectedIcon = PixivIcons.Outlined.Explore,
+            ),
+            onSelect = {
+                viewModelScope.launch {
+                    navigator.navigateTo(PixivDestination.MainSection.ExploreScreen)
+                }
+            },
+        ),
+        BottomNavigationItem(
+            destination = PixivDestination.MainSection.ProfileScreen,
+            content = NavigationItemContent(
+                label = { stringResource(R.string.navigation_profile) },
+                selectedIcon = PixivIcons.Filled.Profile,
+                unselectedIcon = PixivIcons.Outlined.Profile,
+            ),
+            onSelect = {
+                viewModelScope.launch {
+                    navigator.navigateTo(PixivDestination.MainSection.ProfileScreen)
+                }
+            },
+        ),
+    )
+
     suspend fun determineStartDestination(): PixivDestination {
         return withContext(Dispatchers.IO) {
             val activeUser = authRepository.getActiveUser()

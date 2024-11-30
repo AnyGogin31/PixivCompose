@@ -22,25 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.core.navigation
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+/**
+ * Represents navigation actions that can be performed within the navigation system.
+ */
+sealed interface NavigationAction {
+    /**
+     * Navigation action for navigating to a specific [Destination].
+     *
+     * @property destination The target [Destination].
+     * @property navOptions Additional navigation options, if any.
+     */
+    data class NavigateTo(
+        val destination: Destination,
+        val navOptions: NavOptions = {},
+    ) : NavigationAction
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
+    /**
+     * Navigation action for navigating up in the navigation stack.
+     */
+    data object NavigateUp : NavigationAction
 }

@@ -22,25 +22,30 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.ui.components.utils
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
+@Composable
+fun <T> ObserveAsEvents(
+    flow: Flow<T>,
+    key1: Any? = null,
+    key2: Any? = null,
+    onEvent: (T) -> Unit,
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(key1 = lifecycleOwner.lifecycle, key1, key2) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            withContext(Dispatchers.Main.immediate) {
+                flow.collect(onEvent)
+            }
         }
     }
 }

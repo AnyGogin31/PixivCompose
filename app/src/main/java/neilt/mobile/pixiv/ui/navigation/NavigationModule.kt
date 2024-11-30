@@ -22,25 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.ui.navigation
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import neilt.mobile.core.navigation.AndroidNavigator
+import neilt.mobile.core.navigation.Navigator
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
+val navigationModule = module {
+    single { AndroidNavigator(PixivDestination.MainSection) } bind Navigator::class
 }

@@ -30,57 +30,19 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
-import neilt.mobile.pixiv.R
+import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationBar
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationItem
-import neilt.mobile.pixiv.ui.components.navigation.NavigationItemContent
-import neilt.mobile.pixiv.ui.icons.PixivIcons
-import neilt.mobile.pixiv.ui.icons.filled.Explore
-import neilt.mobile.pixiv.ui.icons.filled.Home
-import neilt.mobile.pixiv.ui.icons.filled.Profile
-import neilt.mobile.pixiv.ui.icons.outlined.Explore
-import neilt.mobile.pixiv.ui.icons.outlined.Home
-import neilt.mobile.pixiv.ui.icons.outlined.Profile
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
-
-private val bottomNavigationItems = listOf(
-    BottomNavigationItem(
-        destination = PixivDestination.MainSection.HomeScreen,
-        content = NavigationItemContent(
-            label = { stringResource(R.string.navigation_home) },
-            selectedIcon = PixivIcons.Filled.Home,
-            unselectedIcon = PixivIcons.Outlined.Home,
-        ),
-    ),
-    BottomNavigationItem(
-        destination = PixivDestination.MainSection.ExploreScreen,
-        content = NavigationItemContent(
-            label = { stringResource(R.string.navigation_explore) },
-            selectedIcon = PixivIcons.Filled.Explore,
-            unselectedIcon = PixivIcons.Outlined.Explore,
-        ),
-    ),
-    BottomNavigationItem(
-        destination = PixivDestination.MainSection.ProfileScreen,
-        content = NavigationItemContent(
-            label = { stringResource(R.string.navigation_profile) },
-            selectedIcon = PixivIcons.Filled.Profile,
-            unselectedIcon = PixivIcons.Outlined.Profile,
-        ),
-    ),
-)
 
 @Composable
 fun PixivBottomNavigation(
-    items: List<BottomNavigationItem> = bottomNavigationItems,
+    items: List<BottomNavigationItem>,
     currentDestination: NavDestination? = null,
 ) {
     AnimatedVisibility(
-        visible = currentDestination?.hierarchy?.any { it.hasRoute<PixivDestination.MainSection>() } == true,
+        visible = currentDestination.hasDestination<PixivDestination.MainSection>(),
         enter = fadeIn() + slideInVertically { it },
         exit = fadeOut() + slideOutVertically { it },
     ) {

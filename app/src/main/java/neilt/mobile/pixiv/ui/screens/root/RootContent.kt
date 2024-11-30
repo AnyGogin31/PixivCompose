@@ -31,11 +31,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import neilt.mobile.core.navigation.NavigationAction
+import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.ui.components.utils.ObserveAsEvents
 import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
@@ -51,13 +55,14 @@ fun RootContent(
 ) {
     PixivTheme {
         val navController = rememberNavController()
+        val navigator = viewModel.navigator
 
         val currentBackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackEntry?.destination
 
         LaunchedEffect(Unit) {
             val startDestination = viewModel.determineStartDestination()
-            navController.navigate(startDestination) {
+            viewModel.navigator.navigateTo(startDestination) {
                 popUpTo<PixivDestination.AuthSection> { inclusive = true }
             }
         }
@@ -66,14 +71,16 @@ fun RootContent(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
                 PixivBottomNavigation(
+                    items = viewModel.bottomNavigationItems,
                     currentDestination = currentDestination,
                 )
             },
         ) { innerPadding ->
+            ObserveNavigationEvents(navigator, navController)
             NavHost(
                 modifier = Modifier.padding(innerPadding),
                 navController = navController,
-                startDestination = PixivDestination.AuthSection,
+                startDestination = navigator.startDestination,
             ) {
                 navigation<PixivDestination.MainSection>(
                     startDestination = PixivDestination.MainSection.HomeScreen,
@@ -89,6 +96,21 @@ fun RootContent(
                     composable<PixivDestination.AuthSection.LoginScreen> { LoginScreen() }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ObserveNavigationEvents(navigator: Navigator, navController: NavController) {
+    ObserveAsEvents(flow = navigator.navigationActions) { action ->
+        when (action) {
+            is NavigationAction.NavigateTo -> {
+                navController.navigate(action.destination) {
+                    action.navOptions(this)
+                }
+            }
+
+            is NavigationAction.NavigateUp -> navController.navigateUp()
         }
     }
 }
