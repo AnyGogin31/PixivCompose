@@ -22,16 +22,20 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.di
+package neilt.mobile.pixiv.ui.screens.home
 
-import neilt.mobile.pixiv.ui.LauncherViewModel
-import neilt.mobile.pixiv.ui.screens.home.HomeViewModel
-import neilt.mobile.pixiv.ui.screens.root.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 
-val viewModelModule = module {
-    viewModelOf(::LauncherViewModel)
-    viewModelOf(::RootViewModel)
-    viewModelOf(::HomeViewModel)
+class HomeViewModel(
+    private val homeRepository: HomeRepository,
+) : ViewModel() {
+    suspend fun getRecommendedIllustrations() = withContext(Dispatchers.IO) {
+        homeRepository.getRecommendedIllustrations(
+            includeRankingIllustrations = false,
+            includePrivacyPolicy = false,
+        )
+    }
 }
