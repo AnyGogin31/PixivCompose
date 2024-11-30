@@ -22,16 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.di
+package neilt.mobile.pixiv.data.remote.responses.home
 
-import neilt.mobile.pixiv.ui.LauncherViewModel
-import neilt.mobile.pixiv.ui.screens.home.HomeViewModel
-import neilt.mobile.pixiv.ui.screens.root.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-val viewModelModule = module {
-    viewModelOf(::LauncherViewModel)
-    viewModelOf(::RootViewModel)
-    viewModelOf(::HomeViewModel)
-}
+@JsonClass(generateAdapter = true)
+data class RecommendedIllustrationsResponse(
+    @Json(name = "illusts") val illustrations: List<IllustrationResponse>,
+    @Json(name = "contest_exists") val contestExists: Boolean,
+    @Json(name = "next_url") val nextUrl: String?,
+)

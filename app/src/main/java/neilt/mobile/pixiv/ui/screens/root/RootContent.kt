@@ -39,6 +39,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import neilt.mobile.core.navigation.NavigationAction
 import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.ui.components.utils.ObserveAsEvents
 import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
@@ -62,8 +63,10 @@ fun RootContent(
 
         LaunchedEffect(Unit) {
             val startDestination = viewModel.determineStartDestination()
-            viewModel.navigator.navigateTo(startDestination) {
-                popUpTo<PixivDestination.AuthSection> { inclusive = true }
+            if (!currentDestination.hasDestination(startDestination)) {
+                navigator.navigateTo(startDestination) {
+                    popUpTo(0) { inclusive = true }
+                }
             }
         }
 

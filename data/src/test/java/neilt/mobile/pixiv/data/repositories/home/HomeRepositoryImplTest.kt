@@ -26,12 +26,17 @@ package neilt.mobile.pixiv.data.repositories.home
 
 import kotlinx.coroutines.test.runTest
 import neilt.mobile.pixiv.data.remote.requests.home.toFieldMap
+import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
+import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
+import neilt.mobile.pixiv.data.remote.responses.home.RecommendedIllustrationsResponse
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
 import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import org.mockito.kotlin.verify
+import kotlin.test.assertEquals
 
 class HomeRepositoryImplTest {
     private lateinit var repository: HomeRepositoryImpl
@@ -44,10 +49,51 @@ class HomeRepositoryImplTest {
 
     @Test
     fun `getRecommendedIllustrations calls service with correct parameters`() = runTest {
-        repository.getRecommendedIllustrations(
+        val mockResponse = RecommendedIllustrationsResponse(
+            illustrations = listOf(
+                IllustrationResponse(
+                    id = 1,
+                    title = "Illustration 1",
+                    type = "type1",
+                    imageUrls = ImageUrlsResponse(
+                        squareMediumUrl = "square1",
+                        mediumUrl = "medium1",
+                        largeUrl = "large1",
+                    ),
+                ),
+                IllustrationResponse(
+                    id = 2,
+                    title = "Illustration 2",
+                    type = "type2",
+                    imageUrls = ImageUrlsResponse(
+                        squareMediumUrl = "square2",
+                        mediumUrl = "medium2",
+                        largeUrl = "large2",
+                    ),
+                ),
+            ),
+            contestExists = false,
+            nextUrl = null,
+        )
+
+        `when`(
+            homeService.fetchRecommendedIllustrations(
+                includeRankingIllustrations = true,
+                includePrivacyPolicy = true,
+            ),
+        ).thenReturn(mockResponse)
+
+        val result = repository.getRecommendedIllustrations(
             includeRankingIllustrations = true,
             includePrivacyPolicy = true,
         )
+
+        assertEquals(2, result.size)
+        assertEquals("Illustration 1", result[0].title)
+        assertEquals("medium1", result[0].imageUrls.mediumUrl)
+        assertEquals("Illustration 2", result[1].title)
+        assertEquals("large2", result[1].imageUrls.largeUrl)
+
         verify(homeService).fetchRecommendedIllustrations(
             includeRankingIllustrations = true,
             includePrivacyPolicy = true,

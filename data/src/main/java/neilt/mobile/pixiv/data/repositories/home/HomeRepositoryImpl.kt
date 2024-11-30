@@ -24,8 +24,10 @@
 
 package neilt.mobile.pixiv.data.repositories.home
 
+import neilt.mobile.pixiv.data.mapper.home.toModel
 import neilt.mobile.pixiv.data.remote.requests.home.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 
@@ -35,11 +37,11 @@ class HomeRepositoryImpl(
     override suspend fun getRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
-    ) {
-        homeService.fetchRecommendedIllustrations(
+    ): List<Illustration> {
+        return homeService.fetchRecommendedIllustrations(
             includeRankingIllustrations,
             includePrivacyPolicy,
-        )
+        ).illustrations.map { it.toModel() }
     }
 
     override suspend fun getRecommendedManga(

@@ -25,6 +25,7 @@
 package neilt.mobile.pixiv.data.remote.services.home
 
 import neilt.mobile.pixiv.data.remote.common.Authorization
+import neilt.mobile.pixiv.data.remote.responses.home.RecommendedIllustrationsResponse
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -39,7 +40,7 @@ interface HomeService {
     suspend fun fetchRecommendedIllustrations(
         @Query("include_ranking_illusts") includeRankingIllustrations: Boolean,
         @Query("include_privacy_policy") includePrivacyPolicy: Boolean,
-    )
+    ): RecommendedIllustrationsResponse
 
     @Authorization
     @GET("/v1/manga/recommended?filter=for_android")

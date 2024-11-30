@@ -24,13 +24,14 @@
 
 package neilt.mobile.pixiv.domain.repositories.home
 
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 
 interface HomeRepository {
     suspend fun getRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
-    )
+    ): List<Illustration>
 
     suspend fun getRecommendedManga(
         includeRankingIllustrations: Boolean,

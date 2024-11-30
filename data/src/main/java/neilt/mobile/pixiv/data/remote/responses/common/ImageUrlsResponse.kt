@@ -22,16 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.di
+package neilt.mobile.pixiv.data.remote.responses.common
 
-import neilt.mobile.pixiv.ui.LauncherViewModel
-import neilt.mobile.pixiv.ui.screens.home.HomeViewModel
-import neilt.mobile.pixiv.ui.screens.root.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-val viewModelModule = module {
-    viewModelOf(::LauncherViewModel)
-    viewModelOf(::RootViewModel)
-    viewModelOf(::HomeViewModel)
-}
+@JsonClass(generateAdapter = true)
+data class ImageUrlsResponse(
+    @Json(name = "square_medium") val squareMediumUrl: String?,
+    @Json(name = "medium") val mediumUrl: String?,
+    @Json(name = "large") val largeUrl: String?,
+)

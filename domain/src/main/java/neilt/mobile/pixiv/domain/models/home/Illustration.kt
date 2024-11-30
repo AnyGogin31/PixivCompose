@@ -22,16 +22,11 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.di
+package neilt.mobile.pixiv.domain.models.home
 
-import neilt.mobile.pixiv.ui.LauncherViewModel
-import neilt.mobile.pixiv.ui.screens.home.HomeViewModel
-import neilt.mobile.pixiv.ui.screens.root.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
-
-val viewModelModule = module {
-    viewModelOf(::LauncherViewModel)
-    viewModelOf(::RootViewModel)
-    viewModelOf(::HomeViewModel)
-}
+data class Illustration(
+    val id: Int,
+    val title: String,
+    val type: String,
+    val imageUrls: ImageUrls,
+)
