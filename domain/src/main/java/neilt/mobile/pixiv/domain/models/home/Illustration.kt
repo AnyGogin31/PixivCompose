@@ -22,26 +22,11 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.home
+package neilt.mobile.pixiv.domain.models.home
 
-import neilt.mobile.pixiv.domain.models.home.Illustration
-import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
-
-interface HomeRepository {
-    suspend fun getRecommendedIllustrations(
-        includeRankingIllustrations: Boolean,
-        includePrivacyPolicy: Boolean,
-    ): List<Illustration>
-
-    suspend fun getRecommendedManga(
-        includeRankingIllustrations: Boolean,
-        includePrivacyPolicy: Boolean,
-    )
-
-    suspend fun submitPrivacyPolicyAgreement(
-        agreement: String?,
-        version: String?,
-    )
-
-    suspend fun submitRecommendedNovels(request: RecommendedNovelsRequest)
-}
+data class Illustration(
+    val id: Int,
+    val title: String,
+    val type: String,
+    val imageUrls: ImageUrls,
+)

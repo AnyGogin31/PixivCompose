@@ -22,26 +22,22 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.home
+package neilt.mobile.pixiv.data.mapper.user
 
+import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
+import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 import neilt.mobile.pixiv.domain.models.home.Illustration
-import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
+import neilt.mobile.pixiv.domain.models.home.ImageUrls
 
-interface HomeRepository {
-    suspend fun getRecommendedIllustrations(
-        includeRankingIllustrations: Boolean,
-        includePrivacyPolicy: Boolean,
-    ): List<Illustration>
+fun IllustrationResponse.toModel() = Illustration(
+    id = id,
+    title = title,
+    type = type,
+    imageUrls = imageUrls.toModel(),
+)
 
-    suspend fun getRecommendedManga(
-        includeRankingIllustrations: Boolean,
-        includePrivacyPolicy: Boolean,
-    )
-
-    suspend fun submitPrivacyPolicyAgreement(
-        agreement: String?,
-        version: String?,
-    )
-
-    suspend fun submitRecommendedNovels(request: RecommendedNovelsRequest)
-}
+fun ImageUrlsResponse.toModel() = ImageUrls(
+    squareMediumUrl = squareMediumUrl,
+    mediumUrl = mediumUrl,
+    largeUrl = largeUrl,
+)

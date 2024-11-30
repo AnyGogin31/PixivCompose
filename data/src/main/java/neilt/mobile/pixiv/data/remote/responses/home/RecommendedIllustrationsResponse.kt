@@ -22,26 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.home
+package neilt.mobile.pixiv.data.remote.responses.home
 
-import neilt.mobile.pixiv.domain.models.home.Illustration
-import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-interface HomeRepository {
-    suspend fun getRecommendedIllustrations(
-        includeRankingIllustrations: Boolean,
-        includePrivacyPolicy: Boolean,
-    ): List<Illustration>
-
-    suspend fun getRecommendedManga(
-        includeRankingIllustrations: Boolean,
-        includePrivacyPolicy: Boolean,
-    )
-
-    suspend fun submitPrivacyPolicyAgreement(
-        agreement: String?,
-        version: String?,
-    )
-
-    suspend fun submitRecommendedNovels(request: RecommendedNovelsRequest)
-}
+@JsonClass(generateAdapter = true)
+data class RecommendedIllustrationsResponse(
+    @Json(name = "illusts") val illustrations: List<IllustrationResponse>,
+    @Json(name = "contest_exists") val contestExists: Boolean,
+    @Json(name = "next_url") val nextUrl: String?,
+)
