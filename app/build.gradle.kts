@@ -14,6 +14,7 @@ dependencies {
 
     // AndroidX
     implementation(libs.android.browser)
+    implementation(libs.android.core.splashscreen)
 
     // Coil
     implementation(libs.coil.compose)

@@ -39,7 +39,6 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import neilt.mobile.core.navigation.NavigationAction
 import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.ui.components.utils.ObserveAsEvents
 import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
@@ -52,6 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RootContent(
+    startDestination: PixivDestination,
     viewModel: RootViewModel = koinViewModel(),
 ) {
     PixivTheme {
@@ -61,13 +61,8 @@ fun RootContent(
         val currentBackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackEntry?.destination
 
-        LaunchedEffect(Unit) {
-            val startDestination = viewModel.determineStartDestination()
-            if (!currentDestination.hasDestination(startDestination)) {
-                navigator.navigateTo(startDestination) {
-                    popUpTo(0) { inclusive = true }
-                }
-            }
+        LaunchedEffect(startDestination) {
+            navigator.navigateTo(startDestination)
         }
 
         Scaffold(

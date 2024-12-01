@@ -21,6 +21,7 @@ composeNavigation = "2.8.4"
 # AndroidX
 androidBrowser = "1.8.0"
 androidCore = "1.15.0"
+androidSplashScreen = "1.0.1"
 androidLifecycle = "2.8.7"
 androidTestCore = "1.6.1"
 androidTestRunner = "1.6.2"
@@ -83,6 +84,7 @@ compose-material = { group = "androidx.compose.material3", name = "material3" }
 # AndroidX
 android-browser = { group = "androidx.browser", name = "browser", version.ref = "androidBrowser" }
 android-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidCore" }
+android-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidSplashScreen" }
 android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidLifecycle" }
 
 android-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
