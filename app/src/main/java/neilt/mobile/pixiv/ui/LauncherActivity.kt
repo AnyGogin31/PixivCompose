@@ -28,7 +28,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import neilt.mobile.pixiv.ui.extensions.bindOnNewIntentListener
+import neilt.mobile.pixiv.ui.navigation.PixivDestination
 import neilt.mobile.pixiv.ui.screens.root.RootContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,9 +41,11 @@ class LauncherActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition { viewModel.isLoading }
         enableEdgeToEdge()
         setContent {
-            RootContent()
+            val startDestination by viewModel.startDestination.collectAsState(initial = PixivDestination.AuthSection)
+            RootContent(startDestination = startDestination)
         }
         bindOnNewIntentListener(viewModel::handleDeepLink)
     }
