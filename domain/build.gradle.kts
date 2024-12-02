@@ -12,6 +12,10 @@ kotlin {
             implementation(libs.junit.jupiter)
         }
     }
+
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 android {
