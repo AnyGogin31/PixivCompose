@@ -1,47 +1,69 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
-    alias(libs.plugins.neilt.mobile.android.room)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
-dependencies {
+kotlin {
+    androidTarget()
 
-    implementation(project(":domain"))
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":domain"))
+            implementation(libs.koin.core)
+            implementation(libs.moshi)
+        }
 
-    // Koin
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.core)
-    testImplementation(libs.koin.test)
-    testImplementation(libs.koin.test.junit4)
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlin.coroutines.test)
+            implementation(libs.koin.test)
+        }
 
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.moshi)
+        androidMain.dependencies {
+            implementation(libs.retrofit)
+            implementation(libs.retrofit.converter.moshi)
+            implementation(libs.okhttp3)
+            implementation(libs.okhttp3.logging.interceptor)
+        }
 
-    // OkHttp
-    implementation(libs.okhttp3)
-    implementation(libs.okhttp3.logging.interceptor)
+        androidUnitTest.dependencies {
+            implementation(libs.junit.jupiter)
+            implementation(libs.mockito.core)
+            implementation(libs.mockito.kotlin)
+            implementation(libs.android.test.core)
+            implementation(libs.android.test.ext)
+            implementation(libs.android.test.runner)
+        }
+    }
 
-    // Moshi
-    implementation(libs.moshi)
-    ksp(libs.moshi.kotlin.codegen)
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
 
-    // JUnit 5
-    testImplementation(libs.junit.jupiter)
+ksp {
+    arg("room.generateKotlin", "true")
+}
 
-    // Kotlin Test
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.kotlin.coroutines.test)
-
-    // Mockito
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.kotlin)
-
-    // Android-specific dependencies
-    androidTestImplementation(libs.android.test.core)
-    androidTestImplementation(libs.android.test.ext)
-    androidTestImplementation(libs.android.test.runner)
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 android {
     namespace = "neilt.mobile.pixiv.data"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFile("consumer-rules.pro")
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
+
