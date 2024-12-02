@@ -22,6 +22,8 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlin.coroutines.test)
             implementation(libs.koin.test)
+            implementation(libs.mockito.core)
+            implementation(libs.mockito.kotlin)
         }
 
         androidMain.dependencies {
@@ -31,7 +33,7 @@ kotlin {
             implementation(libs.okhttp3.logging.interceptor)
         }
 
-        androidUnitTest.dependencies {
+        androidInstrumentedTest.dependencies {
             implementation(libs.junit.jupiter)
             implementation(libs.mockito.core)
             implementation(libs.mockito.kotlin)
