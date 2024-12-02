@@ -13,6 +13,9 @@ kotlin {
             implementation(project(":domain"))
             implementation(libs.koin.core)
             implementation(libs.moshi)
+            implementation(libs.room)
+            implementation(libs.room.kotlin)
+            implementation(libs.room.compiler)
         }
 
         commonTest.dependencies {
