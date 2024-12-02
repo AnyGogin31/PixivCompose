@@ -15,7 +15,6 @@ kotlin {
             implementation(libs.moshi)
             implementation(libs.room)
             implementation(libs.room.kotlin)
-            implementation(libs.room.compiler)
         }
 
         commonTest.dependencies {
@@ -46,6 +45,11 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspAndroid", libs.moshi.kotlin.codegen)
 }
 
 ksp {

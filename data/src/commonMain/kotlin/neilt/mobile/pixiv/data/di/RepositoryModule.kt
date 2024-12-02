@@ -34,7 +34,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     includes(localModule)
-    includes(remoteModule)
+    includes(platformRemoteModule)
 
     singleOf(::AuthRepositoryImpl) bind AuthRepository::class
     singleOf(::HomeRepositoryImpl) bind HomeRepository::class
