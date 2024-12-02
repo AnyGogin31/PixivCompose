@@ -1,7 +1,7 @@
 [versions]
 
 # Gradle Plugins
-androidGradlePlugin = "8.7.2"
+androidGradlePlugin = "8.7.3"
 kotlinGradlePlugin = "2.1.0"
 kspGradlePlugin = "2.1.0-1.0.29"
 roomGradlePlugin = "2.6.1"
