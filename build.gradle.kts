@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.kotlinCompose) apply false
     alias(libs.plugins.kotlinSerialization) apply false
+    alias(libs.plugins.kotlinMultiplatform) apply false
 
     // KSP
     alias(libs.plugins.ksp) apply false

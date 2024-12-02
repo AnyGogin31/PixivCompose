@@ -157,6 +157,7 @@ androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugi
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
 
 # KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
