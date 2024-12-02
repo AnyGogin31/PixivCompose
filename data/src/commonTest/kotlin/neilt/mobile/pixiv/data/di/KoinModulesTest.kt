@@ -26,12 +26,11 @@ package neilt.mobile.pixiv.data.di
 
 import org.junit.Test
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.module.Module
 import org.koin.test.KoinTest
 import org.koin.test.verify.verifyAll
 
 class KoinModulesTest : KoinTest {
-    private val testModules = listOf<Module>(localModule, remoteModule, repositoryModule)
+    private val testModules = listOf(localModule, platformRemoteModule, repositoryModule)
 
     @OptIn(KoinExperimentalAPI::class)
     @Test
