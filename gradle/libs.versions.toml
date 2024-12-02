@@ -16,7 +16,7 @@ kotlinSerializationJson = "1.7.3"
 # Compose
 composeBom = "2024.11.00"
 composeActivity = "1.9.3"
-composeNavigation = "2.8.4"
+composeNavigation = "2.8.0-alpha10"
 
 # AndroidX
 androidBrowser = "1.8.0"
@@ -78,7 +78,7 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-material = { group = "androidx.compose.material3", name = "material3" }
 
 # AndroidX
@@ -97,11 +97,11 @@ coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versi
 
 # Koin
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
-koin-core = { group = "io.insert-koin", name = "koin-core" }
-koin-android = { group = "io.insert-koin", name = "koin-android" }
-koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
-koin-test = { group = "io.insert-koin", name = "koin-test" }
-koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
 
 # Retrofit
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -157,6 +157,7 @@ androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugi
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
 
 # KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }

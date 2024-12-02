@@ -1,20 +1,35 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinMultiplatform)
 }
 
-dependencies {
+kotlin {
+    androidTarget()
 
-    // JUnit 5
-    testImplementation(libs.junit.jupiter)
+    sourceSets {
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.junit.jupiter)
+        }
+    }
 
-    // Kotlin Test
-    testImplementation(libs.kotlin.test)
-
-    // Android-specific dependencies
-    testImplementation(libs.android.test.core)
-    testImplementation(libs.android.test.ext)
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 android {
     namespace = "neilt.mobile.pixiv.domain"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFile("consumer-rules.pro")
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
