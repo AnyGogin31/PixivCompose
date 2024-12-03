@@ -22,17 +22,19 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.profile
+package neilt.mobile.pixiv.domain.models.profile
 
-import neilt.mobile.pixiv.data.mapper.profile.toModel
-import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
-import neilt.mobile.pixiv.domain.models.profile.UserDetail
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
-
-class ProfileRepositoryImpl(
-    private val profileService: ProfileService
-) : ProfileRepository {
-    override suspend fun getUserDetail(userId: Int): UserDetail {
-        return profileService.fetchUserDetail(userId).toModel()
-    }
-}
+data class Workspace(
+    val pc: String,
+    val monitor: String,
+    val tool: String,
+    val scanner: String,
+    val tablet: String,
+    val mouse: String,
+    val printer: String,
+    val desktop: String,
+    val music: String,
+    val desk: String,
+    val chair: String,
+    val comment: String
+)

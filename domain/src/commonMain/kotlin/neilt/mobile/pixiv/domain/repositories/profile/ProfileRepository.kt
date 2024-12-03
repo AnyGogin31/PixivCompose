@@ -24,6 +24,8 @@
 
 package neilt.mobile.pixiv.domain.repositories.profile
 
+import neilt.mobile.pixiv.domain.models.profile.UserDetail
+
 interface ProfileRepository {
-    suspend fun getUserDetail(userId: Int)
+    suspend fun getUserDetail(userId: Int): UserDetail
 }

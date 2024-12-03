@@ -22,17 +22,29 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.profile
+package neilt.mobile.pixiv.domain.models.profile
 
-import neilt.mobile.pixiv.data.mapper.profile.toModel
-import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
-import neilt.mobile.pixiv.domain.models.profile.UserDetail
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
-
-class ProfileRepositoryImpl(
-    private val profileService: ProfileService
-) : ProfileRepository {
-    override suspend fun getUserDetail(userId: Int): UserDetail {
-        return profileService.fetchUserDetail(userId).toModel()
-    }
-}
+data class Profile(
+    val webpage: String?,
+    val gender: Int,
+    val birth: String,
+    val birthDay: String,
+    val birthYear: Int,
+    val region: String,
+    val addressId: Int,
+    val countryCode: String,
+    val job: String,
+    val jobId: Int,
+    val totalFollowUsers: Int,
+    val totalMyPixivUsers: Int,
+    val totalIllusts: Int,
+    val totalManga: Int,
+    val totalNovels: Int,
+    val totalIllustSeries: Int,
+    val totalNovelSeries: Int,
+    val backgroundImageUrl: String?,
+    val twitterAccount: String?,
+    val twitterUrl: String?,
+    val isPremium: Boolean,
+    val isUsingCustomProfileImage: Boolean
+)
