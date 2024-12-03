@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.di
 import neilt.mobile.pixiv.ui.LauncherViewModel
 import neilt.mobile.pixiv.ui.screens.explore.ExploreViewModel
 import neilt.mobile.pixiv.ui.screens.home.HomeViewModel
+import neilt.mobile.pixiv.ui.screens.profile.ProfileViewModel
 import neilt.mobile.pixiv.ui.screens.root.RootViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -36,4 +37,5 @@ val viewModelModule = module {
     viewModelOf(::RootViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::ExploreViewModel)
+    viewModelOf(::ProfileViewModel)
 }

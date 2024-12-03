@@ -22,26 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.services.profile
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.profile.ProfileRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
-import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import neilt.mobile.pixiv.data.remote.common.Authorization
+import neilt.mobile.pixiv.data.remote.responses.profile.UserDetailResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(platformRemoteModule)
+interface ProfileService {
 
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
-    singleOf(::SearchRepositoryImpl) bind SearchRepository::class
-    singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
+    @Authorization
+    @GET("/v2/user/detail?filter=for_android")
+    suspend fun fetchUserDetail(@Query("user_id") userId: Int): UserDetailResponse
 }

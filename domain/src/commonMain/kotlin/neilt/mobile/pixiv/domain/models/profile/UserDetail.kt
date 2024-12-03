@@ -22,26 +22,11 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.domain.models.profile
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.profile.ProfileRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
-import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
-
-val repositoryModule = module {
-    includes(localModule)
-    includes(platformRemoteModule)
-
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
-    singleOf(::SearchRepositoryImpl) bind SearchRepository::class
-    singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
-}
+data class UserDetail(
+    val user: ProfileUser,
+    val profile: Profile,
+    val profilePublicity: ProfilePublicity,
+    val workspace: Workspace
+)

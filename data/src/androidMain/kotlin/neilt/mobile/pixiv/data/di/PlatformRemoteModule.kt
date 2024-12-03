@@ -28,6 +28,7 @@ import neilt.mobile.pixiv.data.remote.common.AuthorizationInterceptor
 import neilt.mobile.pixiv.data.remote.common.PixivHeaderInterceptor
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
+import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
 import neilt.mobile.pixiv.data.remote.services.search.SearchService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
@@ -68,4 +69,5 @@ internal actual val platformRemoteModule = module {
     single { get<Retrofit>(named("OAuthApi")).create(AuthService::class.java) }
     single { get<Retrofit>(named("PixivApi")).create(HomeService::class.java) }
     single { get<Retrofit>(named("PixivApi")).create(SearchService::class.java) }
+    single { get<Retrofit>(named("PixivApi")).create(ProfileService::class.java) }
 }
