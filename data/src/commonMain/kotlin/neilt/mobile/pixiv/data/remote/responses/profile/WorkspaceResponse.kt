@@ -22,26 +22,23 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.responses.profile
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.profile.ProfileRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
-import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(platformRemoteModule)
-
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
-    singleOf(::SearchRepositoryImpl) bind SearchRepository::class
-    singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
-}
+@JsonClass(generateAdapter = true)
+data class WorkspaceResponse(
+    @Json(name = "pc") val pc: String,
+    @Json(name = "monitor") val monitor: String,
+    @Json(name = "tool") val tool: String,
+    @Json(name = "scanner") val scanner: String,
+    @Json(name = "tablet") val tablet: String,
+    @Json(name = "mouse") val mouse: String,
+    @Json(name = "printer") val printer: String,
+    @Json(name = "desktop") val desktop: String,
+    @Json(name = "music") val music: String,
+    @Json(name = "desk") val desk: String,
+    @Json(name = "chair") val chair: String,
+    @Json(name = "comment") val comment: String
+)
