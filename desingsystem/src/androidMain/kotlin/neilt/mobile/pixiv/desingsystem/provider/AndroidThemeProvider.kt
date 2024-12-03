@@ -22,27 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.desingsystem.provider
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import android.content.Context
+import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.annotation.RequiresApi
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                designSystemModule,
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
+internal class AndroidThemeProvider(private val context: Context): ThemeProvider {
+
+    @get:ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
+    override val isDynamicColorSupported: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    @get:RequiresApi(Build.VERSION_CODES.S)
+    override val dynamicDarkColorScheme: ColorScheme
+        get() = dynamicDarkColorScheme(context)
+
+    @get:RequiresApi(Build.VERSION_CODES.S)
+    override val dynamicLightColorScheme: ColorScheme
+        get() = dynamicLightColorScheme(context)
 }

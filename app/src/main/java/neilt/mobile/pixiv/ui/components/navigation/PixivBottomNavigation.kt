@@ -22,26 +22,34 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.ui.components.navigation
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavDestination
+import neilt.mobile.core.navigation.extensions.hasDestination
+import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
+import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
+import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                designSystemModule,
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
+@Composable
+fun PixivBottomNavigation(
+    items: List<BottomNavigationItem>,
+    currentDestination: NavDestination? = null,
+) {
+    AnimatedVisibility(
+        visible = currentDestination.hasDestination<PixivDestination.MainSection>(),
+        enter = fadeIn() + slideInVertically { it },
+        exit = fadeOut() + slideOutVertically { it },
+    ) {
+        currentDestination?.let {
+            BottomNavigationBar(
+                items = items,
+                currentDestination = it,
             )
         }
     }

@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.icons.outlined
+package neilt.mobile.pixiv.desingsystem.icons.outlined
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import neilt.mobile.pixiv.ui.icons.PixivIcons
-import neilt.mobile.pixiv.ui.icons.PixivIcons.DefaultPathFillBrush
+import neilt.mobile.pixiv.desingsystem.icons.IconDefaults.PathFillBrush
+import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 
 val PixivIcons.Outlined.Home: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -37,7 +37,7 @@ val PixivIcons.Outlined.Home: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f,
-    ).path(fill = DefaultPathFillBrush) {
+    ).path(fill = PathFillBrush) {
         moveTo(240f, 760f)
         horizontalLineToRelative(120f)
         verticalLineToRelative(-200f)

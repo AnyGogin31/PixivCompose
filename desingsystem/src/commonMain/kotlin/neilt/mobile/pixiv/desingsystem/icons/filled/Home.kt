@@ -22,47 +22,49 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.icons.filled
+package neilt.mobile.pixiv.desingsystem.icons.filled
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import neilt.mobile.pixiv.ui.icons.PixivIcons
-import neilt.mobile.pixiv.ui.icons.PixivIcons.DefaultPathFillBrush
+import neilt.mobile.pixiv.desingsystem.icons.IconDefaults.PathFillBrush
+import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 
-val PixivIcons.Filled.Profile: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+val PixivIcons.Filled.Home: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,
         viewportHeight = 960f,
-    ).path(fill = DefaultPathFillBrush) {
-        moveTo(480f, 480f)
-        quadToRelative(-66f, 0f, -113f, -47f)
-        reflectiveQuadToRelative(-47f, -113f)
-        quadToRelative(0f, -66f, 47f, -113f)
-        reflectiveQuadToRelative(113f, -47f)
-        quadToRelative(66f, 0f, 113f, 47f)
-        reflectiveQuadToRelative(47f, 113f)
-        quadToRelative(0f, 66f, -47f, 113f)
-        reflectiveQuadToRelative(-113f, 47f)
-        close()
-        moveTo(160f, 720f)
-        verticalLineToRelative(-32f)
-        quadToRelative(0f, -34f, 17.5f, -62.5f)
-        reflectiveQuadTo(224f, 582f)
-        quadToRelative(62f, -31f, 126f, -46.5f)
-        reflectiveQuadTo(480f, 520f)
-        quadToRelative(66f, 0f, 130f, 15.5f)
-        reflectiveQuadTo(736f, 582f)
-        quadToRelative(29f, 15f, 46.5f, 43.5f)
-        reflectiveQuadTo(800f, 688f)
-        verticalLineToRelative(32f)
+    ).path(fill = PathFillBrush) {
+        moveTo(160f, 760f)
+        verticalLineToRelative(-360f)
+        quadToRelative(0f, -19f, 8.5f, -36f)
+        reflectiveQuadToRelative(23.5f, -28f)
+        lineToRelative(240f, -180f)
+        quadToRelative(21f, -16f, 48f, -16f)
+        reflectiveQuadToRelative(48f, 16f)
+        lineToRelative(240f, 180f)
+        quadToRelative(15f, 11f, 23.5f, 28f)
+        reflectiveQuadToRelative(8.5f, 36f)
+        verticalLineToRelative(360f)
         quadToRelative(0f, 33f, -23.5f, 56.5f)
-        reflectiveQuadTo(720f, 800f)
+        reflectiveQuadTo(720f, 840f)
+        horizontalLineTo(600f)
+        quadToRelative(-17f, 0f, -28.5f, -11.5f)
+        reflectiveQuadTo(560f, 800f)
+        verticalLineToRelative(-200f)
+        quadToRelative(0f, -17f, -11.5f, -28.5f)
+        reflectiveQuadTo(520f, 560f)
+        horizontalLineToRelative(-80f)
+        quadToRelative(-17f, 0f, -28.5f, 11.5f)
+        reflectiveQuadTo(400f, 600f)
+        verticalLineToRelative(200f)
+        quadToRelative(0f, 17f, -11.5f, 28.5f)
+        reflectiveQuadTo(360f, 840f)
         horizontalLineTo(240f)
         quadToRelative(-33f, 0f, -56.5f, -23.5f)
-        reflectiveQuadTo(160f, 720f)
+        reflectiveQuadTo(160f, 760f)
         close()
     }.build()
 }

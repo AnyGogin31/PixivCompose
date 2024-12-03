@@ -22,20 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.components.navigation
+package neilt.mobile.pixiv.desingsystem.components.navigation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -45,21 +38,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import neilt.mobile.core.navigation.Destination
 import neilt.mobile.core.navigation.extensions.hasDestination
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 @Immutable
 data class BadgeStyle(
@@ -86,13 +75,12 @@ data class NavigationItemContent(
 
 @Stable
 data class BottomNavigationItem(
-    val destination: PixivDestination,
+    val destination: Destination,
     val content: NavigationItemContent,
     val onSelect: () -> Unit = {},
     val onReselect: () -> Unit = {},
 )
 
-@SuppressLint("RestrictedApi")
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavigationItem>,
@@ -158,51 +146,5 @@ private fun BadgeView(badge: Badge) {
             style = badge.style.textStyle,
             textAlign = TextAlign.Center,
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun BottomNavigationBarPreview() {
-    MaterialTheme {
-        val items = listOf(
-            BottomNavigationItem(
-                destination = PixivDestination.MainSection.HomeScreen,
-                content = NavigationItemContent(
-                    label = { "Home" },
-                    selectedIcon = Icons.Filled.Home,
-                    unselectedIcon = Icons.Outlined.Home,
-                    badge = Badge(count = 9),
-                ),
-            ),
-            BottomNavigationItem(
-                destination = PixivDestination.MainSection.ExploreScreen,
-                content = NavigationItemContent(
-                    label = { "Search" },
-                    selectedIcon = Icons.Default.Search,
-                    unselectedIcon = Icons.Default.Search,
-                ),
-            ),
-            BottomNavigationItem(
-                destination = PixivDestination.MainSection.ProfileScreen,
-                content = NavigationItemContent(
-                    label = { "Profile" },
-                    selectedIcon = Icons.Filled.Person,
-                    unselectedIcon = Icons.Outlined.Person,
-                    badge = Badge(count = 102),
-                ),
-            ),
-        )
-
-        val navController = rememberNavController()
-        val currentBackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = currentBackEntry?.destination
-
-        currentDestination?.let {
-            BottomNavigationBar(
-                items = items,
-                currentDestination = it,
-            )
-        }
     }
 }

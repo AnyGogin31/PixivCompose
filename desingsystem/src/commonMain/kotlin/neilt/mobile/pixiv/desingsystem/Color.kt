@@ -22,15 +22,5 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.icons
+package neilt.mobile.pixiv.desingsystem
 
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-
-object PixivIcons {
-    val DefaultPathFillBrush: Brush = SolidColor(Color.Gray)
-
-    object Filled
-    object Outlined
-}

@@ -22,27 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.desingsystem.di
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import neilt.mobile.pixiv.desingsystem.provider.AndroidThemeProvider
+import neilt.mobile.pixiv.desingsystem.provider.ThemeProvider
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                designSystemModule,
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
+actual val platformDesignSystemModule = module {
+    singleOf(::AndroidThemeProvider) bind ThemeProvider::class
 }

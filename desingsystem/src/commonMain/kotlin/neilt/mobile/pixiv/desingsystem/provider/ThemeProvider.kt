@@ -22,27 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.desingsystem.provider
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import androidx.compose.material3.ColorScheme
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                designSystemModule,
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
+interface ThemeProvider {
+    val isDynamicColorSupported: Boolean
+    val dynamicDarkColorScheme: ColorScheme
+    val dynamicLightColorScheme: ColorScheme
 }

@@ -22,27 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.desingsystem.icons
 
-import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 
-class PixivApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(
-                designSystemModule,
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
-        }
-    }
+internal object IconDefaults {
+    val PathFillBrush: Brush = SolidColor(Color.Gray)
 }

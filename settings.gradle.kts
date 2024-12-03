@@ -28,3 +28,5 @@ include(":data")
 include(":domain")
 
 include(":core:navigation")
+
+include(":desingsystem")
