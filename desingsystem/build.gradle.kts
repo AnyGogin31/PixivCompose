@@ -10,7 +10,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:navigation"))
+
             implementation(libs.koin.android.compose)
+            implementation(libs.compose.navigation)
             implementation(libs.compose.material)
         }
     }

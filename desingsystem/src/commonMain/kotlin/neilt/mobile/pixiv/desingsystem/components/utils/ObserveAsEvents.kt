@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.components.utils
+package neilt.mobile.pixiv.desingsystem.components.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

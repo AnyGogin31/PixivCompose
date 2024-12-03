@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.designsystem.navigation
+package neilt.mobile.pixiv.ui.components.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -32,8 +32,8 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavDestination
 import neilt.mobile.core.navigation.extensions.hasDestination
-import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationBar
-import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationItem
+import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
+import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 @Composable

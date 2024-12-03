@@ -40,8 +40,8 @@ import androidx.navigation.compose.rememberNavController
 import neilt.mobile.core.navigation.NavigationAction
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.ui.components.utils.ObserveAsEvents
-import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
+import neilt.mobile.pixiv.desingsystem.components.utils.ObserveAsEvents
+import neilt.mobile.pixiv.ui.components.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
 import neilt.mobile.pixiv.ui.screens.explore.ExploreScreen
