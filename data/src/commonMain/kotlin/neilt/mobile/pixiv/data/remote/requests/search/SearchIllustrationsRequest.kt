@@ -22,23 +22,19 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.requests.search
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(platformRemoteModule)
-
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
-    singleOf(::SearchRepositoryImpl) bind SearchRepository::class
+fun SearchIllustrationsRequest.toQueryMap(): Map<String, Any?> {
+    return mapOf(
+        "word" to keyword,
+        "sort" to sortOrder,
+        "search_target" to searchTarget,
+        "search_ai_type" to aiType,
+        "bookmark_num_min" to minBookmarks,
+        "bookmark_num_max" to maxBookmarks,
+        "start_date" to startDate,
+        "end_date" to endDate
+    )
 }

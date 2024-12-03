@@ -22,23 +22,17 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.repositories.search
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
+import neilt.mobile.pixiv.data.remote.requests.search.toQueryMap
+import neilt.mobile.pixiv.data.remote.services.search.SearchService
+import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(platformRemoteModule)
-
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
-    singleOf(::SearchRepositoryImpl) bind SearchRepository::class
+class SearchRepositoryImpl(
+    private val searchService: SearchService
+) : SearchRepository {
+    override suspend fun getSearchIllustrations(request: SearchIllustrationsRequest) {
+        searchService.fetchSearchIllustrations(request.toQueryMap())
+    }
 }

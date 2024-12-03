@@ -22,23 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.services.search
 
-import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
-import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import neilt.mobile.pixiv.data.remote.common.Authorization
+import retrofit2.http.GET
+import retrofit2.http.QueryMap
 
-val repositoryModule = module {
-    includes(localModule)
-    includes(platformRemoteModule)
+interface SearchService {
 
-    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::HomeRepositoryImpl) bind HomeRepository::class
-    singleOf(::SearchRepositoryImpl) bind SearchRepository::class
+    @Authorization
+    @GET("/v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
+    suspend fun fetchSearchIllustrations(@QueryMap queryParams: Map<String, Any?>): Any
 }
