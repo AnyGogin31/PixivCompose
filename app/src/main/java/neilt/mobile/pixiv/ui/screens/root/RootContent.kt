@@ -39,6 +39,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import neilt.mobile.core.navigation.NavigationAction
 import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.desingsystem.PixivTheme
 import neilt.mobile.pixiv.ui.components.utils.ObserveAsEvents
 import neilt.mobile.pixiv.ui.designsystem.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
@@ -46,7 +47,6 @@ import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
 import neilt.mobile.pixiv.ui.screens.explore.ExploreScreen
 import neilt.mobile.pixiv.ui.screens.home.HomeScreen
 import neilt.mobile.pixiv.ui.screens.profile.ProfileScreen
-import neilt.mobile.pixiv.ui.theme.PixivTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
