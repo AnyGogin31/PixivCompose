@@ -32,16 +32,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.R
+import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
+import neilt.mobile.pixiv.desingsystem.icons.filled.Explore
+import neilt.mobile.pixiv.desingsystem.icons.filled.Home
+import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
+import neilt.mobile.pixiv.desingsystem.icons.outlined.Explore
+import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
+import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.ui.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.ui.components.navigation.NavigationItemContent
-import neilt.mobile.pixiv.ui.icons.PixivIcons
-import neilt.mobile.pixiv.ui.icons.filled.Explore
-import neilt.mobile.pixiv.ui.icons.filled.Home
-import neilt.mobile.pixiv.ui.icons.filled.Profile
-import neilt.mobile.pixiv.ui.icons.outlined.Explore
-import neilt.mobile.pixiv.ui.icons.outlined.Home
-import neilt.mobile.pixiv.ui.icons.outlined.Profile
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 
 class RootViewModel(

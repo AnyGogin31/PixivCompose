@@ -12,6 +12,8 @@ dependencies {
 
     implementation(project(":core:navigation"))
 
+    implementation(project(":desingsystem"))
+
     // AndroidX
     implementation(libs.android.browser)
     implementation(libs.android.core.splashscreen)
