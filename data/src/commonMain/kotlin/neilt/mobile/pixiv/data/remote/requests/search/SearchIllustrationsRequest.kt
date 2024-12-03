@@ -26,15 +26,15 @@ package neilt.mobile.pixiv.data.remote.requests.search
 
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 
-fun SearchIllustrationsRequest.toQueryMap(): Map<String, Any?> {
+fun SearchIllustrationsRequest.toQueryMap(): Map<String, String?> {
     return mapOf(
         "word" to keyword,
         "sort" to sortOrder,
         "search_target" to searchTarget,
-        "search_ai_type" to aiType,
-        "bookmark_num_min" to minBookmarks,
-        "bookmark_num_max" to maxBookmarks,
+        "search_ai_type" to aiType?.toString(),
+        "bookmark_num_min" to minBookmarks?.toString(),
+        "bookmark_num_max" to maxBookmarks?.toString(),
         "start_date" to startDate,
         "end_date" to endDate
-    )
+    ).filterValues { !it.isNullOrEmpty() }
 }
