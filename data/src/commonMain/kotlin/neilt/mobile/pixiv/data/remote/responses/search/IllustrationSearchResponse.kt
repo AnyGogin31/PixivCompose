@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.services.search
+package neilt.mobile.pixiv.data.remote.responses.search
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
-import neilt.mobile.pixiv.data.remote.responses.search.IllustrationSearchResponse
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 
-interface SearchService {
-
-    @Authorization
-    @GET("/v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
-    suspend fun fetchSearchIllustrations(@QueryMap queryParams: Map<String, Any?>): IllustrationSearchResponse
-}
+@JsonClass(generateAdapter = true)
+data class IllustrationSearchResponse(
+    @Json(name = "illusts") val illustrations: List<IllustrationResponse>,
+    @Json(name = "next_url") val nextUrl: String?,
+    @Json(name = "search_span_limit") val searchSpanLimit: Int,
+    @Json(name = "show_ai") val showUi: Boolean,
+)

@@ -24,8 +24,9 @@
 
 package neilt.mobile.pixiv.domain.repositories.search
 
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 
 interface SearchRepository {
-    suspend fun getSearchIllustrations(request: SearchIllustrationsRequest)
+    suspend fun getSearchIllustrations(request: SearchIllustrationsRequest): List<Illustration>
 }
