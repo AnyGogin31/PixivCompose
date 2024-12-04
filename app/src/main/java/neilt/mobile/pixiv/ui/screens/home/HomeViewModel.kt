@@ -47,7 +47,7 @@ class HomeViewModel(
     fun navigateToIllustrationDetails(illustrationId: Int) {
         viewModelScope.launch {
             navigator.navigateTo(
-                PixivDestination.MainSection.IllustrationDetailsScreen(
+                PixivDestination.IllustrationSection.IllustrationDetailsScreen(
                     illustrationId,
                 ),
             )

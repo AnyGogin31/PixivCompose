@@ -88,8 +88,13 @@ fun RootContent(
                     composable<PixivDestination.MainSection.HomeScreen> { HomeScreen() }
                     composable<PixivDestination.MainSection.ExploreScreen> { ExploreScreen() }
                     composable<PixivDestination.MainSection.ProfileScreen> { ProfileScreen() }
-                    composable<PixivDestination.MainSection.IllustrationDetailsScreen> {
-                        val args = it.toRoute<PixivDestination.MainSection.IllustrationDetailsScreen>()
+                }
+
+                navigation<PixivDestination.IllustrationSection>(
+                    startDestination = PixivDestination.IllustrationSection.IllustrationDetailsScreen::class,
+                ) {
+                    composable<PixivDestination.IllustrationSection.IllustrationDetailsScreen> {
+                        val args = it.toRoute<PixivDestination.IllustrationSection.IllustrationDetailsScreen>()
                         IllustrationDetailsScreen(
                             illustrationId = args.illustrationId,
                         )
