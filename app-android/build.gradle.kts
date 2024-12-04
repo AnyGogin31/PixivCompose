@@ -10,9 +10,8 @@ dependencies {
     implementation(projects.data)
     implementation(projects.domain)
 
+    implementation(projects.core.desingsystem)
     implementation(projects.core.navigation)
-
-    implementation(projects.desingsystem)
 
     // AndroidX
     implementation(libs.android.browser)

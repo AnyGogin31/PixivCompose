@@ -30,6 +30,5 @@ include(":app-android")
 include(":data")
 include(":domain")
 
+include(":core:desingsystem")
 include(":core:navigation")
-
-include(":desingsystem")
