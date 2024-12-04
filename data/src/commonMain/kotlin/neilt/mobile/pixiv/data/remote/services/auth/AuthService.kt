@@ -35,4 +35,10 @@ interface AuthService {
     suspend fun requestForAuthorization(
         @FieldMap request: Map<String, @JvmSuppressWildcards Any>,
     ): AuthResponse
+
+    @FormUrlEncoded
+    @POST("/auth/token")
+    suspend fun newRefreshToken(
+        @FieldMap request: Map<String, @JvmSuppressWildcards Any>,
+    ): AuthResponse
 }

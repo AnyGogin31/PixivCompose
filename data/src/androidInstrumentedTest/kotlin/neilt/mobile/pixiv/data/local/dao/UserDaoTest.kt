@@ -64,6 +64,7 @@ class UserDaoTest {
             userMailAddress = "john@example.com",
             accessToken = "access_123",
             refreshToken = "refresh_123",
+            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             isActive = false,
         )
 
@@ -83,6 +84,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
                 isActive = false,
             ),
             UserEntity(
@@ -92,6 +94,7 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
+                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
                 isActive = false,
             ),
         )
@@ -113,6 +116,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
                 isActive = false,
             ),
             UserEntity(
@@ -122,6 +126,7 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
+                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
                 isActive = true,
             ),
         )
@@ -143,6 +148,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
                 isActive = true,
             ),
             UserEntity(
@@ -152,6 +158,7 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
+                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
                 isActive = true,
             ),
         )
@@ -173,6 +180,7 @@ class UserDaoTest {
                 userMailAddress = "user1@mail.com",
                 accessToken = "token1",
                 refreshToken = "refresh1",
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
                 isActive = false,
             ),
             UserEntity(
@@ -182,6 +190,7 @@ class UserDaoTest {
                 userMailAddress = "user2@mail.com",
                 accessToken = "token2",
                 refreshToken = "refresh2",
+                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
                 isActive = false,
             ),
         )
@@ -203,6 +212,7 @@ class UserDaoTest {
             userMailAddress = "john@example.com",
             accessToken = "access_123",
             refreshToken = "refresh_123",
+            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             isActive = false,
         )
 

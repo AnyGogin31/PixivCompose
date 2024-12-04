@@ -33,6 +33,7 @@ data class UserEntity(
     @ColumnInfo(name = "is_active") val isActive: Boolean,
     @ColumnInfo(name = "access_token") val accessToken: String,
     @ColumnInfo(name = "refresh_token") val refreshToken: String,
+    @ColumnInfo(name = "token_expires_at") val tokenExpiresAt: Long,
     @PrimaryKey @ColumnInfo(name = "user_id") val userId: String,
     @ColumnInfo(name = "user_name") val userName: String,
     @ColumnInfo(name = "user_account") val userAccount: String,

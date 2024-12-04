@@ -31,4 +31,5 @@ interface AuthRepository {
     suspend fun getActiveUser(): UserModel?
     suspend fun setActiveUser(userId: String): Result<Unit>
     suspend fun authorizeUser(code: String): Result<Unit>
+    suspend fun refreshActiveUserTokenIfNeeded(): Result<Unit>
 }

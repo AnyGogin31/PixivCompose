@@ -29,5 +29,7 @@ data class UserModel(
     val name: String,
     val account: String,
     val mailAddress: String,
-    val token: String,
+    val accessToken: String,
+    val refreshToken: String,
+    val tokenExpiresAt: Long
 )
