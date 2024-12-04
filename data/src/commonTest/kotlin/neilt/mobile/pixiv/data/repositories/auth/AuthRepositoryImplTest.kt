@@ -76,6 +76,7 @@ class AuthRepositoryImplTest {
                 userName = "name1",
                 userAccount = "account1",
                 userMailAddress = "mail1",
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
             ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
@@ -98,6 +99,7 @@ class AuthRepositoryImplTest {
                 userName = "name1",
                 userAccount = "account1",
                 userMailAddress = "mail1",
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
             ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)

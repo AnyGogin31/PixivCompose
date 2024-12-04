@@ -42,6 +42,9 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE is_active = 1 LIMIT 1")
     fun getActiveUser(): UserEntity?
 
+    @Query("UPDATE users SET access_token = :accessToken, refresh_token = :refreshToken, token_expires_at = :expiresAt WHERE user_id = :userId")
+    suspend fun updateUser(userId: String, accessToken: String, refreshToken: String, expiresAt: Long)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: UserEntity)
 

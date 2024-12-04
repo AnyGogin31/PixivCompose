@@ -31,7 +31,8 @@ import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 class ActiveUserTokenProvider(private val authRepository: AuthRepository) : TokenProvider {
     override fun getToken(): String? {
         return runBlocking {
-            authRepository.getActiveUser()?.token
+            authRepository.refreshActiveUserTokenIfNeeded()
+            authRepository.getActiveUser()?.accessToken
         }
     }
 }

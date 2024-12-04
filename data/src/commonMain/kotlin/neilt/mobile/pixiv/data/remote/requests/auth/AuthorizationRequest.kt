@@ -34,6 +34,14 @@ data class AuthorizationRequest(
     val includePolicy: Boolean,
 )
 
+data class UpdateTokenRequest(
+    val clientId: String,
+    val clientSecret: String,
+    val grantType: String,
+    val refreshToken: String,
+    val includePolicy: Boolean,
+)
+
 fun AuthorizationRequest.toFieldMap(): Map<String, Any> {
     return mapOf(
         "client_id" to clientId,
@@ -42,6 +50,16 @@ fun AuthorizationRequest.toFieldMap(): Map<String, Any> {
         "code" to codeAuthorization,
         "code_verifier" to codeVerifier,
         "redirect_uri" to redirectUri,
+        "include_policy" to includePolicy,
+    )
+}
+
+fun UpdateTokenRequest.toFieldMap(): Map<String, Any> {
+    return mapOf(
+        "client_id" to clientId,
+        "client_secret" to clientSecret,
+        "grant_type" to grantType,
+        "refresh_token" to refreshToken,
         "include_policy" to includePolicy,
     )
 }

@@ -41,6 +41,7 @@ class UserMapperTest {
             userMailAddress = "john@example.com",
             accessToken = "access_123",
             refreshToken = "refresh_123",
+            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             isActive = true,
         )
 
@@ -50,7 +51,7 @@ class UserMapperTest {
         assertEquals("User name should be mapped correctly", userEntity.userName, userModel.name)
         assertEquals("User account should be mapped correctly", userEntity.userAccount, userModel.account)
         assertEquals("User mail address should be mapped correctly", userEntity.userMailAddress, userModel.mailAddress)
-        assertEquals("Access token should be mapped correctly", userEntity.accessToken, userModel.token)
+        assertEquals("Access token should be mapped correctly", userEntity.accessToken, userModel.accessToken)
     }
 
     @Test

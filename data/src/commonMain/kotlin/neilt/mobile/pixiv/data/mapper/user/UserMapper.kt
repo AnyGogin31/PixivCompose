@@ -33,13 +33,16 @@ internal fun UserEntity.toModel() = UserModel(
     name = this.userName,
     account = this.userAccount,
     mailAddress = this.userMailAddress,
-    token = this.accessToken,
+    accessToken = this.accessToken,
+    refreshToken = this.refreshToken,
+    tokenExpiresAt = this.tokenExpiresAt,
 )
 
 internal fun AuthResponse.toEntity() = UserEntity(
     isActive = true,
     accessToken = this.accessToken,
     refreshToken = this.refreshToken,
+    tokenExpiresAt = System.currentTimeMillis() + this.expiresIn * 1000L,
     userId = this.user.id,
     userName = this.user.name,
     userAccount = this.user.account,

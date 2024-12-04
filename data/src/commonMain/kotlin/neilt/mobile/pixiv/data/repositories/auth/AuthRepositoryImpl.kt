@@ -28,6 +28,7 @@ import neilt.mobile.pixiv.data.local.dao.UserDao
 import neilt.mobile.pixiv.data.mapper.user.toEntity
 import neilt.mobile.pixiv.data.mapper.user.toModel
 import neilt.mobile.pixiv.data.remote.requests.auth.AuthorizationRequest
+import neilt.mobile.pixiv.data.remote.requests.auth.UpdateTokenRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.domain.models.user.UserModel
@@ -42,6 +43,7 @@ class AuthRepositoryImpl(
         const val CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT"
         const val CLIENT_SECRET = "lsACyCD94FhDUtGTXi3QzcFE2uU1hqtDaKeqrdwj"
         const val AUTH_GRANT_TYPE = "authorization_code"
+        const val REFRESH_GRANT_TYPE = "refresh_token"
         const val CALL_BACK = "https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"
 
         const val MAX_USER_COUNT = 3
@@ -87,6 +89,34 @@ class AuthRepositoryImpl(
 
         userDao.deactivateAllUsers()
         userDao.insertUser(response.toEntity())
+
+        return Result.success(Unit)
+    }
+
+    override suspend fun refreshActiveUserTokenIfNeeded(): Result<Unit> {
+        val activeUser = getActiveUser() ?: return Result.failure(Exception("No active user."))
+        val currentTime = System.currentTimeMillis()
+
+        if (activeUser.tokenExpiresAt > currentTime) {
+            return Result.success(Unit)
+        }
+
+        val request = UpdateTokenRequest(
+            clientId = CLIENT_ID,
+            clientSecret = CLIENT_SECRET,
+            grantType = REFRESH_GRANT_TYPE,
+            refreshToken = activeUser.refreshToken,
+            includePolicy = true,
+        )
+
+        val response = authService.newRefreshToken(request.toFieldMap())
+
+        userDao.updateUser(
+            activeUser.id,
+            response.accessToken,
+            response.refreshToken,
+            System.currentTimeMillis() + response.expiresIn * 1000L
+        )
 
         return Result.success(Unit)
     }
