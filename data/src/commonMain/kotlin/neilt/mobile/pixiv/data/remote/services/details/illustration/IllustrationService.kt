@@ -22,35 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.home
+package neilt.mobile.pixiv.data.remote.services.details.illustration
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import neilt.mobile.pixiv.data.remote.common.Authorization
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-class HomeViewModel(
-    private val homeRepository: HomeRepository,
-    private val navigator: Navigator,
-) : ViewModel() {
-    suspend fun getRecommendedIllustrations() = withContext(Dispatchers.IO) {
-        homeRepository.getRecommendedIllustrations(
-            includeRankingIllustrations = false,
-            includePrivacyPolicy = false,
-        )
-    }
+interface IllustrationService {
 
-    fun navigateToIllustrationDetails(illustrationId: Int) {
-        viewModelScope.launch {
-            navigator.navigateTo(
-                PixivDestination.IllustrationSection.IllustrationDetailsScreen(
-                    illustrationId,
-                ),
-            )
-        }
-    }
+    @Authorization
+    @GET("/v1/illust/detail?filter=for_android")
+    suspend fun fetchIllustration(@Query("illust_id") illustrationId: Int): IllustrationDetailsRootResponse
 }

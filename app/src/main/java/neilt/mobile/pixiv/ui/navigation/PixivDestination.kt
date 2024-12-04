@@ -41,6 +41,12 @@ sealed interface PixivDestination : Destination {
     }
 
     @Serializable
+    data object IllustrationSection : PixivDestination {
+        @Serializable
+        data class IllustrationDetailsScreen(val illustrationId: Int) : PixivDestination
+    }
+
+    @Serializable
     data object AuthSection : PixivDestination {
         @Serializable
         data object LoginScreen : PixivDestination

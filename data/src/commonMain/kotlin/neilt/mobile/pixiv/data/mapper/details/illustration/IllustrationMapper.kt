@@ -22,35 +22,35 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.home
+package neilt.mobile.pixiv.data.mapper.details.illustration
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import neilt.mobile.pixiv.data.mapper.home.toModel
+import neilt.mobile.pixiv.data.mapper.profile.toModel
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsResponse
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.UserResponse
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import neilt.mobile.pixiv.domain.models.details.illustration.User
 
-class HomeViewModel(
-    private val homeRepository: HomeRepository,
-    private val navigator: Navigator,
-) : ViewModel() {
-    suspend fun getRecommendedIllustrations() = withContext(Dispatchers.IO) {
-        homeRepository.getRecommendedIllustrations(
-            includeRankingIllustrations = false,
-            includePrivacyPolicy = false,
-        )
-    }
+fun IllustrationDetailsResponse.toModel() = IllustrationDetails(
+    id = id,
+    title = title,
+    imageUrl = imageUrl.toModel(),
+    caption = caption,
+    user = user.toModel(),
+    tags = tags.map { it.toModel() },
+    views = views,
+    bookmarks = bookmarks,
+)
 
-    fun navigateToIllustrationDetails(illustrationId: Int) {
-        viewModelScope.launch {
-            navigator.navigateTo(
-                PixivDestination.IllustrationSection.IllustrationDetailsScreen(
-                    illustrationId,
-                ),
-            )
-        }
-    }
-}
+fun UserResponse.toModel() = User(
+    id = id,
+    name = name,
+    profileImageUrl = profileImageUrl.toModel(),
+)
+
+fun TagResponse.toModel() = Tag(
+    name = name,
+    translatedName = translatedName
+)

@@ -22,35 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.home
+package neilt.mobile.pixiv.data.remote.responses.details.illustration
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 
-class HomeViewModel(
-    private val homeRepository: HomeRepository,
-    private val navigator: Navigator,
-) : ViewModel() {
-    suspend fun getRecommendedIllustrations() = withContext(Dispatchers.IO) {
-        homeRepository.getRecommendedIllustrations(
-            includeRankingIllustrations = false,
-            includePrivacyPolicy = false,
-        )
-    }
+@JsonClass(generateAdapter = true)
+data class IllustrationDetailsResponse(
+    @Json(name = "id") val id: Int,
+    @Json(name = "title") val title: String,
+    @Json(name = "image_urls") val imageUrl: ImageUrlsResponse,
+    @Json(name = "caption") val caption: String,
+    @Json(name = "user") val user: UserResponse,
+    @Json(name = "tags") val tags: List<TagResponse>,
+    @Json(name = "total_view") val views: Int,
+    @Json(name = "total_bookmarks") val bookmarks: Int
+)
 
-    fun navigateToIllustrationDetails(illustrationId: Int) {
-        viewModelScope.launch {
-            navigator.navigateTo(
-                PixivDestination.IllustrationSection.IllustrationDetailsScreen(
-                    illustrationId,
-                ),
-            )
-        }
-    }
-}
+@JsonClass(generateAdapter = true)
+data class IllustrationDetailsRootResponse(
+    @Json(name = "illust") val illustrationDetails: IllustrationDetailsResponse
+)

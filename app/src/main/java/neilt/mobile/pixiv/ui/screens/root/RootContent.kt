@@ -37,6 +37,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import neilt.mobile.core.navigation.NavigationAction
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.PixivTheme
@@ -44,6 +45,7 @@ import neilt.mobile.pixiv.desingsystem.components.utils.ObserveAsEvents
 import neilt.mobile.pixiv.ui.components.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
+import neilt.mobile.pixiv.ui.screens.details.illustration.IllustrationDetailsScreen
 import neilt.mobile.pixiv.ui.screens.explore.ExploreScreen
 import neilt.mobile.pixiv.ui.screens.home.HomeScreen
 import neilt.mobile.pixiv.ui.screens.profile.ProfileScreen
@@ -86,6 +88,17 @@ fun RootContent(
                     composable<PixivDestination.MainSection.HomeScreen> { HomeScreen() }
                     composable<PixivDestination.MainSection.ExploreScreen> { ExploreScreen() }
                     composable<PixivDestination.MainSection.ProfileScreen> { ProfileScreen() }
+                }
+
+                navigation<PixivDestination.IllustrationSection>(
+                    startDestination = PixivDestination.IllustrationSection.IllustrationDetailsScreen::class,
+                ) {
+                    composable<PixivDestination.IllustrationSection.IllustrationDetailsScreen> {
+                        val args = it.toRoute<PixivDestination.IllustrationSection.IllustrationDetailsScreen>()
+                        IllustrationDetailsScreen(
+                            illustrationId = args.illustrationId,
+                        )
+                    }
                 }
 
                 navigation<PixivDestination.AuthSection>(

@@ -22,35 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.home
+package neilt.mobile.pixiv.data.remote.responses.details.illustration
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-class HomeViewModel(
-    private val homeRepository: HomeRepository,
-    private val navigator: Navigator,
-) : ViewModel() {
-    suspend fun getRecommendedIllustrations() = withContext(Dispatchers.IO) {
-        homeRepository.getRecommendedIllustrations(
-            includeRankingIllustrations = false,
-            includePrivacyPolicy = false,
-        )
-    }
-
-    fun navigateToIllustrationDetails(illustrationId: Int) {
-        viewModelScope.launch {
-            navigator.navigateTo(
-                PixivDestination.IllustrationSection.IllustrationDetailsScreen(
-                    illustrationId,
-                ),
-            )
-        }
-    }
-}
+@JsonClass(generateAdapter = true)
+data class TagResponse(
+    @Json(name = "name") val name: String,
+    @Json(name = "translated_name") val translatedName: String?
+)
