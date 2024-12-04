@@ -24,6 +24,8 @@
 
 package neilt.mobile.pixiv.domain.repositories.details.illustration
 
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+
 interface IllustrationRepository {
-    suspend fun getIllustration(illustrationId: Int)
+    suspend fun getIllustration(illustrationId: Int): IllustrationDetails
 }

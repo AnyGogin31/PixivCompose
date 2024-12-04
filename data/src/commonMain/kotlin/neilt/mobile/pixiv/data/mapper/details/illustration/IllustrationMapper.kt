@@ -22,16 +22,35 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.services.details.illustration
+package neilt.mobile.pixiv.data.mapper.details.illustration
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
-import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import neilt.mobile.pixiv.data.mapper.home.toModel
+import neilt.mobile.pixiv.data.mapper.profile.toModel
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsResponse
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.UserResponse
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import neilt.mobile.pixiv.domain.models.details.illustration.User
 
-interface IllustrationService {
+fun IllustrationDetailsResponse.toModel() = IllustrationDetails(
+    id = id,
+    title = title,
+    imageUrl = imageUrl.toModel(),
+    caption = caption,
+    user = user.toModel(),
+    tags = tags.map { it.toModel() },
+    views = views,
+    bookmarks = bookmarks,
+)
 
-    @Authorization
-    @GET("/v1/illust/detail?filter=for_android")
-    suspend fun fetchIllustration(@Query("illust_id") illustrationId: Int): IllustrationDetailsRootResponse
-}
+fun UserResponse.toModel() = User(
+    id = id,
+    name = name,
+    profileImageUrl = profileImageUrl.toModel(),
+)
+
+fun TagResponse.toModel() = Tag(
+    name = name,
+    translatedName = translatedName
+)

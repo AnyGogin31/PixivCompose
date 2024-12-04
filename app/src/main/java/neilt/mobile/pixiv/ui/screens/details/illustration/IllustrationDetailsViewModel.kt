@@ -25,8 +25,37 @@
 package neilt.mobile.pixiv.ui.screens.details.illustration
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 
 class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
-) : ViewModel()
+) : ViewModel() {
+    private val _uiState = MutableStateFlow(IllustrationDetailsUiState())
+    val uiState: StateFlow<IllustrationDetailsUiState> = _uiState
+
+    fun loadIllustration(illustrationId: Int) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val illustration = illustrationRepository.getIllustration(illustrationId)
+                _uiState.value = IllustrationDetailsUiState(
+                    illustration = illustration,
+                    isLoading = false,
+                )
+            } catch (e: Exception) {
+                println("Error loading illustration: ${e.message}")
+                _uiState.value = _uiState.value.copy(isLoading = false)
+            }
+        }
+    }
+}
+
+data class IllustrationDetailsUiState(
+    val illustration: IllustrationDetails? = null,
+    val isLoading: Boolean = false,
+)

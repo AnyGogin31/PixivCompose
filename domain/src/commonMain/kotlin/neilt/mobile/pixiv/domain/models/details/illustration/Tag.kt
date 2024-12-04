@@ -22,16 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.services.details.illustration
+package neilt.mobile.pixiv.domain.models.details.illustration
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
-import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
-
-interface IllustrationService {
-
-    @Authorization
-    @GET("/v1/illust/detail?filter=for_android")
-    suspend fun fetchIllustration(@Query("illust_id") illustrationId: Int): IllustrationDetailsRootResponse
-}
+data class Tag(
+    val name: String,
+    val translatedName: String?,
+)

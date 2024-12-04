@@ -22,16 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.services.details.illustration
+package neilt.mobile.pixiv.data.remote.responses.details.illustration
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
-import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-interface IllustrationService {
-
-    @Authorization
-    @GET("/v1/illust/detail?filter=for_android")
-    suspend fun fetchIllustration(@Query("illust_id") illustrationId: Int): IllustrationDetailsRootResponse
-}
+@JsonClass(generateAdapter = true)
+data class TagResponse(
+    @Json(name = "name") val name: String,
+    @Json(name = "translated_name") val translatedName: String?
+)
