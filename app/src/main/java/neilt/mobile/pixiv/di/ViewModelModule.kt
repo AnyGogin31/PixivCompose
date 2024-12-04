@@ -25,6 +25,7 @@
 package neilt.mobile.pixiv.di
 
 import neilt.mobile.pixiv.ui.LauncherViewModel
+import neilt.mobile.pixiv.ui.screens.details.illustration.IllustrationDetailsViewModel
 import neilt.mobile.pixiv.ui.screens.explore.ExploreViewModel
 import neilt.mobile.pixiv.ui.screens.home.HomeViewModel
 import neilt.mobile.pixiv.ui.screens.profile.ProfileViewModel
@@ -38,4 +39,6 @@ val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::ExploreViewModel)
     viewModelOf(::ProfileViewModel)
+
+    viewModelOf(::IllustrationDetailsViewModel)
 }

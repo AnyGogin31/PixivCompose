@@ -22,30 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.navigation
+package neilt.mobile.pixiv.ui.screens.details.illustration
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.core.navigation.Destination
+import androidx.compose.runtime.Composable
+import org.koin.androidx.compose.koinViewModel
 
-sealed interface PixivDestination : Destination {
-    @Serializable
-    data object MainSection : PixivDestination {
-        @Serializable
-        data object HomeScreen : PixivDestination
-
-        @Serializable
-        data object ExploreScreen : PixivDestination
-
-        @Serializable
-        data object ProfileScreen : PixivDestination
-
-        @Serializable
-        data class IllustrationDetailsScreen(val illustrationId: Int) : PixivDestination
-    }
-
-    @Serializable
-    data object AuthSection : PixivDestination {
-        @Serializable
-        data object LoginScreen : PixivDestination
-    }
+@Composable
+fun IllustrationDetailsScreen(
+    illustrationId: Int,
+    viewModel: IllustrationDetailsViewModel = koinViewModel(),
+) {
 }
