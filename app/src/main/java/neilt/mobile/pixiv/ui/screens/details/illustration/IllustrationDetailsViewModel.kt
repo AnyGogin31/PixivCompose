@@ -25,5 +25,8 @@
 package neilt.mobile.pixiv.ui.screens.details.illustration
 
 import androidx.lifecycle.ViewModel
+import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 
-class IllustrationDetailsViewModel : ViewModel()
+class IllustrationDetailsViewModel(
+    private val illustrationRepository: IllustrationRepository,
+) : ViewModel()

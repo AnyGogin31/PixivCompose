@@ -24,6 +24,7 @@
 
 package neilt.mobile.pixiv.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -63,7 +64,9 @@ fun HomeScreen(
         modifier = Modifier.padding(8.dp),
     ) {
         items(illustrations) { illustration ->
-            IllustrationItem(illustration = illustration)
+            IllustrationItem(illustration = illustration) {
+                viewModel.navigateToIllustrationDetails(it)
+            }
         }
     }
 }
@@ -72,6 +75,7 @@ fun HomeScreen(
 private fun IllustrationItem(
     modifier: Modifier = Modifier,
     illustration: Illustration,
+    onClick: (illustrationId: Int) -> Unit,
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -88,6 +92,7 @@ private fun IllustrationItem(
         contentScale = ContentScale.Crop,
         modifier = modifier
             .padding(4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClick(illustration.id) },
     )
 }
