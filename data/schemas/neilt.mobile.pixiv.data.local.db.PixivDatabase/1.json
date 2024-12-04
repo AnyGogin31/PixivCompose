@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c113503564ef949683a2d495141df9e4",
+    "identityHash": "dc829c2959704c9ece6921072790e23b",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`is_active` INTEGER NOT NULL, `access_token` TEXT NOT NULL, `refresh_token` TEXT NOT NULL, `user_id` TEXT NOT NULL, `user_name` TEXT NOT NULL, `user_account` TEXT NOT NULL, `user_mail_address` TEXT NOT NULL, PRIMARY KEY(`user_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`is_active` INTEGER NOT NULL, `access_token` TEXT NOT NULL, `refresh_token` TEXT NOT NULL, `token_expires_at` INTEGER NOT NULL, `user_id` TEXT NOT NULL, `user_name` TEXT NOT NULL, `user_account` TEXT NOT NULL, `user_mail_address` TEXT NOT NULL, PRIMARY KEY(`user_id`))",
         "fields": [
           {
             "fieldPath": "isActive",
@@ -24,6 +24,12 @@
             "fieldPath": "refreshToken",
             "columnName": "refresh_token",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tokenExpiresAt",
+            "columnName": "token_expires_at",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -64,7 +70,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c113503564ef949683a2d495141df9e4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc829c2959704c9ece6921072790e23b')"
     ]
   }
 }

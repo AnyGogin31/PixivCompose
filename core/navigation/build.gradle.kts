@@ -7,15 +7,15 @@ plugins {
 kotlin {
     androidTarget()
 
-    sourceSets {
-        commonMain.dependencies {
-            implementation(libs.compose.navigation)
-            implementation(libs.kotlin.serialization.json)
-        }
-    }
+    jvmToolchain(17)
 
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.compose.navigation)
+                implementation(libs.kotlin.serialization.json)
+            }
+        }
     }
 }
 
@@ -32,5 +32,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    packaging {
+        jniLibs {
+            keepDebugSymbols.add("**/libandroidx.graphics.path.so")
+        }
     }
 }

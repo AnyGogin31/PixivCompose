@@ -8,24 +8,23 @@ plugins {
 kotlin {
     androidTarget()
 
-    sourceSets {
-        commonMain.dependencies {
-            implementation(project(":core:navigation"))
+    jvmToolchain(17)
 
-            implementation(libs.koin.android.compose)
-            implementation(libs.compose.navigation)
-            implementation(libs.compose.material)
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(projects.core.navigation)
+
+                implementation(libs.koin.android.compose)
+
+                implementation(project.dependencies.platform(libs.compose.bom))
+                implementation(libs.bundles.compose.ui)
+                implementation(libs.bundles.compose.additions)
+
+                implementation(libs.compose.navigation)
+            }
         }
     }
-
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-dependencies {
-    implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.compose.additions)
-    implementation(libs.bundles.compose.ui)
 }
 
 android {

@@ -7,12 +7,12 @@ apply(from = "../scripts/git-hooks.gradle.kts")
 
 dependencies {
 
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(projects.data)
+    implementation(projects.domain)
 
-    implementation(project(":core:navigation"))
+    implementation(projects.core.navigation)
 
-    implementation(project(":desingsystem"))
+    implementation(projects.desingsystem)
 
     // AndroidX
     implementation(libs.android.browser)

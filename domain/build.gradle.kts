@@ -6,15 +6,15 @@ plugins {
 kotlin {
     androidTarget()
 
-    sourceSets {
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-            implementation(libs.junit.jupiter)
-        }
-    }
+    jvmToolchain(17)
 
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+    sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.junit.jupiter)
+            }
+        }
     }
 }
 
