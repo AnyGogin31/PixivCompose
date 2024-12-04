@@ -25,7 +25,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":app")
+include(":app-android")
+
 include(":data")
 include(":domain")
 
