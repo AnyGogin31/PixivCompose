@@ -25,5 +25,51 @@
 package neilt.mobile.pixiv.features.main.presentation.explore
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
+import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
-internal class ExploreViewModel : ViewModel()
+internal class ExploreViewModel(
+    private val searchRepository: SearchRepository
+) : ViewModel() {
+    private val _uiState = MutableStateFlow<ExploreViewState>(ExploreViewState.Empty)
+    val uiState: StateFlow<ExploreViewState> = _uiState
+
+    fun searchIllustrations(keyword: String) {
+        if (keyword.isBlank()) {
+            _uiState.value = ExploreViewState.Empty
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.value = ExploreViewState.Loading
+
+            try {
+                val results = searchRepository.getSearchIllustrations(
+                    SearchIllustrationsRequest(
+                        keyword = keyword,
+                        sortOrder = null,
+                        searchTarget = null,
+                        aiType = null,
+                        minBookmarks = null,
+                        maxBookmarks = null,
+                        startDate = null,
+                        endDate = null
+                    )
+                )
+
+                _uiState.value =
+                    if (results.isEmpty()) ExploreViewState.Empty else ExploreViewState.Loaded(
+                        illustrations = results
+                    )
+            } catch (e: Exception) {
+                _uiState.value = ExploreViewState.Error(
+                    message = e.localizedMessage ?: "Error searching illustrations"
+                )
+            }
+        }
+    }
+}

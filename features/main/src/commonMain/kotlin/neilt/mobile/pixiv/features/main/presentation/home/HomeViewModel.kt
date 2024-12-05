@@ -25,5 +25,45 @@
 package neilt.mobile.pixiv.features.main.presentation.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 
-internal class HomeViewModel : ViewModel()
+internal class HomeViewModel(
+    private val homeRepository: HomeRepository,
+    private val navigator: Navigator
+) : ViewModel() {
+    private val _state = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
+    val state: StateFlow<HomeViewState> = _state.asStateFlow()
+
+    init {
+        loadIllustrations()
+    }
+
+    private fun loadIllustrations() {
+        viewModelScope.launch {
+            _state.value = HomeViewState.Loading
+            try {
+                val illustrations = withContext(Dispatchers.IO) {
+                    homeRepository.getRecommendedIllustrations(
+                        includeRankingIllustrations = false,
+                        includePrivacyPolicy = false
+                    )
+                }
+                _state.value = HomeViewState.Loaded(data = illustrations)
+            } catch (e: Exception) {
+                _state.value = HomeViewState.Error(
+                    message = e.localizedMessage ?: "Error loading illustrations"
+                )
+            }
+        }
+    }
+
+    fun navigateToIllustrationDetails(illustrationId: Int) = Unit
+}

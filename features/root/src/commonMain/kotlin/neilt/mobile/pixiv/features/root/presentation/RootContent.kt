@@ -28,9 +28,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
@@ -59,6 +61,10 @@ private fun PixivScaffold(
     bottomNavigationItems: List<BottomNavigationItem>
 ) {
     val navController = rememberNavController()
+
+    val currentBackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = currentBackEntry?.destination
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         content = {
@@ -71,7 +77,7 @@ private fun PixivScaffold(
         bottomBar = {
             CollapsibleBottomNavigation(
                 items = bottomNavigationItems,
-                currentDestination = navController.currentDestination,
+                currentDestination = currentDestination,
                 targetSection = PixivMainSection
             )
         },

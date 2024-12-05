@@ -13,12 +13,18 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.data)
+                implementation(projects.domain)
+
                 implementation(projects.core.desingsystem)
 
                 implementation(project.dependencies.platform(libs.compose.bom))
                 implementation(libs.bundles.compose.ui)
                 implementation(libs.bundles.compose.additions)
                 implementation(libs.compose.navigation)
+
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network)
 
                 implementation(libs.kotlin.serialization.json)
 

@@ -25,5 +25,43 @@
 package neilt.mobile.pixiv.features.main.presentation.profile
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 
-internal class ProfileViewModel : ViewModel()
+internal class ProfileViewModel(
+    private val profileRepository: ProfileRepository,
+    private val authRepository: AuthRepository,
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<ProfileViewState>(ProfileViewState.Loading)
+    val uiState: StateFlow<ProfileViewState> = _uiState
+
+    init {
+        fetchCurrentUserProfile()
+    }
+
+    private fun fetchCurrentUserProfile() {
+        viewModelScope.launch {
+            _uiState.value = ProfileViewState.Loading
+            try {
+                val activeUser = withContext(Dispatchers.IO) { authRepository.getActiveUser() }
+                if (activeUser != null) {
+                    val userDetail = profileRepository.getUserDetail(activeUser.id.toInt())
+                    _uiState.value = ProfileViewState.Loaded(userDetail = userDetail)
+                } else {
+                    _uiState.value = ProfileViewState.Error("No active user found")
+                }
+            } catch (e: Exception) {
+                _uiState.value = ProfileViewState.Error(
+                    e.localizedMessage ?: "Error fetching profile"
+                )
+            }
+        }
+    }
+}
