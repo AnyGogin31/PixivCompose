@@ -24,26 +24,18 @@
 
 package neilt.mobile.pixiv.features.root.presentation
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import neilt.mobile.core.navigation.NavigationAction
 import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.core.navigation.extensions.hasDestination
-import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
+import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
-import neilt.mobile.pixiv.desingsystem.components.utils.ObserveAsEvents
+import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import org.koin.androidx.compose.koinViewModel
@@ -77,9 +69,10 @@ private fun PixivScaffold(
             )
         },
         bottomBar = {
-            PixivBottomNavigation(
+            CollapsibleBottomNavigation(
                 items = bottomNavigationItems,
                 currentDestination = navController.currentDestination,
+                targetSection = PixivMainSection
             )
         },
     )
@@ -91,41 +84,15 @@ private fun PixivContent(
     navController: NavHostController,
     navigator: Navigator,
 ) {
-    ObserveAsEvents(flow = navigator.navigationActions) { action ->
-        when (action) {
-            is NavigationAction.NavigateTo -> {
-                navController.navigate(action.destination) {
-                    action.navOptions(this)
-                }
-            }
-
-            is NavigationAction.NavigateUp -> navController.navigateUp()
-        }
-    }
+    NavigationObserver(
+        navController = navController,
+        navigator = navigator,
+    )
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = PixivMainSection,
     ) {
         addPixivMainSection()
-    }
-}
-
-@Composable
-private fun PixivBottomNavigation(
-    items: List<BottomNavigationItem>,
-    currentDestination: NavDestination? = null,
-) {
-    AnimatedVisibility(
-        visible = currentDestination.hasDestination<PixivMainSection>(),
-        enter = fadeIn() + slideInVertically { it },
-        exit = fadeOut() + slideOutVertically { it },
-    ) {
-        currentDestination?.let {
-            BottomNavigationBar(
-                items = items,
-                currentDestination = it,
-            )
-        }
     }
 }

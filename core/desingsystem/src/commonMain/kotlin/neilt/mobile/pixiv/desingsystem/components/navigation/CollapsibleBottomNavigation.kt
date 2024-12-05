@@ -22,30 +22,34 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.desingsystem.components.utils
+package neilt.mobile.pixiv.desingsystem.components.navigation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import androidx.navigation.NavDestination
+import neilt.mobile.core.navigation.Destination
+import neilt.mobile.core.navigation.extensions.hasDestination
 
 @Composable
-fun <T> ObserveAsEvents(
-    flow: Flow<T>,
-    key1: Any? = null,
-    key2: Any? = null,
-    onEvent: (T) -> Unit,
+fun CollapsibleBottomNavigation(
+    items: List<BottomNavigationItem>,
+    currentDestination: NavDestination? = null,
+    targetSection: Destination,
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    LaunchedEffect(key1 = lifecycleOwner.lifecycle, key1, key2) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            withContext(Dispatchers.Main.immediate) {
-                flow.collect(onEvent)
-            }
+    AnimatedVisibility(
+        visible = currentDestination.hasDestination(targetSection),
+        enter = fadeIn() + slideInVertically { it },
+        exit = fadeOut() + slideOutVertically { it },
+    ) {
+        currentDestination?.let {
+            BottomNavigationBar(
+                items = items,
+                currentDestination = it,
+            )
         }
     }
 }

@@ -31,17 +31,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import neilt.mobile.core.navigation.NavigationAction
-import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.desingsystem.components.utils.ObserveAsEvents
 import neilt.mobile.pixiv.ui.components.navigation.PixivBottomNavigation
 import neilt.mobile.pixiv.ui.navigation.PixivDestination
 import neilt.mobile.pixiv.ui.screens.auth.LoginScreen
@@ -76,7 +73,7 @@ fun RootContent(
                 )
             },
         ) { innerPadding ->
-            ObserveNavigationEvents(navigator, navController)
+            NavigationObserver(navController, navigator)
             NavHost(
                 modifier = Modifier.padding(innerPadding),
                 navController = navController,
@@ -107,21 +104,6 @@ fun RootContent(
                     composable<PixivDestination.AuthSection.LoginScreen> { LoginScreen() }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun ObserveNavigationEvents(navigator: Navigator, navController: NavController) {
-    ObserveAsEvents(flow = navigator.navigationActions) { action ->
-        when (action) {
-            is NavigationAction.NavigateTo -> {
-                navController.navigate(action.destination) {
-                    action.navOptions(this)
-                }
-            }
-
-            is NavigationAction.NavigateUp -> navController.navigateUp()
         }
     }
 }
