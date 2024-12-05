@@ -25,8 +25,47 @@
 package neilt.mobile.pixiv.features.auth.presentation.auth
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 
 internal class AuthViewModel(
-    private val authRepository: AuthRepository
-) : ViewModel()
+    private val authRepository: AuthRepository,
+    private val navigator: Navigator
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<AuthViewState>(AuthViewState.Loading)
+    val uiState: StateFlow<AuthViewState> = _uiState
+
+    fun authorizeUser(codeAuthorization: String) {
+        viewModelScope.launch {
+            _uiState.value = AuthViewState.Loading
+            val result = withContext(Dispatchers.IO) {
+                authRepository.authorizeUser(codeAuthorization)
+            }
+            _uiState.value = if (result.isSuccess) AuthViewState.Loaded else AuthViewState.Error(
+                result.exceptionOrNull()?.localizedMessage ?: "Unknown error"
+            )
+        }
+    }
+
+    fun navigateToMainSection() {
+        viewModelScope.launch {
+            navigator.navigateTo(PixivMainSection) {
+                popUpTo(0) { inclusive = true }
+            }
+        }
+    }
+
+    fun navigateUp() {
+        viewModelScope.launch {
+            navigator.navigateUp()
+        }
+    }
+}

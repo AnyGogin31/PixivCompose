@@ -18,6 +18,8 @@ kotlin {
 
                 implementation(projects.core.navigation)
 
+                implementation(projects.features.main)
+
                 implementation(libs.android.browser)
 
                 implementation(project.dependencies.platform(libs.compose.bom))

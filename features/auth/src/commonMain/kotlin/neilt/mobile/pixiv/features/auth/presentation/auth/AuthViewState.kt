@@ -22,28 +22,10 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.presentation.login
+package neilt.mobile.pixiv.features.auth.presentation.auth
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.ViewModel
-import neilt.mobile.pixiv.domain.utils.PKCEUtil
-
-internal class LoginViewModel : ViewModel() {
-
-    fun openCustomTab(context: Context) {
-        val url = "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
-                PKCEUtil.codeChallenge +
-                "&code_challenge_method=S256&client=pixiv-android"
-
-        try {
-            val customTabsIntent = CustomTabsIntent.Builder().build()
-            customTabsIntent.launchUrl(context, Uri.parse(url))
-        } catch (_: Throwable) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context.startActivity(intent)
-        }
-    }
+internal sealed class AuthViewState {
+    internal data object Loading : AuthViewState()
+    internal data object Loaded : AuthViewState()
+    internal data class Error(val message: String) : AuthViewState()
 }
