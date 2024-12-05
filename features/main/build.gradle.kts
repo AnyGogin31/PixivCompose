@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinCompose)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.kotlinMultiplatform)
 }
 
@@ -13,14 +14,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.core.desingsystem)
-                implementation(projects.core.navigation)
-
-                implementation(projects.features.main)
 
                 implementation(project.dependencies.platform(libs.compose.bom))
                 implementation(libs.bundles.compose.ui)
                 implementation(libs.bundles.compose.additions)
                 implementation(libs.compose.navigation)
+
+                implementation(libs.kotlin.serialization.json)
 
                 implementation(libs.koin.core)
                 implementation(libs.koin.android)
@@ -31,7 +31,7 @@ kotlin {
 }
 
 android {
-    namespace = "neilt.mobile.pixiv.features.root"
+    namespace = "neilt.mobile.pixiv.features.main"
     compileSdk = 35
 
     defaultConfig {

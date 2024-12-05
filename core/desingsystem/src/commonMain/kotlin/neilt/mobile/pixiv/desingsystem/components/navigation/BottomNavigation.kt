@@ -77,8 +77,8 @@ data class NavigationItemContent(
 data class BottomNavigationItem(
     val destination: Destination,
     val content: NavigationItemContent,
-    val onSelect: () -> Unit = {},
-    val onReselect: () -> Unit = {},
+    val onSelect: (currentDestination: Destination) -> Unit = {},
+    val onReselect: (currentDestination: Destination) -> Unit = {},
 )
 
 @Composable
@@ -109,7 +109,7 @@ fun BottomNavigationBar(
                 selected = isSelected,
                 enabled = item.content.isEnabled,
                 onClick = {
-                    if (isSelected) item.onReselect() else item.onSelect()
+                    if (isSelected) item.onReselect(item.destination) else item.onSelect(item.destination)
                 },
             )
         }
