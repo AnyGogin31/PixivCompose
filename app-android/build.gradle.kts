@@ -13,6 +13,8 @@ dependencies {
     implementation(projects.core.desingsystem)
     implementation(projects.core.navigation)
 
+    implementation(projects.shared)
+
     // AndroidX
     implementation(libs.android.browser)
     implementation(libs.android.core.splashscreen)
