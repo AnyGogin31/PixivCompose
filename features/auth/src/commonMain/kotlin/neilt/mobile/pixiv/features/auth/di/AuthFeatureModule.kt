@@ -22,20 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.root.di
+package neilt.mobile.pixiv.features.auth.di
 
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.root.presentation.RootViewModel
+import neilt.mobile.pixiv.features.auth.presentation.auth.AuthViewModel
+import neilt.mobile.pixiv.features.auth.presentation.login.LoginViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-val viewModelsModule = module {
-
-    viewModelOf(::RootViewModel)
-
-    includes(
-        authFeatureModule,
-        mainFeatureModule,
-    )
+val authFeatureModule = module {
+    viewModelOf(::AuthViewModel)
+    viewModelOf(::LoginViewModel)
 }

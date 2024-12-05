@@ -22,20 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.root.di
+package neilt.mobile.pixiv.features.auth.presentation.login
 
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.root.presentation.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.lifecycle.ViewModel
+internal class LoginViewModel : ViewModel() {
 
-val viewModelsModule = module {
-
-    viewModelOf(::RootViewModel)
-
-    includes(
-        authFeatureModule,
-        mainFeatureModule,
-    )
-}
+class LoginViewModel : ViewModel()

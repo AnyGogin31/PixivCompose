@@ -33,6 +33,7 @@ include(":core:navigation")
 include(":data")
 include(":domain")
 
+include(":features:auth")
 include(":features:main")
 include(":features:root")
 

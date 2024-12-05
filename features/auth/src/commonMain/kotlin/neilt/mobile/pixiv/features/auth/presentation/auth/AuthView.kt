@@ -22,36 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.main
+package neilt.mobile.pixiv.features.auth.presentation.auth
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import kotlinx.serialization.Serializable
-import neilt.mobile.core.navigation.Destination
-import neilt.mobile.pixiv.features.main.presentation.explore.ExploreView
-import neilt.mobile.pixiv.features.main.presentation.home.HomeView
-import neilt.mobile.pixiv.features.main.presentation.profile.ProfileView
+import androidx.compose.runtime.Composable
+import org.koin.androidx.compose.koinViewModel
 
-@Serializable
-data object PixivMainSection : Destination {
+@Composable
+internal fun AuthView(
+    codeAuthorization: String,
+    viewModel: AuthViewModel = koinViewModel()
+) {
 
-    @Serializable
-    data object HomeScreen : Destination
-
-    @Serializable
-    data object ExploreScreen : Destination
-
-    @Serializable
-    data object ProfileScreen : Destination
-}
-
-fun NavGraphBuilder.addPixivMainSection() {
-    navigation<PixivMainSection>(
-        startDestination = PixivMainSection.HomeScreen
-    ) {
-        composable<PixivMainSection.HomeScreen> { HomeView() }
-        composable<PixivMainSection.ExploreScreen> { ExploreView() }
-        composable<PixivMainSection.ProfileScreen> { ProfileView() }
-    }
 }
