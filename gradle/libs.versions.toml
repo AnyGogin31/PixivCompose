@@ -40,7 +40,7 @@ retrofit = "2.11.0"
 okhttp3 = "4.12.0"
 
 # Moshi
-moshi = "1.15.1"
+moshi = "1.15.2"
 
 # Testing
 junitJupiter = "5.11.3"
