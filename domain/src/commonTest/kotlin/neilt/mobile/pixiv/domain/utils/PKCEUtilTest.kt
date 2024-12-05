@@ -35,11 +35,10 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class PKCEUtilTest {
     private fun isUrlSafe(base64String: String): Boolean {
         return !base64String.contains('=') &&
-            !base64String.contains('+') &&
-            !base64String.contains('/')
+                !base64String.contains('+') &&
+                !base64String.contains('/')
     }
 
-    @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun `codeVerifier is correctly generated`() {
         val codeVerifier = PKCEUtil.codeVerifier
@@ -47,18 +46,16 @@ class PKCEUtilTest {
         assertNotNull("Code verifier should not be null", codeVerifier)
         assertTrue("Code verifier should not be empty", codeVerifier.isNotEmpty())
         assertTrue("Code verifier should be URL-safe", isUrlSafe(codeVerifier))
-
-        // Base64 encoding of 32 bytes = 43 characters without padding
         assertEquals(
             "Code verifier should have the expected length",
-            43,
-            codeVerifier.length,
+            43, // Base64 encoding of 32 bytes results in 43 characters without padding
+            codeVerifier.length
         )
     }
 
     @OptIn(ExperimentalEncodingApi::class)
     @Test
-    fun `codeChallenge is correctly derived from codeVerifier`() {
+    fun `codeChallenge is derived correctly from codeVerifier`() {
         val codeVerifier = PKCEUtil.codeVerifier
         val codeChallenge = PKCEUtil.codeChallenge
 
@@ -73,12 +70,12 @@ class PKCEUtilTest {
         assertEquals(
             "Code challenge should match the expected value",
             expectedCodeChallenge,
-            codeChallenge,
+            codeChallenge
         )
     }
 
     @Test
-    fun `codeVerifier and codeChallenge remain consistent`() {
+    fun `codeVerifier and codeChallenge remain consistent across accesses`() {
         val firstVerifier = PKCEUtil.codeVerifier
         val secondVerifier = PKCEUtil.codeVerifier
         val firstChallenge = PKCEUtil.codeChallenge
@@ -87,12 +84,12 @@ class PKCEUtilTest {
         assertEquals(
             "Code verifier should remain consistent across accesses",
             firstVerifier,
-            secondVerifier,
+            secondVerifier
         )
         assertEquals(
             "Code challenge should remain consistent across accesses",
             firstChallenge,
-            secondChallenge,
+            secondChallenge
         )
     }
 
@@ -103,7 +100,7 @@ class PKCEUtilTest {
 
         assertNotNull(
             "Code verifier should be generated when accessing code challenge",
-            PKCEUtil.codeVerifier,
+            PKCEUtil.codeVerifier
         )
         assertTrue("Code verifier should not be empty", PKCEUtil.codeVerifier.isNotEmpty())
 
@@ -114,17 +111,7 @@ class PKCEUtilTest {
         assertEquals(
             "Code challenge should match the expected value",
             expectedCodeChallenge,
-            codeChallenge,
+            codeChallenge
         )
     }
-
-//    @Test
-//    fun `CODE_VERIFIER_LENGTH is correct`() {
-//        val codeVerifierLengthField = PKCEUtil::class.java.getDeclaredField("CODE_VERIFIER_LENGTH")
-//        codeVerifierLengthField.isAccessible = true
-//        val length = codeVerifierLengthField.getInt(null)
-//
-//        val expectedLength = 32
-//        assertEquals("Code verifier length constant should match expected value", expectedLength, length)
-//    }
 }

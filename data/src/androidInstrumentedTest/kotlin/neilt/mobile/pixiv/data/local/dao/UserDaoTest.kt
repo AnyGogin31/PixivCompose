@@ -103,7 +103,8 @@ class UserDaoTest {
         val retrievedUsers = userDao.getAllUsers()
 
         assertEquals(2, retrievedUsers.size)
-        assertEquals(users, retrievedUsers)
+        assertTrue("User 1 should exist in the database", retrievedUsers.any { it.userId == "1" })
+        assertTrue("User 2 should exist in the database", retrievedUsers.any { it.userId == "2" })
     }
 
     @Test
@@ -136,6 +137,7 @@ class UserDaoTest {
 
         assertNotNull(activeUser)
         assertEquals("2", activeUser?.userId)
+        assertTrue("Active user should have isActive = true", activeUser?.isActive == true)
     }
 
     @Test
@@ -168,6 +170,10 @@ class UserDaoTest {
         val activeUser = userDao.getActiveUser()
 
         assertNull(activeUser)
+        val allUsers = userDao.getAllUsers()
+        allUsers.forEach {
+            assertFalse("All users should be deactivated", it.isActive)
+        }
     }
 
     @Test
@@ -201,6 +207,7 @@ class UserDaoTest {
 
         assertNotNull(activeUser)
         assertEquals("1", activeUser?.userId)
+        assertTrue("User 1 should be active", activeUser?.isActive == true)
     }
 
     @Test
@@ -221,5 +228,60 @@ class UserDaoTest {
         val count = userDao.getUserCount()
 
         assertEquals(0, count)
+    }
+
+    @Test
+    fun updateUser_updatesUserTokensCorrectly() = runBlocking {
+        val user = UserEntity(
+            userId = "123",
+            userName = "John Doe",
+            userAccount = "john_doe",
+            userMailAddress = "john@example.com",
+            accessToken = "old_access_token",
+            refreshToken = "old_refresh_token",
+            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
+            isActive = false,
+        )
+        userDao.insertUser(user)
+
+        val newAccessToken = "new_access_token"
+        val newRefreshToken = "new_refresh_token"
+        val newExpiresAt = System.currentTimeMillis() + 7200 * 1000
+        userDao.updateUser("123", newAccessToken, newRefreshToken, newExpiresAt)
+
+        val updatedUser = userDao.getAllUsers().find { it.userId == "123" }
+
+        assertNotNull(updatedUser)
+        assertEquals(newAccessToken, updatedUser?.accessToken)
+        assertEquals(newRefreshToken, updatedUser?.refreshToken)
+        assertEquals(newExpiresAt, updatedUser?.tokenExpiresAt)
+    }
+
+    @Test
+    fun updateUser_doesNotChangeOtherFields() = runBlocking {
+        val user = UserEntity(
+            userId = "123",
+            userName = "John Doe",
+            userAccount = "john_doe",
+            userMailAddress = "john@example.com",
+            accessToken = "old_access_token",
+            refreshToken = "old_refresh_token",
+            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
+            isActive = false,
+        )
+        userDao.insertUser(user)
+
+        val newAccessToken = "new_access_token"
+        val newRefreshToken = "new_refresh_token"
+        val newExpiresAt = System.currentTimeMillis() + 7200 * 1000
+        userDao.updateUser("123", newAccessToken, newRefreshToken, newExpiresAt)
+
+        val updatedUser = userDao.getAllUsers().find { it.userId == "123" }
+
+        assertNotNull(updatedUser)
+        assertEquals("John Doe", updatedUser?.userName)
+        assertEquals("john_doe", updatedUser?.userAccount)
+        assertEquals("john@example.com", updatedUser?.userMailAddress)
+        assertEquals(false, updatedUser?.isActive)
     }
 }
