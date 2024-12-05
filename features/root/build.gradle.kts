@@ -13,26 +13,28 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.core.desingsystem)
-                implementation(projects.core.navigation)
-
-                implementation(projects.features.root)
 
                 implementation(project.dependencies.platform(libs.compose.bom))
                 implementation(libs.bundles.compose.ui)
                 implementation(libs.bundles.compose.additions)
+                implementation(libs.compose.navigation)
+
+                implementation(libs.koin.core)
+                implementation(libs.koin.android)
+                implementation(libs.koin.android.compose)
             }
         }
     }
 }
 
 android {
-    namespace = "neilt.mobile.pixiv.shared"
+    namespace = "neilt.mobile.pixiv.features.root"
     compileSdk = 35
 
     defaultConfig {
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFile("consumer-rules.pro")
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildFeatures {

@@ -33,4 +33,6 @@ include(":core:navigation")
 include(":data")
 include(":domain")
 
+include(":features:root")
+
 include(":shared")

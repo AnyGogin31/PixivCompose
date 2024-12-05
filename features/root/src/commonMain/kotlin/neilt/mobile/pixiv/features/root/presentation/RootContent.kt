@@ -22,18 +22,55 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared
+package neilt.mobile.pixiv.features.root.presentation
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.features.root.presentation.RootContent
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun PixivMultiplatformApp(
+fun RootContent(
     modifier: Modifier = Modifier,
+    viewModel: RootViewModel = koinViewModel(),
 ) {
-    PixivTheme {
-        RootContent(modifier = modifier)
-    }
+    val navController = rememberNavController()
+    val navigator = viewModel.navigator
+
+    PixivScaffold(
+        modifier = modifier,
+        navController = navController,
+    )
 }
+
+@Composable
+private fun PixivScaffold(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
+) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        content = {
+            PixivContent(
+                modifier = Modifier.padding(it),
+                navController = navController,
+            )
+        },
+        bottomBar = {
+            PixivBottomNavigation()
+        },
+    )
+}
+
+@Composable
+private fun PixivContent(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+) = Unit
+
+@Composable
+private fun PixivBottomNavigation() = Unit

@@ -22,18 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared
+package neilt.mobile.pixiv.features.root.presentation
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.features.root.presentation.RootContent
+import androidx.lifecycle.ViewModel
+import neilt.mobile.core.navigation.Navigator
 
-@Composable
-internal fun PixivMultiplatformApp(
-    modifier: Modifier = Modifier,
-) {
-    PixivTheme {
-        RootContent(modifier = modifier)
-    }
-}
+class RootViewModel(val navigator: Navigator) : ViewModel()
