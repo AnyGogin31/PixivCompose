@@ -40,6 +40,7 @@ import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationIte
 import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
+import neilt.mobile.pixiv.features.illustration.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import org.koin.androidx.compose.koinViewModel
@@ -103,5 +104,6 @@ private fun PixivContent(
     ) {
         addPixivAuthSection()
         addPixivMainSection()
+        addPixivIllustrationSection()
     }
 }

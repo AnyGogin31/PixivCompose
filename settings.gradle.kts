@@ -34,6 +34,7 @@ include(":data")
 include(":domain")
 
 include(":features:auth")
+include(":features:illustration")
 include(":features:main")
 include(":features:root")
 

@@ -22,22 +22,31 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.root.di
+package neilt.mobile.pixiv.features.illustration.presentation
 
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.root.presentation.RootViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import androidx.navigation.toRoute
+import kotlinx.serialization.Serializable
+import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.features.illustration.presentation.details.IllustrationDetailsView
 
-val viewModelsModule = module {
+@Serializable
+data object PixivIllustrationSection : Destination {
 
-    viewModelOf(::RootViewModel)
+    @Serializable
+    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
+}
 
-    includes(
-        authFeatureModule,
-        mainFeatureModule,
-        illustrationFeatureModule,
-    )
+fun NavGraphBuilder.addPixivIllustrationSection() {
+    navigation<PixivIllustrationSection>(
+        startDestination = PixivIllustrationSection.IllustrationDetailsScreen::class
+    ) {
+        composable<PixivIllustrationSection.IllustrationDetailsScreen> {
+            IllustrationDetailsView(
+                illustrationId = it.toRoute<PixivIllustrationSection.IllustrationDetailsScreen>().illustrationId
+            )
+        }
+    }
 }
