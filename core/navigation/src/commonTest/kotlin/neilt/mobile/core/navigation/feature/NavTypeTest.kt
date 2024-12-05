@@ -32,6 +32,9 @@ import kotlinx.serialization.serializer
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
+import org.mockito.kotlin.verify
 
 class NavTypeTest {
 
@@ -43,27 +46,29 @@ class NavTypeTest {
 
     @Test
     fun `get retrieves object from Bundle`() {
-        val bundle = Bundle()
+        val bundle = mock(Bundle::class.java)
         val testData = TestData(1, "Test Name")
         val encodedValue = Json.encodeToString(testSerializer, testData)
-        bundle.putString("key", encodedValue)
+
+        `when`(bundle.getString("key")).thenReturn(encodedValue)
 
         val retrievedValue = navType[bundle, "key"]
 
         assertNotNull(retrievedValue)
         assertEquals(testData, retrievedValue)
+
+        verify(bundle).getString("key")
     }
 
     @Test
     fun `put stores serialized object in Bundle`() {
-        val bundle = Bundle()
+        val bundle = mock(Bundle::class.java)
         val testData = TestData(2, "Another Test")
+        val encodedValue = Json.encodeToString(testSerializer, testData)
 
         navType.put(bundle, "key", testData)
-        val storedValue = bundle.getString("key")
 
-        assertNotNull(storedValue)
-        assertEquals(Json.encodeToString(testSerializer, testData), storedValue)
+        verify(bundle).putString("key", encodedValue)
     }
 
     @Test

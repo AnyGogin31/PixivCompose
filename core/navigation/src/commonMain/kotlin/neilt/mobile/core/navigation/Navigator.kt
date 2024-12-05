@@ -24,9 +24,7 @@
 
 package neilt.mobile.core.navigation
 
-import android.util.Log
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -62,7 +60,7 @@ interface Navigator {
  * @property startDestination The starting destination for the navigation.
  */
 class AndroidNavigator(override val startDestination: Destination) : Navigator {
-    private val _navigationActions = Channel<NavigationAction>(Channel.RENDEZVOUS)
+    private val _navigationActions = Channel<NavigationAction>(Channel.BUFFERED)
     override val navigationActions = _navigationActions.receiveAsFlow()
 
     private var lastAction: NavigationAction? = null
@@ -87,8 +85,8 @@ class AndroidNavigator(override val startDestination: Destination) : Navigator {
      */
     override suspend fun navigateTo(destination: Destination, navOptions: NavOptions) {
         handleAction(NavigationAction.NavigateTo(destination, navOptions)) {
-            _navigationActions.trySend(it).onFailure { error ->
-                Log.e("AndroidNavigator", "Failed to enqueue navigation action: $error")
+            if (!_navigationActions.trySend(it).isSuccess) {
+                throw IllegalStateException("Failed to enqueue navigation action")
             }
         }
     }
@@ -98,8 +96,8 @@ class AndroidNavigator(override val startDestination: Destination) : Navigator {
      */
     override suspend fun navigateUp() {
         handleAction(NavigationAction.NavigateUp) {
-            _navigationActions.trySend(it).onFailure { error ->
-                Log.e("AndroidNavigator", "Failed to enqueue navigate up action: $error")
+            if (!_navigationActions.trySend(it).isSuccess) {
+                throw IllegalStateException("Failed to enqueue navigate up action")
             }
         }
     }
