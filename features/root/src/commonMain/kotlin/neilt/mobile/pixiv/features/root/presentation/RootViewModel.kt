@@ -37,7 +37,7 @@ import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Explore
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
-import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
+import neilt.mobile.pixiv.features.main.presentation.main.PixivMainSection
 
 class RootViewModel(val navigator: Navigator) : ViewModel() {
 

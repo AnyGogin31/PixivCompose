@@ -36,8 +36,8 @@ import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
-import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
-import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
+import neilt.mobile.pixiv.features.main.presentation.main.PixivMainSection
+import neilt.mobile.pixiv.features.main.presentation.main.addPixivMainSection
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

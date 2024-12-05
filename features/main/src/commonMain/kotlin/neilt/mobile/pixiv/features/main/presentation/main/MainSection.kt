@@ -22,14 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation
+package neilt.mobile.pixiv.features.main.presentation.main
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import kotlinx.serialization.Serializable
 import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.features.main.presentation.explore.ExploreView
+import neilt.mobile.pixiv.features.main.presentation.home.HomeView
+import neilt.mobile.pixiv.features.main.presentation.profile.ProfileView
 
 @Serializable
 data object PixivMainSection : Destination {
@@ -53,7 +55,3 @@ fun NavGraphBuilder.addPixivMainSection() {
         composable<PixivMainSection.ProfileScreen> { ProfileView() }
     }
 }
-
-@Composable private fun HomeView() = Unit
-@Composable private fun ExploreView() = Unit
-@Composable private fun ProfileView() = Unit
