@@ -66,5 +66,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.event.inputs.tagname }}
           draft: true
-          file: app-android/build/outputs/apk/release/app-release.apk
+          file: app-android/build/outputs/apk/release/app-android-release.apk
           asset_name: PixivCompose-${{ github.event.inputs.tagname }}.apk
