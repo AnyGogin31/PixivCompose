@@ -22,35 +22,28 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.screens.home
+package neilt.mobile.pixiv.features.root.di
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.AndroidNavigator
 import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import neilt.mobile.pixiv.features.auth.di.authFeatureModule
+import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
+import neilt.mobile.pixiv.features.main.di.mainFeatureModule
+import neilt.mobile.pixiv.features.root.presentation.RootViewModel
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-class HomeViewModel(
-    private val homeRepository: HomeRepository,
-    private val navigator: Navigator,
-) : ViewModel() {
-    suspend fun getRecommendedIllustrations() = withContext(Dispatchers.IO) {
-        homeRepository.getRecommendedIllustrations(
-            includeRankingIllustrations = false,
-            includePrivacyPolicy = false,
-        )
-    }
+val rootFeatureModule = module {
 
-    fun navigateToIllustrationDetails(illustrationId: Int) {
-        viewModelScope.launch {
-            navigator.navigateTo(
-                PixivDestination.IllustrationSection.IllustrationDetailsScreen(
-                    illustrationId,
-                ),
-            )
-        }
-    }
+    viewModelOf(::RootViewModel)
+
+    singleOf(::AndroidNavigator) bind Navigator::class
+
+    includes(
+        authFeatureModule,
+        mainFeatureModule,
+        illustrationFeatureModule,
+    )
 }

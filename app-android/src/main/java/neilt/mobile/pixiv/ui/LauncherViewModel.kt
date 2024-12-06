@@ -24,48 +24,35 @@
 
 package neilt.mobile.pixiv.ui
 
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.ui.navigation.PixivDestination
+import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
+import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 
 class LauncherViewModel(
     private val authRepository: AuthRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
     var isLoading: Boolean = true
         private set
 
     init {
+        determineStartDestination()
+    }
+
+    private fun determineStartDestination() {
         viewModelScope.launch {
-            determineStartDestination()
-            isLoading = false
-        }
-    }
-
-    private val _startDestination = MutableStateFlow<PixivDestination>(PixivDestination.AuthSection)
-    val startDestination: Flow<PixivDestination> = _startDestination
-
-    private suspend fun determineStartDestination() {
-        val startDestination = withContext(Dispatchers.IO) {
-            val activeUser = authRepository.getActiveUser()
-            if (activeUser != null) PixivDestination.MainSection else PixivDestination.AuthSection
-        }
-        _startDestination.value = startDestination
-    }
-
-    fun handleDeepLink(intent: Intent) {
-        val deepLinkUri = intent.data?.takeIf { it.scheme == "pixiv" } ?: return
-        if (deepLinkUri.host == "account" && deepLinkUri.path == "/login") {
-            val code = deepLinkUri.getQueryParameter("code") ?: return
-            viewModelScope.launch(Dispatchers.IO) {
-                authRepository.authorizeUser(code)
+            val startDestination = withContext(Dispatchers.IO) {
+                val activeUser = authRepository.getActiveUser()
+                if (activeUser != null) PixivMainSection else PixivAuthSection
             }
+            navigator.navigateTo(startDestination)
+            isLoading = false
         }
     }
 }

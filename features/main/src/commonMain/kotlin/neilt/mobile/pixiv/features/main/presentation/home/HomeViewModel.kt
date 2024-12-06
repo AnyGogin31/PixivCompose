@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
+import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
@@ -65,5 +66,11 @@ internal class HomeViewModel(
         }
     }
 
-    fun navigateToIllustrationDetails(illustrationId: Int) = Unit
+    fun navigateToIllustrationDetails(illustrationId: Int) {
+        viewModelScope.launch {
+            navigator.navigateTo(
+                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId)
+            )
+        }
+    }
 }

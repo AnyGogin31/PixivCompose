@@ -17,6 +17,9 @@ kotlin {
                 implementation(projects.domain)
 
                 implementation(projects.core.desingsystem)
+                implementation(projects.core.navigation)
+
+                implementation(projects.features.illustration)
 
                 implementation(project.dependencies.platform(libs.compose.bom))
                 implementation(libs.bundles.compose.ui)

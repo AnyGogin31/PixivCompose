@@ -13,21 +13,17 @@ dependencies {
     implementation(projects.core.desingsystem)
     implementation(projects.core.navigation)
 
+    implementation(projects.features.auth)
+    implementation(projects.features.main)
+    implementation(projects.features.root)
+
     implementation(projects.shared)
 
     // AndroidX
-    implementation(libs.android.browser)
     implementation(libs.android.core.splashscreen)
-
-    // Coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network)
 
     // Navigation
     implementation(libs.compose.navigation)
-
-    // Kotlin
-    implementation(libs.kotlin.serialization.json)
 
     // Koin
     implementation(platform(libs.koin.bom))

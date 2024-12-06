@@ -22,25 +22,22 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.ui.extensions
+package neilt.mobile.pixiv.di
 
-import android.content.Intent
-import androidx.activity.ComponentActivity
-import androidx.core.util.Consumer
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import neilt.mobile.pixiv.data.di.repositoryModule
+import neilt.mobile.pixiv.desingsystem.di.designSystemModule
+import neilt.mobile.pixiv.features.root.di.rootFeatureModule
+import neilt.mobile.pixiv.ui.LauncherViewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
-fun ComponentActivity.bindOnNewIntentListener(listener: (Intent) -> Unit) {
-    val intentConsumer = Consumer<Intent> { listener(it) }
+val pixivModules = module {
 
-    lifecycle.addObserver(object : DefaultLifecycleObserver {
-        override fun onCreate(owner: LifecycleOwner) {
-            addOnNewIntentListener(intentConsumer)
-        }
+    viewModelOf(::LauncherViewModel)
 
-        override fun onDestroy(owner: LifecycleOwner) {
-            removeOnNewIntentListener(intentConsumer)
-            lifecycle.removeObserver(this)
-        }
-    })
+    includes(
+        designSystemModule,
+        repositoryModule,
+        rootFeatureModule,
+    )
 }

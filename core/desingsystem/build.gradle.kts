@@ -13,7 +13,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.core.navigation)
+                implementation(projects.core.navigation)
 
                 implementation(libs.koin.android.compose)
 

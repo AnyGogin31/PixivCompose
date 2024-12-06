@@ -25,10 +25,7 @@
 package neilt.mobile.pixiv
 
 import android.app.Application
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.di.viewModelModule
-import neilt.mobile.pixiv.ui.navigation.navigationModule
+import neilt.mobile.pixiv.di.pixivModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -37,12 +34,7 @@ class PixivApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@PixivApplication)
-            modules(
-                designSystemModule,
-                repositoryModule,
-                navigationModule,
-                viewModelModule,
-            )
+            modules(pixivModules)
         }
     }
 }

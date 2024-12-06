@@ -31,11 +31,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 /**
  * Interface for defining navigation behavior within an application.
  *
- * @property startDestination The initial [Destination].
  * @property navigationActions A flow of [NavigationAction] events.
  */
 interface Navigator {
-    val startDestination: Destination
     val navigationActions: Flow<NavigationAction>
 
     /**
@@ -56,10 +54,8 @@ interface Navigator {
  * Implementation of [Navigator] for Android platform.
  *
  * This class handles navigation actions and provides a flow of [NavigationAction] events.
- *
- * @property startDestination The starting destination for the navigation.
  */
-class AndroidNavigator(override val startDestination: Destination) : Navigator {
+class AndroidNavigator : Navigator {
     private val _navigationActions = Channel<NavigationAction>(Channel.BUFFERED)
     override val navigationActions = _navigationActions.receiveAsFlow()
 
