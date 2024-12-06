@@ -55,7 +55,9 @@ internal fun Project.configureAndroidKtlint() {
             reporter(ReporterType.PLAIN)
         }
         filter {
-            exclude("**/generated/**")
+            exclude {
+                it.file.path.contains("generated")
+            }
         }
     }
 }
