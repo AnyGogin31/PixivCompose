@@ -3,6 +3,7 @@
 # Gradle Plugins
 androidGradlePlugin = "8.7.3"
 kotlinGradlePlugin = "2.1.0"
+composeGradlePlugin = "1.7.1"
 kspGradlePlugin = "2.1.0-1.0.29"
 roomGradlePlugin = "2.6.1"
 detektGradlePlugin = "1.23.7"
@@ -158,6 +159,9 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGrad
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
+
+# Compose
+compose = { id = "org.jetbrains.compose", version.ref = "composeGradlePlugin" }
 
 # KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }

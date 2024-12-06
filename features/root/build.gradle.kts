@@ -13,6 +13,8 @@ kotlin {
                 implementation(projects.features.auth)
                 implementation(projects.features.illustration)
                 implementation(projects.features.main)
+
+                implementation(projects.resources)
             }
         }
     }

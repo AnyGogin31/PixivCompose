@@ -38,13 +38,18 @@ import neilt.mobile.pixiv.desingsystem.icons.outlined.Explore
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.navigation_explore
+import neilt.mobile.pixiv.resources.navigation_home
+import neilt.mobile.pixiv.resources.navigation_profile
+import org.jetbrains.compose.resources.stringResource
 
 class RootViewModel(val navigator: Navigator) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
             content = NavigationItemContent(
-                label = { "stringResource(R.string.navigation_home)" },
+                label = { stringResource(Res.string.navigation_home) },
                 selectedIcon = PixivIcons.Filled.Home,
                 unselectedIcon = PixivIcons.Outlined.Home,
             ),
@@ -57,7 +62,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
         BottomNavigationItem(
             destination = PixivMainSection.ExploreScreen,
             content = NavigationItemContent(
-                label = { "stringResource(R.string.navigation_explore)" },
+                label = { stringResource(Res.string.navigation_explore) },
                 selectedIcon = PixivIcons.Filled.Explore,
                 unselectedIcon = PixivIcons.Outlined.Explore,
             ),
@@ -70,7 +75,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
         BottomNavigationItem(
             destination = PixivMainSection.ProfileScreen,
             content = NavigationItemContent(
-                label = { "stringResource(R.string.navigation_profile)" },
+                label = { stringResource(Res.string.navigation_profile) },
                 selectedIcon = PixivIcons.Filled.Profile,
                 unselectedIcon = PixivIcons.Outlined.Profile,
             ),

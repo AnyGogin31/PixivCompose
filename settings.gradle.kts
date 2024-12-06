@@ -38,4 +38,5 @@ include(":features:illustration")
 include(":features:main")
 include(":features:root")
 
+include(":resources")
 include(":shared")
