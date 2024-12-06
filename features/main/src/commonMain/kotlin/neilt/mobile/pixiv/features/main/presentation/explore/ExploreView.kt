@@ -36,8 +36,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,15 +45,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
+import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
+import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import org.koin.androidx.compose.koinViewModel
 
@@ -94,7 +93,7 @@ internal fun ExploreView(
         ) {
             state.whenExtended<List<Illustration>>(
                 onLoading = { LoadingView() },
-                onEmpty = { EmptyView() },
+                onEmpty = { EmptyView(message = "No illustrations found") },
                 onError = { ErrorView(message = it) },
                 onLoaded = { IllustrationGrid(illustrations = it) },
             )
@@ -114,43 +113,6 @@ private fun IllustrationGrid(
                 illustration = illustration,
             )
         }
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun EmptyView() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        Text(
-            text = "No illustrations found",
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-private fun ErrorView(message: String) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        Text(
-            text = message,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center,
-        )
     }
 }
 
