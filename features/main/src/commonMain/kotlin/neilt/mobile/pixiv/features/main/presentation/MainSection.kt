@@ -35,7 +35,6 @@ import neilt.mobile.pixiv.features.main.presentation.profile.ProfileView
 
 @Serializable
 data object PixivMainSection : Destination {
-
     @Serializable
     data object HomeScreen : Destination
 
@@ -48,7 +47,7 @@ data object PixivMainSection : Destination {
 
 fun NavGraphBuilder.addPixivMainSection() {
     navigation<PixivMainSection>(
-        startDestination = PixivMainSection.HomeScreen
+        startDestination = PixivMainSection.HomeScreen,
     ) {
         composable<PixivMainSection.HomeScreen> { HomeView() }
         composable<PixivMainSection.ExploreScreen> { ExploreView() }

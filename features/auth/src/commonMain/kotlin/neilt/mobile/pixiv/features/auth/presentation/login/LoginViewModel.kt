@@ -32,11 +32,10 @@ import androidx.lifecycle.ViewModel
 import neilt.mobile.pixiv.domain.utils.PKCEUtil
 
 internal class LoginViewModel : ViewModel() {
-
     fun openCustomTab(context: Context) {
         val url = "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
-                PKCEUtil.codeChallenge +
-                "&code_challenge_method=S256&client=pixiv-android"
+            PKCEUtil.codeChallenge +
+            "&code_challenge_method=S256&client=pixiv-android"
 
         try {
             val customTabsIntent = CustomTabsIntent.Builder().build()

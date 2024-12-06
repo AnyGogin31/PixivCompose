@@ -1,15 +1,10 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.neilt.mobile.android.library)
     alias(libs.plugins.kotlinCompose)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.kotlinMultiplatform)
 }
 
 kotlin {
-    androidTarget()
-
-    jvmToolchain(17)
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -41,13 +36,6 @@ kotlin {
 
 android {
     namespace = "neilt.mobile.pixiv.features.main"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
 
     buildFeatures {
         compose = true
@@ -61,10 +49,5 @@ android {
         jniLibs {
             keepDebugSymbols.add("**/libandroidx.graphics.path.so")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }

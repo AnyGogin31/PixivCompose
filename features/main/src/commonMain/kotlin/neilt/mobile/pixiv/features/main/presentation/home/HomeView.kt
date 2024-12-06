@@ -54,7 +54,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun HomeView(
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -63,7 +63,7 @@ internal fun HomeView(
         is HomeViewState.Error -> ErrorView(message = (state as HomeViewState.Error).message)
         is HomeViewState.Loaded -> IllustrationGrid(
             illustrations = (state as HomeViewState.Loaded).data,
-            onIllustrationClick = viewModel::navigateToIllustrationDetails
+            onIllustrationClick = viewModel::navigateToIllustrationDetails,
         )
     }
 }
@@ -71,16 +71,16 @@ internal fun HomeView(
 @Composable
 private fun IllustrationGrid(
     illustrations: List<Illustration>,
-    onIllustrationClick: (Int) -> Unit
+    onIllustrationClick: (Int) -> Unit,
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
     ) {
         items(illustrations) { illustration ->
             IllustrationItem(
                 illustration = illustration,
-                onClick = onIllustrationClick
+                onClick = onIllustrationClick,
             )
         }
     }
@@ -90,7 +90,7 @@ private fun IllustrationGrid(
 private fun LoadingView() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         CircularProgressIndicator()
     }
@@ -100,12 +100,12 @@ private fun LoadingView() {
 private fun ErrorView(message: String) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = message,
             color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -114,7 +114,7 @@ private fun ErrorView(message: String) {
 private fun IllustrationItem(
     modifier: Modifier = Modifier,
     illustration: Illustration,
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit,
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
@@ -131,6 +131,6 @@ private fun IllustrationItem(
         modifier = modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .clickable { onClick(illustration.id) }
+            .clickable { onClick(illustration.id) },
     )
 }

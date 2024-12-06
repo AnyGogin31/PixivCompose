@@ -38,7 +38,7 @@ import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSe
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
-    private val navigator: Navigator
+    private val navigator: Navigator,
 ) : ViewModel() {
     private val _state = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
     val state: StateFlow<HomeViewState> = _state.asStateFlow()
@@ -54,13 +54,13 @@ internal class HomeViewModel(
                 val illustrations = withContext(Dispatchers.IO) {
                     homeRepository.getRecommendedIllustrations(
                         includeRankingIllustrations = false,
-                        includePrivacyPolicy = false
+                        includePrivacyPolicy = false,
                     )
                 }
                 _state.value = HomeViewState.Loaded(data = illustrations)
             } catch (e: Exception) {
                 _state.value = HomeViewState.Error(
-                    message = e.localizedMessage ?: "Error loading illustrations"
+                    message = e.localizedMessage ?: "Error loading illustrations",
                 )
             }
         }
@@ -69,7 +69,7 @@ internal class HomeViewModel(
     fun navigateToIllustrationDetails(illustrationId: Int) {
         viewModelScope.launch {
             navigator.navigateTo(
-                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId)
+                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId),
             )
         }
     }

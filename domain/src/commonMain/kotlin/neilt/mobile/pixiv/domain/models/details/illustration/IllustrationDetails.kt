@@ -34,5 +34,5 @@ data class IllustrationDetails(
     val user: User,
     val tags: List<Tag>,
     val views: Int,
-    val bookmarks: Int
+    val bookmarks: Int,
 )

@@ -29,7 +29,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class NavigationActionTest {
-
     object TestDestination : Destination
 
     @Test

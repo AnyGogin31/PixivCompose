@@ -46,7 +46,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun AuthView(
     codeAuthorization: String,
-    viewModel: AuthViewModel = koinViewModel()
+    viewModel: AuthViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -58,14 +58,14 @@ internal fun AuthView(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         when (state) {
             is AuthViewState.Loading -> LoadingView()
             is AuthViewState.Loaded -> viewModel.navigateToMainSection()
             is AuthViewState.Error -> ErrorView(
                 message = (state as AuthViewState.Error).message,
-                onBack = viewModel::navigateUp
+                onBack = viewModel::navigateUp,
             )
         }
     }
@@ -75,7 +75,7 @@ internal fun AuthView(
 private fun LoadingView() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         CircularProgressIndicator()
     }
@@ -84,19 +84,19 @@ private fun LoadingView() {
 @Composable
 private fun ErrorView(
     message: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = message,
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
         )
         Button(onClick = onBack) {
             Text("Back")

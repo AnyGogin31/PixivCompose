@@ -29,7 +29,7 @@ import org.gradle.api.Project
 
 class AndroidRoomConventionPlugin : AndroidConventionPluginBase() {
 
-    override fun Project.getPluginId() = libs.getPlugin("room").get().pluginId
+    override fun Project.getPluginId(): String = libs.getPlugin("room").get().pluginId
 
     override fun Project.configureAndroid() {
         configureAndroidRoom()

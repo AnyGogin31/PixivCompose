@@ -35,5 +35,5 @@ data class ProfileUserResponse(
     @Json(name = "profile_image_urls") val profileImageUrls: ProfileImageUrlsResponse,
     @Json(name = "comment") val comment: String,
     @Json(name = "is_followed") val isFollowed: Boolean,
-    @Json(name = "is_access_blocking_user") val isAccessBlockingUser: Boolean
+    @Json(name = "is_access_blocking_user") val isAccessBlockingUser: Boolean,
 )

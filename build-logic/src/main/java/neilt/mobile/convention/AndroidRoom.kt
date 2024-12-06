@@ -39,6 +39,8 @@ internal fun Project.configureAndroidRoom() {
     pluginManager.apply(libs.getPlugin("ksp").get().pluginId)
 
     extensions.configure<KspExtension> {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
         arg("room.generateKotlin", "true")
     }
 

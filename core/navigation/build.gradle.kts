@@ -1,15 +1,10 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.neilt.mobile.android.library)
     alias(libs.plugins.kotlinCompose)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.kotlinMultiplatform)
 }
 
 kotlin {
-    androidTarget()
-
-    jvmToolchain(17)
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -31,18 +26,6 @@ kotlin {
 
 android {
     namespace = "neilt.mobile.core.navigation"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFile("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
     packaging {
         jniLibs {

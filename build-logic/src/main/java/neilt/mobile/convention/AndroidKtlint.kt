@@ -54,5 +54,8 @@ internal fun Project.configureAndroidKtlint() {
         reporters {
             reporter(ReporterType.PLAIN)
         }
+        filter {
+            exclude("**/generated/**")
+        }
     }
 }

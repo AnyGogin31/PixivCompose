@@ -33,7 +33,7 @@ import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
 internal class ExploreViewModel(
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ExploreViewState>(ExploreViewState.Empty)
     val uiState: StateFlow<ExploreViewState> = _uiState
@@ -57,17 +57,21 @@ internal class ExploreViewModel(
                         minBookmarks = null,
                         maxBookmarks = null,
                         startDate = null,
-                        endDate = null
-                    )
+                        endDate = null,
+                    ),
                 )
 
                 _uiState.value =
-                    if (results.isEmpty()) ExploreViewState.Empty else ExploreViewState.Loaded(
-                        illustrations = results
-                    )
+                    if (results.isEmpty()) {
+                        ExploreViewState.Empty
+                    } else {
+                        ExploreViewState.Loaded(
+                            illustrations = results,
+                        )
+                    }
             } catch (e: Exception) {
                 _uiState.value = ExploreViewState.Error(
-                    message = e.localizedMessage ?: "Error searching illustrations"
+                    message = e.localizedMessage ?: "Error searching illustrations",
                 )
             }
         }

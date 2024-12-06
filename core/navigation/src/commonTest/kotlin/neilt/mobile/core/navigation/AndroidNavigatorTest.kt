@@ -31,20 +31,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AndroidNavigatorTest {
-
-    object StartDestination : Destination
     object AnotherDestination : Destination
 
     @Test
-    fun `navigator initializes with correct start destination`() {
-        val navigator = AndroidNavigator(StartDestination)
-
-        assertEquals(StartDestination, navigator.startDestination)
-    }
-
-    @Test
     fun `navigateTo emits correct navigation action`() = runTest {
-        val navigator = AndroidNavigator(StartDestination)
+        val navigator = AndroidNavigator()
         val navOptions: NavOptions = { /* options */ }
 
         navigator.navigateTo(AnotherDestination, navOptions)
@@ -57,7 +48,7 @@ class AndroidNavigatorTest {
 
     @Test
     fun `navigateUp emits NavigateUp action`() = runTest {
-        val navigator = AndroidNavigator(StartDestination)
+        val navigator = AndroidNavigator()
 
         navigator.navigateUp()
 
@@ -67,7 +58,7 @@ class AndroidNavigatorTest {
 
     @Test
     fun `duplicate actions are not emitted`() = runTest {
-        val navigator = AndroidNavigator(StartDestination)
+        val navigator = AndroidNavigator()
         val navOptions: NavOptions = { /* options */ }
 
         navigator.navigateTo(AnotherDestination, navOptions)

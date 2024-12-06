@@ -36,25 +36,24 @@ import neilt.mobile.pixiv.features.auth.presentation.login.LoginView
 
 @Serializable
 data object PixivAuthSection : Destination {
-
     @Serializable
     data object LoginScreen : Destination
-    
+
     @Serializable
     internal data class AuthScreen(val code: String) : Destination
 }
 
 fun NavGraphBuilder.addPixivAuthSection() {
     navigation<PixivAuthSection>(
-        startDestination = PixivAuthSection.LoginScreen
+        startDestination = PixivAuthSection.LoginScreen,
     ) {
         composable<PixivAuthSection.LoginScreen> { LoginView() }
         composable<PixivAuthSection.AuthScreen>(
             deepLinks = listOf(
                 navDeepLink {
                     uriPattern = "pixiv://account/login?code={code}"
-                }
-            )
+                },
+            ),
         ) {
             AuthView(codeAuthorization = it.toRoute<PixivAuthSection.AuthScreen>().code)
         }

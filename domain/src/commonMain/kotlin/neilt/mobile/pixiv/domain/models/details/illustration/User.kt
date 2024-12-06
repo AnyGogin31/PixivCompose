@@ -29,5 +29,5 @@ import neilt.mobile.pixiv.domain.models.profile.ProfileImageUrls
 data class User(
     val id: Int,
     val name: String,
-    val profileImageUrl: ProfileImageUrls
+    val profileImageUrl: ProfileImageUrls,
 )

@@ -54,7 +54,7 @@ class ActiveUserTokenProviderTest {
             refreshToken = "refresh_token",
             tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             account = "account1",
-            mailAddress = "address1"
+            mailAddress = "address1",
         )
         `when`(authRepository.getActiveUser()).thenReturn(mockUser)
         `when`(authRepository.refreshActiveUserTokenIfNeeded()).thenReturn(Result.success(Unit))

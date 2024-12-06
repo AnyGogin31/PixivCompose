@@ -33,5 +33,5 @@ data class ProfilePublicityResponse(
     @Json(name = "region") val region: Int,
     @Json(name = "birth_day") val birthDay: Int,
     @Json(name = "birth_year") val birthYear: Int,
-    @Json(name = "job") val job: Int
+    @Json(name = "job") val job: Int,
 )

@@ -53,7 +53,7 @@ fun RootContent(
     PixivScaffold(
         modifier = modifier,
         navigator = viewModel.navigator,
-        bottomNavigationItems = viewModel.bottomNavigationItems
+        bottomNavigationItems = viewModel.bottomNavigationItems,
     )
 }
 
@@ -61,7 +61,7 @@ fun RootContent(
 private fun PixivScaffold(
     modifier: Modifier = Modifier,
     navigator: Navigator,
-    bottomNavigationItems: List<BottomNavigationItem>
+    bottomNavigationItems: List<BottomNavigationItem>,
 ) {
     val navController = rememberNavController()
 
@@ -74,14 +74,14 @@ private fun PixivScaffold(
             PixivContent(
                 modifier = Modifier.padding(it),
                 navController = navController,
-                navigator = navigator
+                navigator = navigator,
             )
         },
         bottomBar = {
             CollapsibleBottomNavigation(
                 items = bottomNavigationItems,
                 currentDestination = currentDestination,
-                targetSection = PixivMainSection
+                targetSection = PixivMainSection,
             )
         },
     )

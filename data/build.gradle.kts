@@ -1,23 +1,15 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
+    alias(libs.plugins.neilt.mobile.android.library)
+    alias(libs.plugins.neilt.mobile.android.room)
 }
 
 kotlin {
-    androidTarget()
-
-    jvmToolchain(17)
-
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(projects.domain)
                 implementation(libs.koin.core)
                 implementation(libs.moshi)
-                implementation(libs.room)
-                implementation(libs.room.kotlin)
             }
         }
 
@@ -54,34 +46,11 @@ kotlin {
 }
 
 dependencies {
-    add("kspAndroid", libs.room.compiler)
     add("kspAndroid", libs.moshi.kotlin.codegen)
-}
-
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("room.incremental", "true")
-    arg("room.generateKotlin", "true")
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }
 
 android {
     namespace = "neilt.mobile.pixiv.data"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFile("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
     packaging {
         resources {
@@ -91,4 +60,3 @@ android {
         }
     }
 }
-

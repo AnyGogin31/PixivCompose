@@ -31,5 +31,5 @@ data class UserModel(
     val mailAddress: String,
     val accessToken: String,
     val refreshToken: String,
-    val tokenExpiresAt: Long
+    val tokenExpiresAt: Long,
 )

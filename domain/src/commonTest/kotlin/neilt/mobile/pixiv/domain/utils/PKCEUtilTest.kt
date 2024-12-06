@@ -35,8 +35,8 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 class PKCEUtilTest {
     private fun isUrlSafe(base64String: String): Boolean {
         return !base64String.contains('=') &&
-                !base64String.contains('+') &&
-                !base64String.contains('/')
+            !base64String.contains('+') &&
+            !base64String.contains('/')
     }
 
     @Test
@@ -48,8 +48,8 @@ class PKCEUtilTest {
         assertTrue("Code verifier should be URL-safe", isUrlSafe(codeVerifier))
         assertEquals(
             "Code verifier should have the expected length",
-            43, // Base64 encoding of 32 bytes results in 43 characters without padding
-            codeVerifier.length
+            43,
+            codeVerifier.length,
         )
     }
 
@@ -70,7 +70,7 @@ class PKCEUtilTest {
         assertEquals(
             "Code challenge should match the expected value",
             expectedCodeChallenge,
-            codeChallenge
+            codeChallenge,
         )
     }
 
@@ -84,12 +84,12 @@ class PKCEUtilTest {
         assertEquals(
             "Code verifier should remain consistent across accesses",
             firstVerifier,
-            secondVerifier
+            secondVerifier,
         )
         assertEquals(
             "Code challenge should remain consistent across accesses",
             firstChallenge,
-            secondChallenge
+            secondChallenge,
         )
     }
 
@@ -100,7 +100,7 @@ class PKCEUtilTest {
 
         assertNotNull(
             "Code verifier should be generated when accessing code challenge",
-            PKCEUtil.codeVerifier
+            PKCEUtil.codeVerifier,
         )
         assertTrue("Code verifier should not be empty", PKCEUtil.codeVerifier.isNotEmpty())
 
@@ -111,7 +111,7 @@ class PKCEUtilTest {
         assertEquals(
             "Code challenge should match the expected value",
             expectedCodeChallenge,
-            codeChallenge
+            codeChallenge,
         )
     }
 }

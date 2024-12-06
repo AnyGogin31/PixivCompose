@@ -38,7 +38,6 @@ internal class ProfileViewModel(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<ProfileViewState>(ProfileViewState.Loading)
     val uiState: StateFlow<ProfileViewState> = _uiState
 
@@ -59,7 +58,7 @@ internal class ProfileViewModel(
                 }
             } catch (e: Exception) {
                 _uiState.value = ProfileViewState.Error(
-                    e.localizedMessage ?: "Error fetching profile"
+                    e.localizedMessage ?: "Error fetching profile",
                 )
             }
         }

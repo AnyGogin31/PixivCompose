@@ -34,18 +34,17 @@ import neilt.mobile.pixiv.features.illustration.presentation.details.Illustratio
 
 @Serializable
 data object PixivIllustrationSection : Destination {
-
     @Serializable
     data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
 }
 
 fun NavGraphBuilder.addPixivIllustrationSection() {
     navigation<PixivIllustrationSection>(
-        startDestination = PixivIllustrationSection.IllustrationDetailsScreen::class
+        startDestination = PixivIllustrationSection.IllustrationDetailsScreen::class,
     ) {
         composable<PixivIllustrationSection.IllustrationDetailsScreen> {
             IllustrationDetailsView(
-                illustrationId = it.toRoute<PixivIllustrationSection.IllustrationDetailsScreen>().illustrationId
+                illustrationId = it.toRoute<PixivIllustrationSection.IllustrationDetailsScreen>().illustrationId,
             )
         }
     }

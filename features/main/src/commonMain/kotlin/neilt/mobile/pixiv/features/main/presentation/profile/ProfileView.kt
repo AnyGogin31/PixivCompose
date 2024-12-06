@@ -56,7 +56,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun ProfileView(
-    viewModel: ProfileViewModel = koinViewModel()
+    viewModel: ProfileViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -64,7 +64,7 @@ internal fun ProfileView(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         when (state) {
             is ProfileViewState.Loading -> LoadingView()
@@ -82,7 +82,7 @@ private fun ProfileContent(userDetail: UserDetail) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
@@ -116,7 +116,7 @@ private fun ProfileContent(userDetail: UserDetail) {
 
         HorizontalDivider(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            thickness = 1.dp
+            thickness = 1.dp,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -128,7 +128,7 @@ private fun ProfileContent(userDetail: UserDetail) {
         Row {
             profile.twitterAccount?.let {
                 TextButton(onClick = { /* Open Twitter */ }) {
-                    Text("Twitter: @${it}")
+                    Text("Twitter: @$it")
                 }
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -145,7 +145,7 @@ private fun ProfileContent(userDetail: UserDetail) {
 private fun LoadingView() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         CircularProgressIndicator()
     }
@@ -155,12 +155,12 @@ private fun LoadingView() {
 private fun ErrorView(message: String) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = message,
             color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -181,7 +181,7 @@ fun ProfileInfoItem(label: String, value: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = "$label:",

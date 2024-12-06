@@ -40,5 +40,5 @@ data class WorkspaceResponse(
     @Json(name = "music") val music: String,
     @Json(name = "desk") val desk: String,
     @Json(name = "chair") val chair: String,
-    @Json(name = "comment") val comment: String
+    @Json(name = "comment") val comment: String,
 )

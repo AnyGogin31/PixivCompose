@@ -67,7 +67,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun IllustrationDetailsView(
     illustrationId: Int,
-    viewModel: IllustrationDetailsViewModel = koinViewModel()
+    viewModel: IllustrationDetailsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -78,15 +78,15 @@ internal fun IllustrationDetailsView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
-        when(state) {
+        when (state) {
             is IllustrationDetailsViewState.Loading -> LoadingView()
             is IllustrationDetailsViewState.Error -> ErrorView(
-                message = (state as IllustrationDetailsViewState.Error).message
+                message = (state as IllustrationDetailsViewState.Error).message,
             )
             is IllustrationDetailsViewState.Loaded -> IllustrationDetailsContent(
-                illustration = (state as IllustrationDetailsViewState.Loaded).data
+                illustration = (state as IllustrationDetailsViewState.Loaded).data,
             )
         }
     }
@@ -171,7 +171,7 @@ private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
 private fun LoadingView() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         CircularProgressIndicator()
     }
@@ -181,12 +181,12 @@ private fun LoadingView() {
 private fun ErrorView(message: String) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = message,
             color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }

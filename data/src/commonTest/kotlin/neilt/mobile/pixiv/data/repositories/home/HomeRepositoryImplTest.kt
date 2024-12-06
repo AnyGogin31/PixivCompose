@@ -105,8 +105,8 @@ class HomeRepositoryImplTest {
         `when`(
             homeService.fetchRecommendedManga(
                 includeRankingIllustrations = false,
-                includePrivacyPolicy = false
-            )
+                includePrivacyPolicy = false,
+            ),
         ).thenReturn(Unit)
 
         repository.getRecommendedManga(

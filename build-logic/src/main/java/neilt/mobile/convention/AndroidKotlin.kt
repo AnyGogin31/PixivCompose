@@ -28,14 +28,37 @@ import com.android.build.api.dsl.CommonExtension
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
+internal fun Project.configureAndroidKotlinMultiplatform(
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
+) {
+    pluginManager.apply(libs.getPlugin("kotlinMultiplatform").get().pluginId)
+
+    extensions.configure<KotlinMultiplatformExtension> {
+        androidTarget()
+
+        jvmToolchain(17)
+    }
+
+    configureAndroidKotlinBase(commonExtension)
+}
 
 internal fun Project.configureAndroidKotlin(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     pluginManager.apply(libs.getPlugin("kotlinAndroid").get().pluginId)
+
+    configureAndroidKotlinBase(commonExtension)
+}
+
+private fun Project.configureAndroidKotlinBase(
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
+) {
 
     commonExtension.apply {
         compileSdk = Configuration.Sdk.COMPILE_SDK

@@ -37,9 +37,8 @@ import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 
 internal class AuthViewModel(
     private val authRepository: AuthRepository,
-    private val navigator: Navigator
+    private val navigator: Navigator,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<AuthViewState>(AuthViewState.Loading)
     val uiState: StateFlow<AuthViewState> = _uiState
 
@@ -49,9 +48,13 @@ internal class AuthViewModel(
             val result = withContext(Dispatchers.IO) {
                 authRepository.authorizeUser(codeAuthorization)
             }
-            _uiState.value = if (result.isSuccess) AuthViewState.Loaded else AuthViewState.Error(
-                result.exceptionOrNull()?.localizedMessage ?: "Unknown error"
-            )
+            _uiState.value = if (result.isSuccess) {
+                AuthViewState.Loaded
+            } else {
+                AuthViewState.Error(
+                    result.exceptionOrNull()?.localizedMessage ?: "Unknown error",
+                )
+            }
         }
     }
 

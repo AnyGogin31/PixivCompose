@@ -55,7 +55,7 @@ fun ProfileUserResponse.toModel() = ProfileUser(
 )
 
 fun ProfileImageUrlsResponse.toModel() = ProfileImageUrls(
-    medium = medium
+    medium = medium,
 )
 
 fun ProfileResponse.toModel() = Profile(
@@ -88,7 +88,7 @@ fun ProfilePublicityResponse.toModel() = ProfilePublicity(
     region = region,
     birthDay = birthDay,
     birthYear = birthYear,
-    job = job
+    job = job,
 )
 
 fun WorkspaceResponse.toModel() = Workspace(
@@ -103,5 +103,5 @@ fun WorkspaceResponse.toModel() = Workspace(
     music = music,
     desk = desk,
     chair = chair,
-    comment = comment
+    comment = comment,
 )

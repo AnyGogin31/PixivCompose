@@ -30,8 +30,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ProfileService {
-
     @Authorization
     @GET("/v2/user/detail?filter=for_android")
-    suspend fun fetchUserDetail(@Query("user_id") userId: Int): UserDetailResponse
+    suspend fun fetchUserDetail(
+        @Query("user_id") userId: Int,
+    ): UserDetailResponse
 }

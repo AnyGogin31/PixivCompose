@@ -50,7 +50,7 @@ internal class IllustrationDetailsViewModel(
                 _state.value = IllustrationDetailsViewState.Loaded(data = illustration)
             } catch (e: Exception) {
                 _state.value = IllustrationDetailsViewState.Error(
-                    message = e.localizedMessage ?: "Error loading illustrations"
+                    message = e.localizedMessage ?: "Error loading illustrations",
                 )
             }
         }

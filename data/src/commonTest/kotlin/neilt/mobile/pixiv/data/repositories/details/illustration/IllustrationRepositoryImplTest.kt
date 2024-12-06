@@ -59,23 +59,23 @@ class IllustrationRepositoryImplTest {
                 imageUrl = ImageUrlsResponse(
                     squareMediumUrl = "https://example.com/square.jpg",
                     mediumUrl = "https://example.com/medium.jpg",
-                    largeUrl = "https://example.com/large.jpg"
+                    largeUrl = "https://example.com/large.jpg",
                 ),
                 caption = "This is a test illustration.",
                 user = UserResponse(
                     id = 1,
                     name = "Test User",
                     profileImageUrl = ProfileImageUrlsResponse(
-                        medium = "https://example.com/profile.jpg"
-                    )
+                        medium = "https://example.com/profile.jpg",
+                    ),
                 ),
                 tags = listOf(
                     TagResponse(name = "tag1", translatedName = "Tag 1"),
-                    TagResponse(name = "tag2", translatedName = null)
+                    TagResponse(name = "tag2", translatedName = null),
                 ),
                 views = 1000,
-                bookmarks = 500
-            )
+                bookmarks = 500,
+            ),
         )
         `when`(illustrationService.fetchIllustration(illustrationId)).thenReturn(mockResponse)
 

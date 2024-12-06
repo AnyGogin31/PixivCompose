@@ -30,8 +30,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface IllustrationService {
-
     @Authorization
     @GET("/v1/illust/detail?filter=for_android")
-    suspend fun fetchIllustration(@Query("illust_id") illustrationId: Int): IllustrationDetailsRootResponse
+    suspend fun fetchIllustration(
+        @Query("illust_id") illustrationId: Int,
+    ): IllustrationDetailsRootResponse
 }

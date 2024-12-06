@@ -42,7 +42,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun LoginView(
-    viewModel: LoginViewModel = koinViewModel()
+    viewModel: LoginViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
 

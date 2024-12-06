@@ -32,7 +32,7 @@ import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
 class SearchRepositoryImpl(
-    private val searchService: SearchService
+    private val searchService: SearchService,
 ) : SearchRepository {
     override suspend fun getSearchIllustrations(request: SearchIllustrationsRequest): List<Illustration> {
         return searchService.fetchSearchIllustrations(request.toQueryMap()).illustrations.map { it.toModel() }

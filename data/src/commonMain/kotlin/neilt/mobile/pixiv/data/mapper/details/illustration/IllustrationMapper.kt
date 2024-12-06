@@ -52,5 +52,5 @@ fun UserResponse.toModel() = User(
 
 fun TagResponse.toModel() = Tag(
     name = name,
-    translatedName = translatedName
+    translatedName = translatedName,
 )

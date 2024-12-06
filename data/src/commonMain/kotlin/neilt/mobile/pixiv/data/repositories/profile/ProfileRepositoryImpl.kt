@@ -30,7 +30,7 @@ import neilt.mobile.pixiv.domain.models.profile.UserDetail
 import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 
 class ProfileRepositoryImpl(
-    private val profileService: ProfileService
+    private val profileService: ProfileService,
 ) : ProfileRepository {
     override suspend fun getUserDetail(userId: Int): UserDetail {
         return profileService.fetchUserDetail(userId).toModel()

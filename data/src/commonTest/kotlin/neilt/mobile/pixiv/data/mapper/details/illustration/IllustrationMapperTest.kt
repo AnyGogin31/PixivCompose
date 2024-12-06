@@ -33,7 +33,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class IllustrationMapperTest {
-
     @Test
     fun `IllustrationDetailsResponse toModel maps correctly`() {
         val response = IllustrationDetailsResponse(
@@ -42,22 +41,22 @@ class IllustrationMapperTest {
             imageUrl = ImageUrlsResponse(
                 squareMediumUrl = "http://example.com/square.jpg",
                 mediumUrl = "http://example.com/medium.jpg",
-                largeUrl = "http://example.com/large.jpg"
+                largeUrl = "http://example.com/large.jpg",
             ),
             caption = "Sample Caption",
             user = UserResponse(
                 id = 456,
                 name = "John Doe",
                 profileImageUrl = ProfileImageUrlsResponse(
-                    medium = "http://example.com/profile_medium.jpg"
-                )
+                    medium = "http://example.com/profile_medium.jpg",
+                ),
             ),
             tags = listOf(
                 TagResponse(name = "tag1", translatedName = "Tag 1"),
-                TagResponse(name = "tag2", translatedName = null)
+                TagResponse(name = "tag2", translatedName = null),
             ),
             views = 1000,
-            bookmarks = 500
+            bookmarks = 500,
         )
 
         val model = response.toModel()
@@ -87,8 +86,8 @@ class IllustrationMapperTest {
             id = 456,
             name = "John Doe",
             profileImageUrl = ProfileImageUrlsResponse(
-                medium = "http://example.com/profile_medium.jpg"
-            )
+                medium = "http://example.com/profile_medium.jpg",
+            ),
         )
 
         val model = response.toModel()

@@ -78,7 +78,7 @@ class AuthRepositoryImplTest {
                 userName = "name1",
                 userAccount = "account1",
                 userMailAddress = "mail1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
@@ -103,8 +103,8 @@ class AuthRepositoryImplTest {
                 userName = "name1",
                 userAccount = "account1",
                 userMailAddress = "mail1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
-            )
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
+            ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
 
@@ -138,9 +138,11 @@ class AuthRepositoryImplTest {
 
         assertTrue(result.isSuccess)
         verify(userDao).deactivateAllUsers()
-        verify(userDao).insertUser(argThat {
-            userId == "id1" && userName == "name1" && accessToken == "access_token"
-        })
+        verify(userDao).insertUser(
+            argThat {
+                userId == "id1" && userName == "name1" && accessToken == "access_token"
+            },
+        )
     }
 
     @Test
@@ -188,7 +190,7 @@ class AuthRepositoryImplTest {
             userName = "name1",
             userAccount = "account1",
             userMailAddress = "mail1",
-            tokenExpiresAt = validTokenExpiresAt
+            tokenExpiresAt = validTokenExpiresAt,
         )
         `when`(userDao.getActiveUser()).thenReturn(mockUser)
 
@@ -211,7 +213,7 @@ class AuthRepositoryImplTest {
             userName = "name1",
             userAccount = "account1",
             userMailAddress = "mail1",
-            tokenExpiresAt = expiredTokenExpiresAt
+            tokenExpiresAt = expiredTokenExpiresAt,
         )
         val mockResponse = AuthResponse(
             accessToken = "new_access_token",
@@ -224,7 +226,7 @@ class AuthRepositoryImplTest {
             ),
             expiresIn = 3600,
             tokenType = "bearer",
-            scope = ""
+            scope = "",
         )
         `when`(userDao.getActiveUser()).thenReturn(mockUser)
         `when`(authService.newRefreshToken(any())).thenReturn(mockResponse)
@@ -238,7 +240,7 @@ class AuthRepositoryImplTest {
             eq(mockUser.userId),
             eq("new_access_token"),
             eq("new_refresh_token"),
-            any()
+            any(),
         )
     }
 }

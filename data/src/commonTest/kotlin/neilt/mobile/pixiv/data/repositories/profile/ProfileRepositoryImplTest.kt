@@ -59,11 +59,11 @@ class ProfileRepositoryImplTest {
                 name = "Test User",
                 account = "test_account",
                 profileImageUrls = ProfileImageUrlsResponse(
-                    medium = "medium_image_url"
+                    medium = "medium_image_url",
                 ),
                 comment = "This is a test user.",
                 isFollowed = true,
-                isAccessBlockingUser = false
+                isAccessBlockingUser = false,
             ),
             profile = ProfileResponse(
                 webpage = "https://testuser.com",
@@ -87,14 +87,14 @@ class ProfileRepositoryImplTest {
                 twitterAccount = "testuser",
                 twitterUrl = "https://twitter.com/testuser",
                 isPremium = true,
-                isUsingCustomProfileImage = false
+                isUsingCustomProfileImage = false,
             ),
             profilePublicity = ProfilePublicityResponse(
                 gender = 0,
                 region = 1,
                 birthDay = 1,
                 birthYear = 1,
-                job = 1
+                job = 1,
             ),
             workspace = WorkspaceResponse(
                 pc = "High-end PC",
@@ -108,8 +108,8 @@ class ProfileRepositoryImplTest {
                 music = "Classical",
                 desk = "Wooden Desk",
                 chair = "Ergonomic Chair",
-                comment = "Perfect workspace for creativity."
-            )
+                comment = "Perfect workspace for creativity.",
+            ),
         )
         `when`(profileService.fetchUserDetail(userId.toInt())).thenReturn(mockResponse)
 

@@ -58,7 +58,7 @@ class SearchRepositoryImplTest {
             minBookmarks = 100,
             maxBookmarks = 500,
             startDate = "2023-01-01",
-            endDate = "2023-12-31"
+            endDate = "2023-12-31",
         )
 
         val mockResponse = IllustrationSearchResponse(
@@ -70,8 +70,8 @@ class SearchRepositoryImplTest {
                     imageUrls = ImageUrlsResponse(
                         squareMediumUrl = "square1",
                         mediumUrl = "medium1",
-                        largeUrl = "large1"
-                    )
+                        largeUrl = "large1",
+                    ),
                 ),
                 IllustrationResponse(
                     id = 2,
@@ -80,13 +80,13 @@ class SearchRepositoryImplTest {
                     imageUrls = ImageUrlsResponse(
                         squareMediumUrl = "square2",
                         mediumUrl = "medium2",
-                        largeUrl = "large2"
-                    )
-                )
+                        largeUrl = "large2",
+                    ),
+                ),
             ),
             nextUrl = null,
             searchSpanLimit = 1,
-            showUi = false
+            showUi = false,
         )
         `when`(searchService.fetchSearchIllustrations(request.toQueryMap())).thenReturn(mockResponse)
 
@@ -111,14 +111,14 @@ class SearchRepositoryImplTest {
             minBookmarks = null,
             maxBookmarks = null,
             startDate = null,
-            endDate = null
+            endDate = null,
         )
 
         val mockResponse = IllustrationSearchResponse(
             illustrations = emptyList(),
             nextUrl = null,
             searchSpanLimit = 1,
-            showUi = false
+            showUi = false,
         )
         `when`(searchService.fetchSearchIllustrations(request.toQueryMap())).thenReturn(mockResponse)
 

@@ -34,7 +34,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ProfileMapperTest {
-
     @Test
     fun `UserDetailResponse toModel maps correctly`() {
         val response = UserDetailResponse(
@@ -45,7 +44,7 @@ class ProfileMapperTest {
                 profileImageUrls = ProfileImageUrlsResponse(medium = "http://example.com/image.jpg"),
                 comment = "Sample comment",
                 isFollowed = true,
-                isAccessBlockingUser = false
+                isAccessBlockingUser = false,
             ),
             profile = ProfileResponse(
                 webpage = "http://example.com",
@@ -69,14 +68,14 @@ class ProfileMapperTest {
                 twitterAccount = "johndoe",
                 twitterUrl = "http://twitter.com/johndoe",
                 isPremium = true,
-                isUsingCustomProfileImage = false
+                isUsingCustomProfileImage = false,
             ),
             profilePublicity = ProfilePublicityResponse(
                 gender = 0,
                 region = 1,
                 birthDay = 1,
                 birthYear = 1,
-                job = 0
+                job = 0,
             ),
             workspace = WorkspaceResponse(
                 pc = "PC",
@@ -90,8 +89,8 @@ class ProfileMapperTest {
                 music = "Music",
                 desk = "Desk",
                 chair = "Chair",
-                comment = "Workspace comment"
-            )
+                comment = "Workspace comment",
+            ),
         )
 
         val model = response.toModel()
@@ -124,7 +123,7 @@ class ProfileMapperTest {
             profileImageUrls = ProfileImageUrlsResponse(medium = "http://example.com/image.jpg"),
             comment = "Sample comment",
             isFollowed = true,
-            isAccessBlockingUser = false
+            isAccessBlockingUser = false,
         )
 
         val model = response.toModel()
@@ -152,7 +151,7 @@ class ProfileMapperTest {
             music = "Music",
             desk = "Desk",
             chair = "Chair",
-            comment = "Workspace comment"
+            comment = "Workspace comment",
         )
 
         val model = response.toModel()

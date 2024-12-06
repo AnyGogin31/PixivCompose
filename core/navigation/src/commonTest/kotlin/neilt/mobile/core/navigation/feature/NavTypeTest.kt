@@ -37,7 +37,6 @@ import org.mockito.Mockito.`when`
 import org.mockito.kotlin.verify
 
 class NavTypeTest {
-
     @Serializable
     data class TestData(val id: Int, val name: String)
 

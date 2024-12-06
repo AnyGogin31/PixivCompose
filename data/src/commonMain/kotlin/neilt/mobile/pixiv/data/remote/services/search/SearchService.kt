@@ -30,8 +30,9 @@ import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
 interface SearchService {
-
     @Authorization
     @GET("/v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
-    suspend fun fetchSearchIllustrations(@QueryMap queryParams: Map<String, String?>): IllustrationSearchResponse
+    suspend fun fetchSearchIllustrations(
+        @QueryMap queryParams: Map<String, String?>,
+    ): IllustrationSearchResponse
 }

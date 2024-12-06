@@ -32,5 +32,5 @@ data class UserDetailResponse(
     @Json(name = "user") val user: ProfileUserResponse,
     @Json(name = "profile") val profile: ProfileResponse,
     @Json(name = "profile_publicity") val profilePublicity: ProfilePublicityResponse,
-    @Json(name = "workspace") val workspace: WorkspaceResponse
+    @Json(name = "workspace") val workspace: WorkspaceResponse,
 )

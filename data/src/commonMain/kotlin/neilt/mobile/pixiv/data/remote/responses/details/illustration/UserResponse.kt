@@ -32,5 +32,5 @@ import neilt.mobile.pixiv.data.remote.responses.profile.ProfileImageUrlsResponse
 data class UserResponse(
     @Json(name = "id") val id: Int,
     @Json(name = "name") val name: String,
-    @Json(name = "profile_image_urls") val profileImageUrl: ProfileImageUrlsResponse
+    @Json(name = "profile_image_urls") val profileImageUrl: ProfileImageUrlsResponse,
 )

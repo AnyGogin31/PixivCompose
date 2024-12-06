@@ -40,7 +40,6 @@ import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 
 class RootViewModel(val navigator: Navigator) : ViewModel() {
-
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,

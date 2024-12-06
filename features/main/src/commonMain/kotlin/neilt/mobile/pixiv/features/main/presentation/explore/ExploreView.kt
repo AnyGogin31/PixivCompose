@@ -66,7 +66,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun ExploreView(
-    viewModel: ExploreViewModel = koinViewModel()
+    viewModel: ExploreViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -95,7 +95,7 @@ internal fun ExploreView(
         Spacer(modifier = Modifier.height(8.dp))
 
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             when (state) {
                 is ExploreViewState.Loading -> LoadingView()
@@ -128,7 +128,7 @@ private fun IllustrationGrid(
 private fun LoadingView() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         CircularProgressIndicator()
     }
@@ -138,11 +138,11 @@ private fun LoadingView() {
 private fun EmptyView() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = "No illustrations found",
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -151,12 +151,12 @@ private fun EmptyView() {
 private fun ErrorView(message: String) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Text(
             text = message,
             color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -180,6 +180,6 @@ private fun IllustrationItem(
         contentScale = ContentScale.Crop,
         modifier = modifier
             .padding(4.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
     )
 }

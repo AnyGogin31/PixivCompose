@@ -24,8 +24,8 @@
 
 package neilt.mobile.pixiv.features.main.di
 
-import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
 import neilt.mobile.pixiv.features.main.presentation.explore.ExploreViewModel
+import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
 import neilt.mobile.pixiv.features.main.presentation.profile.ProfileViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
