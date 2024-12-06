@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import neilt.mobile.pixiv.core.state.whenState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,14 +61,16 @@ internal fun AuthView(
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
-        when (state) {
-            is AuthViewState.Loading -> LoadingView()
-            is AuthViewState.Loaded -> viewModel.navigateToMainSection()
-            is AuthViewState.Error -> ErrorView(
-                message = (state as AuthViewState.Error).message,
-                onBack = viewModel::navigateUp,
-            )
-        }
+        state.whenState<Unit>(
+            onLoading = { LoadingView() },
+            onLoaded = { viewModel.navigateToMainSection() },
+            onError = {
+                ErrorView(
+                    message = it,
+                    onBack = viewModel::navigateUp,
+                )
+            },
+        )
     }
 }
 

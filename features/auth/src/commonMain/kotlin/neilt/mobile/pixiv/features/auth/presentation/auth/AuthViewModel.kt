@@ -32,6 +32,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 
@@ -39,20 +43,20 @@ internal class AuthViewModel(
     private val authRepository: AuthRepository,
     private val navigator: Navigator,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<AuthViewState>(AuthViewState.Loading)
-    val uiState: StateFlow<AuthViewState> = _uiState
+    private val _uiState = MutableStateFlow<ViewState>(LoadingState)
+    val uiState: StateFlow<ViewState> = _uiState
 
     fun authorizeUser(codeAuthorization: String) {
         viewModelScope.launch {
-            _uiState.value = AuthViewState.Loading
+            _uiState.value = LoadingState
             val result = withContext(Dispatchers.IO) {
                 authRepository.authorizeUser(codeAuthorization)
             }
             _uiState.value = if (result.isSuccess) {
-                AuthViewState.Loaded
+                LoadedState(data = Unit)
             } else {
-                AuthViewState.Error(
-                    result.exceptionOrNull()?.localizedMessage ?: "Unknown error",
+                ErrorState(
+                    message = result.exceptionOrNull()?.localizedMessage ?: "Unknown error",
                 )
             }
         }

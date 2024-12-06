@@ -44,6 +44,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import org.koin.androidx.compose.koinViewModel
 
@@ -53,14 +54,16 @@ internal fun HomeView(
 ) {
     val state by viewModel.state.collectAsState()
 
-    when (state) {
-        is HomeViewState.Loading -> LoadingView()
-        is HomeViewState.Error -> ErrorView(message = (state as HomeViewState.Error).message)
-        is HomeViewState.Loaded -> IllustrationGrid(
-            illustrations = (state as HomeViewState.Loaded).data,
-            onIllustrationClick = viewModel::navigateToIllustrationDetails,
-        )
-    }
+    state.whenState<List<Illustration>>(
+        onLoading = { LoadingView() },
+        onError = { ErrorView(message = it) },
+        onLoaded = {
+            IllustrationGrid(
+                illustrations = it,
+                onIllustrationClick = viewModel::navigateToIllustrationDetails,
+            )
+        },
+    )
 }
 
 @Composable

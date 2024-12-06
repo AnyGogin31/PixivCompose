@@ -22,10 +22,28 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.presentation.auth
+package neilt.mobile.pixiv.core.state
 
-internal sealed class AuthViewState {
-    internal data object Loading : AuthViewState()
-    internal data object Loaded : AuthViewState()
-    internal data class Error(val message: String) : AuthViewState()
+interface ViewState
+
+object LoadingState : ViewState
+
+class LoadedState<out T>(val data: T) : ViewState
+
+class ErrorState(val message: String) : ViewState
+
+inline fun <reified T : ViewState> ViewState.onState(
+    invoke: T.() -> Unit,
+) {
+    if (this is T) invoke()
+}
+
+inline fun <reified T : Any> ViewState.whenState(
+    onLoading: () -> Unit = {},
+    onLoaded: (T) -> Unit = {},
+    onError: (String) -> Unit = {},
+) {
+    onState<LoadingState> { onLoading() }
+    onState<LoadedState<T>> { onLoaded(data) }
+    onState<ErrorState> { onError(message) }
 }

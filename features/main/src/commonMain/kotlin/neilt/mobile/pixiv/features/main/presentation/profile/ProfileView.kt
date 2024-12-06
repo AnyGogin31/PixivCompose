@@ -50,6 +50,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.domain.models.profile.Profile
 import neilt.mobile.pixiv.domain.models.profile.UserDetail
 import org.koin.androidx.compose.koinViewModel
@@ -66,11 +67,11 @@ internal fun ProfileView(
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
-        when (state) {
-            is ProfileViewState.Loading -> LoadingView()
-            is ProfileViewState.Error -> ErrorView(message = (state as ProfileViewState.Error).message)
-            is ProfileViewState.Loaded -> ProfileContent(userDetail = (state as ProfileViewState.Loaded).userDetail)
-        }
+        state.whenState<UserDetail>(
+            onLoading = { LoadingView() },
+            onError = { ErrorView(message = it) },
+            onLoaded = { ProfileContent(userDetail = it) },
+        )
     }
 }
 

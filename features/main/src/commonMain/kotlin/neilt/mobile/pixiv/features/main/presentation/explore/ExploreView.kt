@@ -92,14 +92,12 @@ internal fun ExploreView(
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
-            when (state) {
-                is ExploreViewState.Loading -> LoadingView()
-                is ExploreViewState.Empty -> EmptyView()
-                is ExploreViewState.Error -> ErrorView(message = (state as ExploreViewState.Error).message)
-                is ExploreViewState.Loaded -> IllustrationGrid(
-                    illustrations = (state as ExploreViewState.Loaded).illustrations,
-                )
-            }
+            state.whenExtended<List<Illustration>>(
+                onLoading = { LoadingView() },
+                onEmpty = { EmptyView() },
+                onError = { ErrorView(message = it) },
+                onLoaded = { IllustrationGrid(illustrations = it) },
+            )
         }
     }
 }

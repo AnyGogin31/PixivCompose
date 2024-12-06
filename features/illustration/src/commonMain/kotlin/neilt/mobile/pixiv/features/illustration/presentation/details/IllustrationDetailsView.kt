@@ -61,6 +61,7 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 import org.koin.androidx.compose.koinViewModel
 
@@ -80,15 +81,11 @@ internal fun IllustrationDetailsView(
             .fillMaxSize()
             .padding(16.dp),
     ) {
-        when (state) {
-            is IllustrationDetailsViewState.Loading -> LoadingView()
-            is IllustrationDetailsViewState.Error -> ErrorView(
-                message = (state as IllustrationDetailsViewState.Error).message,
-            )
-            is IllustrationDetailsViewState.Loaded -> IllustrationDetailsContent(
-                illustration = (state as IllustrationDetailsViewState.Loaded).data,
-            )
-        }
+        state.whenState<IllustrationDetails>(
+            onLoading = { LoadingView() },
+            onError = { ErrorView(message = it) },
+            onLoaded = { IllustrationDetailsContent(illustration = it) },
+        )
     }
 }
 
