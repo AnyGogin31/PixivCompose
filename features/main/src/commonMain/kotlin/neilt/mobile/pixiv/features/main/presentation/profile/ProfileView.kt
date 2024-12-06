@@ -86,7 +86,7 @@ private fun ProfileContent(userDetail: UserDetail) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
-                model = user.profileImageUrls.medium,
+                model = user.profileImageUrls,
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(72.dp)

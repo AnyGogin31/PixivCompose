@@ -41,14 +41,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.network.NetworkHeaders
-import coil3.network.httpHeaders
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import org.koin.androidx.compose.koinViewModel
 
@@ -117,15 +112,7 @@ private fun IllustrationItem(
     onClick: (Int) -> Unit,
 ) {
     AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(illustration.imageUrls.mediumUrl)
-            .httpHeaders(
-                NetworkHeaders.Builder()
-                    .set("referer", "https://app-api.pixiv.net/")
-                    .build(),
-            )
-            .crossfade(true)
-            .build(),
+        model = illustration.imageUrls,
         contentDescription = illustration.title,
         contentScale = ContentScale.Crop,
         modifier = modifier

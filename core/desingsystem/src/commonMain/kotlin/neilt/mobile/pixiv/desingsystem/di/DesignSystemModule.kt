@@ -24,10 +24,47 @@
 
 package neilt.mobile.pixiv.desingsystem.di
 
+import android.content.Context
+import coil3.ImageLoader
+import coil3.intercept.Interceptor
+import coil3.map.Mapper
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
+import coil3.request.CachePolicy
+import coil3.request.crossfade
+import neilt.mobile.pixiv.domain.models.home.ImageUrls
+import neilt.mobile.pixiv.domain.models.profile.ProfileImageUrls
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+private fun provideImageLoader(context: Context): ImageLoader {
+    return ImageLoader.Builder(context)
+        .crossfade(true)
+        .components {
+            add(Mapper<ImageUrls, String> { data, _ -> data.mediumUrl })
+            add(Mapper<ProfileImageUrls, String> { data, _ -> data.medium })
+            add(
+                Interceptor {
+                    it.withRequest(
+                        it.request.newBuilder()
+                            .httpHeaders(
+                                NetworkHeaders.Builder()
+                                    .set("referer", "https://app-api.pixiv.net/")
+                                    .build(),
+                            )
+                            .build(),
+                    ).proceed()
+                },
+            )
+        }
+        .diskCachePolicy(CachePolicy.ENABLED)
+        .build()
+}
+
 val designSystemModule = module {
+
+    single { provideImageLoader(context = get()) }
+
     includes(platformDesignSystemModule)
 }
 

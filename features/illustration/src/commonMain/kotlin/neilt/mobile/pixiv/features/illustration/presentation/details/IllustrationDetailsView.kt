@@ -129,15 +129,7 @@ private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
                     .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)),
             ) {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(illustration.user.profileImageUrl.medium)
-                        .httpHeaders(
-                            NetworkHeaders.Builder()
-                                .set("referer", "https://app-api.pixiv.net/")
-                                .build(),
-                        )
-                        .crossfade(true)
-                        .build(),
+                    model = illustration.user.profileImageUrl,
                     contentDescription = "Author avatar",
                     modifier = Modifier.clip(CircleShape),
                     contentScale = ContentScale.Crop,

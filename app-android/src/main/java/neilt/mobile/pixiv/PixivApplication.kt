@@ -25,16 +25,22 @@
 package neilt.mobile.pixiv
 
 import android.app.Application
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
 import neilt.mobile.pixiv.di.pixivModules
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class PixivApplication : Application() {
+    private val imageLoader: ImageLoader by inject()
+
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidContext(this@PixivApplication)
             modules(pixivModules)
         }
+        SingletonImageLoader.setSafe { imageLoader }
     }
 }
