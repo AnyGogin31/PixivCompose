@@ -1,36 +1,29 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.neilt.mobile.android.library)
+    alias(libs.plugins.neilt.mobile.android.compose)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.kotlinMultiplatform)
 }
 
 kotlin {
-    androidTarget()
-
     sourceSets {
-        commonMain.dependencies {
-            implementation(libs.compose.navigation)
-            implementation(libs.kotlin.serialization.json)
+        val commonMain by getting {
+            dependencies {
+                api(libs.compose.navigation)
+                api(libs.kotlin.serialization.json)
+            }
         }
-    }
 
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.coroutines.test)
+                implementation(libs.mockito.core)
+                implementation(libs.mockito.kotlin)
+            }
+        }
     }
 }
 
 android {
     namespace = "neilt.mobile.core.navigation"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFile("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 }

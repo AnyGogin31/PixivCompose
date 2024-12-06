@@ -24,7 +24,6 @@
 
 package neilt.mobile.core.navigation.feature
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -74,7 +73,7 @@ class NavType<T : Any>(
      * @return The deserialized object.
      */
     override fun parseValue(value: String): T {
-        return Json.decodeFromString(serializer, Uri.decode(value))
+        return Json.decodeFromString(serializer, value)
     }
 
     /**
@@ -84,6 +83,6 @@ class NavType<T : Any>(
      * @return The serialized string value.
      */
     override fun serializeAsValue(value: T): String {
-        return Uri.encode(Json.encodeToString(serializer, value))
+        return Json.encodeToString(serializer, value)
     }
 }

@@ -29,5 +29,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ProfileImageUrlsResponse(
-    @Json(name = "medium") val medium: String
+    @Json(name = "medium") val medium: String,
 )

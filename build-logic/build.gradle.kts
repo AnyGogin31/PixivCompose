@@ -68,6 +68,11 @@ gradlePlugin {
             implementationClass = "AndroidApplicationConventionPlugin"
         }
 
+        register("androidCompose") {
+            id = "neilt.mobile.android.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
+        }
+
         register("androidLibrary") {
             id = "neilt.mobile.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"

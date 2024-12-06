@@ -31,5 +31,5 @@ data class ProfileUser(
     val profileImageUrls: ProfileImageUrls,
     val comment: String,
     val isFollowed: Boolean,
-    val isAccessBlockingUser: Boolean
+    val isAccessBlockingUser: Boolean,
 )

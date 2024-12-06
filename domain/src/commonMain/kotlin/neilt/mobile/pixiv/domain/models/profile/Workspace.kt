@@ -36,5 +36,5 @@ data class Workspace(
     val music: String,
     val desk: String,
     val chair: String,
-    val comment: String
+    val comment: String,
 )

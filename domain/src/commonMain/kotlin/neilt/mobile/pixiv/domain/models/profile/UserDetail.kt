@@ -28,5 +28,5 @@ data class UserDetail(
     val user: ProfileUser,
     val profile: Profile,
     val profilePublicity: ProfilePublicity,
-    val workspace: Workspace
+    val workspace: Workspace,
 )

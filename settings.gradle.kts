@@ -1,5 +1,7 @@
 rootProject.name = "PixivCompose"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -23,10 +25,18 @@ dependencyResolutionManagement {
     }
 }
 
-include(":app")
+include(":app-android")
+
+include(":core:desingsystem")
+include(":core:navigation")
+
 include(":data")
 include(":domain")
 
-include(":core:navigation")
+include(":features:auth")
+include(":features:illustration")
+include(":features:main")
+include(":features:root")
 
-include(":desingsystem")
+include(":resources")
+include(":shared")

@@ -37,10 +37,10 @@ data class IllustrationDetailsResponse(
     @Json(name = "user") val user: UserResponse,
     @Json(name = "tags") val tags: List<TagResponse>,
     @Json(name = "total_view") val views: Int,
-    @Json(name = "total_bookmarks") val bookmarks: Int
+    @Json(name = "total_bookmarks") val bookmarks: Int,
 )
 
 @JsonClass(generateAdapter = true)
 data class IllustrationDetailsRootResponse(
-    @Json(name = "illust") val illustrationDetails: IllustrationDetailsResponse
+    @Json(name = "illust") val illustrationDetails: IllustrationDetailsResponse,
 )

@@ -50,5 +50,5 @@ data class ProfileResponse(
     @Json(name = "twitter_account") val twitterAccount: String?,
     @Json(name = "twitter_url") val twitterUrl: String?,
     @Json(name = "is_premium") val isPremium: Boolean,
-    @Json(name = "is_using_custom_profile_image") val isUsingCustomProfileImage: Boolean
+    @Json(name = "is_using_custom_profile_image") val isUsingCustomProfileImage: Boolean,
 )

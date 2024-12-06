@@ -11,6 +11,9 @@ plugins {
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
 
+    // Compose
+    alias(libs.plugins.compose) apply false
+
     // KSP
     alias(libs.plugins.ksp) apply false
 

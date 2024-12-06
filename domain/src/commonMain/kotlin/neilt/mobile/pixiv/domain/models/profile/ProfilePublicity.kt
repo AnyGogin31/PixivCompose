@@ -29,5 +29,5 @@ data class ProfilePublicity(
     val region: Int,
     val birthDay: Int,
     val birthYear: Int,
-    val job: Int
+    val job: Int,
 )

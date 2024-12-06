@@ -101,11 +101,19 @@ class HomeRepositoryImplTest {
     }
 
     @Test
-    fun `getRecommendedManga calls service with correct parameters`() = runTest {
+    fun `getRecommendedManga calls service and returns nothing if no data`() = runTest {
+        `when`(
+            homeService.fetchRecommendedManga(
+                includeRankingIllustrations = false,
+                includePrivacyPolicy = false,
+            ),
+        ).thenReturn(Unit)
+
         repository.getRecommendedManga(
             includeRankingIllustrations = false,
             includePrivacyPolicy = false,
         )
+
         verify(homeService).fetchRecommendedManga(
             includeRankingIllustrations = false,
             includePrivacyPolicy = false,

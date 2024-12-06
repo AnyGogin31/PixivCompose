@@ -115,7 +115,7 @@ class AuthRepositoryImpl(
             activeUser.id,
             response.accessToken,
             response.refreshToken,
-            System.currentTimeMillis() + response.expiresIn * 1000L
+            System.currentTimeMillis() + response.expiresIn * 1000L,
         )
 
         return Result.success(Unit)

@@ -1,0 +1,6 @@
+<resources>
+    <!-- Navigation labels -->
+    <string name="navigation_home">Home</string>
+    <string name="navigation_explore">Explore</string>
+    <string name="navigation_profile">Profile</string>
+</resources>

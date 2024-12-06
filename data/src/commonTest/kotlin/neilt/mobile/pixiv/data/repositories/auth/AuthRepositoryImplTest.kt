@@ -43,6 +43,8 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 
@@ -76,15 +78,17 @@ class AuthRepositoryImplTest {
                 userName = "name1",
                 userAccount = "account1",
                 userMailAddress = "mail1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
 
         val result = repository.getAllUsers()
+
         assertEquals(1, result.size)
         assertEquals("id1", result[0].id)
         assertEquals("name1", result[0].name)
+        verify(userDao).getAllUsers()
     }
 
     @Test
@@ -99,12 +103,13 @@ class AuthRepositoryImplTest {
                 userName = "name1",
                 userAccount = "account1",
                 userMailAddress = "mail1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
+                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
             ),
         )
         `when`(userDao.getAllUsers()).thenReturn(mockEntities)
 
         val result = repository.setActiveUser(userId)
+
         assertTrue(result.isSuccess)
         verify(userDao).deactivateAllUsers()
         verify(userDao).activateUser(userId)
@@ -127,13 +132,17 @@ class AuthRepositoryImplTest {
             scope = "",
         )
         `when`(userDao.getUserCount()).thenReturn(2)
-        `when`(authService.requestForAuthorization(any()))
-            .thenReturn(mockResponse)
+        `when`(authService.requestForAuthorization(any())).thenReturn(mockResponse)
 
         val result = repository.authorizeUser(code)
+
         assertTrue(result.isSuccess)
         verify(userDao).deactivateAllUsers()
-        verify(userDao).insertUser(any())
+        verify(userDao).insertUser(
+            argThat {
+                userId == "id1" && userName == "name1" && accessToken == "access_token"
+            },
+        )
     }
 
     @Test
@@ -141,8 +150,97 @@ class AuthRepositoryImplTest {
         `when`(userDao.getUserCount()).thenReturn(3)
 
         val result = repository.authorizeUser("test_code")
+
         assertTrue(result.isFailure)
         assertEquals("Maximum number of users reached.", result.exceptionOrNull()?.message)
         verify(userDao, never()).insertUser(any())
+    }
+
+    @Test
+    fun `getAllUsers returns empty list when no users are found`() = runTest {
+        `when`(userDao.getAllUsers()).thenReturn(emptyList())
+
+        val result = repository.getAllUsers()
+
+        assertTrue(result.isEmpty())
+        verify(userDao).getAllUsers()
+    }
+
+    @Test
+    fun `refreshActiveUserTokenIfNeeded fails when no active user exists`() = runTest {
+        `when`(userDao.getActiveUser()).thenReturn(null)
+
+        val result = repository.refreshActiveUserTokenIfNeeded()
+
+        assertTrue(result.isFailure)
+        assertEquals("No active user.", result.exceptionOrNull()?.message)
+        verify(userDao).getActiveUser()
+        verify(authService, never()).newRefreshToken(any())
+        verify(userDao, never()).updateUser(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `refreshActiveUserTokenIfNeeded succeeds when token is still valid`() = runTest {
+        val validTokenExpiresAt = System.currentTimeMillis() + 3600 * 1000
+        val mockUser = UserEntity(
+            isActive = true,
+            accessToken = "token1",
+            refreshToken = "refresh1",
+            userId = "id1",
+            userName = "name1",
+            userAccount = "account1",
+            userMailAddress = "mail1",
+            tokenExpiresAt = validTokenExpiresAt,
+        )
+        `when`(userDao.getActiveUser()).thenReturn(mockUser)
+
+        val result = repository.refreshActiveUserTokenIfNeeded()
+
+        assertTrue(result.isSuccess)
+        verify(userDao).getActiveUser()
+        verify(authService, never()).newRefreshToken(any())
+        verify(userDao, never()).updateUser(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `refreshActiveUserTokenIfNeeded refreshes token when expired`() = runTest {
+        val expiredTokenExpiresAt = System.currentTimeMillis() - 1000
+        val mockUser = UserEntity(
+            isActive = true,
+            accessToken = "old_token",
+            refreshToken = "old_refresh_token",
+            userId = "id1",
+            userName = "name1",
+            userAccount = "account1",
+            userMailAddress = "mail1",
+            tokenExpiresAt = expiredTokenExpiresAt,
+        )
+        val mockResponse = AuthResponse(
+            accessToken = "new_access_token",
+            refreshToken = "new_refresh_token",
+            user = UserResponse(
+                id = "id1",
+                name = "name1",
+                account = "account1",
+                mailAddress = "mail1",
+            ),
+            expiresIn = 3600,
+            tokenType = "bearer",
+            scope = "",
+        )
+        `when`(userDao.getActiveUser()).thenReturn(mockUser)
+        `when`(authService.newRefreshToken(any())).thenReturn(mockResponse)
+
+        val result = repository.refreshActiveUserTokenIfNeeded()
+
+        assertTrue(result.isSuccess)
+        verify(userDao).getActiveUser()
+        verify(authService).newRefreshToken(argThat { this["refresh_token"] == "old_refresh_token" })
+        verify(userDao).updateUser(
+            eq(mockUser.userId),
+            eq("new_access_token"),
+            eq("new_refresh_token"),
+            any(),
+        )
     }
 }

@@ -33,7 +33,7 @@ import org.gradle.kotlin.dsl.configure
 
 class AndroidApplicationConventionPlugin : AndroidConventionPluginBase() {
 
-    override fun Project.getPluginId() = libs.getPlugin("androidApplication").get().pluginId
+    override fun Project.getPluginId(): String = libs.getPlugin("androidApplication").get().pluginId
 
     override fun Project.configureAndroid() {
         extensions.configure<ApplicationExtension> {

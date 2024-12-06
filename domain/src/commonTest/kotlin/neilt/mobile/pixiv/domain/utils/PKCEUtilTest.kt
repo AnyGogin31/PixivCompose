@@ -39,7 +39,6 @@ class PKCEUtilTest {
             !base64String.contains('/')
     }
 
-    @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun `codeVerifier is correctly generated`() {
         val codeVerifier = PKCEUtil.codeVerifier
@@ -47,8 +46,6 @@ class PKCEUtilTest {
         assertNotNull("Code verifier should not be null", codeVerifier)
         assertTrue("Code verifier should not be empty", codeVerifier.isNotEmpty())
         assertTrue("Code verifier should be URL-safe", isUrlSafe(codeVerifier))
-
-        // Base64 encoding of 32 bytes = 43 characters without padding
         assertEquals(
             "Code verifier should have the expected length",
             43,
@@ -58,7 +55,7 @@ class PKCEUtilTest {
 
     @OptIn(ExperimentalEncodingApi::class)
     @Test
-    fun `codeChallenge is correctly derived from codeVerifier`() {
+    fun `codeChallenge is derived correctly from codeVerifier`() {
         val codeVerifier = PKCEUtil.codeVerifier
         val codeChallenge = PKCEUtil.codeChallenge
 
@@ -78,7 +75,7 @@ class PKCEUtilTest {
     }
 
     @Test
-    fun `codeVerifier and codeChallenge remain consistent`() {
+    fun `codeVerifier and codeChallenge remain consistent across accesses`() {
         val firstVerifier = PKCEUtil.codeVerifier
         val secondVerifier = PKCEUtil.codeVerifier
         val firstChallenge = PKCEUtil.codeChallenge
@@ -117,14 +114,4 @@ class PKCEUtilTest {
             codeChallenge,
         )
     }
-
-//    @Test
-//    fun `CODE_VERIFIER_LENGTH is correct`() {
-//        val codeVerifierLengthField = PKCEUtil::class.java.getDeclaredField("CODE_VERIFIER_LENGTH")
-//        codeVerifierLengthField.isAccessible = true
-//        val length = codeVerifierLengthField.getInt(null)
-//
-//        val expectedLength = 32
-//        assertEquals("Code verifier length constant should match expected value", expectedLength, length)
-//    }
 }

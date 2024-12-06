@@ -46,5 +46,5 @@ data class Profile(
     val twitterAccount: String?,
     val twitterUrl: String?,
     val isPremium: Boolean,
-    val isUsingCustomProfileImage: Boolean
+    val isUsingCustomProfileImage: Boolean,
 )

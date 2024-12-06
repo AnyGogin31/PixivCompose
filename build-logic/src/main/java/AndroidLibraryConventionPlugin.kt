@@ -23,7 +23,7 @@
  */
 
 import com.android.build.api.dsl.LibraryExtension
-import neilt.mobile.convention.configureAndroidKotlin
+import neilt.mobile.convention.configureAndroidKotlinMultiplatform
 import neilt.mobile.convention.configureAndroidLibrary
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.libs
@@ -32,12 +32,12 @@ import org.gradle.kotlin.dsl.configure
 
 class AndroidLibraryConventionPlugin : AndroidConventionPluginBase() {
 
-    override fun Project.getPluginId() = libs.getPlugin("androidLibrary").get().pluginId
+    override fun Project.getPluginId(): String = libs.getPlugin("androidLibrary").get().pluginId
 
     override fun Project.configureAndroid() {
         extensions.configure<LibraryExtension> {
             configureAndroidLibrary(this)
-            configureAndroidKotlin(this)
+            configureAndroidKotlinMultiplatform(this)
         }
     }
 }

@@ -25,5 +25,5 @@
 package neilt.mobile.pixiv.domain.models.profile
 
 data class ProfileImageUrls(
-    val medium: String
+    val medium: String,
 )
