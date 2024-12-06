@@ -22,12 +22,28 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.home
+package neilt.mobile.pixiv.core.state
 
-import neilt.mobile.pixiv.domain.models.home.Illustration
+interface ViewState
 
-internal sealed class HomeViewState {
-    internal data object Loading : HomeViewState()
-    internal data class Loaded(val data: List<Illustration>) : HomeViewState()
-    internal data class Error(val message: String) : HomeViewState()
+object LoadingState : ViewState
+
+class LoadedState<out T>(val data: T) : ViewState
+
+class ErrorState(val message: String) : ViewState
+
+inline fun <reified T : ViewState> ViewState.onState(
+    invoke: T.() -> Unit,
+) {
+    if (this is T) invoke()
+}
+
+inline fun <reified T : Any> ViewState.whenState(
+    onLoading: () -> Unit = {},
+    onLoaded: (T) -> Unit = {},
+    onError: (String) -> Unit = {},
+) {
+    onState<LoadingState> { onLoading() }
+    onState<LoadedState<T>> { onLoaded(data) }
+    onState<ErrorState> { onError(message) }
 }

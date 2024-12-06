@@ -42,7 +42,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,13 +53,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import neilt.mobile.pixiv.core.state.whenState
+import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
+import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 import org.koin.androidx.compose.koinViewModel
 
@@ -80,15 +81,11 @@ internal fun IllustrationDetailsView(
             .fillMaxSize()
             .padding(16.dp),
     ) {
-        when (state) {
-            is IllustrationDetailsViewState.Loading -> LoadingView()
-            is IllustrationDetailsViewState.Error -> ErrorView(
-                message = (state as IllustrationDetailsViewState.Error).message,
-            )
-            is IllustrationDetailsViewState.Loaded -> IllustrationDetailsContent(
-                illustration = (state as IllustrationDetailsViewState.Loaded).data,
-            )
-        }
+        state.whenState<IllustrationDetails>(
+            onLoading = { LoadingView() },
+            onError = { ErrorView(message = it) },
+            onLoaded = { IllustrationDetailsContent(illustration = it) },
+        )
     }
 }
 
@@ -129,15 +126,7 @@ private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
                     .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)),
             ) {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(illustration.user.profileImageUrl.medium)
-                        .httpHeaders(
-                            NetworkHeaders.Builder()
-                                .set("referer", "https://app-api.pixiv.net/")
-                                .build(),
-                        )
-                        .crossfade(true)
-                        .build(),
+                    model = illustration.user.profileImageUrl,
                     contentDescription = "Author avatar",
                     modifier = Modifier.clip(CircleShape),
                     contentScale = ContentScale.Crop,
@@ -164,30 +153,6 @@ private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
                 TagChip(tag.name)
             }
         }
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun ErrorView(message: String) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        Text(
-            text = message,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center,
-        )
     }
 }
 

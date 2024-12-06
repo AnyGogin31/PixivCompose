@@ -22,12 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.profile
+package neilt.mobile.pixiv.desingsystem.components.views
 
-import neilt.mobile.pixiv.domain.models.profile.UserDetail
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 
-internal sealed class ProfileViewState {
-    internal data object Loading : ProfileViewState()
-    internal data class Loaded(val userDetail: UserDetail) : ProfileViewState()
-    internal data class Error(val message: String) : ProfileViewState()
+@Composable
+fun ErrorView(message: String) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Text(
+            text = message,
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center,
+        )
+    }
 }

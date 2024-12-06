@@ -13,6 +13,7 @@ kotlin {
 
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation)
+                implementation(projects.core.state)
 
                 implementation(projects.features.illustration)
 

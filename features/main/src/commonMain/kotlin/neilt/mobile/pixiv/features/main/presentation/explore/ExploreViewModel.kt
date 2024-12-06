@@ -29,23 +29,30 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
+import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 
 internal class ExploreViewModel(
     private val searchRepository: SearchRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<ExploreViewState>(ExploreViewState.Empty)
-    val uiState: StateFlow<ExploreViewState> = _uiState
+    private val _uiState = MutableStateFlow<ViewState>(Empty)
+    val uiState: StateFlow<ViewState> = _uiState
 
     fun searchIllustrations(keyword: String) {
         if (keyword.isBlank()) {
-            _uiState.value = ExploreViewState.Empty
+            _uiState.value = Empty
             return
         }
 
         viewModelScope.launch {
-            _uiState.value = ExploreViewState.Loading
+            _uiState.value = LoadingState
 
             try {
                 val results = searchRepository.getSearchIllustrations(
@@ -63,17 +70,23 @@ internal class ExploreViewModel(
 
                 _uiState.value =
                     if (results.isEmpty()) {
-                        ExploreViewState.Empty
+                        Empty
                     } else {
-                        ExploreViewState.Loaded(
-                            illustrations = results,
-                        )
+                        LoadedState(data = results)
                     }
             } catch (e: Exception) {
-                _uiState.value = ExploreViewState.Error(
+                _uiState.value = ErrorState(
                     message = e.localizedMessage ?: "Error searching illustrations",
                 )
             }
+        }
+    }
+
+    fun navigateToIllustrationDetails(illustrationId: Int) {
+        viewModelScope.launch {
+            navigator.navigateTo(
+                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId),
+            )
         }
     }
 }

@@ -22,10 +22,21 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.presentation.auth
+package neilt.mobile.pixiv.desingsystem.components.views
 
-internal sealed class AuthViewState {
-    internal data object Loading : AuthViewState()
-    internal data object Loaded : AuthViewState()
-    internal data class Error(val message: String) : AuthViewState()
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+
+@Composable
+fun LoadingView() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        CircularProgressIndicator()
+    }
 }

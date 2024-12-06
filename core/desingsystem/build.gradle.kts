@@ -7,7 +7,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.domain)
+
                 implementation(projects.core.navigation)
+
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network)
             }
         }
     }

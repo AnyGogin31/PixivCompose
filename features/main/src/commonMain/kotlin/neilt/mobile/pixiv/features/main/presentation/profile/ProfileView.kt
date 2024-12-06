@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,9 +46,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import neilt.mobile.pixiv.core.state.whenState
+import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
+import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.profile.Profile
 import neilt.mobile.pixiv.domain.models.profile.UserDetail
 import org.koin.androidx.compose.koinViewModel
@@ -66,11 +67,11 @@ internal fun ProfileView(
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
-        when (state) {
-            is ProfileViewState.Loading -> LoadingView()
-            is ProfileViewState.Error -> ErrorView(message = (state as ProfileViewState.Error).message)
-            is ProfileViewState.Loaded -> ProfileContent(userDetail = (state as ProfileViewState.Loaded).userDetail)
-        }
+        state.whenState<UserDetail>(
+            onLoading = { LoadingView() },
+            onError = { ErrorView(message = it) },
+            onLoaded = { ProfileContent(userDetail = it) },
+        )
     }
 }
 
@@ -86,7 +87,7 @@ private fun ProfileContent(userDetail: UserDetail) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
-                model = user.profileImageUrls.medium,
+                model = user.profileImageUrls,
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(72.dp)
@@ -138,30 +139,6 @@ private fun ProfileContent(userDetail: UserDetail) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun ErrorView(message: String) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        Text(
-            text = message,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center,
-        )
     }
 }
 

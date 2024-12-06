@@ -32,24 +32,28 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 
 internal class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
 ) : ViewModel() {
-    private val _state = MutableStateFlow<IllustrationDetailsViewState>(IllustrationDetailsViewState.Loading)
-    val state: StateFlow<IllustrationDetailsViewState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<ViewState>(LoadingState)
+    val state: StateFlow<ViewState> = _state.asStateFlow()
 
     fun loadIllustration(illustrationId: Int) {
         viewModelScope.launch {
-            _state.value = IllustrationDetailsViewState.Loading
+            _state.value = LoadingState
             try {
                 val illustration = withContext(Dispatchers.IO) {
                     illustrationRepository.getIllustration(illustrationId)
                 }
-                _state.value = IllustrationDetailsViewState.Loaded(data = illustration)
+                _state.value = LoadedState(data = illustration)
             } catch (e: Exception) {
-                _state.value = IllustrationDetailsViewState.Error(
+                _state.value = ErrorState(
                     message = e.localizedMessage ?: "Error loading illustrations",
                 )
             }

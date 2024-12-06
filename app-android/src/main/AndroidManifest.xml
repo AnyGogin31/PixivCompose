@@ -27,8 +27,7 @@
 
         <activity
             android:name="neilt.mobile.pixiv.ui.LauncherActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

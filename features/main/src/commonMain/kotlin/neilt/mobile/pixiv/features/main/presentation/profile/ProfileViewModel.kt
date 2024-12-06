@@ -31,6 +31,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 
@@ -38,8 +42,8 @@ internal class ProfileViewModel(
     private val profileRepository: ProfileRepository,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<ProfileViewState>(ProfileViewState.Loading)
-    val uiState: StateFlow<ProfileViewState> = _uiState
+    private val _uiState = MutableStateFlow<ViewState>(LoadingState)
+    val uiState: StateFlow<ViewState> = _uiState
 
     init {
         fetchCurrentUserProfile()
@@ -47,17 +51,17 @@ internal class ProfileViewModel(
 
     private fun fetchCurrentUserProfile() {
         viewModelScope.launch {
-            _uiState.value = ProfileViewState.Loading
+            _uiState.value = LoadingState
             try {
                 val activeUser = withContext(Dispatchers.IO) { authRepository.getActiveUser() }
                 if (activeUser != null) {
                     val userDetail = profileRepository.getUserDetail(activeUser.id.toInt())
-                    _uiState.value = ProfileViewState.Loaded(userDetail = userDetail)
+                    _uiState.value = LoadedState(data = userDetail)
                 } else {
-                    _uiState.value = ProfileViewState.Error("No active user found")
+                    _uiState.value = ErrorState("No active user found")
                 }
             } catch (e: Exception) {
-                _uiState.value = ProfileViewState.Error(
+                _uiState.value = ErrorState(
                     e.localizedMessage ?: "Error fetching profile",
                 )
             }

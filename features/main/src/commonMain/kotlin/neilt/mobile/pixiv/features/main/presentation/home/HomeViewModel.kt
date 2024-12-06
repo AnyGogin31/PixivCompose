@@ -33,6 +33,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 
@@ -40,8 +44,8 @@ internal class HomeViewModel(
     private val homeRepository: HomeRepository,
     private val navigator: Navigator,
 ) : ViewModel() {
-    private val _state = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
-    val state: StateFlow<HomeViewState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<ViewState>(LoadingState)
+    val state: StateFlow<ViewState> = _state.asStateFlow()
 
     init {
         loadIllustrations()
@@ -49,7 +53,7 @@ internal class HomeViewModel(
 
     private fun loadIllustrations() {
         viewModelScope.launch {
-            _state.value = HomeViewState.Loading
+            _state.value = LoadingState
             try {
                 val illustrations = withContext(Dispatchers.IO) {
                     homeRepository.getRecommendedIllustrations(
@@ -57,9 +61,9 @@ internal class HomeViewModel(
                         includePrivacyPolicy = false,
                     )
                 }
-                _state.value = HomeViewState.Loaded(data = illustrations)
+                _state.value = LoadedState(data = illustrations)
             } catch (e: Exception) {
-                _state.value = HomeViewState.Error(
+                _state.value = ErrorState(
                     message = e.localizedMessage ?: "Error loading illustrations",
                 )
             }

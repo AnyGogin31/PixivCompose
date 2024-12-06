@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +40,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import neilt.mobile.pixiv.core.state.whenState
+import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,24 +61,16 @@ internal fun AuthView(
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
-        when (state) {
-            is AuthViewState.Loading -> LoadingView()
-            is AuthViewState.Loaded -> viewModel.navigateToMainSection()
-            is AuthViewState.Error -> ErrorView(
-                message = (state as AuthViewState.Error).message,
-                onBack = viewModel::navigateUp,
-            )
-        }
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        CircularProgressIndicator()
+        state.whenState<Unit>(
+            onLoading = { LoadingView() },
+            onLoaded = { viewModel.navigateToMainSection() },
+            onError = {
+                ErrorView(
+                    message = it,
+                    onBack = viewModel::navigateUp,
+                )
+            },
+        )
     }
 }
 
