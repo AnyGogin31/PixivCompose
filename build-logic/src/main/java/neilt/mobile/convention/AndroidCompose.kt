@@ -63,6 +63,12 @@ internal fun Project.configureAndroidCompose(
             debugImplementation(libs.getLibrary("compose-ui-tooling"))
 
             implementation(libs.getBundle("compose-additions"))
+
+            // Koin
+            implementation(platform(libs.getLibrary("koin-bom")))
+            implementation(libs.getLibrary("koin-core"))
+            implementation(libs.getLibrary("koin-android"))
+            implementation(libs.getLibrary("koin-android-compose"))
         }
 
         packaging {

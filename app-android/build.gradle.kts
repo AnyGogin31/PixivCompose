@@ -21,15 +21,6 @@ dependencies {
 
     // AndroidX
     implementation(libs.android.core.splashscreen)
-
-    // Navigation
-    implementation(libs.compose.navigation)
-
-    // Koin
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.android.compose)
 }
 
 android {

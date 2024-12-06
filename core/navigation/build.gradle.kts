@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.neilt.mobile.android.library)
-    alias(libs.plugins.kotlinCompose)
+    alias(libs.plugins.neilt.mobile.android.compose)
     alias(libs.plugins.kotlinSerialization)
 }
 
@@ -8,8 +8,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.compose.navigation)
-                implementation(libs.kotlin.serialization.json)
+                api(libs.compose.navigation)
+                api(libs.kotlin.serialization.json)
             }
         }
 
@@ -26,10 +26,4 @@ kotlin {
 
 android {
     namespace = "neilt.mobile.core.navigation"
-
-    packaging {
-        jniLibs {
-            keepDebugSymbols.add("**/libandroidx.graphics.path.so")
-        }
-    }
 }
