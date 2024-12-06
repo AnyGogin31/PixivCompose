@@ -29,15 +29,18 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
+import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 
 internal class ExploreViewModel(
     private val searchRepository: SearchRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ViewState>(Empty)
     val uiState: StateFlow<ViewState> = _uiState
@@ -76,6 +79,14 @@ internal class ExploreViewModel(
                     message = e.localizedMessage ?: "Error searching illustrations",
                 )
             }
+        }
+    }
+
+    fun navigateToIllustrationDetails(illustrationId: Int) {
+        viewModelScope.launch {
+            navigator.navigateTo(
+                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId),
+            )
         }
     }
 }

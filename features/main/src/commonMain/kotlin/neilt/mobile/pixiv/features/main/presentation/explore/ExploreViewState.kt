@@ -30,7 +30,7 @@ import neilt.mobile.pixiv.core.state.whenState
 
 internal object Empty : ViewState
 
-internal inline fun <reified T : Any> ViewState.whenExtended(
+internal inline fun <reified T : Any> ViewState.whenStateExtended(
     onLoading: () -> Unit = {},
     onLoaded: (T) -> Unit = {},
     onError: (String) -> Unit = {},

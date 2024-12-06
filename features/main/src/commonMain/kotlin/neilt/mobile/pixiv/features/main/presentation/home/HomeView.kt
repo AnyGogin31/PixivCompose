@@ -24,17 +24,27 @@
 
 package neilt.mobile.pixiv.features.main.presentation.home
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import neilt.mobile.pixiv.core.state.whenState
@@ -53,27 +63,36 @@ internal fun HomeView(
         onLoading = { LoadingView() },
         onError = { ErrorView(message = it) },
         onLoaded = {
-            IllustrationGrid(
+            IllustrationsGallery(
                 illustrations = it,
-                onIllustrationClick = viewModel::navigateToIllustrationDetails,
+                onIllustrationSelected = viewModel::navigateToIllustrationDetails,
             )
         },
     )
 }
 
 @Composable
-private fun IllustrationGrid(
+internal fun IllustrationsGallery(
+    modifier: Modifier = Modifier,
     illustrations: List<Illustration>,
-    onIllustrationClick: (Int) -> Unit,
+    onIllustrationSelected: (Int) -> Unit,
 ) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.padding(8.dp),
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = modifier.fillMaxSize(),
+        state = rememberLazyGridState(),
+        contentPadding = PaddingValues(8.dp),
+        reverseLayout = false,
     ) {
-        items(illustrations) { illustration ->
+        items(
+            items = illustrations,
+            key = { it.id },
+        ) { item ->
             IllustrationItem(
-                illustration = illustration,
-                onClick = onIllustrationClick,
+                illustration = item,
+                onClick = {
+                    onIllustrationSelected(item.id)
+                },
             )
         }
     }
@@ -82,16 +101,40 @@ private fun IllustrationGrid(
 @Composable
 private fun IllustrationItem(
     modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(4.dp),
     illustration: Illustration,
-    onClick: (Int) -> Unit,
+    onClick: () -> Unit,
 ) {
-    AsyncImage(
-        model = illustration.imageUrls,
-        contentDescription = illustration.title,
-        contentScale = ContentScale.Crop,
+    Card(
         modifier = modifier
-            .padding(4.dp)
+            .padding(contentPadding)
             .fillMaxWidth()
-            .clickable { onClick(illustration.id) },
-    )
+            .aspectRatio(.75f)
+            .semantics { contentDescription = "Illustration: ${illustration.title}" },
+        onClick = onClick,
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            AsyncImage(
+                model = illustration.imageUrls,
+                contentDescription = illustration.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            )
+
+            Text(
+                text = illustration.title,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                softWrap = false,
+            )
+        }
+    }
 }

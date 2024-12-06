@@ -24,38 +24,36 @@
 
 package neilt.mobile.pixiv.features.main.presentation.explore
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
-import kotlinx.coroutines.launch
+import androidx.compose.ui.zIndex
+import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.features.main.presentation.home.IllustrationsGallery
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -63,70 +61,96 @@ internal fun ExploreView(
     viewModel: ExploreViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
-    var searchText by remember { mutableStateOf(TextFieldValue("")) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-    ) {
-        OutlinedTextField(
-            value = searchText,
-            onValueChange = { newText -> searchText = newText },
-            label = { Text("Search") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    coroutineScope.launch {
-                        viewModel.searchIllustrations(searchText.text)
-                    }
-                },
-            ),
+    ExploreViewContent(
+        uiState = state,
+        onSearch = viewModel::searchIllustrations,
+        onIllustrationSelected = viewModel::navigateToIllustrationDetails,
+    )
+}
+
+@Composable
+private fun ExploreViewContent(
+    uiState: ViewState,
+    onSearch: (String) -> Unit,
+    onIllustrationSelected: (Int) -> Unit,
+) {
+    Column {
+        SearchInputView(
+            modifier = Modifier.zIndex(1f),
+            onSearch = onSearch,
+            content = {},
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            state.whenExtended<List<Illustration>>(
-                onLoading = { LoadingView() },
-                onEmpty = { EmptyView(message = "No illustrations found") },
-                onError = { ErrorView(message = it) },
-                onLoaded = { IllustrationGrid(illustrations = it) },
-            )
-        }
+        uiState.whenStateExtended<List<Illustration>>(
+            onLoading = { LoadingView() },
+            onEmpty = { EmptyView(message = "No illustrations found") },
+            onError = { ErrorView(message = it) },
+            onLoaded = {
+                IllustrationsGallery(
+                    illustrations = it,
+                    onIllustrationSelected = onIllustrationSelected,
+                )
+            },
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun IllustrationGrid(
-    illustrations: List<Illustration>,
-) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-    ) {
-        items(illustrations) { illustration ->
-            IllustrationItem(
-                illustration = illustration,
-            )
-        }
-    }
-}
-
-@Composable
-private fun IllustrationItem(
+private fun SearchInputView(
     modifier: Modifier = Modifier,
-    illustration: Illustration,
+    onSearch: (String) -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
-    AsyncImage(
-        model = illustration.imageUrls,
-        contentDescription = illustration.title,
-        contentScale = ContentScale.Crop,
+    val isKeyboardVisible by keyboardAsState()
+
+    var query by rememberSaveable { mutableStateOf("") }
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
+
+    val focusManager = LocalFocusManager.current
+    val hideKeyboardAndCollapse = fun() {
+        focusManager.clearFocus()
+        isExpanded = false
+    }
+
+    val onExecuteSearch = fun(input: String) {
+        hideKeyboardAndCollapse()
+        onSearch(input)
+    }
+
+    LaunchedEffect(isKeyboardVisible) {
+        if (!isKeyboardVisible) {
+            hideKeyboardAndCollapse()
+        }
+    }
+
+    DockedSearchBar(
         modifier = modifier
-            .padding(4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(
+                horizontal = 24.dp,
+                vertical = 8.dp,
+            ),
+        inputField = {
+            SearchBarDefaults.InputField(
+                query = query,
+                onQueryChange = { query = it },
+                onSearch = onExecuteSearch,
+                expanded = isExpanded,
+                onExpandedChange = { isExpanded = it },
+                placeholder = { Text("Search illustrations...") },
+            )
+        },
+        expanded = isExpanded,
+        onExpandedChange = { isExpanded = it },
+        content = content,
     )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun keyboardAsState(): State<Boolean> {
+    val isImeVisible = WindowInsets.isImeVisible
+    return rememberUpdatedState(isImeVisible)
 }
