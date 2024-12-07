@@ -24,9 +24,9 @@
 
 package neilt.mobile.core.navigation
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class NavigationActionTest {
     object TestDestination : Destination

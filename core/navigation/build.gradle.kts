@@ -5,6 +5,10 @@ plugins {
 }
 
 kotlin {
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -17,8 +21,6 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.kotlin.coroutines.test)
-                implementation(libs.mockito.core)
-                implementation(libs.mockito.kotlin)
             }
         }
     }

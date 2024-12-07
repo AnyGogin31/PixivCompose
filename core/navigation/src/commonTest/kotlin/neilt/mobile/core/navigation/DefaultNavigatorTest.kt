@@ -26,46 +26,46 @@ package neilt.mobile.core.navigation
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-class AndroidNavigatorTest {
+class DefaultNavigatorTest {
     object AnotherDestination : Destination
 
     @Test
     fun `navigateTo emits correct navigation action`() = runTest {
-        val navigator = AndroidNavigator()
+        val navigator = DefaultNavigator()
         val navOptions: NavOptions = { /* options */ }
 
         navigator.navigateTo(AnotherDestination, navOptions)
 
         val action = navigator.navigationActions.first()
-        assertTrue(action is NavigationAction.NavigateTo)
-        assertEquals(AnotherDestination, (action as NavigationAction.NavigateTo).destination)
+        assertTrue(action is NavigationAction.NavigateTo, "Expected NavigateTo action")
+        assertEquals(AnotherDestination, action.destination)
         assertEquals(navOptions, action.navOptions)
     }
 
     @Test
     fun `navigateUp emits NavigateUp action`() = runTest {
-        val navigator = AndroidNavigator()
+        val navigator = DefaultNavigator()
 
         navigator.navigateUp()
 
         val action = navigator.navigationActions.first()
-        assertEquals(NavigationAction.NavigateUp, action)
+        assertEquals(NavigationAction.NavigateUp, action, "Expected NavigateUp action")
     }
 
     @Test
     fun `duplicate actions are not emitted`() = runTest {
-        val navigator = AndroidNavigator()
+        val navigator = DefaultNavigator()
         val navOptions: NavOptions = { /* options */ }
 
         navigator.navigateTo(AnotherDestination, navOptions)
         navigator.navigateTo(AnotherDestination, navOptions)
 
-        val actions = navigator.navigationActions.first()
-        assertTrue(actions is NavigationAction.NavigateTo)
-        assertEquals(AnotherDestination, (actions as NavigationAction.NavigateTo).destination)
+        val action = navigator.navigationActions.first()
+        assertTrue(action is NavigationAction.NavigateTo, "Expected NavigateTo action")
+        assertEquals(AnotherDestination, action.destination)
     }
 }
