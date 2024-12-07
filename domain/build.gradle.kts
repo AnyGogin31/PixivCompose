@@ -3,11 +3,14 @@ plugins {
 }
 
 kotlin {
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     sourceSets {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.junit.jupiter)
             }
         }
     }
