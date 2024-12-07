@@ -24,11 +24,12 @@
 
 package neilt.mobile.pixiv.desingsystem.di
 
-import org.koin.core.module.Module
+import neilt.mobile.pixiv.desingsystem.provider.IosThemeProvider
+import neilt.mobile.pixiv.desingsystem.provider.ThemeProvider
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val designSystemModule = module {
-    includes(platformDesignSystemModule)
+internal actual val platformDesignSystemModule = module {
+    singleOf(::IosThemeProvider) bind ThemeProvider::class
 }
-
-internal expect val platformDesignSystemModule: Module
