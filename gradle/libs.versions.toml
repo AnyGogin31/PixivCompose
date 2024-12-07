@@ -17,7 +17,7 @@ kotlinSerializationJson = "1.7.3"
 # Compose
 composeBom = "2024.11.00"
 composeActivity = "1.9.3"
-composeNavigation = "2.8.0-alpha10"
+composeNavigation = "2.8.0-alpha11"
 
 # AndroidX
 androidBrowser = "1.8.0"
