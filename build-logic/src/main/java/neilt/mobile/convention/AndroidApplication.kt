@@ -60,12 +60,11 @@ internal fun Project.configureAndroidApplication(
 
         buildTypes {
             release {
-                isMinifyEnabled = false
-                isShrinkResources = false
+                isMinifyEnabled = true
+                isShrinkResources = true
                 isCrunchPngs = true
                 isDebuggable = false
                 multiDexEnabled = true
-                renderscriptOptimLevel = 3
 
                 signingConfig = signingConfigs.getByName("release")
 
