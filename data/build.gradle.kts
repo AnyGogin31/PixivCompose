@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.neilt.mobile.android.library)
-    alias(libs.plugins.neilt.mobile.android.room)
+//    alias(libs.plugins.neilt.mobile.android.room)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -17,6 +18,7 @@ kotlin {
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.sqldelight.coroutines)
             }
         }
 
@@ -38,6 +40,7 @@ kotlin {
                 implementation(libs.retrofit.converter.moshi)
                 implementation(libs.okhttp3)
                 implementation(libs.okhttp3.logging.interceptor)
+                implementation(libs.sqldelight.driver)
             }
         }
 
@@ -54,8 +57,12 @@ kotlin {
     }
 }
 
-dependencies {
-    add("kspAndroid", libs.moshi.kotlin.codegen)
+sqldelight {
+    databases {
+        create("PixivDatabase") {
+            packageName.set("neilt.mobile.pixiv.data.local.db")
+        }
+    }
 }
 
 android {

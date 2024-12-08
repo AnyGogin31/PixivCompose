@@ -22,26 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.local.db
+package neilt.mobile.pixiv.data.local.provider
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import neilt.mobile.pixiv.data.local.dao.UserDao
-import neilt.mobile.pixiv.data.local.entities.user.UserEntity
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import neilt.mobile.pixiv.data.local.db.PixivDatabase
 
-private const val DATABASE_NAME = "PixivCompose.db"
-
-@Database(entities = [UserEntity::class], version = 1)
-abstract class PixivDatabase : RoomDatabase() {
-    companion object {
-        fun createInstance(context: Context): PixivDatabase {
-            return Room.databaseBuilder(context, PixivDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .build()
-        }
+class AndroidDatabaseProvider(context: Context) : DatabaseProvider {
+    override val database: PixivDatabase by lazy {
+        val driver = AndroidSqliteDriver(PixivDatabase.Schema, context, "PixivDatabase.db")
+        PixivDatabase(driver)
     }
-
-    abstract fun userDao(): UserDao
 }

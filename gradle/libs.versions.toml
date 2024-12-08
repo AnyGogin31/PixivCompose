@@ -30,6 +30,9 @@ androidTestCore = "1.6.1"
 androidTestRunner = "1.6.2"
 androidTestExt = "1.2.1"
 
+# SQLDelight
+sqldelight = "2.0.2"
+
 # Coil
 coil = "3.0.4"
 
@@ -93,6 +96,10 @@ android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-ru
 android-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
 android-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidTestRunner" }
 android-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidTestExt" }
+
+# SQLDelight
+sqldelight-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 
 # Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
@@ -170,6 +177,9 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGrad
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
+
+# SQLDelight
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 # Compose
 compose = { id = "org.jetbrains.compose", version.ref = "composeGradlePlugin" }

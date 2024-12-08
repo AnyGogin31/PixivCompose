@@ -22,20 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.local.entities.user
+package neilt.mobile.pixiv.data.di
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import neilt.mobile.pixiv.data.local.provider.AndroidDatabaseProvider
+import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-@Entity(tableName = "users")
-data class UserEntity(
-    @ColumnInfo(name = "is_active") val isActive: Boolean,
-    @ColumnInfo(name = "access_token") val accessToken: String,
-    @ColumnInfo(name = "refresh_token") val refreshToken: String,
-    @ColumnInfo(name = "token_expires_at") val tokenExpiresAt: Long,
-    @PrimaryKey @ColumnInfo(name = "user_id") val userId: String,
-    @ColumnInfo(name = "user_name") val userName: String,
-    @ColumnInfo(name = "user_account") val userAccount: String,
-    @ColumnInfo(name = "user_mail_address") val userMailAddress: String,
-)
+internal actual val platformLocalModule = module {
+    singleOf(::AndroidDatabaseProvider) bind DatabaseProvider::class
+}

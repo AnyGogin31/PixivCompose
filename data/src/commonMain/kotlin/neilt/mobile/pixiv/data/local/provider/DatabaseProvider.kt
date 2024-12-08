@@ -22,18 +22,10 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.local.provider
 
 import neilt.mobile.pixiv.data.local.db.PixivDatabase
-import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
-import org.koin.core.module.Module
-import org.koin.dsl.module
 
-internal val localModule = module {
-
-    single<PixivDatabase> { get<DatabaseProvider>().database }
-
-    includes(platformLocalModule)
+interface DatabaseProvider {
+    val database: PixivDatabase
 }
-
-internal expect val platformLocalModule: Module
