@@ -26,6 +26,7 @@ package neilt.mobile.pixiv.data.repositories.auth
 
 import neilt.mobile.pixiv.data.local.db.PixivDatabase
 import neilt.mobile.pixiv.data.mapper.user.toModel
+import neilt.mobile.pixiv.data.provider.TimeProvider
 import neilt.mobile.pixiv.data.remote.requests.auth.AuthorizationRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.UpdateTokenRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.toFieldMap
@@ -37,6 +38,7 @@ import neilt.mobile.pixiv.domain.utils.PKCEUtil
 class AuthRepositoryImpl(
     private val authService: AuthService,
     private val database: PixivDatabase,
+    private val timeProvider: TimeProvider,
 ) : AuthRepository {
     private companion object {
         const val CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT"
@@ -91,7 +93,7 @@ class AuthRepositoryImpl(
             is_active = 1,
             access_token = response.accessToken,
             refresh_token = response.refreshToken,
-            token_expires_at = System.currentTimeMillis() + response.expiresIn * 1000L,
+            token_expires_at = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
             user_name = response.user.name,
             user_account = response.user.account,
             user_mail_address = response.user.mailAddress,
@@ -102,7 +104,7 @@ class AuthRepositoryImpl(
 
     override suspend fun refreshActiveUserTokenIfNeeded(): Result<Unit> {
         val activeUser = getActiveUser() ?: return Result.failure(Exception("No active user."))
-        val currentTime = System.currentTimeMillis()
+        val currentTime = timeProvider.currentTimeMillis()
 
         if (activeUser.tokenExpiresAt > currentTime) {
             return Result.success(Unit)
@@ -122,7 +124,7 @@ class AuthRepositoryImpl(
             user_id = activeUser.id,
             access_token = response.accessToken,
             refresh_token = response.refreshToken,
-            token_expires_at = System.currentTimeMillis() + response.expiresIn * 1000L,
+            token_expires_at = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
         )
 
         return Result.success(Unit)

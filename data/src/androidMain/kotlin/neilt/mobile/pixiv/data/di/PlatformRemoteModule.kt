@@ -74,8 +74,10 @@ private fun provideHttpClient(
 
         defaultRequest {
             url(baseUrl)
-            addPixivHeaders()
-            addAuthorizationInterceptor(tokenProvider)
+            headers.apply {
+                addPixivHeaders()
+                addAuthorizationInterceptor(tokenProvider)
+            }
         }
     }
 }

@@ -1,18 +1,19 @@
 plugins {
     alias(libs.plugins.neilt.mobile.android.library)
-//    alias(libs.plugins.neilt.mobile.android.room)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.sqldelight)
 }
 
 kotlin {
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(projects.domain)
                 implementation(libs.koin.core)
-                implementation(libs.moshi)
-
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.json)
                 implementation(libs.ktor.client.logging)
@@ -26,21 +27,20 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.kotlin.coroutines.test)
-                implementation(libs.koin.test)
-                implementation(libs.mockito.core)
-                implementation(libs.mockito.kotlin)
             }
         }
 
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
-
-                implementation(libs.retrofit)
-                implementation(libs.retrofit.converter.moshi)
-                implementation(libs.okhttp3)
-                implementation(libs.okhttp3.logging.interceptor)
                 implementation(libs.sqldelight.driver)
+            }
+        }
+
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.mockito.core)
+                implementation(libs.mockito.kotlin)
             }
         }
 

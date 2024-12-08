@@ -32,18 +32,18 @@ import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.UserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class IllustrationRepositoryImplTest {
     private lateinit var repository: IllustrationRepositoryImpl
     private val illustrationService: IllustrationService = mock()
 
-    @Before
+    @BeforeTest
     fun setup() {
         repository = IllustrationRepositoryImpl(illustrationService)
     }

@@ -22,17 +22,8 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.provider
 
-import neilt.mobile.pixiv.data.local.provider.AndroidDatabaseProvider
-import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
-import neilt.mobile.pixiv.data.provider.AndroidTimeProvider
-import neilt.mobile.pixiv.data.provider.TimeProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
-
-internal actual val platformLocalModule = module {
-    singleOf(::AndroidDatabaseProvider) bind DatabaseProvider::class
-    singleOf(::AndroidTimeProvider) bind TimeProvider::class
+interface TimeProvider {
+    fun currentTimeMillis(): Long
 }

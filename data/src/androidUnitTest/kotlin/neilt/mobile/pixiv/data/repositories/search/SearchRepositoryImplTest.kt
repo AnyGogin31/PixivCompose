@@ -31,19 +31,19 @@ import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 import neilt.mobile.pixiv.data.remote.responses.search.IllustrationSearchResponse
 import neilt.mobile.pixiv.data.remote.services.search.SearchService
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.verify
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class SearchRepositoryImplTest {
     private lateinit var repository: SearchRepositoryImpl
     private val searchService: SearchService = mock()
 
-    @Before
+    @BeforeTest
     fun setup() {
         repository = SearchRepositoryImpl(searchService)
     }

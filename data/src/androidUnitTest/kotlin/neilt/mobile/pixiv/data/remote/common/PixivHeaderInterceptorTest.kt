@@ -22,17 +22,20 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.common
 
-import neilt.mobile.pixiv.data.local.provider.AndroidDatabaseProvider
-import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
-import neilt.mobile.pixiv.data.provider.AndroidTimeProvider
-import neilt.mobile.pixiv.data.provider.TimeProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import io.ktor.http.HeadersBuilder
+import kotlin.test.Test
+import kotlin.test.assertNotNull
 
-internal actual val platformLocalModule = module {
-    singleOf(::AndroidDatabaseProvider) bind DatabaseProvider::class
-    singleOf(::AndroidTimeProvider) bind TimeProvider::class
+class PixivHeaderInterceptorTest {
+    @Test
+    fun `headers contain all required Pixiv fields`() {
+        val headers = HeadersBuilder().apply {
+            addPixivHeaders()
+        }
+
+        assertNotNull(headers["X-Client-Time"], "X-Client-Time header should be present")
+        assertNotNull(headers["X-Client-Hash"], "X-Client-Hash header should be present")
+    }
 }

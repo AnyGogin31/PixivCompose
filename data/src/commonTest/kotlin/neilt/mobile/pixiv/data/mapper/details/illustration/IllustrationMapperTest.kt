@@ -29,8 +29,8 @@ import neilt.mobile.pixiv.data.remote.responses.details.illustration.Illustratio
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.UserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileImageUrlsResponse
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class IllustrationMapperTest {
     @Test

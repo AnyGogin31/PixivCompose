@@ -26,8 +26,8 @@ package neilt.mobile.pixiv.data.mapper.home
 
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class HomeMapperTest {
     @Test
@@ -40,9 +40,9 @@ class HomeMapperTest {
 
         val imageUrls = imageUrlsResponse.toModel()
 
-        assertEquals("Square medium URL should be mapped correctly", imageUrlsResponse.squareMediumUrl, imageUrls.squareMediumUrl)
-        assertEquals("Medium URL should be mapped correctly", imageUrlsResponse.mediumUrl, imageUrls.mediumUrl)
-        assertEquals("Large URL should be mapped correctly", imageUrlsResponse.largeUrl, imageUrls.largeUrl)
+        assertEquals(imageUrlsResponse.squareMediumUrl, imageUrls.squareMediumUrl, "Square medium URL should be mapped correctly")
+        assertEquals(imageUrlsResponse.mediumUrl, imageUrls.mediumUrl, "Medium URL should be mapped correctly")
+        assertEquals(imageUrlsResponse.largeUrl, imageUrls.largeUrl, "Large URL should be mapped correctly")
     }
 
     @Test
@@ -60,13 +60,13 @@ class HomeMapperTest {
 
         val illustration = illustrationResponse.toModel()
 
-        assertEquals("ID should be mapped correctly", illustrationResponse.id, illustration.id)
-        assertEquals("Title should be mapped correctly", illustrationResponse.title, illustration.title)
-        assertEquals("Type should be mapped correctly", illustrationResponse.type, illustration.type)
+        assertEquals(illustrationResponse.id, illustration.id, "ID should be mapped correctly")
+        assertEquals(illustrationResponse.title, illustration.title, "Title should be mapped correctly")
+        assertEquals(illustrationResponse.type, illustration.type, "Type should be mapped correctly")
         assertEquals(
-            "Image URLs should be mapped correctly",
             illustrationResponse.imageUrls.toModel(),
             illustration.imageUrls,
+            "Image URLs should be mapped correctly",
         )
     }
 }

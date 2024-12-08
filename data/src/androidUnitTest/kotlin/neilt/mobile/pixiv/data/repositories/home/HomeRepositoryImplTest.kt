@@ -31,18 +31,18 @@ import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 import neilt.mobile.pixiv.data.remote.responses.home.RecommendedIllustrationsResponse
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
 import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
-import org.junit.Before
-import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.verify
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class HomeRepositoryImplTest {
     private lateinit var repository: HomeRepositoryImpl
     private val homeService: HomeService = mock()
 
-    @Before
+    @BeforeTest
     fun setup() {
         repository = HomeRepositoryImpl(homeService)
     }

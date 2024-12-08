@@ -22,19 +22,21 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.remote.common
 
-import org.junit.Test
-import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.test.KoinTest
-import org.koin.test.verify.verifyAll
+import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
-class KoinModulesTest : KoinTest {
-    private val testModules = listOf(localModule, platformRemoteModule, repositoryModule)
+internal actual fun getCurrentTime(): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+    dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+    return dateFormat.format(System.currentTimeMillis())
+}
 
-    @OptIn(KoinExperimentalAPI::class)
-    @Test
-    fun `test dependency graph`() {
-        testModules.verifyAll()
-    }
+internal actual fun String.md5ToHex(): String {
+    val md = MessageDigest.getInstance("MD5")
+    val digest = md.digest(this.toByteArray())
+    return digest.joinToString("") { "%02x".format(it) }
 }

@@ -24,13 +24,13 @@
 
 package neilt.mobile.pixiv.data.remote.common
 
-import io.ktor.client.plugins.DefaultRequest.DefaultRequestBuilder
+import io.ktor.http.HeadersBuilder
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 
 const val AUTHORIZATION_REQUIRED_HEADER = "AuthorizationRequired"
 
-fun DefaultRequestBuilder.addAuthorizationInterceptor(tokenProvider: TokenProvider?) {
-    val isAuthorizationRequired = headers[AUTHORIZATION_REQUIRED_HEADER]?.toBoolean() == true
+fun HeadersBuilder.addAuthorizationInterceptor(tokenProvider: TokenProvider?) {
+    val isAuthorizationRequired = this[AUTHORIZATION_REQUIRED_HEADER]?.toBoolean() == true
     if (isAuthorizationRequired.not()) return
 
     val token = tokenProvider?.getToken()
@@ -38,5 +38,5 @@ fun DefaultRequestBuilder.addAuthorizationInterceptor(tokenProvider: TokenProvid
         "Authorization failed: Missing token for authenticated request"
     }
 
-    headers.append("Authorization", "Bearer $token")
+    append("Authorization", "Bearer $token")
 }

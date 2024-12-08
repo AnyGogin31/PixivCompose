@@ -32,19 +32,19 @@ import neilt.mobile.pixiv.data.remote.responses.profile.ProfileUserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.UserDetailResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.WorkspaceResponse
 import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ProfileRepositoryImplTest {
     private lateinit var repository: ProfileRepositoryImpl
     private val profileService: ProfileService = mock()
 
-    @Before
+    @BeforeTest
     fun setup() {
         repository = ProfileRepositoryImpl(profileService)
     }

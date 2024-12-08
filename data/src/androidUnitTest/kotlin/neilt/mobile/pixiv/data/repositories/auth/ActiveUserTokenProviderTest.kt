@@ -27,20 +27,20 @@ package neilt.mobile.pixiv.data.repositories.auth
 import kotlinx.coroutines.test.runTest
 import neilt.mobile.pixiv.domain.models.user.UserModel
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Before
-import org.junit.Test
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class ActiveUserTokenProviderTest {
     private val authRepository: AuthRepository = mock()
     private lateinit var tokenProvider: ActiveUserTokenProvider
 
-    @Before
+    @BeforeTest
     fun setup() {
         tokenProvider = ActiveUserTokenProvider(authRepository)
     }

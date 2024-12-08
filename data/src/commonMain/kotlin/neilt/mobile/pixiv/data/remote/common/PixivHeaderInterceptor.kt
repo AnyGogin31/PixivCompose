@@ -24,33 +24,17 @@
 
 package neilt.mobile.pixiv.data.remote.common
 
-import io.ktor.client.plugins.DefaultRequest.DefaultRequestBuilder
-import io.ktor.client.request.headers
-import java.security.MessageDigest
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
+import io.ktor.http.HeadersBuilder
 
 private const val HASH_SECRET = "28c1fdd170a5204386cb1313c7077b34f83e4aaf4aa829ce78c231e05b0bae2c"
 
-fun DefaultRequestBuilder.addPixivHeaders() {
+fun HeadersBuilder.addPixivHeaders() {
     val currentTime = getCurrentTime()
     val clientHash = "$currentTime$HASH_SECRET".md5ToHex()
 
-    headers {
-        append("X-Client-Time", currentTime)
-        append("X-Client-Hash", clientHash)
-    }
+    append("X-Client-Time", currentTime)
+    append("X-Client-Hash", clientHash)
 }
 
-private fun getCurrentTime(): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
-    dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-    return dateFormat.format(System.currentTimeMillis())
-}
-
-private fun String.md5ToHex(): String {
-    val md = MessageDigest.getInstance("MD5")
-    val digest = md.digest(this.toByteArray())
-    return digest.joinToString("") { "%02x".format(it) }
-}
+internal expect fun getCurrentTime(): String
+internal expect fun String.md5ToHex(): String
