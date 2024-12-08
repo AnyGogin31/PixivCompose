@@ -24,23 +24,23 @@
 
 package neilt.mobile.pixiv.data.remote.responses.details.illustration
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class IllustrationDetailsResponse(
-    @Json(name = "id") val id: Int,
-    @Json(name = "title") val title: String,
-    @Json(name = "image_urls") val imageUrl: ImageUrlsResponse,
-    @Json(name = "caption") val caption: String,
-    @Json(name = "user") val user: UserResponse,
-    @Json(name = "tags") val tags: List<TagResponse>,
-    @Json(name = "total_view") val views: Int,
-    @Json(name = "total_bookmarks") val bookmarks: Int,
+    @SerialName("id") val id: Int,
+    @SerialName("title") val title: String,
+    @SerialName("image_urls") val imageUrl: ImageUrlsResponse,
+    @SerialName("caption") val caption: String,
+    @SerialName("user") val user: UserResponse,
+    @SerialName("tags") val tags: List<TagResponse>,
+    @SerialName("total_view") val views: Int,
+    @SerialName("total_bookmarks") val bookmarks: Int,
 )
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class IllustrationDetailsRootResponse(
-    @Json(name = "illust") val illustrationDetails: IllustrationDetailsResponse,
+    @SerialName("illust") val illustrationDetails: IllustrationDetailsResponse,
 )

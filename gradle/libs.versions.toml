@@ -5,6 +5,8 @@ androidGradlePlugin = "8.7.3"
 kotlinGradlePlugin = "2.1.0"
 composeGradlePlugin = "1.7.1"
 kspGradlePlugin = "2.1.0-1.0.29"
+ktorClientCore = "3.0.1"
+ktorClientJson = "3.0.1"
 roomGradlePlugin = "2.6.1"
 detektGradlePlugin = "1.23.7"
 ktlintGradlePlugin = "12.1.1"
@@ -104,6 +106,14 @@ koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
+
+# Ktor
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCore" }
+ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientJson" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientCore" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCore" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientCore" }
 
 # Retrofit
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }

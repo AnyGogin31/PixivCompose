@@ -24,21 +24,21 @@
 
 package neilt.mobile.pixiv.data.remote.responses.profile
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class WorkspaceResponse(
-    @Json(name = "pc") val pc: String,
-    @Json(name = "monitor") val monitor: String,
-    @Json(name = "tool") val tool: String,
-    @Json(name = "scanner") val scanner: String,
-    @Json(name = "tablet") val tablet: String,
-    @Json(name = "mouse") val mouse: String,
-    @Json(name = "printer") val printer: String,
-    @Json(name = "desktop") val desktop: String,
-    @Json(name = "music") val music: String,
-    @Json(name = "desk") val desk: String,
-    @Json(name = "chair") val chair: String,
-    @Json(name = "comment") val comment: String,
+    @SerialName("pc") val pc: String,
+    @SerialName("monitor") val monitor: String,
+    @SerialName("tool") val tool: String,
+    @SerialName("scanner") val scanner: String,
+    @SerialName("tablet") val tablet: String,
+    @SerialName("mouse") val mouse: String,
+    @SerialName("printer") val printer: String,
+    @SerialName("desktop") val desktop: String,
+    @SerialName("music") val music: String,
+    @SerialName("desk") val desk: String,
+    @SerialName("chair") val chair: String,
+    @SerialName("comment") val comment: String,
 )

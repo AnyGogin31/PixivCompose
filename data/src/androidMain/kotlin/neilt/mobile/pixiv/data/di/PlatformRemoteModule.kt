@@ -24,8 +24,18 @@
 
 package neilt.mobile.pixiv.data.di
 
-import neilt.mobile.pixiv.data.remote.common.AuthorizationInterceptor
-import neilt.mobile.pixiv.data.remote.common.PixivHeaderInterceptor
+import android.util.Log
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import neilt.mobile.pixiv.data.remote.common.addAuthorizationInterceptor
+import neilt.mobile.pixiv.data.remote.common.addPixivHeaders
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
@@ -33,43 +43,57 @@ import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
 import neilt.mobile.pixiv.data.remote.services.search.SearchService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
 private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
 
-private fun provideRetrofit(baseUrl: String, tokenProvider: TokenProvider? = null): Retrofit {
-    val clientBuilder = OkHttpClient.Builder()
-    tokenProvider?.let { clientBuilder.addInterceptor(AuthorizationInterceptor(it)) }
-    clientBuilder.addInterceptor(PixivHeaderInterceptor())
-    clientBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+private fun provideHttpClient(
+    baseUrl: String,
+    tokenProvider: TokenProvider? = null,
+): HttpClient {
+    return HttpClient(OkHttp) {
+        install(Logging) {
+            level = LogLevel.ALL
+            logger = object : Logger {
+                override fun log(message: String) {
+                    Log.d("HttpClient", message)
+                }
+            }
+        }
 
-    return Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(clientBuilder.build())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                },
+            )
+        }
+
+        defaultRequest {
+            url(baseUrl)
+            addPixivHeaders()
+            addAuthorizationInterceptor(tokenProvider)
+        }
+    }
 }
 
 internal actual val platformRemoteModule = module {
     single<TokenProvider> { ActiveUserTokenProvider(authRepository = get()) }
 
-    single(named("OAuthApi")) { provideRetrofit(baseUrl = OAUTH_BASE_URL) }
+    single(named("OAuthApi")) { provideHttpClient(baseUrl = OAUTH_BASE_URL) }
     single(named("PixivApi")) {
-        provideRetrofit(
+        provideHttpClient(
             baseUrl = PIXIV_BASE_URL,
             tokenProvider = get(),
         )
     }
 
-    single { get<Retrofit>(named("OAuthApi")).create(AuthService::class.java) }
-    single { get<Retrofit>(named("PixivApi")).create(HomeService::class.java) }
-    single { get<Retrofit>(named("PixivApi")).create(SearchService::class.java) }
-    single { get<Retrofit>(named("PixivApi")).create(ProfileService::class.java) }
-    single { get<Retrofit>(named("PixivApi")).create(IllustrationService::class.java) }
+    single { AuthService(get<HttpClient>(named("OAuthApi"))) }
+    single { HomeService(get<HttpClient>(named("PixivApi"))) }
+    single { SearchService(get<HttpClient>(named("PixivApi"))) }
+    single { ProfileService(get<HttpClient>(named("PixivApi"))) }
+    single { IllustrationService(get<HttpClient>(named("PixivApi"))) }
 }

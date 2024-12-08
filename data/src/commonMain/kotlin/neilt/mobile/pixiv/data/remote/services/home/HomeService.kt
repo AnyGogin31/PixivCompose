@@ -24,43 +24,64 @@
 
 package neilt.mobile.pixiv.data.remote.services.home
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.forms.submitForm
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.http.Parameters
+import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
 import neilt.mobile.pixiv.data.remote.responses.home.RecommendedIllustrationsResponse
-import retrofit2.http.Field
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
 
 // Cut from the original application. There might be discrepancies.
-interface HomeService {
-    @Authorization
-    @GET("/v1/illust/recommended?filter=for_android")
+class HomeService(private val client: HttpClient) {
     suspend fun fetchRecommendedIllustrations(
-        @Query("include_ranking_illusts") includeRankingIllustrations: Boolean,
-        @Query("include_privacy_policy") includePrivacyPolicy: Boolean,
-    ): RecommendedIllustrationsResponse
+        includeRankingIllustrations: Boolean,
+        includePrivacyPolicy: Boolean,
+    ): RecommendedIllustrationsResponse {
+        return client.get("/v1/illust/recommended?filter=for_android") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            parameter("include_ranking_illusts", includeRankingIllustrations)
+            parameter("include_privacy_policy", includePrivacyPolicy)
+        }.body()
+    }
 
-    @Authorization
-    @GET("/v1/manga/recommended?filter=for_android")
     suspend fun fetchRecommendedManga(
-        @Query("include_ranking_illusts") includeRankingIllustrations: Boolean,
-        @Query("include_privacy_policy") includePrivacyPolicy: Boolean,
-    )
+        includeRankingIllustrations: Boolean,
+        includePrivacyPolicy: Boolean,
+    ) {
+        client.get("/v1/manga/recommended?filter=for_android") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            parameter("include_ranking_illusts", includeRankingIllustrations)
+            parameter("include_privacy_policy", includePrivacyPolicy)
+        }
+    }
 
-    @Authorization
-    @FormUrlEncoded
-    @POST("v1/privacy-policy/agreement")
     suspend fun submitPrivacyPolicyAgreement(
-        @Field("agreement") agreement: String?,
-        @Field("version") version: String?,
-    )
+        agreement: String?,
+        version: String?,
+    ) {
+        client.submitForm(
+            url = "v1/privacy-policy/agreement",
+            formParameters = Parameters.build {
+                agreement?.let { append("agreement", it) }
+                version?.let { append("version", it) }
+            },
+        ) {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+        }
+    }
 
-    @Authorization
-    @FormUrlEncoded
-    @POST("/v1/novel/recommended")
-    suspend fun submitRecommendedNovels(
-        @FieldMap request: Map<String, @JvmSuppressWildcards Any?>,
-    )
+    suspend fun submitRecommendedNovels(request: Map<String, Any?>) {
+        client.submitForm(
+            url = "/v1/novel/recommended",
+            formParameters = Parameters.build {
+                request.forEach { (key, value) ->
+                    value?.toString()?.let { append(key, it) }
+                }
+            },
+        ) {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+        }
+    }
 }

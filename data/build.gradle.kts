@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.neilt.mobile.android.library)
     alias(libs.plugins.neilt.mobile.android.room)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -10,6 +11,12 @@ kotlin {
                 implementation(projects.domain)
                 implementation(libs.koin.core)
                 implementation(libs.moshi)
+
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.json)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
             }
         }
 
@@ -25,6 +32,8 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(libs.ktor.client.okhttp)
+
                 implementation(libs.retrofit)
                 implementation(libs.retrofit.converter.moshi)
                 implementation(libs.okhttp3)

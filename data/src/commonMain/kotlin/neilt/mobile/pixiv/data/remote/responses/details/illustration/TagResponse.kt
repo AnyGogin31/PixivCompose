@@ -24,11 +24,11 @@
 
 package neilt.mobile.pixiv.data.remote.responses.details.illustration
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class TagResponse(
-    @Json(name = "name") val name: String,
-    @Json(name = "translated_name") val translatedName: String?,
+    @SerialName("name") val name: String,
+    @SerialName("translated_name") val translatedName: String?,
 )

@@ -24,12 +24,12 @@
 
 package neilt.mobile.pixiv.data.remote.responses.home
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class RecommendedIllustrationsResponse(
-    @Json(name = "illusts") val illustrations: List<IllustrationResponse>,
-    @Json(name = "contest_exists") val contestExists: Boolean,
-    @Json(name = "next_url") val nextUrl: String?,
+    @SerialName("illusts") val illustrations: List<IllustrationResponse>,
+    @SerialName("contest_exists") val contestExists: Boolean,
+    @SerialName("next_url") val nextUrl: String?,
 )

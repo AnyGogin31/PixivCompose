@@ -24,21 +24,39 @@
 
 package neilt.mobile.pixiv.data.remote.services.auth
 
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.forms.FormDataContent
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.Parameters
+import io.ktor.http.contentType
 import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
 
-interface AuthService {
-    @FormUrlEncoded
-    @POST("/auth/token")
-    suspend fun requestForAuthorization(
-        @FieldMap request: Map<String, @JvmSuppressWildcards Any>,
-    ): AuthResponse
-
-    @FormUrlEncoded
-    @POST("/auth/token")
-    suspend fun newRefreshToken(
-        @FieldMap request: Map<String, @JvmSuppressWildcards Any>,
-    ): AuthResponse
+class AuthService(private val client: HttpClient) {
+    suspend fun requestForAuthorization(request: Map<String, Any>): AuthResponse {
+        return client.post("/auth/token") {
+            contentType(ContentType.Application.FormUrlEncoded)
+            setBody(
+                FormDataContent(
+                    Parameters.build {
+                        request.forEach { (key, value) -> append(key, value.toString()) }
+                    },
+                ),
+            )
+        }.body()
+    }
+    suspend fun newRefreshToken(request: Map<String, Any>): AuthResponse {
+        return client.post("/auth/token") {
+            contentType(ContentType.Application.FormUrlEncoded)
+            setBody(
+                FormDataContent(
+                    Parameters.build {
+                        request.forEach { (key, value) -> append(key, value.toString()) }
+                    },
+                ),
+            )
+        }.body()
+    }
 }

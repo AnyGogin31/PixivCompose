@@ -24,10 +24,10 @@
 
 package neilt.mobile.pixiv.data.remote.responses.profile
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ProfileImageUrlsResponse(
-    @Json(name = "medium") val medium: String,
+    @SerialName("medium") val medium: String,
 )

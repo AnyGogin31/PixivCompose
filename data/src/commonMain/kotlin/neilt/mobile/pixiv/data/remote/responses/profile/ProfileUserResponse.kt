@@ -24,16 +24,16 @@
 
 package neilt.mobile.pixiv.data.remote.responses.profile
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ProfileUserResponse(
-    @Json(name = "id") val id: Long,
-    @Json(name = "name") val name: String,
-    @Json(name = "account") val account: String,
-    @Json(name = "profile_image_urls") val profileImageUrls: ProfileImageUrlsResponse,
-    @Json(name = "comment") val comment: String,
-    @Json(name = "is_followed") val isFollowed: Boolean,
-    @Json(name = "is_access_blocking_user") val isAccessBlockingUser: Boolean,
+    @SerialName("id") val id: Long,
+    @SerialName("name") val name: String,
+    @SerialName("account") val account: String,
+    @SerialName("profile_image_urls") val profileImageUrls: ProfileImageUrlsResponse,
+    @SerialName("comment") val comment: String,
+    @SerialName("is_followed") val isFollowed: Boolean,
+    @SerialName("is_access_blocking_user") val isAccessBlockingUser: Boolean,
 )
