@@ -24,54 +24,70 @@
 
 package neilt.mobile.pixiv.domain.utils
 
-import java.security.MessageDigest
-import java.security.SecureRandom
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
+/**
+ * Utility object for generating PKCE (Proof Key for Code Exchange) components.
+ * Provides secure methods for generating code verifiers and their corresponding code challenges.
+ */
 object PKCEUtil {
-    // Default length for the code verifier
+    /** Default length for the code verifier in bytes. */
     private const val CODE_VERIFIER_LENGTH = 32
 
-    // SecureRandom instance for cryptographically strong randomness
-    private val secureRandom: SecureRandom by lazy { SecureRandom.getInstance("SHA1PRNG") }
+    /** Instance of [SecureRandomProvider] for cryptographically strong random number generation. */
+    private val secureRandom: SecureRandomProvider by lazy { SecureRandomProvider() }
 
-    // Lazily initialized code verifier
+    /** Lazily initialized PKCE code verifier. */
     val codeVerifier: String by lazy { generateRandomString() }
 
-    // Lazily initialized code challenge
+    /** Lazily initialized PKCE code challenge derived from the code verifier. */
     val codeChallenge: String by lazy { generateSHA256Base64(codeVerifier) }
 
     /**
-     * Generates a random URL-safe string of the given length.
-     * Used for creating the code verifier.
+     * Generates a random URL-safe string of the specified length.
+     * This is used as the PKCE code verifier.
      *
-     * @return A Base64 URL-safe string.
+     * @return A Base64 URL-safe string without padding.
      */
     @OptIn(ExperimentalEncodingApi::class)
     private fun generateRandomString(): String {
-        // Generate random bytes and encode to URL-safe Base64 without padding
         val bytes = ByteArray(CODE_VERIFIER_LENGTH).apply {
-            secureRandom.nextBytes(this)
+            secureRandom.generateSecureRandomBytes(this)
         }
         return Base64.UrlSafe.encode(bytes).trimEnd('=')
     }
 
     /**
      * Generates a SHA-256 hash of the input string and encodes it in Base64 URL-safe format.
-     * Used for creating the code challenge.
+     * This is used to create the PKCE code challenge.
      *
      * @param input The input string to hash.
      * @return The Base64-encoded SHA-256 hash.
      */
     @OptIn(ExperimentalEncodingApi::class)
     private fun generateSHA256Base64(input: String): String {
-        // Compute SHA-256 hash of the code verifier
-        val digest = MessageDigest
-            .getInstance("SHA-256")
-            .digest(input.toByteArray(Charsets.US_ASCII))
-
-        // Encode the hash to URL-safe Base64 without padding
+        val digest = computeSHA256(input.encodeToByteArray())
         return Base64.UrlSafe.encode(digest).trimEnd('=')
     }
 }
+
+/**
+ * Platform-specific provider for cryptographically secure random number generation.
+ */
+internal expect class SecureRandomProvider() {
+    /**
+     * Fills the given byte array with cryptographically secure random bytes.
+     *
+     * @param bytes The byte array to fill.
+     */
+    internal fun generateSecureRandomBytes(bytes: ByteArray)
+}
+
+/**
+ * Computes the SHA-256 hash of the given input byte array.
+ *
+ * @param input The byte array to hash.
+ * @return The computed SHA-256 hash.
+ */
+internal expect fun computeSHA256(input: ByteArray): ByteArray

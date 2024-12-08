@@ -24,14 +24,16 @@
 
 package neilt.mobile.pixiv.data.local.dao
 
-import androidx.room.Room
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.runBlocking
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import neilt.mobile.pixiv.data.local.db.PixivDatabase
-import neilt.mobile.pixiv.data.local.entities.user.UserEntity
-import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,249 +41,159 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class UserDaoTest {
     private lateinit var database: PixivDatabase
-    private lateinit var userDao: UserDao
+    private val queries get() = database.pixivDatabaseQueries
 
     @Before
     fun setup() {
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            PixivDatabase::class.java,
-        ).allowMainThreadQueries().build()
-        userDao = database.userDao()
-    }
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val driver = AndroidSqliteDriver(PixivDatabase.Schema, context, "PixivDatabase.db")
+        database = PixivDatabase(driver)
 
-    @After
-    fun teardown() {
-        database.close()
-    }
-
-    @Test
-    fun insertUser_and_getUserCount() = runBlocking {
-        val user = UserEntity(
-            userId = "123",
-            userName = "John Doe",
-            userAccount = "john_doe",
-            userMailAddress = "john@example.com",
-            accessToken = "access_123",
-            refreshToken = "refresh_123",
-            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-            isActive = false,
-        )
-
-        userDao.insertUser(user)
-        val count = userDao.getUserCount()
-
-        assertEquals(1, count)
-    }
-
-    @Test
-    fun getAllUsers_returnsAllInsertedUsers() = runBlocking {
-        val users = listOf(
-            UserEntity(
-                userId = "1",
-                userName = "User1",
-                userAccount = "user1",
-                userMailAddress = "user1@mail.com",
-                accessToken = "token1",
-                refreshToken = "refresh1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-                isActive = false,
-            ),
-            UserEntity(
-                userId = "2",
-                userName = "User2",
-                userAccount = "user2",
-                userMailAddress = "user2@mail.com",
-                accessToken = "token2",
-                refreshToken = "refresh2",
-                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
-                isActive = false,
-            ),
-        )
-
-        users.forEach { userDao.insertUser(it) }
-        val retrievedUsers = userDao.getAllUsers()
-
-        assertEquals(2, retrievedUsers.size)
-        assertTrue("User 1 should exist in the database", retrievedUsers.any { it.userId == "1" })
-        assertTrue("User 2 should exist in the database", retrievedUsers.any { it.userId == "2" })
-    }
-
-    @Test
-    fun getActiveUser_returnsCorrectUser() = runBlocking {
-        val users = listOf(
-            UserEntity(
-                userId = "1",
-                userName = "User1",
-                userAccount = "user1",
-                userMailAddress = "user1@mail.com",
-                accessToken = "token1",
-                refreshToken = "refresh1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-                isActive = false,
-            ),
-            UserEntity(
-                userId = "2",
-                userName = "User2",
-                userAccount = "user2",
-                userMailAddress = "user2@mail.com",
-                accessToken = "token2",
-                refreshToken = "refresh2",
-                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
-                isActive = true,
-            ),
-        )
-
-        users.forEach { userDao.insertUser(it) }
-        val activeUser = userDao.getActiveUser()
-
-        assertNotNull(activeUser)
-        assertEquals("2", activeUser?.userId)
-        assertTrue("Active user should have isActive = true", activeUser?.isActive == true)
-    }
-
-    @Test
-    fun deactivateAllUsers_updatesAllToInactive() = runBlocking {
-        val users = listOf(
-            UserEntity(
-                userId = "1",
-                userName = "User1",
-                userAccount = "user1",
-                userMailAddress = "user1@mail.com",
-                accessToken = "token1",
-                refreshToken = "refresh1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-                isActive = true,
-            ),
-            UserEntity(
-                userId = "2",
-                userName = "User2",
-                userAccount = "user2",
-                userMailAddress = "user2@mail.com",
-                accessToken = "token2",
-                refreshToken = "refresh2",
-                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
-                isActive = true,
-            ),
-        )
-
-        users.forEach { userDao.insertUser(it) }
-        userDao.deactivateAllUsers()
-        val activeUser = userDao.getActiveUser()
-
-        assertNull(activeUser)
-        val allUsers = userDao.getAllUsers()
-        allUsers.forEach {
-            assertFalse("All users should be deactivated", it.isActive)
+        queries.transaction {
+            val users = queries.getAllUsers().executeAsList()
+            users.forEach {
+                queries.deleteUser(it.user_id)
+            }
         }
     }
 
     @Test
-    fun activateUser_setsUserToActive() = runBlocking {
-        val users = listOf(
-            UserEntity(
-                userId = "1",
-                userName = "User1",
-                userAccount = "user1",
-                userMailAddress = "user1@mail.com",
-                accessToken = "token1",
-                refreshToken = "refresh1",
-                tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-                isActive = false,
-            ),
-            UserEntity(
-                userId = "2",
-                userName = "User2",
-                userAccount = "user2",
-                userMailAddress = "user2@mail.com",
-                accessToken = "token2",
-                refreshToken = "refresh2",
-                tokenExpiresAt = System.currentTimeMillis() + 7200 * 1000,
-                isActive = false,
-            ),
+    fun insertUser_and_getUserCount() {
+        queries.insertUser(
+            user_id = "123",
+            user_name = "John Doe",
+            user_account = "john_doe",
+            user_mail_address = "john@example.com",
+            access_token = "access_123",
+            refresh_token = "refresh_123",
+            token_expires_at = System.currentTimeMillis() + 3600 * 1000,
+            is_active = 0,
         )
 
-        users.forEach { userDao.insertUser(it) }
-        userDao.activateUser("1")
-        val activeUser = userDao.getActiveUser()
+        val count = queries.getUserCount().executeAsOne()
+        assertEquals(1, count)
+    }
 
+    @Test
+    fun getAllUsers_returnsAllInsertedUsers() {
+        queries.insertUser(
+            user_id = "1",
+            user_name = "User1",
+            user_account = "user1",
+            user_mail_address = "user1@mail.com",
+            access_token = "token1",
+            refresh_token = "refresh1",
+            token_expires_at = System.currentTimeMillis() + 3600 * 1000,
+            is_active = 0,
+        )
+
+        queries.insertUser(
+            user_id = "2",
+            user_name = "User2",
+            user_account = "user2",
+            user_mail_address = "user2@mail.com",
+            access_token = "token2",
+            refresh_token = "refresh2",
+            token_expires_at = System.currentTimeMillis() + 7200 * 1000,
+            is_active = 1,
+        )
+
+        val retrievedUsers = queries.getAllUsers().executeAsList()
+        assertEquals(2, retrievedUsers.size)
+        assertTrue(retrievedUsers.any { it.user_id == "1" })
+        assertTrue(retrievedUsers.any { it.user_id == "2" })
+    }
+
+    @Test
+    fun getActiveUser_returnsCorrectUser() {
+        queries.insertUser(
+            user_id = "1",
+            user_name = "User1",
+            user_account = "user1",
+            user_mail_address = "user1@mail.com",
+            access_token = "token1",
+            refresh_token = "refresh1",
+            token_expires_at = System.currentTimeMillis() + 3600 * 1000,
+            is_active = 0,
+        )
+
+        queries.insertUser(
+            user_id = "2",
+            user_name = "User2",
+            user_account = "user2",
+            user_mail_address = "user2@mail.com",
+            access_token = "token2",
+            refresh_token = "refresh2",
+            token_expires_at = System.currentTimeMillis() + 7200 * 1000,
+            is_active = 1,
+        )
+
+        val activeUser = queries.getActiveUser().executeAsOneOrNull()
         assertNotNull(activeUser)
-        assertEquals("1", activeUser?.userId)
-        assertTrue("User 1 should be active", activeUser?.isActive == true)
+        assertEquals("2", activeUser?.user_id)
+        assertTrue(activeUser?.is_active == 1L)
     }
 
     @Test
-    fun deleteUser_removesSpecificUser() = runBlocking {
-        val user = UserEntity(
-            userId = "123",
-            userName = "John Doe",
-            userAccount = "john_doe",
-            userMailAddress = "john@example.com",
-            accessToken = "access_123",
-            refreshToken = "refresh_123",
-            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-            isActive = false,
+    fun deactivateAllUsers_updatesAllToInactive() {
+        queries.insertUser(
+            user_id = "1",
+            user_name = "User1",
+            user_account = "user1",
+            user_mail_address = "user1@mail.com",
+            access_token = "token1",
+            refresh_token = "refresh1",
+            token_expires_at = System.currentTimeMillis() + 3600 * 1000,
+            is_active = 1,
         )
 
-        userDao.insertUser(user)
-        userDao.deleteUser(user)
-        val count = userDao.getUserCount()
+        queries.insertUser(
+            user_id = "2",
+            user_name = "User2",
+            user_account = "user2",
+            user_mail_address = "user2@mail.com",
+            access_token = "token2",
+            refresh_token = "refresh2",
+            token_expires_at = System.currentTimeMillis() + 7200 * 1000,
+            is_active = 1,
+        )
 
-        assertEquals(0, count)
+        queries.deactivateAllUsers()
+        val activeUser = queries.getActiveUser().executeAsOneOrNull()
+        assertNull(activeUser)
+
+        val allUsers = queries.getAllUsers().executeAsList()
+        allUsers.forEach { assertFalse(it.is_active == 1L) }
     }
 
     @Test
-    fun updateUser_updatesUserTokensCorrectly() = runBlocking {
-        val user = UserEntity(
-            userId = "123",
-            userName = "John Doe",
-            userAccount = "john_doe",
-            userMailAddress = "john@example.com",
-            accessToken = "old_access_token",
-            refreshToken = "old_refresh_token",
-            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-            isActive = false,
+    fun activateUser_setsUserToActive() {
+        queries.insertUser(
+            user_id = "1",
+            user_name = "User1",
+            user_account = "user1",
+            user_mail_address = "user1@mail.com",
+            access_token = "token1",
+            refresh_token = "refresh1",
+            token_expires_at = System.currentTimeMillis() + 3600 * 1000,
+            is_active = 0,
         )
-        userDao.insertUser(user)
 
-        val newAccessToken = "new_access_token"
-        val newRefreshToken = "new_refresh_token"
-        val newExpiresAt = System.currentTimeMillis() + 7200 * 1000
-        userDao.updateUser("123", newAccessToken, newRefreshToken, newExpiresAt)
-
-        val updatedUser = userDao.getAllUsers().find { it.userId == "123" }
-
-        assertNotNull(updatedUser)
-        assertEquals(newAccessToken, updatedUser?.accessToken)
-        assertEquals(newRefreshToken, updatedUser?.refreshToken)
-        assertEquals(newExpiresAt, updatedUser?.tokenExpiresAt)
-    }
-
-    @Test
-    fun updateUser_doesNotChangeOtherFields() = runBlocking {
-        val user = UserEntity(
-            userId = "123",
-            userName = "John Doe",
-            userAccount = "john_doe",
-            userMailAddress = "john@example.com",
-            accessToken = "old_access_token",
-            refreshToken = "old_refresh_token",
-            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-            isActive = false,
+        queries.insertUser(
+            user_id = "2",
+            user_name = "User2",
+            user_account = "user2",
+            user_mail_address = "user2@mail.com",
+            access_token = "token2",
+            refresh_token = "refresh2",
+            token_expires_at = System.currentTimeMillis() + 7200 * 1000,
+            is_active = 0,
         )
-        userDao.insertUser(user)
 
-        val newAccessToken = "new_access_token"
-        val newRefreshToken = "new_refresh_token"
-        val newExpiresAt = System.currentTimeMillis() + 7200 * 1000
-        userDao.updateUser("123", newAccessToken, newRefreshToken, newExpiresAt)
-
-        val updatedUser = userDao.getAllUsers().find { it.userId == "123" }
-
-        assertNotNull(updatedUser)
-        assertEquals("John Doe", updatedUser?.userName)
-        assertEquals("john_doe", updatedUser?.userAccount)
-        assertEquals("john@example.com", updatedUser?.userMailAddress)
-        assertEquals(false, updatedUser?.isActive)
+        queries.activateUser("1")
+        val activeUser = queries.getActiveUser().executeAsOneOrNull()
+        assertNotNull(activeUser)
+        assertEquals("1", activeUser?.user_id)
+        assertTrue(activeUser?.is_active == 1L)
     }
 }

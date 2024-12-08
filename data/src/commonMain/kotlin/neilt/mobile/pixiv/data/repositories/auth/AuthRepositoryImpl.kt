@@ -24,9 +24,9 @@
 
 package neilt.mobile.pixiv.data.repositories.auth
 
-import neilt.mobile.pixiv.data.local.dao.UserDao
-import neilt.mobile.pixiv.data.mapper.user.toEntity
+import neilt.mobile.pixiv.data.local.db.PixivDatabase
 import neilt.mobile.pixiv.data.mapper.user.toModel
+import neilt.mobile.pixiv.data.provider.TimeProvider
 import neilt.mobile.pixiv.data.remote.requests.auth.AuthorizationRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.UpdateTokenRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.toFieldMap
@@ -37,7 +37,8 @@ import neilt.mobile.pixiv.domain.utils.PKCEUtil
 
 class AuthRepositoryImpl(
     private val authService: AuthService,
-    private val userDao: UserDao,
+    private val database: PixivDatabase,
+    private val timeProvider: TimeProvider,
 ) : AuthRepository {
     private companion object {
         const val CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT"
@@ -49,28 +50,27 @@ class AuthRepositoryImpl(
         const val MAX_USER_COUNT = 3
     }
 
-    override suspend fun getAllUsers(): List<UserModel> {
-        return userDao.getAllUsers().map { it.toModel() }
-    }
+    override suspend fun getAllUsers(): List<UserModel> =
+        database.pixivDatabaseQueries.getAllUsers().executeAsList().map { it.toModel() }
 
-    override suspend fun getActiveUser(): UserModel? {
-        return userDao.getActiveUser()?.toModel()
-    }
+    override suspend fun getActiveUser() =
+        database.pixivDatabaseQueries.getActiveUser().executeAsOneOrNull()?.toModel()
 
     override suspend fun setActiveUser(userId: String): Result<Unit> {
-        val user = userDao.getAllUsers().find { it.userId == userId }
+        val user = database.pixivDatabaseQueries.getAllUsers().executeAsList()
+            .find { it.user_id == userId }
         if (user == null) {
             return Result.failure(Exception("User not found."))
         }
 
-        userDao.deactivateAllUsers()
-        userDao.activateUser(userId)
+        database.pixivDatabaseQueries.deactivateAllUsers()
+        database.pixivDatabaseQueries.activateUser(userId)
 
         return Result.success(Unit)
     }
 
     override suspend fun authorizeUser(code: String): Result<Unit> {
-        val userCount = userDao.getUserCount()
+        val userCount = database.pixivDatabaseQueries.getUserCount().executeAsOne()
         if (userCount >= MAX_USER_COUNT) {
             return Result.failure(Exception("Maximum number of users reached."))
         }
@@ -87,15 +87,24 @@ class AuthRepositoryImpl(
 
         val response = authService.requestForAuthorization(request.toFieldMap())
 
-        userDao.deactivateAllUsers()
-        userDao.insertUser(response.toEntity())
+        database.pixivDatabaseQueries.deactivateAllUsers()
+        database.pixivDatabaseQueries.insertUser(
+            user_id = response.user.id,
+            is_active = 1,
+            access_token = response.accessToken,
+            refresh_token = response.refreshToken,
+            token_expires_at = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
+            user_name = response.user.name,
+            user_account = response.user.account,
+            user_mail_address = response.user.mailAddress,
+        )
 
         return Result.success(Unit)
     }
 
     override suspend fun refreshActiveUserTokenIfNeeded(): Result<Unit> {
         val activeUser = getActiveUser() ?: return Result.failure(Exception("No active user."))
-        val currentTime = System.currentTimeMillis()
+        val currentTime = timeProvider.currentTimeMillis()
 
         if (activeUser.tokenExpiresAt > currentTime) {
             return Result.success(Unit)
@@ -111,11 +120,11 @@ class AuthRepositoryImpl(
 
         val response = authService.newRefreshToken(request.toFieldMap())
 
-        userDao.updateUser(
-            activeUser.id,
-            response.accessToken,
-            response.refreshToken,
-            System.currentTimeMillis() + response.expiresIn * 1000L,
+        database.pixivDatabaseQueries.updateUser(
+            user_id = activeUser.id,
+            access_token = response.accessToken,
+            refresh_token = response.refreshToken,
+            token_expires_at = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
         )
 
         return Result.success(Unit)

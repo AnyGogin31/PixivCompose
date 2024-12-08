@@ -24,38 +24,19 @@
 
 package neilt.mobile.pixiv.data.remote.common
 
+import io.ktor.http.HeadersBuilder
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
-import okhttp3.Interceptor
-import okhttp3.Response
-import retrofit2.Invocation
 
-class AuthorizationInterceptor(private val tokenProvider: TokenProvider) : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest = chain.request()
+const val AUTHORIZATION_REQUIRED_HEADER = "AuthorizationRequired"
 
-        // Check if authorization is required for the request
-        val invocationTag = originalRequest.tag(Invocation::class.java)
-        val isAuthorizationRequired = invocationTag
-            ?.method()
-            ?.getAnnotation(Authorization::class.java) != null
+fun HeadersBuilder.addAuthorizationInterceptor(tokenProvider: TokenProvider?) {
+    val isAuthorizationRequired = this[AUTHORIZATION_REQUIRED_HEADER]?.toBoolean() == true
+    if (isAuthorizationRequired.not()) return
 
-        if (!isAuthorizationRequired) {
-            // If no authorization is required, proceed with the request
-            return chain.proceed(originalRequest)
-        }
-
-        // Retrieve the token from the token provider
-        val token = tokenProvider.getToken()
-        check(!token.isNullOrEmpty()) {
-            "Authorization failed: Missing token for authenticated request"
-        }
-
-        // Add the Authorization header to the request
-        val authorizedRequest = originalRequest.newBuilder()
-            .addHeader("Authorization", "Bearer $token")
-            .build()
-
-        // Proceed with the modified request
-        return chain.proceed(authorizedRequest)
+    val token = tokenProvider?.getToken()
+    check(token.isNullOrEmpty().not()) {
+        "Authorization failed: Missing token for authenticated request"
     }
+
+    append("Authorization", "Bearer $token")
 }

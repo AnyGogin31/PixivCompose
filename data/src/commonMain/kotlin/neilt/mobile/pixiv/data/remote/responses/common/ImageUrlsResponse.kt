@@ -24,12 +24,12 @@
 
 package neilt.mobile.pixiv.data.remote.responses.common
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ImageUrlsResponse(
-    @Json(name = "square_medium") val squareMediumUrl: String?,
-    @Json(name = "medium") val mediumUrl: String?,
-    @Json(name = "large") val largeUrl: String?,
+    @SerialName("square_medium") val squareMediumUrl: String?,
+    @SerialName("medium") val mediumUrl: String?,
+    @SerialName("large") val largeUrl: String?,
 )

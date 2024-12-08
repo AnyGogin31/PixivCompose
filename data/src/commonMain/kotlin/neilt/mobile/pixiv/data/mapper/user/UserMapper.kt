@@ -24,27 +24,15 @@
 
 package neilt.mobile.pixiv.data.mapper.user
 
-import neilt.mobile.pixiv.data.local.entities.user.UserEntity
-import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
+import neilt.mobile.pixiv.data.local.db.Users
 import neilt.mobile.pixiv.domain.models.user.UserModel
 
-internal fun UserEntity.toModel() = UserModel(
-    id = this.userId,
-    name = this.userName,
-    account = this.userAccount,
-    mailAddress = this.userMailAddress,
-    accessToken = this.accessToken,
-    refreshToken = this.refreshToken,
-    tokenExpiresAt = this.tokenExpiresAt,
-)
-
-internal fun AuthResponse.toEntity() = UserEntity(
-    isActive = true,
-    accessToken = this.accessToken,
-    refreshToken = this.refreshToken,
-    tokenExpiresAt = System.currentTimeMillis() + this.expiresIn * 1000L,
-    userId = this.user.id,
-    userName = this.user.name,
-    userAccount = this.user.account,
-    userMailAddress = this.user.mailAddress,
+internal fun Users.toModel() = UserModel(
+    id = this.user_id,
+    name = this.user_name,
+    account = this.user_account,
+    mailAddress = this.user_mail_address,
+    accessToken = this.access_token,
+    refreshToken = this.refresh_token,
+    tokenExpiresAt = this.token_expires_at,
 )

@@ -24,52 +24,17 @@
 
 package neilt.mobile.pixiv.data.remote.common
 
-import android.os.Build
-import okhttp3.Interceptor
-import okhttp3.Response
-import java.security.MessageDigest
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.TimeZone
+import io.ktor.http.HeadersBuilder
 
-class PixivHeaderInterceptor : Interceptor {
-    private companion object {
-        const val HASH_SECRET = "28c1fdd170a5204386cb1313c7077b34f83e4aaf4aa829ce78c231e05b0bae2c"
-    }
+private const val HASH_SECRET = "28c1fdd170a5204386cb1313c7077b34f83e4aaf4aa829ce78c231e05b0bae2c"
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val (clientTime, clientHash) = generateHeaders()
+fun HeadersBuilder.addPixivHeaders() {
+    val currentTime = getCurrentTime()
+    val clientHash = "$currentTime$HASH_SECRET".md5ToHex()
 
-        val requestWithHeaders = chain.request()
-            .newBuilder()
-            .addHeader(
-                "User-Agent",
-                "PixivAndroidApp/6.66.1 (Android ${Build.VERSION.RELEASE})",
-            )
-            .addHeader("X-Client-Time", clientTime)
-            .addHeader("X-Client-Hash", clientHash)
-            .build()
-
-        return chain.proceed(requestWithHeaders)
-    }
-
-    private fun generateHeaders(): Pair<String, String> {
-        val currentTime = getCurrentTime()
-        val hashInput = "$currentTime$HASH_SECRET"
-        val clientHash = hashInput.md5ToHex()
-
-        return Pair(currentTime, clientHash)
-    }
-
-    private fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
-        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-        return dateFormat.format(System.currentTimeMillis())
-    }
-
-    private fun String.md5ToHex(): String {
-        val md = MessageDigest.getInstance("MD5")
-        val digest = md.digest(this.toByteArray())
-        return digest.joinToString("") { "%02x".format(it) }
-    }
+    append("X-Client-Time", currentTime)
+    append("X-Client-Hash", clientHash)
 }
+
+internal expect fun getCurrentTime(): String
+internal expect fun String.md5ToHex(): String

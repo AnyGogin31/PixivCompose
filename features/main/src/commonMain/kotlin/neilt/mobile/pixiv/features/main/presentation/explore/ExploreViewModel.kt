@@ -76,7 +76,7 @@ internal class ExploreViewModel(
                     }
             } catch (e: Exception) {
                 _uiState.value = ErrorState(
-                    message = e.localizedMessage ?: "Error searching illustrations",
+                    message = e.message ?: "Error searching illustrations",
                 )
             }
         }

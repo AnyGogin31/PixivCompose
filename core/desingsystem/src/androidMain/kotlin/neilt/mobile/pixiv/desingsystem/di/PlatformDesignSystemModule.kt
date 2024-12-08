@@ -30,6 +30,6 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-actual val platformDesignSystemModule = module {
+internal actual val platformDesignSystemModule = module {
     singleOf(::AndroidThemeProvider) bind ThemeProvider::class
 }

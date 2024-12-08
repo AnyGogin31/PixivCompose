@@ -24,15 +24,18 @@
 
 package neilt.mobile.pixiv.data.remote.services.details.illustration
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
 
-interface IllustrationService {
-    @Authorization
-    @GET("/v1/illust/detail?filter=for_android")
-    suspend fun fetchIllustration(
-        @Query("illust_id") illustrationId: Int,
-    ): IllustrationDetailsRootResponse
+class IllustrationService(private val client: HttpClient) {
+    suspend fun fetchIllustration(illustrationId: Int): IllustrationDetailsRootResponse {
+        return client.get("/v1/illust/detail?filter=for_android") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            parameter("illust_id", illustrationId)
+        }.body()
+    }
 }

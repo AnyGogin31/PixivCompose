@@ -25,5 +25,10 @@
 package neilt.mobile.pixiv.data.di
 
 import org.koin.core.module.Module
+import org.koin.dsl.module
+
+internal val remoteModule = module {
+    includes(platformRemoteModule)
+}
 
 internal expect val platformRemoteModule: Module

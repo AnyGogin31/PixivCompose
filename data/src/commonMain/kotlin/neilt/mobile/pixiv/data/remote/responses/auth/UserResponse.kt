@@ -24,13 +24,13 @@
 
 package neilt.mobile.pixiv.data.remote.responses.auth
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class UserResponse(
-    @Json(name = "id") val id: String,
-    @Json(name = "name") val name: String,
-    @Json(name = "account") val account: String,
-    @Json(name = "mail_address") val mailAddress: String,
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("account") val account: String,
+    @SerialName("mail_address") val mailAddress: String,
 )

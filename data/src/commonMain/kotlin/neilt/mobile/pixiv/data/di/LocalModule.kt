@@ -25,9 +25,15 @@
 package neilt.mobile.pixiv.data.di
 
 import neilt.mobile.pixiv.data.local.db.PixivDatabase
+import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
-val localModule = module {
-    single { PixivDatabase.createInstance(context = get()) }
-    single { get<PixivDatabase>().userDao() }
+internal val localModule = module {
+
+    single<PixivDatabase> { get<DatabaseProvider>().database }
+
+    includes(platformLocalModule)
 }
+
+internal expect val platformLocalModule: Module

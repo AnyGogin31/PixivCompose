@@ -24,14 +24,14 @@
 
 package neilt.mobile.pixiv.data.remote.responses.profile
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ProfilePublicityResponse(
-    @Json(name = "gender") val gender: Int,
-    @Json(name = "region") val region: Int,
-    @Json(name = "birth_day") val birthDay: Int,
-    @Json(name = "birth_year") val birthYear: Int,
-    @Json(name = "job") val job: Int,
+    @SerialName("gender") val gender: Int,
+    @SerialName("region") val region: Int,
+    @SerialName("birth_day") val birthDay: Int,
+    @SerialName("birth_year") val birthYear: Int,
+    @SerialName("job") val job: Int,
 )

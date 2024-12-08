@@ -30,8 +30,8 @@ import neilt.mobile.pixiv.data.remote.responses.profile.ProfileResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileUserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.UserDetailResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.WorkspaceResponse
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ProfileMapperTest {
     @Test

@@ -24,31 +24,31 @@
 
 package neilt.mobile.pixiv.data.remote.responses.profile
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class ProfileResponse(
-    @Json(name = "webpage") val webpage: String?,
-    @Json(name = "gender") val gender: Int,
-    @Json(name = "birth") val birth: String,
-    @Json(name = "birth_day") val birthDay: String,
-    @Json(name = "birth_year") val birthYear: Int,
-    @Json(name = "region") val region: String,
-    @Json(name = "address_id") val addressId: Int,
-    @Json(name = "country_code") val countryCode: String,
-    @Json(name = "job") val job: String,
-    @Json(name = "job_id") val jobId: Int,
-    @Json(name = "total_follow_users") val totalFollowUsers: Int,
-    @Json(name = "total_mypixiv_users") val totalMyPixivUsers: Int,
-    @Json(name = "total_illusts") val totalIllusts: Int,
-    @Json(name = "total_manga") val totalManga: Int,
-    @Json(name = "total_novels") val totalNovels: Int,
-    @Json(name = "total_illust_series") val totalIllustSeries: Int,
-    @Json(name = "total_novel_series") val totalNovelSeries: Int,
-    @Json(name = "background_image_url") val backgroundImageUrl: String?,
-    @Json(name = "twitter_account") val twitterAccount: String?,
-    @Json(name = "twitter_url") val twitterUrl: String?,
-    @Json(name = "is_premium") val isPremium: Boolean,
-    @Json(name = "is_using_custom_profile_image") val isUsingCustomProfileImage: Boolean,
+    @SerialName("webpage") val webpage: String?,
+    @SerialName("gender") val gender: Int,
+    @SerialName("birth") val birth: String,
+    @SerialName("birth_day") val birthDay: String,
+    @SerialName("birth_year") val birthYear: Int,
+    @SerialName("region") val region: String,
+    @SerialName("address_id") val addressId: Int,
+    @SerialName("country_code") val countryCode: String,
+    @SerialName("job") val job: String,
+    @SerialName("job_id") val jobId: Int,
+    @SerialName("total_follow_users") val totalFollowUsers: Int,
+    @SerialName("total_mypixiv_users") val totalMyPixivUsers: Int,
+    @SerialName("total_illusts") val totalIllusts: Int,
+    @SerialName("total_manga") val totalManga: Int,
+    @SerialName("total_novels") val totalNovels: Int,
+    @SerialName("total_illust_series") val totalIllustSeries: Int,
+    @SerialName("total_novel_series") val totalNovelSeries: Int,
+    @SerialName("background_image_url") val backgroundImageUrl: String?,
+    @SerialName("twitter_account") val twitterAccount: String?,
+    @SerialName("twitter_url") val twitterUrl: String?,
+    @SerialName("is_premium") val isPremium: Boolean,
+    @SerialName("is_using_custom_profile_image") val isUsingCustomProfileImage: Boolean,
 )

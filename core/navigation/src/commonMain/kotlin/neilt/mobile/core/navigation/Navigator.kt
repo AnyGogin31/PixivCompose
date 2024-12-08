@@ -31,16 +31,20 @@ import kotlinx.coroutines.flow.receiveAsFlow
 /**
  * Interface for defining navigation behavior within an application.
  *
- * @property navigationActions A flow of [NavigationAction] events.
+ * This interface provides methods for navigating to a destination or navigating up in the stack,
+ * along with a flow of navigation actions to observe.
  */
 interface Navigator {
+    /**
+     * A flow of [NavigationAction] events representing navigation actions.
+     */
     val navigationActions: Flow<NavigationAction>
 
     /**
-     * Navigates to the specified destination with the given [NavOptions].
+     * Navigates to the specified [Destination] with the provided navigation options.
      *
-     * @param destination The target [Destination].
-     * @param navOptions Additional navigation options.
+     * @param destination The target [Destination] to navigate to.
+     * @param navOptions Additional navigation options for customizing the navigation behavior.
      */
     suspend fun navigateTo(destination: Destination, navOptions: NavOptions = {})
 
@@ -51,21 +55,22 @@ interface Navigator {
 }
 
 /**
- * Implementation of [Navigator] for Android platform.
+ * Default implementation of [Navigator].
  *
- * This class handles navigation actions and provides a flow of [NavigationAction] events.
+ * This implementation ensures that duplicate navigation actions are not emitted and provides a flow of
+ * navigation events for observation.
  */
-class AndroidNavigator : Navigator {
+class DefaultNavigator : Navigator {
     private val _navigationActions = Channel<NavigationAction>(Channel.BUFFERED)
     override val navigationActions = _navigationActions.receiveAsFlow()
 
     private var lastAction: NavigationAction? = null
 
     /**
-     * Handles navigation actions, ensuring that duplicate actions are not processed.
+     * Handles navigation actions by executing the provided block if the action is not a duplicate.
      *
      * @param action The navigation action to handle.
-     * @param block The block to execute with the given action.
+     * @param block A block of code to execute with the provided [NavigationAction].
      */
     private inline fun handleAction(action: NavigationAction, block: (NavigationAction) -> Unit) {
         if (action != lastAction) {
@@ -74,10 +79,11 @@ class AndroidNavigator : Navigator {
     }
 
     /**
-     * Navigates to the specified destination with the given [NavOptions].
+     * Navigates to the specified [Destination] with the given navigation options.
      *
      * @param destination The target [Destination].
-     * @param navOptions Additional navigation options.
+     * @param navOptions Additional options to customize navigation behavior.
+     * @throws IllegalStateException if the action cannot be enqueued.
      */
     override suspend fun navigateTo(destination: Destination, navOptions: NavOptions) {
         handleAction(NavigationAction.NavigateTo(destination, navOptions)) {
@@ -89,6 +95,8 @@ class AndroidNavigator : Navigator {
 
     /**
      * Navigates up in the navigation stack.
+     *
+     * @throws IllegalStateException if the action cannot be enqueued.
      */
     override suspend fun navigateUp() {
         handleAction(NavigationAction.NavigateUp) {

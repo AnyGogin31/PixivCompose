@@ -24,15 +24,18 @@
 
 package neilt.mobile.pixiv.data.remote.services.search
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
 import neilt.mobile.pixiv.data.remote.responses.search.IllustrationSearchResponse
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
 
-interface SearchService {
-    @Authorization
-    @GET("/v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
-    suspend fun fetchSearchIllustrations(
-        @QueryMap queryParams: Map<String, String?>,
-    ): IllustrationSearchResponse
+class SearchService(private val client: HttpClient) {
+    suspend fun fetchSearchIllustrations(queryParams: Map<String, String?>): IllustrationSearchResponse {
+        return client.get("/v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            queryParams.forEach { (key, value) -> parameter(key, value) }
+        }.body()
+    }
 }

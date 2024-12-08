@@ -24,7 +24,7 @@
 
 package neilt.mobile.pixiv.features.root.di
 
-import neilt.mobile.core.navigation.AndroidNavigator
+import neilt.mobile.core.navigation.DefaultNavigator
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.features.auth.di.authFeatureModule
 import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
@@ -39,7 +39,7 @@ val rootFeatureModule = module {
 
     viewModelOf(::RootViewModel)
 
-    singleOf(::AndroidNavigator) bind Navigator::class
+    singleOf(::DefaultNavigator) bind Navigator::class
 
     includes(
         authFeatureModule,

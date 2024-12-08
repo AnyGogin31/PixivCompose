@@ -24,64 +24,32 @@
 
 package neilt.mobile.pixiv.data.mapper.user
 
-import neilt.mobile.pixiv.data.local.entities.user.UserEntity
-import neilt.mobile.pixiv.data.remote.responses.auth.AuthResponse
-import neilt.mobile.pixiv.data.remote.responses.auth.UserResponse
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import neilt.mobile.pixiv.data.local.db.Users
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class UserMapperTest {
     @Test
     fun `UserEntity toModel maps correctly`() {
-        val userEntity = UserEntity(
-            userId = "123",
-            userName = "John Doe",
-            userAccount = "john_doe",
-            userMailAddress = "john@example.com",
-            accessToken = "access_123",
-            refreshToken = "refresh_123",
-            tokenExpiresAt = System.currentTimeMillis() + 3600 * 1000,
-            isActive = true,
+        val users = Users(
+            user_id = "123",
+            is_active = 1L,
+            access_token = "access_123",
+            refresh_token = "refresh_123",
+            token_expires_at = 3600 * 1000,
+            user_name = "John Doe",
+            user_account = "john_doe",
+            user_mail_address = "john@example.com",
         )
 
-        val userModel = userEntity.toModel()
+        val userModel = users.toModel()
 
-        assertEquals("User ID should be mapped correctly", userEntity.userId, userModel.id)
-        assertEquals("User name should be mapped correctly", userEntity.userName, userModel.name)
-        assertEquals("User account should be mapped correctly", userEntity.userAccount, userModel.account)
-        assertEquals("User mail address should be mapped correctly", userEntity.userMailAddress, userModel.mailAddress)
-        assertEquals("Access token should be mapped correctly", userEntity.accessToken, userModel.accessToken)
-    }
-
-    @Test
-    fun `AuthResponse toEntity maps correctly`() {
-        val authResponse = AuthResponse(
-            accessToken = "access_123",
-            refreshToken = "refresh_123",
-            user = UserResponse(
-                id = "123",
-                name = "John Doe",
-                account = "john_doe",
-                mailAddress = "john@example.com",
-            ),
-            expiresIn = 3600,
-            tokenType = "bearer",
-            scope = "",
-        )
-
-        val userEntity = authResponse.toEntity()
-
-        assertTrue("Mapped entity should be active", userEntity.isActive)
-        assertEquals("Access token should be mapped correctly", authResponse.accessToken, userEntity.accessToken)
-        assertEquals("Refresh token should be mapped correctly", authResponse.refreshToken, userEntity.refreshToken)
-        assertEquals("User ID should be mapped correctly", authResponse.user.id, userEntity.userId)
-        assertEquals("User name should be mapped correctly", authResponse.user.name, userEntity.userName)
-        assertEquals("User account should be mapped correctly", authResponse.user.account, userEntity.userAccount)
-        assertEquals(
-            "User mail address should be mapped correctly",
-            authResponse.user.mailAddress,
-            userEntity.userMailAddress,
-        )
+        assertEquals(users.user_id, userModel.id, "User ID should be mapped correctly")
+        assertEquals(users.user_name, userModel.name, "User name should be mapped correctly")
+        assertEquals(users.user_account, userModel.account, "User account should be mapped correctly")
+        assertEquals(users.user_mail_address, userModel.mailAddress, "User mail address should be mapped correctly")
+        assertEquals(users.access_token, userModel.accessToken, "Access token should be mapped correctly")
+        assertEquals(users.refresh_token, userModel.refreshToken, "Refresh token should be mapped correctly")
+        assertEquals(users.token_expires_at, userModel.tokenExpiresAt, "Token expiration time should be mapped correctly")
     }
 }

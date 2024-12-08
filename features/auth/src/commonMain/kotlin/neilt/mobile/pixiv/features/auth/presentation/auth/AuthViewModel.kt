@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.features.auth.presentation.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -56,7 +57,7 @@ internal class AuthViewModel(
                 LoadedState(data = Unit)
             } else {
                 ErrorState(
-                    message = result.exceptionOrNull()?.localizedMessage ?: "Unknown error",
+                    message = result.exceptionOrNull()?.message ?: "Unknown error",
                 )
             }
         }

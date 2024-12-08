@@ -24,15 +24,18 @@
 
 package neilt.mobile.pixiv.data.remote.services.profile
 
-import neilt.mobile.pixiv.data.remote.common.Authorization
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
 import neilt.mobile.pixiv.data.remote.responses.profile.UserDetailResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
 
-interface ProfileService {
-    @Authorization
-    @GET("/v2/user/detail?filter=for_android")
-    suspend fun fetchUserDetail(
-        @Query("user_id") userId: Int,
-    ): UserDetailResponse
+class ProfileService(private val client: HttpClient) {
+    suspend fun fetchUserDetail(userId: Int): UserDetailResponse {
+        return client.get("/v2/user/detail?filter=for_android") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            parameter("user_id", userId)
+        }.body()
+    }
 }
