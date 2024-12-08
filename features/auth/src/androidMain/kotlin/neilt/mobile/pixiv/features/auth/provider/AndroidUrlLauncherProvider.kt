@@ -24,6 +24,7 @@
 
 package neilt.mobile.pixiv.features.auth.provider
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -32,10 +33,15 @@ import androidx.browser.customtabs.CustomTabsIntent
 class AndroidUrlLauncherProvider(private val context: Context) : UrlLauncherProvider {
     override fun openUrl(url: String) {
         try {
-            val customTabsIntent = CustomTabsIntent.Builder().build()
-            customTabsIntent.launchUrl(context, Uri.parse(url))
+            if (context is Activity) {
+                val customTabsIntent = CustomTabsIntent.Builder().build()
+                customTabsIntent.launchUrl(context, Uri.parse(url))
+            } else {
+                throw IllegalArgumentException("Context must be an Activity context for Custom Tabs")
+            }
         } catch (_: Throwable) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

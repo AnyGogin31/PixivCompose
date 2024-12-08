@@ -26,10 +26,14 @@ package neilt.mobile.pixiv.features.auth.di
 
 import neilt.mobile.pixiv.features.auth.provider.AndroidUrlLauncherProvider
 import neilt.mobile.pixiv.features.auth.provider.UrlLauncherProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
+import org.koin.core.qualifier.named
+import org.koin.core.scope.get
 import org.koin.dsl.module
 
 internal actual val platformAuthFeatureModule = module {
-    singleOf(::AndroidUrlLauncherProvider) bind UrlLauncherProvider::class
+    single<UrlLauncherProvider> {
+        AndroidUrlLauncherProvider(
+            context = getOrNull(named("activity")) ?: get(),
+        )
+    }
 }

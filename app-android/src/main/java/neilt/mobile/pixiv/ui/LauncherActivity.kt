@@ -24,13 +24,16 @@
 
 package neilt.mobile.pixiv.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import neilt.mobile.pixiv.shared.MainView
+import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class LauncherActivity : ComponentActivity() {
     private val viewModel: LauncherViewModel by viewModel()
@@ -42,5 +45,6 @@ class LauncherActivity : ComponentActivity() {
         setContent {
             MainView()
         }
+        getKoin().declare<Context>(instance = this, qualifier = named("activity"))
     }
 }
