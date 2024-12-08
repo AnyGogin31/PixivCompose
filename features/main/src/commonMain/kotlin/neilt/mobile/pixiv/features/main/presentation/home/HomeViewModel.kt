@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.features.main.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -64,7 +65,7 @@ internal class HomeViewModel(
                 _state.value = LoadedState(data = illustrations)
             } catch (e: Exception) {
                 _state.value = ErrorState(
-                    message = e.localizedMessage ?: "Error loading illustrations",
+                    message = e.message ?: "Error loading illustrations",
                 )
             }
         }

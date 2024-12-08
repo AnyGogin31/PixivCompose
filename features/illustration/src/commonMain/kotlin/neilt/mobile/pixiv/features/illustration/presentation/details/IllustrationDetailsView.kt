@@ -52,18 +52,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import coil3.network.NetworkHeaders
-import coil3.network.httpHeaders
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun IllustrationDetailsView(
@@ -97,15 +92,7 @@ private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
             .fillMaxSize(),
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(illustration.imageUrl.largeUrl)
-                .httpHeaders(
-                    NetworkHeaders.Builder()
-                        .set("referer", "https://app-api.pixiv.net/")
-                        .build(),
-                )
-                .crossfade(true)
-                .build(),
+            model = illustration.imageUrl,
             contentDescription = illustration.title,
             modifier = Modifier
                 .fillMaxWidth()

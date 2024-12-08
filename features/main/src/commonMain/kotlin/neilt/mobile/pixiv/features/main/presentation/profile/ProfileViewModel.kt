@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.features.main.presentation.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -62,7 +63,7 @@ internal class ProfileViewModel(
                 }
             } catch (e: Exception) {
                 _uiState.value = ErrorState(
-                    e.localizedMessage ?: "Error fetching profile",
+                    e.message ?: "Error fetching profile",
                 )
             }
         }

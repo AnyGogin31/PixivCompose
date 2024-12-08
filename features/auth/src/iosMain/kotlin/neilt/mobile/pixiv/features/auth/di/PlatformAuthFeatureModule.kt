@@ -22,19 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.presentation.login
+package neilt.mobile.pixiv.features.auth.di
 
-import androidx.lifecycle.ViewModel
-import neilt.mobile.pixiv.domain.utils.PKCEUtil
-import neilt.mobile.pixiv.features.auth.provider.UrlLauncherProvider
+import org.koin.dsl.module
 
-internal class LoginViewModel(
-    private val urlLauncherProvider: UrlLauncherProvider,
-) : ViewModel() {
-    fun onLoginClick() {
-        val url = "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
-            PKCEUtil.codeChallenge +
-            "&code_challenge_method=S256&client=pixiv-android"
-        urlLauncherProvider.openUrl(url)
-    }
+internal actual val platformAuthFeatureModule = module {
+    throw NotImplementedError(
+        "This function is not implemented for the current platform. Platform-specific implementation required.",
+    )
 }

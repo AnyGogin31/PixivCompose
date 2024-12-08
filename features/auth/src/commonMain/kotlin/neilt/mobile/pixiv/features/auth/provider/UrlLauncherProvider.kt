@@ -22,19 +22,8 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.presentation.login
+package neilt.mobile.pixiv.features.auth.provider
 
-import androidx.lifecycle.ViewModel
-import neilt.mobile.pixiv.domain.utils.PKCEUtil
-import neilt.mobile.pixiv.features.auth.provider.UrlLauncherProvider
-
-internal class LoginViewModel(
-    private val urlLauncherProvider: UrlLauncherProvider,
-) : ViewModel() {
-    fun onLoginClick() {
-        val url = "https://app-api.pixiv.net/web/v1/provisional-accounts/create?code_challenge=" +
-            PKCEUtil.codeChallenge +
-            "&code_challenge_method=S256&client=pixiv-android"
-        urlLauncherProvider.openUrl(url)
-    }
+interface UrlLauncherProvider {
+    fun openUrl(url: String)
 }
