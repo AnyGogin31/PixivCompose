@@ -5,8 +5,6 @@ androidGradlePlugin = "8.7.3"
 kotlinGradlePlugin = "2.1.0"
 composeGradlePlugin = "1.7.1"
 kspGradlePlugin = "2.1.0-1.0.29"
-ktorClientCore = "3.0.1"
-ktorClientJson = "3.0.1"
 roomGradlePlugin = "2.6.1"
 detektGradlePlugin = "1.23.7"
 ktlintGradlePlugin = "12.1.1"
@@ -39,6 +37,10 @@ coil = "3.0.4"
 
 # Koin
 koin = "4.0.0"
+
+# Ktor
+ktorClientCore = "3.0.1"
+ktorClientJson = "3.0.1"
 
 # Retrofit
 retrofit = "2.11.0"
