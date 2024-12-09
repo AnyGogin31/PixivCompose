@@ -43,6 +43,7 @@ import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.illustration.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
+import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -105,5 +106,6 @@ private fun PixivContent(
         addPixivAuthSection()
         addPixivMainSection()
         addPixivIllustrationSection()
+        addPixivSettingsSection()
     }
 }
