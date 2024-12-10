@@ -24,8 +24,7 @@
 
 package neilt.mobile.pixiv.data.repositories.auth
 
-import neilt.mobile.pixiv.data.local.db.PixivDatabase
-import neilt.mobile.pixiv.data.mapper.user.toModel
+import neilt.mobile.pixiv.data.provider.AccountManagerProvider
 import neilt.mobile.pixiv.data.provider.TimeProvider
 import neilt.mobile.pixiv.data.remote.requests.auth.AuthorizationRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.UpdateTokenRequest
@@ -37,7 +36,7 @@ import neilt.mobile.pixiv.domain.utils.PKCEUtil
 
 class AuthRepositoryImpl(
     private val authService: AuthService,
-    private val database: PixivDatabase,
+    private val accountManagerProvider: AccountManagerProvider,
     private val timeProvider: TimeProvider,
 ) : AuthRepository {
     private companion object {
@@ -47,31 +46,51 @@ class AuthRepositoryImpl(
         const val REFRESH_GRANT_TYPE = "refresh_token"
         const val CALL_BACK = "https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"
 
+        const val ACCOUNT_TYPE = "neilt.mobile.pixiv"
+
         const val MAX_USER_COUNT = 3
     }
 
-    override suspend fun getAllUsers(): List<UserModel> =
-        database.pixivDatabaseQueries.getAllUsers().executeAsList().map { it.toModel() }
+    override suspend fun getAllUsers(): List<UserModel> {
+        return accountManagerProvider.getAccounts(ACCOUNT_TYPE).map { account ->
+            UserModel(
+                id = account.additionalData["user_id"] ?: "",
+                accessToken = account.authToken ?: "",
+                refreshToken = account.additionalData["refresh_token"] ?: "",
+                tokenExpiresAt = account.additionalData["expires_at"]?.toLongOrNull() ?: 0L,
+                name = account.name,
+                account = account.additionalData["user_account"] ?: "",
+                mailAddress = account.additionalData["user_mail_address"] ?: "",
+            )
+        }
+    }
 
-    override suspend fun getActiveUser() =
-        database.pixivDatabaseQueries.getActiveUser().executeAsOneOrNull()?.toModel()
+    override suspend fun getActiveUser(): UserModel? {
+        return getAllUsers().firstOrNull()
+    }
 
     override suspend fun setActiveUser(userId: String): Result<Unit> {
-        val user = database.pixivDatabaseQueries.getAllUsers().executeAsList()
-            .find { it.user_id == userId }
-        if (user == null) {
+        val accounts = accountManagerProvider.getAccounts(ACCOUNT_TYPE)
+        if (accounts.none { it.additionalData["user_id"] == userId }) {
             return Result.failure(Exception("User not found."))
         }
 
-        database.pixivDatabaseQueries.deactivateAllUsers()
-        database.pixivDatabaseQueries.activateUser(userId)
+        accounts.forEach { account ->
+            val isActive = (account.additionalData["user_id"] == userId)
+            accountManagerProvider.updateAdditionalData(
+                accountName = account.name,
+                accountType = ACCOUNT_TYPE,
+                key = "is_active",
+                value = isActive.toString(),
+            )
+        }
 
         return Result.success(Unit)
     }
 
     override suspend fun authorizeUser(code: String): Result<Unit> {
-        val userCount = database.pixivDatabaseQueries.getUserCount().executeAsOne()
-        if (userCount >= MAX_USER_COUNT) {
+        val accounts = accountManagerProvider.getAccounts(ACCOUNT_TYPE)
+        if (accounts.size >= MAX_USER_COUNT) {
             return Result.failure(Exception("Maximum number of users reached."))
         }
 
@@ -87,16 +106,19 @@ class AuthRepositoryImpl(
 
         val response = authService.requestForAuthorization(request.toFieldMap())
 
-        database.pixivDatabaseQueries.deactivateAllUsers()
-        database.pixivDatabaseQueries.insertUser(
-            user_id = response.user.id,
-            is_active = 1,
-            access_token = response.accessToken,
-            refresh_token = response.refreshToken,
-            token_expires_at = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
-            user_name = response.user.name,
-            user_account = response.user.account,
-            user_mail_address = response.user.mailAddress,
+        println("user_id=${response.user.id}, user_account=${response.user.account}, user_mail_address=${response.user.mailAddress}")
+
+        accountManagerProvider.addAccount(
+            accountName = response.user.name,
+            accountType = ACCOUNT_TYPE,
+            accessToken = response.accessToken,
+            refreshToken = response.refreshToken,
+            expiresAt = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
+            additionalData = mapOf(
+                "user_id" to response.user.id,
+                "user_account" to response.user.account,
+                "user_mail_address" to response.user.mailAddress,
+            ),
         )
 
         return Result.success(Unit)
@@ -120,11 +142,22 @@ class AuthRepositoryImpl(
 
         val response = authService.newRefreshToken(request.toFieldMap())
 
-        database.pixivDatabaseQueries.updateUser(
-            user_id = activeUser.id,
-            access_token = response.accessToken,
-            refresh_token = response.refreshToken,
-            token_expires_at = timeProvider.currentTimeMillis() + response.expiresIn * 1000L,
+        accountManagerProvider.updateAuthToken(
+            accountName = activeUser.name,
+            accountType = ACCOUNT_TYPE,
+            newToken = response.accessToken,
+        )
+        accountManagerProvider.updateAdditionalData(
+            accountName = activeUser.name,
+            accountType = ACCOUNT_TYPE,
+            key = "refresh_token",
+            value = response.refreshToken,
+        )
+        accountManagerProvider.updateAdditionalData(
+            accountName = activeUser.name,
+            accountType = ACCOUNT_TYPE,
+            key = "expires_at",
+            value = (currentTime + response.expiresIn * 1000L).toString(),
         )
 
         return Result.success(Unit)

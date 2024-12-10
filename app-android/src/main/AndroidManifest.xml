@@ -50,5 +50,16 @@
 
         </activity>
 
+        <service
+            android:name="neilt.mobile.pixiv.auth.PixivAccountAuthenticatorService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
     </application>
 </manifest>
