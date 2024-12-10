@@ -22,18 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.auth
 
-import neilt.mobile.pixiv.data.provider.AccountManagerProvider
-import neilt.mobile.pixiv.data.provider.IosAccountManagerProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import android.app.Service
+import android.content.Intent
+import android.os.IBinder
 
-internal actual val platformLocalModule = module {
-    singleOf(::IosAccountManagerProvider) bind AccountManagerProvider::class
-
-    throw NotImplementedError(
-        "This function is not implemented for the current platform. Platform-specific implementation required.",
-    )
+class PixivAccountAuthenticatorService : Service() {
+    override fun onBind(intent: Intent?): IBinder? {
+        val authenticator = PixivAccountAuthenticator(this)
+        return authenticator.iBinder
+    }
 }

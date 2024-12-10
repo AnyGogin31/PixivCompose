@@ -26,6 +26,8 @@ package neilt.mobile.pixiv.data.di
 
 import neilt.mobile.pixiv.data.local.provider.AndroidDatabaseProvider
 import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
+import neilt.mobile.pixiv.data.provider.AccountManagerProvider
+import neilt.mobile.pixiv.data.provider.AndroidAccountManagerProvider
 import neilt.mobile.pixiv.data.provider.AndroidStorageProvider
 import neilt.mobile.pixiv.data.provider.AndroidTimeProvider
 import neilt.mobile.pixiv.data.provider.StorageProvider
@@ -38,4 +40,5 @@ internal actual val platformLocalModule = module {
     singleOf(::AndroidDatabaseProvider) bind DatabaseProvider::class
     singleOf(::AndroidStorageProvider) bind StorageProvider::class
     singleOf(::AndroidTimeProvider) bind TimeProvider::class
+    singleOf(::AndroidAccountManagerProvider) bind AccountManagerProvider::class
 }

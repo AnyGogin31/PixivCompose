@@ -22,18 +22,39 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.data.provider
 
-import neilt.mobile.pixiv.data.provider.AccountManagerProvider
-import neilt.mobile.pixiv.data.provider.IosAccountManagerProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+interface AccountManagerProvider {
+    fun addAccount(
+        accountName: String,
+        accountType: String,
+        accessToken: String,
+        refreshToken: String,
+        expiresAt: Long,
+        additionalData: Map<String, String> = emptyMap(),
+    ): Boolean
 
-internal actual val platformLocalModule = module {
-    singleOf(::IosAccountManagerProvider) bind AccountManagerProvider::class
+    fun getAccounts(accountType: String): List<AccountData>
 
-    throw NotImplementedError(
-        "This function is not implemented for the current platform. Platform-specific implementation required.",
+    fun getAuthToken(accountName: String, accountType: String): String?
+
+    fun updateAuthToken(
+        accountName: String,
+        accountType: String,
+        newToken: String,
+    )
+
+    fun updateAdditionalData(
+        accountName: String,
+        accountType: String,
+        key: String,
+        value: String,
     )
 }
+
+data class AccountData(
+    val name: String,
+    val type: String,
+    val authToken: String?,
+    val additionalData: Map<String, String>,
+)
