@@ -24,7 +24,9 @@
 
 package neilt.mobile.pixiv.features.illustration.presentation.details
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,13 +81,22 @@ internal fun IllustrationDetailsView(
         state.whenState<IllustrationDetails>(
             onLoading = { LoadingView() },
             onError = { ErrorView(message = it) },
-            onLoaded = { IllustrationDetailsContent(illustration = it) },
+            onLoaded = {
+                IllustrationDetailsContent(
+                    illustration = it,
+                    onIllustrationDownload = viewModel::downloadIllustration,
+                )
+            },
         )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
+private fun IllustrationDetailsContent(
+    illustration: IllustrationDetails,
+    onIllustrationDownload: (url: String?, fileName: String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -96,7 +107,16 @@ private fun IllustrationDetailsContent(illustration: IllustrationDetails) {
             contentDescription = illustration.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface),
+                .background(MaterialTheme.colorScheme.surface)
+                .combinedClickable(
+                    onClick = { },
+                    onLongClick = {
+                        onIllustrationDownload(
+                            illustration.imageUrl.largeUrl,
+                            illustration.title,
+                        )
+                    },
+                ),
             contentScale = ContentScale.Crop,
         )
 

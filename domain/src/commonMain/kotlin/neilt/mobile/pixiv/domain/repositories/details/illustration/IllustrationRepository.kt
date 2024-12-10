@@ -28,4 +28,5 @@ import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 
 interface IllustrationRepository {
     suspend fun getIllustration(illustrationId: Int): IllustrationDetails
+    suspend fun downloadIllustration(url: String, fileName: String)
 }

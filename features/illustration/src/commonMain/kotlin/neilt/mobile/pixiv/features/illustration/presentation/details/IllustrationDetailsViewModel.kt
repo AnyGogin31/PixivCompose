@@ -38,9 +38,11 @@ import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
+import neilt.mobile.pixiv.features.illustration.provider.ToastProvider
 
 internal class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
+    private val toastProvider: ToastProvider,
 ) : ViewModel() {
     private val _state = MutableStateFlow<ViewState>(LoadingState)
     val state: StateFlow<ViewState> = _state.asStateFlow()
@@ -58,6 +60,18 @@ internal class IllustrationDetailsViewModel(
                     message = e.message ?: "Error loading illustrations",
                 )
             }
+        }
+    }
+
+    fun downloadIllustration(url: String?, fileName: String) {
+        if (url.isNullOrEmpty()) {
+            return
+        }
+
+        viewModelScope.launch {
+            toastProvider.showToast("Downloading...")
+            illustrationRepository.downloadIllustration(url, fileName)
+            toastProvider.showToast("Download complete")
         }
     }
 }
