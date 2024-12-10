@@ -25,6 +25,7 @@
 package neilt.mobile.pixiv.data.repositories.details.illustration
 
 import kotlinx.coroutines.test.runTest
+import neilt.mobile.pixiv.data.provider.StorageProvider
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
@@ -42,10 +43,11 @@ import kotlin.test.assertEquals
 class IllustrationRepositoryImplTest {
     private lateinit var repository: IllustrationRepositoryImpl
     private val illustrationService: IllustrationService = mock()
+    private val storageProvider: StorageProvider = mock()
 
     @BeforeTest
     fun setup() {
-        repository = IllustrationRepositoryImpl(illustrationService)
+        repository = IllustrationRepositoryImpl(illustrationService, storageProvider)
     }
 
     @Test
