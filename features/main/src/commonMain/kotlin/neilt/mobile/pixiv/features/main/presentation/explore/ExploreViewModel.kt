@@ -34,6 +34,7 @@ import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
@@ -78,6 +79,24 @@ internal class ExploreViewModel(
                 _uiState.value = ErrorState(
                     message = e.message ?: "Error searching illustrations",
                 )
+            }
+        }
+    }
+
+    private val _predictionTags = MutableStateFlow<List<Tag>>(emptyList())
+    val predictionTags: StateFlow<List<Tag>> = _predictionTags
+
+    fun fetchTagsPrediction(query: String) {
+        if (query.isBlank()) {
+            _predictionTags.value = emptyList()
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                _predictionTags.value = searchRepository.getSearchPredictionTags(query)
+            } catch (e: Exception) {
+                _predictionTags.value = emptyList()
             }
         }
     }

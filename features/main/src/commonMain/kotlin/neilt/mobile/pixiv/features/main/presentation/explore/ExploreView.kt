@@ -24,14 +24,18 @@
 
 package neilt.mobile.pixiv.features.main.presentation.explore
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,10 +52,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.coroutines.flow.StateFlow
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.features.main.presentation.home.IllustrationsGallery
 import org.koin.compose.viewmodel.koinViewModel
@@ -66,6 +72,8 @@ internal fun ExploreView(
         uiState = state,
         onSearch = viewModel::searchIllustrations,
         onIllustrationSelected = viewModel::navigateToIllustrationDetails,
+        predictionTagsFlow = viewModel.predictionTags,
+        onQueryChange = viewModel::fetchTagsPrediction,
     )
 }
 
@@ -74,12 +82,35 @@ private fun ExploreViewContent(
     uiState: ViewState,
     onSearch: (String) -> Unit,
     onIllustrationSelected: (Int) -> Unit,
+    predictionTagsFlow: StateFlow<List<Tag>>,
+    onQueryChange: (String) -> Unit,
 ) {
+    val predictionTags by predictionTagsFlow.collectAsState(emptyList())
+
+    val focusManager = LocalFocusManager.current
+    val clearFocusAndCollapse: () -> Unit = {
+        focusManager.clearFocus()
+    }
+
     Column {
         SearchInputView(
             modifier = Modifier.zIndex(1f),
             onSearch = onSearch,
-            content = {},
+            onQueryChange = onQueryChange,
+            clearFocusAndCollapse = clearFocusAndCollapse,
+            isExpanded = predictionTags.isNotEmpty(),
+            content = {
+                if (predictionTags.isNotEmpty()) {
+                    TagsPredictionList(
+                        tags = predictionTags,
+                        onTagSelected = { tag ->
+                            clearFocusAndCollapse()
+                            onQueryChange("")
+                            onSearch(tag)
+                        },
+                    )
+                }
+            },
         )
 
         uiState.whenStateExtended<List<Illustration>>(
@@ -101,27 +132,23 @@ private fun ExploreViewContent(
 private fun SearchInputView(
     modifier: Modifier = Modifier,
     onSearch: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    clearFocusAndCollapse: () -> Unit,
+    isExpanded: Boolean,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val isKeyboardVisible by keyboardAsState()
 
     var query by rememberSaveable { mutableStateOf("") }
-    var isExpanded by rememberSaveable { mutableStateOf(false) }
-
-    val focusManager = LocalFocusManager.current
-    val hideKeyboardAndCollapse = fun() {
-        focusManager.clearFocus()
-        isExpanded = false
-    }
 
     val onExecuteSearch = fun(input: String) {
-        hideKeyboardAndCollapse()
+        clearFocusAndCollapse()
         onSearch(input)
     }
 
     LaunchedEffect(isKeyboardVisible) {
         if (!isKeyboardVisible) {
-            hideKeyboardAndCollapse()
+            clearFocusAndCollapse()
         }
     }
 
@@ -135,17 +162,44 @@ private fun SearchInputView(
         inputField = {
             SearchBarDefaults.InputField(
                 query = query,
-                onQueryChange = { query = it },
+                onQueryChange = {
+                    query = it
+                    onQueryChange(it)
+                },
                 onSearch = onExecuteSearch,
                 expanded = isExpanded,
-                onExpandedChange = { isExpanded = it },
+                onExpandedChange = {},
                 placeholder = { Text("Search illustrations...") },
             )
         },
         expanded = isExpanded,
-        onExpandedChange = { isExpanded = it },
+        onExpandedChange = {},
         content = content,
     )
+}
+
+@Composable
+private fun TagsPredictionList(
+    tags: List<Tag>,
+    onTagSelected: (String) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        items(tags) { tag ->
+            Text(
+                text = buildString {
+                    append(tag.name)
+                    tag.translatedName?.let { append(" ($it)") }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onTagSelected(tag.name) }
+                    .padding(16.dp),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
 }
 
 @Composable
