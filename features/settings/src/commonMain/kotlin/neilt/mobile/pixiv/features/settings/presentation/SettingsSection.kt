@@ -22,30 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.root.di
+package neilt.mobile.pixiv.features.settings.presentation
 
-import neilt.mobile.core.navigation.DefaultNavigator
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.root.presentation.RootViewModel
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import kotlinx.serialization.Serializable
+import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.features.settings.presentation.overview.SettingsOverviewView
 
-val rootFeatureModule = module {
+@Serializable
+data object PixivSettingsSection : Destination {
+    @Serializable
+    data object SettingsOverviewScreen : Destination
+}
 
-    viewModelOf(::RootViewModel)
-
-    singleOf(::DefaultNavigator) bind Navigator::class
-
-    includes(
-        authFeatureModule,
-        mainFeatureModule,
-        illustrationFeatureModule,
-        settingsFeatureModule,
-    )
+fun NavGraphBuilder.addPixivSettingsSection() {
+    navigation<PixivSettingsSection>(
+        startDestination = PixivSettingsSection.SettingsOverviewScreen,
+    ) {
+        composable<PixivSettingsSection.SettingsOverviewScreen> { SettingsOverviewView() }
+    }
 }

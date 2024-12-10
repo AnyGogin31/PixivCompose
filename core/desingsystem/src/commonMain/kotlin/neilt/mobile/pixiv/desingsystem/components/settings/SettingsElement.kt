@@ -22,30 +22,19 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.root.di
+package neilt.mobile.pixiv.desingsystem.components.settings
 
-import neilt.mobile.core.navigation.DefaultNavigator
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.root.presentation.RootViewModel
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.vector.ImageVector
 
-val rootFeatureModule = module {
+@Stable
+sealed interface SettingsElement
 
-    viewModelOf(::RootViewModel)
+data class SettingGroup(val items: List<SettingItem>) : SettingsElement
 
-    singleOf(::DefaultNavigator) bind Navigator::class
-
-    includes(
-        authFeatureModule,
-        mainFeatureModule,
-        illustrationFeatureModule,
-        settingsFeatureModule,
-    )
-}
+data class SettingItem(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector,
+    val onClick: () -> Unit = {},
+) : SettingsElement

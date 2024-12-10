@@ -22,30 +22,22 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.root.di
+package neilt.mobile.pixiv.features.settings.presentation.overview
 
-import neilt.mobile.core.navigation.DefaultNavigator
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.root.presentation.RootViewModel
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.desingsystem.components.settings.displaySettingsElements
+import org.koin.compose.viewmodel.koinViewModel
 
-val rootFeatureModule = module {
-
-    viewModelOf(::RootViewModel)
-
-    singleOf(::DefaultNavigator) bind Navigator::class
-
-    includes(
-        authFeatureModule,
-        mainFeatureModule,
-        illustrationFeatureModule,
-        settingsFeatureModule,
-    )
+@Composable
+internal fun SettingsOverviewView(
+    viewModel: SettingsOverviewViewModel = koinViewModel(),
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        displaySettingsElements(viewModel.settingsElements)
+    }
 }

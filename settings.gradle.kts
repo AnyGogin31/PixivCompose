@@ -38,6 +38,7 @@ include(":features:auth")
 include(":features:illustration")
 include(":features:main")
 include(":features:root")
+include(":features:settings")
 
 include(":resources")
 include(":shared")

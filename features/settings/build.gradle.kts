@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.neilt.mobile.android.library)
     alias(libs.plugins.neilt.mobile.android.compose)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.compose)
 }
 
@@ -12,15 +13,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.data)
+                implementation(projects.domain)
+
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation)
-
-                implementation(projects.features.auth)
-                implementation(projects.features.illustration)
-                implementation(projects.features.main)
-                implementation(projects.features.settings)
-
-                implementation(projects.resources)
+                implementation(projects.core.state)
 
                 implementation(compose.material3)
 
@@ -36,5 +34,5 @@ kotlin {
 }
 
 android {
-    namespace = "neilt.mobile.pixiv.features.root"
+    namespace = "neilt.mobile.pixiv.features.settings"
 }
