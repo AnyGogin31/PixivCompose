@@ -64,11 +64,18 @@ data class Badge(
 )
 
 @Stable
+data class NavigationActionButton(
+    val icon: ImageVector,
+    val onClick: () -> Unit = {},
+)
+
+@Stable
 data class NavigationItemContent(
     val label: @Composable () -> String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val badge: Badge? = null,
+    val actionButton: NavigationActionButton? = null,
     val customSlot: (@Composable () -> Unit)? = null,
     val isEnabled: Boolean = true,
 )

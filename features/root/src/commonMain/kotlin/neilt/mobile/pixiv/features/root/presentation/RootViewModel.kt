@@ -24,11 +24,14 @@
 
 package neilt.mobile.pixiv.features.root.presentation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
+import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationItemContent
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 import neilt.mobile.pixiv.desingsystem.icons.filled.Explore
@@ -38,6 +41,7 @@ import neilt.mobile.pixiv.desingsystem.icons.outlined.Explore
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
+import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_explore
 import neilt.mobile.pixiv.resources.navigation_home
@@ -78,6 +82,14 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
                 label = { stringResource(Res.string.navigation_profile) },
                 selectedIcon = PixivIcons.Filled.Profile,
                 unselectedIcon = PixivIcons.Outlined.Profile,
+                actionButton = NavigationActionButton(
+                    icon = Icons.Default.Settings,
+                    onClick = {
+                        viewModelScope.launch {
+                            navigator.navigateTo(PixivSettingsSection)
+                        }
+                    },
+                ),
             ),
             onSelect = {
                 viewModelScope.launch {

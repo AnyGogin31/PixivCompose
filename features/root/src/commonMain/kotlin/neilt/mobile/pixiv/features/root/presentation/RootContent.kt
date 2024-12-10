@@ -26,16 +26,20 @@ package neilt.mobile.pixiv.features.root.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
+import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
@@ -78,6 +82,12 @@ private fun PixivScaffold(
                 navigator = navigator,
             )
         },
+        floatingActionButton = {
+            PixivFloatingActionButton(
+                items = bottomNavigationItems,
+                currentDestination = currentDestination,
+            )
+        },
         bottomBar = {
             CollapsibleBottomNavigation(
                 items = bottomNavigationItems,
@@ -107,5 +117,25 @@ private fun PixivContent(
         addPixivMainSection()
         addPixivIllustrationSection()
         addPixivSettingsSection()
+    }
+}
+
+@Composable
+private fun PixivFloatingActionButton(
+    modifier: Modifier = Modifier,
+    items: List<BottomNavigationItem>,
+    currentDestination: NavDestination? = null,
+) {
+    val selectedItem = items.firstOrNull { currentDestination.hasDestination(it.destination) }
+    selectedItem?.content?.actionButton?.let { actionButton ->
+        FloatingActionButton(
+            modifier = modifier,
+            onClick = actionButton.onClick,
+        ) {
+            Icon(
+                imageVector = actionButton.icon,
+                contentDescription = null,
+            )
+        }
     }
 }
