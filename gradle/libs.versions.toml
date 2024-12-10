@@ -56,7 +56,7 @@ mokito = "5.14.2"
 mokitoKotlin = "5.4.0"
 
 # Detekt
-detektRulesCompose = "0.4.19"
+detektRulesCompose = "0.4.22"
 
 
 [libraries]
