@@ -25,14 +25,21 @@
 package neilt.mobile.pixiv.data.repositories.details.illustration
 
 import neilt.mobile.pixiv.data.mapper.details.illustration.toModel
+import neilt.mobile.pixiv.data.provider.StorageProvider
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 
 class IllustrationRepositoryImpl(
     private val illustrationService: IllustrationService,
+    private val storageProvider: StorageProvider,
 ) : IllustrationRepository {
     override suspend fun getIllustration(illustrationId: Int): IllustrationDetails {
         return illustrationService.fetchIllustration(illustrationId).illustrationDetails.toModel()
+    }
+
+    override suspend fun downloadIllustration(url: String, fileName: String) {
+        val imageData = illustrationService.downloadIllustration(url)
+        storageProvider.uploadImage(imageData, fileName)
     }
 }

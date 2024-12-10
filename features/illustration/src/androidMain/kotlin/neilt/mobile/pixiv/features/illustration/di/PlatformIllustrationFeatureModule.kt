@@ -22,31 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.services.details.illustration
+package neilt.mobile.pixiv.features.illustration.di
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
-import io.ktor.client.request.url
-import io.ktor.http.URLBuilder
-import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
-import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
+import neilt.mobile.pixiv.features.illustration.provider.AndroidToastProvider
+import neilt.mobile.pixiv.features.illustration.provider.ToastProvider
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-class IllustrationService(private val client: HttpClient) {
-    suspend fun fetchIllustration(illustrationId: Int): IllustrationDetailsRootResponse {
-        return client.get("/v1/illust/detail?filter=for_android") {
-            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
-            parameter("illust_id", illustrationId)
-        }.body()
-    }
-
-    suspend fun downloadIllustration(url: String): ByteArray {
-        return client.get(url) {
-            headers.append("Referer", "https://www.pixiv.net")
-            url.takeIf { it.startsWith("http") }?.let {
-                this.url(URLBuilder(it).build())
-            }
-        }.body()
-    }
+internal actual val platformIllustrationFeatureModule = module {
+    singleOf(::AndroidToastProvider) bind ToastProvider::class
 }

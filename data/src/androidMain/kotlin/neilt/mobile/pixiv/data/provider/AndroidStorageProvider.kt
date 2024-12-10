@@ -22,31 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.remote.services.details.illustration
+package neilt.mobile.pixiv.data.provider
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
-import io.ktor.client.request.url
-import io.ktor.http.URLBuilder
-import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
-import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
+import android.content.ContentValues
+import android.content.Context
+import android.provider.MediaStore
+import java.io.IOException
 
-class IllustrationService(private val client: HttpClient) {
-    suspend fun fetchIllustration(illustrationId: Int): IllustrationDetailsRootResponse {
-        return client.get("/v1/illust/detail?filter=for_android") {
-            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
-            parameter("illust_id", illustrationId)
-        }.body()
-    }
+class AndroidStorageProvider(private val context: Context) : StorageProvider {
+    override fun uploadImage(image: ByteArray, fileName: String) {
+        val resolver = context.contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/PixivCompose/")
+        }
 
-    suspend fun downloadIllustration(url: String): ByteArray {
-        return client.get(url) {
-            headers.append("Referer", "https://www.pixiv.net")
-            url.takeIf { it.startsWith("http") }?.let {
-                this.url(URLBuilder(it).build())
-            }
-        }.body()
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            ?: throw IOException("Failed to create media store entry for $fileName")
+
+        resolver.openOutputStream(uri)?.use { outputStream ->
+            outputStream.write(image)
+        } ?: throw IOException("Failed to open output stream for $fileName")
     }
 }
