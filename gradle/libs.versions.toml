@@ -39,8 +39,7 @@ coil = "3.0.4"
 koin = "4.0.0"
 
 # Ktor
-ktorClientCore = "3.0.1"
-ktorClientJson = "3.0.1"
+ktorClientCore = "3.0.2"
 
 # Retrofit
 retrofit = "2.11.0"
@@ -121,7 +120,7 @@ koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", versio
 
 # Ktor
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCore" }
-ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientJson" }
+ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientCore" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientCore" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCore" }
