@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.search
+package neilt.mobile.pixiv.data.remote.responses.search
 
-import neilt.mobile.pixiv.domain.models.details.illustration.Tag
-import neilt.mobile.pixiv.domain.models.home.Illustration
-import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
 
-interface SearchRepository {
-    suspend fun getSearchIllustrations(request: SearchIllustrationsRequest): List<Illustration>
-    suspend fun getSearchPredictionTags(query: String): List<Tag>
-}
+@Serializable
+data class TagsResponse(
+    @SerialName("tags") val tags: List<TagResponse>,
+)

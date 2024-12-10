@@ -30,12 +30,20 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
 import neilt.mobile.pixiv.data.remote.responses.search.IllustrationSearchResponse
+import neilt.mobile.pixiv.data.remote.responses.search.TagsResponse
 
 class SearchService(private val client: HttpClient) {
     suspend fun fetchSearchIllustrations(queryParams: Map<String, String?>): IllustrationSearchResponse {
         return client.get("/v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true") {
             headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
             queryParams.forEach { (key, value) -> parameter(key, value) }
+        }.body()
+    }
+
+    suspend fun fetchSearchPredictionTags(query: String): TagsResponse {
+        return client.get("/v2/search/autocomplete?merge_plain_keyword_results=true") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            parameter("word", query)
         }.body()
     }
 }
