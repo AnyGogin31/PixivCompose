@@ -27,16 +27,10 @@ package neilt.mobile.pixiv.domain.utils
 import java.security.MessageDigest
 import java.security.SecureRandom
 
-/**
- * Android implementation of the [SecureRandomProvider].
- */
+private val secureRandom = SecureRandom.getInstance("SHA1PRNG")
 
-internal actual class SecureRandomProvider {
-    private val secureRandom = SecureRandom.getInstance("SHA1PRNG")
-
-    internal actual fun generateSecureRandomBytes(bytes: ByteArray) {
-        secureRandom.nextBytes(bytes)
-    }
+internal actual fun generateSecureRandomBytes(bytes: ByteArray) {
+    secureRandom.nextBytes(bytes)
 }
 
 /**

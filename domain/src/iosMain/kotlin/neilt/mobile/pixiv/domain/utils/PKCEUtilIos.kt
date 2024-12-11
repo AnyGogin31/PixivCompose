@@ -24,16 +24,10 @@
 
 package neilt.mobile.pixiv.domain.utils
 
-/**
- * iOS implementation of the [SecureRandomProvider].
- * Currently not implemented for this platform.
- */
-internal actual class SecureRandomProvider {
-    internal actual fun generateSecureRandomBytes(bytes: ByteArray) {
-        throw NotImplementedError(
-            "This function is not implemented for the current platform. Platform-specific implementation required.",
-        )
-    }
+internal actual fun generateSecureRandomBytes(bytes: ByteArray) {
+    throw NotImplementedError(
+        "This function is not implemented for the current platform. Platform-specific implementation required.",
+    )
 }
 
 /**

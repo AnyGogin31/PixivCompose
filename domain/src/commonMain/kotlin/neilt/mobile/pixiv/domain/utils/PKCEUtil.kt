@@ -35,9 +35,6 @@ object PKCEUtil {
     /** Default length for the code verifier in bytes. */
     private const val CODE_VERIFIER_LENGTH = 32
 
-    /** Instance of [SecureRandomProvider] for cryptographically strong random number generation. */
-    private val secureRandom: SecureRandomProvider by lazy { SecureRandomProvider() }
-
     /** Lazily initialized PKCE code verifier. */
     val codeVerifier: String by lazy { generateRandomString() }
 
@@ -53,7 +50,7 @@ object PKCEUtil {
     @OptIn(ExperimentalEncodingApi::class)
     private fun generateRandomString(): String {
         val bytes = ByteArray(CODE_VERIFIER_LENGTH).apply {
-            secureRandom.generateSecureRandomBytes(this)
+            generateSecureRandomBytes(this)
         }
         return Base64.UrlSafe.encode(bytes).trimEnd('=')
     }
@@ -73,16 +70,11 @@ object PKCEUtil {
 }
 
 /**
- * Platform-specific provider for cryptographically secure random number generation.
+ * Fills the given byte array with cryptographically secure random bytes.
+ *
+ * @param bytes The byte array to fill.
  */
-internal expect class SecureRandomProvider() {
-    /**
-     * Fills the given byte array with cryptographically secure random bytes.
-     *
-     * @param bytes The byte array to fill.
-     */
-    internal fun generateSecureRandomBytes(bytes: ByteArray)
-}
+internal expect fun generateSecureRandomBytes(bytes: ByteArray)
 
 /**
  * Computes the SHA-256 hash of the given input byte array.
