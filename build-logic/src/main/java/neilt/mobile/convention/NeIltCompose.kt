@@ -37,8 +37,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 internal fun Project.configureComposeMultiplatform(
     commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
-    pluginManager.apply(libs.getPlugin("kotlinCompose").get().pluginId)
-    pluginManager.apply(libs.getPlugin("compose").get().pluginId)
+    pluginManager.apply(libs.getPlugin("kotlin-compose").get().pluginId)
+    pluginManager.apply(libs.getPlugin("kotlin-compose-compiler").get().pluginId)
 
     extensions.configure<KotlinMultiplatformExtension> {
         sourceSets.commonMain.dependencies {

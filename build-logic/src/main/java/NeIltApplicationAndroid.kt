@@ -34,7 +34,7 @@ import org.gradle.plugin.use.PluginDependency
 
 class NeIltApplicationAndroid : NeIltPlugin() {
     override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
-        target.libs.getPlugin("androidApplication")
+        target.libs.getPlugin("android-application")
     }
 
     override fun Project.configureProject() {

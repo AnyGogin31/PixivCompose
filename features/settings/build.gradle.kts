@@ -1,14 +1,9 @@
 plugins {
     alias(libs.plugins.neilt.multiplatform.compose)
-    alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -18,8 +13,6 @@ kotlin {
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation)
                 implementation(projects.core.state)
-
-                implementation(compose.material3)
 
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)

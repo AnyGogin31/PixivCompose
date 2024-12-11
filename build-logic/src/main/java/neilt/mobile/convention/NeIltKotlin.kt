@@ -37,7 +37,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 internal fun Project.configureKotlinMultiplatform(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
-    pluginManager.apply(libs.getPlugin("kotlinMultiplatform").get().pluginId)
+    pluginManager.apply(libs.getPlugin("kotlin-multiplatform").get().pluginId)
 
     extensions.configure<KotlinMultiplatformExtension> {
         androidTarget()
@@ -55,7 +55,7 @@ internal fun Project.configureKotlinMultiplatform(
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
-    pluginManager.apply(libs.getPlugin("kotlinAndroid").get().pluginId)
+    pluginManager.apply(libs.getPlugin("kotlin-android").get().pluginId)
 
     configureKotlin(commonExtension)
 }

@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.neilt.application.android)
-    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 apply(from = "../scripts/git-hooks.gradle.kts")
@@ -18,6 +18,9 @@ dependencies {
     implementation(projects.features.root)
 
     implementation(projects.shared)
+
+    // Koin
+    implementation(libs.koin.android)
 
     // Coil
     implementation(libs.coil.compose)

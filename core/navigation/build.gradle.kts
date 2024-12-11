@@ -1,13 +1,9 @@
 plugins {
     alias(libs.plugins.neilt.multiplatform.compose)
-    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         val commonMain by getting {
             dependencies {

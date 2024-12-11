@@ -34,7 +34,7 @@ import org.gradle.plugin.use.PluginDependency
 
 class NeIltMultiplatformPlugin : NeIltPlugin() {
     override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
-        target.libs.getPlugin("androidLibrary")
+        target.libs.getPlugin("android-library")
     }
 
     override fun Project.configureProject() {

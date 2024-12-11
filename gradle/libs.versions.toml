@@ -4,8 +4,6 @@
 androidGradlePlugin = "8.7.3"
 kotlinGradlePlugin = "2.1.0"
 composeGradlePlugin = "1.7.1"
-kspGradlePlugin = "2.1.0-1.0.29"
-roomGradlePlugin = "2.6.1"
 detektGradlePlugin = "1.23.7"
 ktlintGradlePlugin = "12.1.1"
 
@@ -15,15 +13,11 @@ kotlinCoroutines = "1.9.0"
 kotlinSerializationJson = "1.7.3"
 
 # Compose
-composeBom = "2024.11.00"
-composeActivity = "1.9.3"
 composeNavigation = "2.8.0-alpha11"
 
 # AndroidX
 androidBrowser = "1.8.0"
-androidCore = "1.15.0"
 androidSplashScreen = "1.0.1"
-androidLifecycle = "2.8.7"
 androidViewmodel = "2.8.4"
 androidTestCore = "1.6.1"
 androidTestRunner = "1.6.2"
@@ -41,19 +35,10 @@ koin = "4.0.0"
 # Ktor
 ktorClientCore = "3.0.2"
 
-# Retrofit
-retrofit = "2.11.0"
-
-# OkHttp
-okhttp3 = "4.12.0"
-
-# Moshi
-moshi = "1.15.2"
-
 # Testing
 junitJupiter = "5.11.3"
-mokito = "5.14.2"
-mokitoKotlin = "5.4.0"
+mockito = "5.14.2"
+mockitoKotlin = "5.4.0"
 
 # Detekt
 detektRulesCompose = "0.4.22"
@@ -67,9 +52,6 @@ android-tools-gradlePlugin = { group = "com.android.tools.build", name = "gradle
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlin-compose-gradlePlugin = { group = "org.jetbrains.compose", name = "org.jetbrains.compose.gradle.plugin", version.ref = "composeGradlePlugin" }
 
-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "kspGradlePlugin" }
-room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomGradlePlugin" }
-
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
 ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlintGradlePlugin" }
 
@@ -78,23 +60,12 @@ detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-form
 detekt-rules-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektRulesCompose" }
 
 # Compose
-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-
-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-
-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
-compose-material = { group = "androidx.compose.material3", name = "material3" }
 
 # AndroidX
 android-browser = { group = "androidx.browser", name = "browser", version.ref = "androidBrowser" }
-android-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidCore" }
 android-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidSplashScreen" }
 android-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidViewmodel" }
-android-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidLifecycle" }
 
 android-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
 android-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidTestRunner" }
@@ -109,14 +80,11 @@ coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref 
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 # Koin
-koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
-koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
-koin-test-junit4 = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
 
 # Ktor
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCore" }
@@ -125,23 +93,6 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorCli
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientCore" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCore" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientCore" }
-
-# Retrofit
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
-
-# OkHttp
-okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
-
-# Moshi
-moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi" }
-moshi-kotlin-codegen = { group = "com.squareup.moshi", name = "moshi-kotlin-codegen", version.ref = "moshi" }
-
-# Room
-room = { group = "androidx.room", name = "room-runtime", version.ref = "roomGradlePlugin" }
-room-kotlin = { group = "androidx.room", name = "room-ktx", version.ref = "roomGradlePlugin" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomGradlePlugin" }
 
 # Kotlin
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinGradlePlugin" }
@@ -152,48 +103,25 @@ kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-s
 # Testing
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 
-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mokito" }
-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mokitoKotlin" }
-
-
-[bundles]
-
-# Compose
-compose-ui = [
-    "compose-ui",
-    "compose-ui-graphics",
-    "compose-ui-tooling",
-]
-
-compose-additions = [
-    "compose-activity",
-    "compose-material",
-]
-
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 
 [plugins]
 
 # Android
-androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 
 # Kotlin
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
-kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
-kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
+
+kotlin-compose = { id = "org.jetbrains.compose", version.ref = "composeGradlePlugin" }
+kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
 
 # SQLDelight
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
-
-# Compose
-compose = { id = "org.jetbrains.compose", version.ref = "composeGradlePlugin" }
-
-# KSP
-ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
-
-# Room
-room = { id = "androidx.room", version.ref = "roomGradlePlugin" }
 
 # Static Analyzer
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }

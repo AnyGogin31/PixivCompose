@@ -1,20 +1,5 @@
 plugins {
     alias(libs.plugins.neilt.multiplatform.compose)
-    alias(libs.plugins.compose)
-}
-
-kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(compose.components.resources)
-            }
-        }
-    }
 }
 
 android {
