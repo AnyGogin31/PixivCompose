@@ -22,23 +22,36 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.utils
+package neilt.mobile.pixiv.domain.provider
 
-import java.security.MessageDigest
-import java.security.SecureRandom
+import androidx.annotation.IntDef
 
-private val secureRandom = SecureRandom.getInstance("SHA1PRNG")
+interface PKCEProvider {
+    companion object {
+        internal const val CODE_VERIFIER_LENGTH = 32
+        internal const val PROVISIONAL_ACCOUNT_BASE_URL =
+            "https://app-api.pixiv.net/web/v1/provisional-accounts/create"
 
-internal actual fun generateSecureRandomBytes(bytes: ByteArray) {
-    secureRandom.nextBytes(bytes)
-}
+        @ChallengeMethod
+        const val CHALLENGE_METHOD_S256 = 0
 
-/**
- * Android implementation for computing the SHA-256 hash.
- *
- * @param input The byte array to hash.
- * @return The computed SHA-256 hash.
- */
-internal actual fun computeSHA256(input: ByteArray): ByteArray {
-    return MessageDigest.getInstance("SHA-256").digest(input)
+        @ChallengeMethod
+        const val CHALLENGE_METHOD_PLAIN = 1
+
+        internal const val CLIENT_ANDROID = "pixiv-android"
+    }
+
+    @IntDef(CHALLENGE_METHOD_S256, CHALLENGE_METHOD_PLAIN)
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class ChallengeMethod
+
+    fun getCodeVerifier(): String
+    fun getCodeChallenge(
+        @ChallengeMethod method: Int = CHALLENGE_METHOD_S256,
+    ): String
+    fun getProvisionalAccountUrl(
+        @ChallengeMethod method: Int = CHALLENGE_METHOD_S256,
+    ): String
+
+    fun clearCodeVerifier()
 }

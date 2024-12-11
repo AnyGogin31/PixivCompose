@@ -16,6 +16,7 @@ kotlinSerializationJson = "1.7.3"
 composeNavigation = "2.8.0-alpha11"
 
 # AndroidX
+androidAnnotation = "1.9.1"
 androidBrowser = "1.8.0"
 androidSplashScreen = "1.0.1"
 androidViewmodel = "2.8.4"
@@ -63,6 +64,7 @@ detekt-rules-compose = { group = "io.nlopez.compose.rules", name = "detekt", ver
 compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 
 # AndroidX
+android-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "androidAnnotation" }
 android-browser = { group = "androidx.browser", name = "browser", version.ref = "androidBrowser" }
 android-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidSplashScreen" }
 android-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidViewmodel" }
