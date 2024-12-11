@@ -51,7 +51,7 @@
         </activity>
 
         <service
-            android:name="neilt.mobile.pixiv.auth.PixivAccountAuthenticatorService"
+            android:name="neilt.mobile.pixiv.features.auth.PixivAccountAuthenticatorService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

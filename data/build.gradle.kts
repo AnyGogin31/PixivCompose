@@ -1,14 +1,10 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
-    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.neilt.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
 }
 
 kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         val commonMain by getting {
             dependencies {

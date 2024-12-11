@@ -42,8 +42,12 @@ import neilt.mobile.pixiv.data.remote.services.home.HomeService
 import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
 import neilt.mobile.pixiv.data.remote.services.search.SearchService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
+import neilt.mobile.pixiv.domain.provider.AndroidPKCEProvider
+import neilt.mobile.pixiv.domain.provider.PKCEProvider
 import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
@@ -98,4 +102,6 @@ internal actual val platformRemoteModule = module {
     single { SearchService(get<HttpClient>(named("PixivApi"))) }
     single { ProfileService(get<HttpClient>(named("PixivApi"))) }
     single { IllustrationService(get<HttpClient>(named("PixivApi"))) }
+
+    singleOf(::AndroidPKCEProvider) bind PKCEProvider::class
 }

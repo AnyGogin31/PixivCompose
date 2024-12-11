@@ -1,20 +1,17 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
-    alias(libs.plugins.neilt.mobile.android.compose)
+    alias(libs.plugins.neilt.multiplatform.compose)
 }
 
 kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(projects.core.desingsystem)
-                implementation(projects.core.navigation)
+                implementation(projects.core.navigation.navigationApi)
 
                 implementation(projects.features.root)
+
+                implementation(libs.koin.core)
             }
         }
     }

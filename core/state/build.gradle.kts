@@ -1,11 +1,5 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
-}
-
-kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    alias(libs.plugins.neilt.multiplatform)
 }
 
 android {

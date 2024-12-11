@@ -1,13 +1,14 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
+    alias(libs.plugins.neilt.multiplatform)
 }
 
 kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
     sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.android.annotation)
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)

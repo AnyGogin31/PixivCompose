@@ -31,13 +31,14 @@ import neilt.mobile.pixiv.data.remote.requests.auth.UpdateTokenRequest
 import neilt.mobile.pixiv.data.remote.requests.auth.toFieldMap
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.domain.models.user.UserModel
+import neilt.mobile.pixiv.domain.provider.PKCEProvider
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
-import neilt.mobile.pixiv.domain.utils.PKCEUtil
 
 class AuthRepositoryImpl(
     private val authService: AuthService,
     private val accountManagerProvider: AccountManagerProvider,
     private val timeProvider: TimeProvider,
+    private val pkceProvider: PKCEProvider,
 ) : AuthRepository {
     private companion object {
         const val CLIENT_ID = "MOBrBDS8blbauoSck0ZfDbtuzpyT"
@@ -91,6 +92,7 @@ class AuthRepositoryImpl(
     override suspend fun authorizeUser(code: String): Result<Unit> {
         val accounts = accountManagerProvider.getAccounts(ACCOUNT_TYPE)
         if (accounts.size >= MAX_USER_COUNT) {
+            pkceProvider.clearCodeVerifier()
             return Result.failure(Exception("Maximum number of users reached."))
         }
 
@@ -99,14 +101,12 @@ class AuthRepositoryImpl(
             clientSecret = CLIENT_SECRET,
             grantType = AUTH_GRANT_TYPE,
             codeAuthorization = code,
-            codeVerifier = PKCEUtil.codeVerifier,
+            codeVerifier = pkceProvider.getCodeVerifier(),
             redirectUri = CALL_BACK,
             includePolicy = true,
         )
 
         val response = authService.requestForAuthorization(request.toFieldMap())
-
-        println("user_id=${response.user.id}, user_account=${response.user.account}, user_mail_address=${response.user.mailAddress}")
 
         accountManagerProvider.addAccount(
             accountName = response.user.name,
@@ -120,6 +120,7 @@ class AuthRepositoryImpl(
                 "user_mail_address" to response.user.mailAddress,
             ),
         )
+        pkceProvider.clearCodeVerifier()
 
         return Result.success(Unit)
     }
