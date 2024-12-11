@@ -25,34 +25,7 @@
 package neilt.mobile.core.navigation
 
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-
-/**
- * Interface for defining navigation behavior within an application.
- *
- * This interface provides methods for navigating to a destination or navigating up in the stack,
- * along with a flow of navigation actions to observe.
- */
-interface Navigator {
-    /**
-     * A flow of [NavigationAction] events representing navigation actions.
-     */
-    val navigationActions: Flow<NavigationAction>
-
-    /**
-     * Navigates to the specified [Destination] with the provided navigation options.
-     *
-     * @param destination The target [Destination] to navigate to.
-     * @param navOptions Additional navigation options for customizing the navigation behavior.
-     */
-    suspend fun navigateTo(destination: Destination, navOptions: NavOptions = {})
-
-    /**
-     * Navigates up in the navigation stack.
-     */
-    suspend fun navigateUp()
-}
 
 /**
  * Default implementation of [Navigator].

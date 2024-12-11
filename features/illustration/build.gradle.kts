@@ -10,7 +10,7 @@ kotlin {
                 implementation(projects.data)
                 implementation(projects.domain)
 
-                implementation(projects.core.navigation)
+                implementation(projects.core.navigation.navigationApi)
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.state)
 

@@ -15,12 +15,11 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
-                implementation(libs.kotlin.coroutines.test)
             }
         }
     }
 }
 
 android {
-    namespace = "neilt.mobile.core.navigation"
+    namespace = "neilt.mobile.core.navigation.api"
 }

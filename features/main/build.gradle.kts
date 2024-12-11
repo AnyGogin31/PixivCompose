@@ -11,7 +11,7 @@ kotlin {
                 implementation(projects.domain)
 
                 implementation(projects.core.desingsystem)
-                implementation(projects.core.navigation)
+                implementation(projects.core.navigation.navigationApi)
                 implementation(projects.core.state)
 
                 implementation(projects.features.illustration)

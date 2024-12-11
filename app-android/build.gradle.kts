@@ -11,7 +11,7 @@ dependencies {
     implementation(projects.domain)
 
     implementation(projects.core.desingsystem)
-    implementation(projects.core.navigation)
+    implementation(projects.core.navigation.navigationApi)
 
     implementation(projects.features.auth)
     implementation(projects.features.main)

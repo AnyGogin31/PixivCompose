@@ -6,17 +6,19 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation.navigationApi)
+            }
+        }
 
-                implementation(projects.features.root)
-
-                implementation(libs.koin.core)
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.coroutines.test)
             }
         }
     }
 }
 
 android {
-    namespace = "neilt.mobile.pixiv.shared"
+    namespace = "neilt.mobile.core.navigation.impl"
 }

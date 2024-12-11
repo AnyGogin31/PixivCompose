@@ -10,7 +10,7 @@ kotlin {
 
                 implementation(projects.domain)
 
-                implementation(projects.core.navigation)
+                implementation(projects.core.navigation.navigationApi)
 
                 implementation(libs.coil.compose)
             }

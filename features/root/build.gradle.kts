@@ -9,7 +9,8 @@ kotlin {
                 implementation(projects.data)
 
                 implementation(projects.core.desingsystem)
-                implementation(projects.core.navigation)
+                implementation(projects.core.navigation.navigationApi)
+                implementation(projects.core.navigation.navigationImpl)
 
                 implementation(projects.features.auth)
                 implementation(projects.features.illustration)
