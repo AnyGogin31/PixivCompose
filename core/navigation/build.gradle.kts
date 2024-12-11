@@ -1,6 +1,5 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
-    alias(libs.plugins.neilt.mobile.android.compose)
+    alias(libs.plugins.neilt.multiplatform.compose)
     alias(libs.plugins.kotlinSerialization)
 }
 

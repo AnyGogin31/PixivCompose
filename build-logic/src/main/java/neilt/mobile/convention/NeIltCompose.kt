@@ -22,20 +22,49 @@
  * SOFTWARE.
  */
 
-import com.android.build.api.dsl.LibraryExtension
-import neilt.mobile.convention.configureAndroidCompose
+package neilt.mobile.convention
+
+import com.android.build.api.dsl.CommonExtension
 import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.getVersion
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.compose.ComposePlugin
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-class AndroidComposeConventionPlugin : AndroidConventionPluginBase() {
+internal fun Project.configureComposeMultiplatform(
+    commonExtension: CommonExtension<*, *, *, *, *, *>
+) {
+    pluginManager.apply(libs.getPlugin("kotlinCompose").get().pluginId)
+    pluginManager.apply(libs.getPlugin("compose").get().pluginId)
 
-    override fun Project.getPluginId(): String = libs.getPlugin("androidLibrary").get().pluginId
+    extensions.configure<KotlinMultiplatformExtension> {
+        sourceSets.commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.material3)
 
-    override fun Project.configureAndroid() {
-        extensions.configure<LibraryExtension> {
-            configureAndroidCompose(this)
+            implementation(compose.components.resources)
+        }
+    }
+
+    configureCompose(commonExtension)
+}
+
+private fun Project.configureCompose(
+    commonExtension: CommonExtension<*, *, *, *, *, *>
+) {
+    commonExtension.apply {
+        buildFeatures {
+            compose = true
+        }
+
+        composeOptions {
+            kotlinCompilerExtensionVersion = libs.getVersion("kotlinCompiler").toString()
         }
     }
 }
+
+private val KotlinMultiplatformExtension.compose : ComposePlugin.Dependencies
+    get() = extensions.getByType()

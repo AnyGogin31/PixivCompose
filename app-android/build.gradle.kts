@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.application)
+    alias(libs.plugins.neilt.application.android)
     alias(libs.plugins.kotlinSerialization)
 }
 

@@ -34,7 +34,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-internal fun Project.configureAndroidKotlinMultiplatform(
+internal fun Project.configureKotlinMultiplatform(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     pluginManager.apply(libs.getPlugin("kotlinMultiplatform").get().pluginId)
@@ -42,24 +42,28 @@ internal fun Project.configureAndroidKotlinMultiplatform(
     extensions.configure<KotlinMultiplatformExtension> {
         androidTarget()
 
+        iosX64()
+        iosArm64()
+        iosSimulatorArm64()
+
         jvmToolchain(17)
     }
 
-    configureAndroidKotlinBase(commonExtension)
+    configureKotlin(commonExtension)
 }
 
-internal fun Project.configureAndroidKotlin(
+internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     pluginManager.apply(libs.getPlugin("kotlinAndroid").get().pluginId)
 
-    configureAndroidKotlinBase(commonExtension)
+    configureKotlin(commonExtension)
 }
 
-private fun Project.configureAndroidKotlinBase(
+
+private fun Project.configureKotlin(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
-
     commonExtension.apply {
         compileSdk = Configuration.Sdk.COMPILE_SDK
 

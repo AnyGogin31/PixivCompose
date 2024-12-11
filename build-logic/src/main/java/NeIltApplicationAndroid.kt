@@ -22,27 +22,25 @@
  * SOFTWARE.
  */
 
-import neilt.mobile.convention.configureAndroidDetekt
-import neilt.mobile.convention.configureAndroidKtlint
-import org.gradle.api.Plugin
+import com.android.build.api.dsl.ApplicationExtension
+import neilt.mobile.convention.configureApplicationAndroid
+import neilt.mobile.convention.configureKotlinAndroid
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.configure
+import org.gradle.plugin.use.PluginDependency
 
-abstract class AndroidConventionPluginBase: Plugin<Project> {
+class NeIltApplicationAndroid : NeIltPlugin() {
+    override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
+        target.libs.getPlugin("androidApplication")
+    }
 
-    override fun apply(target: Project) {
-        with(target) {
-            configurePlugin()
-            configureAndroidDetekt()
-            configureAndroidKtlint()
-            configureAndroid()
+    override fun Project.configureProject() {
+        extensions.configure<ApplicationExtension> {
+            configureApplicationAndroid(this)
+            configureKotlinAndroid(this)
         }
     }
-
-    protected abstract fun Project.getPluginId(): String
-
-    private fun Project.configurePlugin() {
-        pluginManager.apply(getPluginId())
-    }
-
-    protected abstract fun Project.configureAndroid()
 }

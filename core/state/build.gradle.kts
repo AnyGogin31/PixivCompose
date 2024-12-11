@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.neilt.mobile.android.library)
+    alias(libs.plugins.neilt.multiplatform)
 }
 
 kotlin {

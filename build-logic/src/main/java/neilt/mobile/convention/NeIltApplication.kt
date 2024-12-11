@@ -27,7 +27,7 @@ package neilt.mobile.convention
 import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Project
 
-internal fun Project.configureAndroidApplication(
+internal fun Project.configureApplicationAndroid(
     applicationExtension: ApplicationExtension,
 ) {
     applicationExtension.apply {

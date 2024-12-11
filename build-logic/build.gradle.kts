@@ -50,12 +50,6 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.kotlin.compose.gradlePlugin)
 
-    // KSP
-    compileOnly(libs.ksp.gradlePlugin)
-
-    // Room
-    compileOnly(libs.room.gradlePlugin)
-
     // Static Analyzer
     compileOnly(libs.detekt.gradlePlugin)
     compileOnly(libs.ktlint.gradlePlugin)
@@ -63,24 +57,19 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidApplication") {
-            id = "neilt.mobile.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
+        register("neiltApplicationAndroid") {
+            id = "neilt.application.android"
+            implementationClass = "NeIltApplicationAndroid"
         }
 
-        register("androidCompose") {
-            id = "neilt.mobile.android.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
+        register("neiltMultiplatformCompose") {
+            id = "neilt.multiplatform.compose"
+            implementationClass = "NeIltMultiplatformComposePlugin"
         }
 
-        register("androidLibrary") {
-            id = "neilt.mobile.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
-
-        register("androidRoom") {
-            id = "neilt.mobile.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
+        register("neiltMultiplatform") {
+            id = "neilt.multiplatform"
+            implementationClass = "NeIltMultiplatformPlugin"
         }
     }
 }

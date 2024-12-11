@@ -24,33 +24,15 @@
 
 package neilt.mobile.convention
 
-import androidx.room.gradle.RoomExtension
-import com.google.devtools.ksp.gradle.KspExtension
-import neilt.mobile.convention.extensions.getLibrary
-import neilt.mobile.convention.extensions.getPlugin
-import neilt.mobile.convention.extensions.implementation
-import neilt.mobile.convention.extensions.ksp
-import neilt.mobile.convention.extensions.libs
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
+import com.android.build.api.dsl.LibraryExtension
 
-internal fun Project.configureAndroidRoom() {
-    pluginManager.apply(libs.getPlugin("ksp").get().pluginId)
-
-    extensions.configure<KspExtension> {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.incremental", "true")
-        arg("room.generateKotlin", "true")
-    }
-
-    extensions.configure<RoomExtension> {
-        schemaDirectory("$projectDir/schemas")
-    }
-
-    dependencies {
-        implementation(libs.getLibrary("room"))
-        implementation(libs.getLibrary("room-kotlin"))
-        ksp(libs.getLibrary("room-compiler"))
+internal fun configureLibrary(
+    libraryExtension: LibraryExtension,
+) {
+    libraryExtension.apply {
+        defaultConfig {
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            consumerProguardFile("consumer-rules.pro")
+        }
     }
 }

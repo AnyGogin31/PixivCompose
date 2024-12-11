@@ -22,18 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.convention
-
 import com.android.build.api.dsl.LibraryExtension
+import neilt.mobile.convention.configureKotlinMultiplatform
+import neilt.mobile.convention.configureLibrary
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.configure
+import org.gradle.plugin.use.PluginDependency
 
-internal fun Project.configureAndroidLibrary(
-    libraryExtension: LibraryExtension,
-) {
-    libraryExtension.apply {
-        defaultConfig {
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            consumerProguardFile("consumer-rules.pro")
+class NeIltMultiplatformPlugin : NeIltPlugin() {
+    override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
+        target.libs.getPlugin("androidLibrary")
+    }
+
+    override fun Project.configureProject() {
+        extensions.configure<LibraryExtension> {
+            configureLibrary(this)
+            configureKotlinMultiplatform(this)
         }
     }
 }

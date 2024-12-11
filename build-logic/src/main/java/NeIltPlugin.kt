@@ -22,16 +22,28 @@
  * SOFTWARE.
  */
 
-import neilt.mobile.convention.configureAndroidRoom
-import neilt.mobile.convention.extensions.getPlugin
-import neilt.mobile.convention.extensions.libs
+import neilt.mobile.convention.configureDetekt
+import neilt.mobile.convention.configureKtlint
+import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
+import org.gradle.plugin.use.PluginDependency
 
-class AndroidRoomConventionPlugin : AndroidConventionPluginBase() {
+abstract class NeIltPlugin : Plugin<Project> {
+    protected abstract val plugin: (target: Project) -> Provider<PluginDependency>
 
-    override fun Project.getPluginId(): String = libs.getPlugin("room").get().pluginId
+    override fun apply(target: Project) {
+        with(target) {
+            configurePlugin()
+            configureKtlint()
+            configureDetekt()
+            configureProject()
+        }
+    }
 
-    override fun Project.configureAndroid() {
-        configureAndroidRoom()
+    protected abstract fun Project.configureProject()
+
+    private fun Project.configurePlugin() {
+        pluginManager.apply(plugin(this).get().pluginId)
     }
 }
