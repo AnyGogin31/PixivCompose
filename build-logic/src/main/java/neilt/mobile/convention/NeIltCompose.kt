@@ -52,6 +52,14 @@ internal fun Project.configureComposeMultiplatform(
     configureCompose(commonExtension)
 }
 
+internal fun Project.configureComposeAndroid(
+    commonExtension: CommonExtension<*, *, *, *, *, *>
+) {
+    pluginManager.apply(libs.getPlugin("kotlin-compose-compiler").get().pluginId)
+
+    configureCompose(commonExtension)
+}
+
 private fun Project.configureCompose(
     commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {

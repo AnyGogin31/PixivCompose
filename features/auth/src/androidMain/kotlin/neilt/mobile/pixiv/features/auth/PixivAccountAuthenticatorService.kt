@@ -22,27 +22,15 @@
  * SOFTWARE.
  */
 
-import com.android.build.api.dsl.ApplicationExtension
-import neilt.mobile.convention.configureApplicationAndroid
-import neilt.mobile.convention.configureComposeAndroid
-import neilt.mobile.convention.configureKotlinAndroid
-import neilt.mobile.convention.extensions.getPlugin
-import neilt.mobile.convention.extensions.libs
-import org.gradle.api.Project
-import org.gradle.api.provider.Provider
-import org.gradle.kotlin.dsl.configure
-import org.gradle.plugin.use.PluginDependency
+package neilt.mobile.pixiv.features.auth
 
-class NeIltApplicationAndroid : NeIltPlugin() {
-    override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
-        target.libs.getPlugin("android-application")
-    }
+import android.app.Service
+import android.content.Intent
+import android.os.IBinder
 
-    override fun Project.configureProject() {
-        extensions.configure<ApplicationExtension> {
-            configureApplicationAndroid(this)
-            configureKotlinAndroid(this)
-            configureComposeAndroid(this)
-        }
+class PixivAccountAuthenticatorService : Service() {
+    override fun onBind(intent: Intent?): IBinder? {
+        val authenticator = PixivAccountAuthenticator(this)
+        return authenticator.iBinder
     }
 }

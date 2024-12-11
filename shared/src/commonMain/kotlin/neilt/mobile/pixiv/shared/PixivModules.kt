@@ -22,27 +22,16 @@
  * SOFTWARE.
  */
 
-import com.android.build.api.dsl.ApplicationExtension
-import neilt.mobile.convention.configureApplicationAndroid
-import neilt.mobile.convention.configureComposeAndroid
-import neilt.mobile.convention.configureKotlinAndroid
-import neilt.mobile.convention.extensions.getPlugin
-import neilt.mobile.convention.extensions.libs
-import org.gradle.api.Project
-import org.gradle.api.provider.Provider
-import org.gradle.kotlin.dsl.configure
-import org.gradle.plugin.use.PluginDependency
+package neilt.mobile.pixiv.shared
 
-class NeIltApplicationAndroid : NeIltPlugin() {
-    override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
-        target.libs.getPlugin("android-application")
-    }
+import neilt.mobile.pixiv.desingsystem.di.designSystemModule
+import neilt.mobile.pixiv.features.root.di.rootFeatureModule
+import org.koin.dsl.module
 
-    override fun Project.configureProject() {
-        extensions.configure<ApplicationExtension> {
-            configureApplicationAndroid(this)
-            configureKotlinAndroid(this)
-            configureComposeAndroid(this)
-        }
-    }
+val pixivModules = module {
+
+    includes(
+        designSystemModule,
+        rootFeatureModule,
+    )
 }

@@ -10,6 +10,8 @@ kotlin {
                 implementation(projects.core.navigation)
 
                 implementation(projects.features.root)
+
+                implementation(libs.koin.core)
             }
         }
     }

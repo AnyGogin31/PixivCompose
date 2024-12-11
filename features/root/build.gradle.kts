@@ -6,6 +6,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.data)
+
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation)
 

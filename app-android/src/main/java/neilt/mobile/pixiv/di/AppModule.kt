@@ -22,15 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.auth
+package neilt.mobile.pixiv.di
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
+import neilt.mobile.pixiv.ui.LauncherViewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
-class PixivAccountAuthenticatorService : Service() {
-    override fun onBind(intent: Intent?): IBinder? {
-        val authenticator = PixivAccountAuthenticator(this)
-        return authenticator.iBinder
-    }
+val appModule = module {
+    viewModelOf(::LauncherViewModel)
 }

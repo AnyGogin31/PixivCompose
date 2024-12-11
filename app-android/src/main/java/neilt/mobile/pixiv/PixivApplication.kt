@@ -27,7 +27,8 @@ package neilt.mobile.pixiv
 import android.app.Application
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
-import neilt.mobile.pixiv.di.pixivModules
+import neilt.mobile.pixiv.di.appModule
+import neilt.mobile.pixiv.shared.pixivModules
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -39,7 +40,10 @@ class PixivApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@PixivApplication)
-            modules(pixivModules)
+            modules(
+                pixivModules,
+                appModule,
+            )
         }
         SingletonImageLoader.setSafe { imageLoader }
     }

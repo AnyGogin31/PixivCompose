@@ -8,7 +8,17 @@ kotlin {
             dependencies {
                 implementation(libs.koin.compose)
 
+                implementation(projects.domain)
+
                 implementation(projects.core.navigation)
+
+                implementation(libs.coil.compose)
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.coil.network)
             }
         }
     }

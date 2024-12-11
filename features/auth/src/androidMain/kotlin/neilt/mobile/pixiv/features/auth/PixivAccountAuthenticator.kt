@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.auth
+package neilt.mobile.pixiv.features.auth
 
 import android.accounts.AbstractAccountAuthenticator
 import android.accounts.AccountAuthenticatorResponse
