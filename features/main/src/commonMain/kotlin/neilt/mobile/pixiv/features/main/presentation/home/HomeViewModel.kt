@@ -38,15 +38,19 @@ import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
+import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
+    private val searchRepository: SearchRepository,
     private val navigator: Navigator,
 ) : ViewModel() {
-    private val _state = MutableStateFlow<ViewState>(LoadingState)
+    private val _state = MutableStateFlow<ViewState>(Empty)
     val state: StateFlow<ViewState> = _state.asStateFlow()
 
     init {
@@ -72,13 +76,29 @@ internal class HomeViewModel(
         }
     }
 
-    suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
+    suspend fun loadMoreIllustrations(offset: Int, keyword: String? = null): List<Illustration> {
         return withContext(Dispatchers.IO) {
-            homeRepository.getRecommendedIllustrations(
-                includeRankingIllustrations = false,
-                includePrivacyPolicy = false,
-                offset = offset,
-            )
+            if (keyword.isNullOrEmpty()) {
+                homeRepository.getRecommendedIllustrations(
+                    includeRankingIllustrations = false,
+                    includePrivacyPolicy = false,
+                    offset = offset,
+                )
+            } else {
+                searchRepository.getSearchIllustrations(
+                    SearchIllustrationsRequest(
+                        keyword = keyword,
+                        sortOrder = null,
+                        searchTarget = null,
+                        aiType = null,
+                        minBookmarks = null,
+                        maxBookmarks = null,
+                        startDate = null,
+                        endDate = null,
+                        offset = offset,
+                    ),
+                )
+            }
         }
     }
 
@@ -87,6 +107,45 @@ internal class HomeViewModel(
             navigator.navigateTo(
                 PixivIllustrationSection.IllustrationDetailsScreen(illustrationId),
             )
+        }
+    }
+
+    fun searchIllustrations(keyword: String? = null) {
+        viewModelScope.launch {
+            _state.value = LoadingState
+
+            try {
+                val result = loadMoreIllustrations(0, keyword)
+
+                _state.value =
+                    if (result.isEmpty()) {
+                        Empty
+                    } else {
+                        LoadedState(data = result)
+                    }
+            } catch (e: Exception) {
+                _state.value = ErrorState(
+                    message = e.message ?: "Error searching illustrations",
+                )
+            }
+        }
+    }
+
+    private val _predictionTags = MutableStateFlow<List<Tag>>(emptyList())
+    val predictionTags: StateFlow<List<Tag>> = _predictionTags
+
+    fun fetchTagsPrediction(query: String) {
+        if (query.isBlank()) {
+            _predictionTags.value = emptyList()
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                _predictionTags.value = searchRepository.getSearchPredictionTags(query)
+            } catch (e: Exception) {
+                _predictionTags.value = emptyList()
+            }
         }
     }
 }

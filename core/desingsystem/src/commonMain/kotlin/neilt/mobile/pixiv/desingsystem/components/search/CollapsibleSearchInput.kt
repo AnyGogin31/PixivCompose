@@ -42,8 +42,8 @@ fun CollapsibleSearchInput(
 ) {
     AnimatedVisibility(
         visible = currentDestination.hasDestination(targetSection),
-        enter = fadeIn() + slideInVertically { it },
-        exit = fadeOut() + slideOutVertically { it },
+        enter = fadeIn() + slideInVertically { -it },
+        exit = fadeOut() + slideOutVertically { -it },
     ) {
         searchBehavior?.let {
             SearchInput(
