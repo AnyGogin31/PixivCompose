@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.explore
+package neilt.mobile.pixiv.features.main.presentation.home
 
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.core.state.onState

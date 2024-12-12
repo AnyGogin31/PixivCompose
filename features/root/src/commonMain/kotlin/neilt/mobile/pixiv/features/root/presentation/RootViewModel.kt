@@ -33,22 +33,23 @@ import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationItemContent
+import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
-import neilt.mobile.pixiv.desingsystem.icons.filled.Explore
 import neilt.mobile.pixiv.desingsystem.icons.filled.Home
 import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
-import neilt.mobile.pixiv.desingsystem.icons.outlined.Explore
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
-import neilt.mobile.pixiv.resources.navigation_explore
 import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_profile
 import org.jetbrains.compose.resources.stringResource
 
-class RootViewModel(val navigator: Navigator) : ViewModel() {
+class RootViewModel(
+    val navigator: Navigator,
+    private val searchManager: SearchManager,
+) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
@@ -60,19 +61,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
-                }
-            },
-        ),
-        BottomNavigationItem(
-            destination = PixivMainSection.ExploreScreen,
-            content = NavigationItemContent(
-                label = { stringResource(Res.string.navigation_explore) },
-                selectedIcon = PixivIcons.Filled.Explore,
-                unselectedIcon = PixivIcons.Outlined.Explore,
-            ),
-            onSelect = {
-                viewModelScope.launch {
-                    navigator.navigateTo(it)
+                    searchManager.clearSearchBehavior()
                 }
             },
         ),
@@ -87,6 +76,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
                     onClick = {
                         viewModelScope.launch {
                             navigator.navigateTo(PixivSettingsSection)
+                            searchManager.clearSearchBehavior()
                         }
                     },
                 ),
@@ -94,6 +84,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
+                    searchManager.clearSearchBehavior()
                 }
             },
         ),

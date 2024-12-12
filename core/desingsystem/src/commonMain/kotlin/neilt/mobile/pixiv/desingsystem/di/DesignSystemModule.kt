@@ -24,10 +24,17 @@
 
 package neilt.mobile.pixiv.desingsystem.di
 
+import neilt.mobile.pixiv.desingsystem.components.search.DefaultSearchManager
+import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val designSystemModule = module {
+
+    singleOf(::DefaultSearchManager) bind SearchManager::class
+
     includes(platformDesignSystemModule)
 }
 

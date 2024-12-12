@@ -22,14 +22,15 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.di
+package neilt.mobile.pixiv.desingsystem.components.search
 
-import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
-import neilt.mobile.pixiv.features.main.presentation.profile.ProfileViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.runtime.Composable
 
-val mainFeatureModule = module {
-    viewModelOf(::HomeViewModel)
-    viewModelOf(::ProfileViewModel)
+interface SearchBehavior {
+    val onSearch: (String) -> Unit
+    val onQueryChange: (String) -> Unit
+    val clearFocusAndCollapse: () -> Unit
+    val isExpanded: Boolean
+    val content: @Composable ColumnScope.() -> Unit
 }

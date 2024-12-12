@@ -22,30 +22,37 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation
+package neilt.mobile.pixiv.desingsystem.components.search
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import kotlinx.serialization.Serializable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavDestination
 import neilt.mobile.core.navigation.Destination
-import neilt.mobile.pixiv.features.main.presentation.home.HomeView
-import neilt.mobile.pixiv.features.main.presentation.profile.ProfileView
+import neilt.mobile.core.navigation.extensions.hasDestination
 
-@Serializable
-data object PixivMainSection : Destination {
-    @Serializable
-    data object HomeScreen : Destination
-
-    @Serializable
-    data object ProfileScreen : Destination
-}
-
-fun NavGraphBuilder.addPixivMainSection() {
-    navigation<PixivMainSection>(
-        startDestination = PixivMainSection.HomeScreen,
+@Composable
+fun CollapsibleSearchInput(
+    searchBehavior: SearchBehavior? = null,
+    currentDestination: NavDestination? = null,
+    targetSection: Destination,
+) {
+    AnimatedVisibility(
+        visible = currentDestination.hasDestination(targetSection),
+        enter = fadeIn() + slideInVertically { -it },
+        exit = fadeOut() + slideOutVertically { -it },
     ) {
-        composable<PixivMainSection.HomeScreen> { HomeView() }
-        composable<PixivMainSection.ProfileScreen> { ProfileView() }
+        searchBehavior?.let {
+            SearchInput(
+                onSearch = it.onSearch,
+                onQueryChange = it.onQueryChange,
+                clearFocusAndCollapse = it.clearFocusAndCollapse,
+                isExpanded = it.isExpanded,
+                content = it.content,
+            )
+        }
     }
 }

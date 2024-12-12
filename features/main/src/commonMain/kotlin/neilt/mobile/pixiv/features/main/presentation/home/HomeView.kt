@@ -24,14 +24,18 @@
 
 package neilt.mobile.pixiv.features.main.presentation.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -41,16 +45,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.list.InfiniteScrollLazyVerticalGrid
+import neilt.mobile.pixiv.desingsystem.components.search.SearchBehavior
+import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
+import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -59,8 +68,40 @@ internal fun HomeView(
 ) {
     val state by viewModel.state.collectAsState()
 
-    state.whenState<List<Illustration>>(
+    val predictionTags by viewModel.predictionTags.collectAsState(emptyList())
+
+    val focusManager = LocalFocusManager.current
+    val clearFocusAndCollapse: () -> Unit = {
+        focusManager.clearFocus()
+    }
+
+    val illustrationsSearchBehavior = object : SearchBehavior {
+        override val onSearch: (String) -> Unit = {
+            viewModel.searchIllustrations(it)
+            clearFocusAndCollapse()
+            onQueryChange("")
+        }
+        override val onQueryChange: (String) -> Unit = viewModel::fetchTagsPrediction
+        override val clearFocusAndCollapse: () -> Unit = clearFocusAndCollapse
+        override val isExpanded: Boolean = predictionTags.isNotEmpty()
+        override val content: @Composable ColumnScope.() -> Unit = {
+            TagsPredictionList(
+                tags = predictionTags,
+                onTagSelected = {
+                    viewModel.searchIllustrations(it)
+                    clearFocusAndCollapse()
+                    onQueryChange("")
+                },
+            )
+        }
+    }
+
+    val searchManager: SearchManager = koinInject()
+    searchManager.updateSearchBehavior(illustrationsSearchBehavior)
+
+    state.whenStateExtended<List<Illustration>>(
         onLoading = { LoadingView() },
+        onEmpty = { EmptyView(message = "No illustrations found") },
         onError = { ErrorView(message = it) },
         onLoaded = {
             IllustrationsGallery(
@@ -139,6 +180,30 @@ private fun IllustrationItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 softWrap = false,
+            )
+        }
+    }
+}
+
+@Composable
+private fun TagsPredictionList(
+    tags: List<Tag>,
+    onTagSelected: (String) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        items(tags) { tag ->
+            Text(
+                text = buildString {
+                    append(tag.name)
+                    tag.translatedName?.let { append(" ($it)") }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onTagSelected(tag.name) }
+                    .padding(16.dp),
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }
