@@ -30,11 +30,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,6 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import neilt.mobile.pixiv.core.state.whenState
+import neilt.mobile.pixiv.desingsystem.components.list.InfiniteScrollLazyVerticalGrid
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.home.Illustration
@@ -64,8 +64,9 @@ internal fun HomeView(
         onError = { ErrorView(message = it) },
         onLoaded = {
             IllustrationsGallery(
-                illustrations = it,
+                initialItems = it,
                 onIllustrationSelected = viewModel::navigateToIllustrationDetails,
+                loadMoreItems = viewModel::loadMoreIllustrations,
             )
         },
     )
@@ -74,28 +75,32 @@ internal fun HomeView(
 @Composable
 internal fun IllustrationsGallery(
     modifier: Modifier = Modifier,
-    illustrations: List<Illustration>,
+    initialItems: List<Illustration>,
     onIllustrationSelected: (Int) -> Unit,
+    loadMoreItems: suspend (offset: Int) -> List<Illustration>,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+    InfiniteScrollLazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
-        state = rememberLazyGridState(),
-        contentPadding = PaddingValues(8.dp),
-        reverseLayout = false,
-    ) {
-        items(
-            items = illustrations,
-            key = { it.id },
-        ) { item ->
+        columns = GridCells.Fixed(2),
+        initialItems = initialItems,
+        keySelector = { it.id },
+        content = { item ->
             IllustrationItem(
                 illustration = item,
                 onClick = {
                     onIllustrationSelected(item.id)
                 },
             )
-        }
-    }
+        },
+        loadingIndicator = {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(16.dp),
+            )
+        },
+        loadMoreItems = { loadMoreItems(it.size) },
+    )
 }
 
 @Composable

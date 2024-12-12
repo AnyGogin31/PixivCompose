@@ -33,4 +33,5 @@ data class SearchIllustrationsRequest(
     val maxBookmarks: Int?,
     val startDate: String?,
     val endDate: String?,
+    val offset: Int = 0,
 )

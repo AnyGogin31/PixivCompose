@@ -37,10 +37,12 @@ class HomeRepositoryImpl(
     override suspend fun getRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
+        offset: Int,
     ): List<Illustration> {
         return homeService.fetchRecommendedIllustrations(
             includeRankingIllustrations,
             includePrivacyPolicy,
+            offset,
         ).illustrations.map { it.toModel() }
     }
 

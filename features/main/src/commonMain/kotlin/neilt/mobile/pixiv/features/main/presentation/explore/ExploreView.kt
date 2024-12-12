@@ -74,6 +74,7 @@ internal fun ExploreView(
         onIllustrationSelected = viewModel::navigateToIllustrationDetails,
         predictionTagsFlow = viewModel.predictionTags,
         onQueryChange = viewModel::fetchTagsPrediction,
+        loadMoreItems = viewModel::loadMoreIllustrations,
     )
 }
 
@@ -84,6 +85,7 @@ private fun ExploreViewContent(
     onIllustrationSelected: (Int) -> Unit,
     predictionTagsFlow: StateFlow<List<Tag>>,
     onQueryChange: (String) -> Unit,
+    loadMoreItems: suspend (offset: Int) -> List<Illustration>,
 ) {
     val predictionTags by predictionTagsFlow.collectAsState(emptyList())
 
@@ -119,8 +121,9 @@ private fun ExploreViewContent(
             onError = { ErrorView(message = it) },
             onLoaded = {
                 IllustrationsGallery(
-                    illustrations = it,
+                    initialItems = it,
                     onIllustrationSelected = onIllustrationSelected,
+                    loadMoreItems = loadMoreItems,
                 )
             },
         )
