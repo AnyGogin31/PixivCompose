@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import neilt.mobile.core.navigation.Destination
 import neilt.mobile.core.navigation.extensions.hasDestination
+import neilt.mobile.pixiv.desingsystem.components.search.SearchBehavior
 
 @Immutable
 data class BadgeStyle(
@@ -75,6 +76,7 @@ data class NavigationItemContent(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val badge: Badge? = null,
+    val searchBehavior: SearchBehavior? = null,
     val actionButton: NavigationActionButton? = null,
     val customSlot: (@Composable () -> Unit)? = null,
     val isEnabled: Boolean = true,

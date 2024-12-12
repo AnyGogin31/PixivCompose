@@ -37,11 +37,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import neilt.mobile.core.navigation.Destination
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
+import neilt.mobile.pixiv.desingsystem.components.search.CollapsibleSearchInput
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.illustration.presentation.addPixivIllustrationSection
@@ -75,6 +77,13 @@ private fun PixivScaffold(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        topBar = {
+            PixivTopBar(
+                items = bottomNavigationItems,
+                currentDestination = currentDestination,
+                targetSection = PixivMainSection,
+            )
+        },
         content = {
             PixivContent(
                 modifier = Modifier.padding(it),
@@ -95,6 +104,20 @@ private fun PixivScaffold(
                 targetSection = PixivMainSection,
             )
         },
+    )
+}
+
+@Composable
+private fun PixivTopBar(
+    items: List<BottomNavigationItem>,
+    currentDestination: NavDestination? = null,
+    targetSection: Destination,
+) {
+    val selectedItem = items.firstOrNull { currentDestination.hasDestination(it.destination) }
+    CollapsibleSearchInput(
+        searchBehavior = selectedItem?.content?.searchBehavior,
+        currentDestination = currentDestination,
+        targetSection = targetSection,
     )
 }
 
