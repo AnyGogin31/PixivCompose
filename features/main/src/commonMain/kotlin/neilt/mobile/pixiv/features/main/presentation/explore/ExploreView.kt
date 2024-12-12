@@ -25,6 +25,7 @@
 package neilt.mobile.pixiv.features.main.presentation.explore
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,14 +38,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.StateFlow
-import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.desingsystem.components.search.SearchBehavior
+import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.features.main.presentation.home.IllustrationsGallery
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -52,42 +54,46 @@ internal fun ExploreView(
     viewModel: ExploreViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
-
-    ExploreViewContent(
-        uiState = state,
-        onSearch = viewModel::searchIllustrations,
-        onIllustrationSelected = viewModel::navigateToIllustrationDetails,
-        predictionTagsFlow = viewModel.predictionTags,
-        onQueryChange = viewModel::fetchTagsPrediction,
-        loadMoreItems = viewModel::loadMoreIllustrations,
-    )
-}
-
-@Composable
-private fun ExploreViewContent(
-    uiState: ViewState,
-    onSearch: (String) -> Unit,
-    onIllustrationSelected: (Int) -> Unit,
-    predictionTagsFlow: StateFlow<List<Tag>>,
-    onQueryChange: (String) -> Unit,
-    loadMoreItems: suspend (offset: Int) -> List<Illustration>,
-) {
-    val predictionTags by predictionTagsFlow.collectAsState(emptyList())
+    val predictionTags by viewModel.predictionTags.collectAsState(emptyList())
 
     val focusManager = LocalFocusManager.current
     val clearFocusAndCollapse: () -> Unit = {
         focusManager.clearFocus()
     }
 
-    uiState.whenStateExtended<List<Illustration>>(
+    val illustrationsSearchBehavior = object : SearchBehavior {
+        override val onSearch: (String) -> Unit = {
+            viewModel.searchIllustrations(it)
+            clearFocusAndCollapse()
+            onQueryChange("")
+        }
+        override val onQueryChange: (String) -> Unit = viewModel::fetchTagsPrediction
+        override val clearFocusAndCollapse: () -> Unit = clearFocusAndCollapse
+        override val isExpanded: Boolean = predictionTags.isNotEmpty()
+        override val content: @Composable ColumnScope.() -> Unit = {
+            TagsPredictionList(
+                tags = predictionTags,
+                onTagSelected = {
+                    viewModel.searchIllustrations(it)
+                    clearFocusAndCollapse()
+                    onQueryChange("")
+                },
+            )
+        }
+    }
+
+    val searchManager: SearchManager = koinInject()
+    searchManager.updateSearchBehavior(illustrationsSearchBehavior)
+
+    state.whenStateExtended<List<Illustration>>(
         onLoading = { LoadingView() },
         onEmpty = { EmptyView(message = "No illustrations found") },
         onError = { ErrorView(message = it) },
         onLoaded = {
             IllustrationsGallery(
                 initialItems = it,
-                onIllustrationSelected = onIllustrationSelected,
-                loadMoreItems = loadMoreItems,
+                onIllustrationSelected = viewModel::navigateToIllustrationDetails,
+                loadMoreItems = viewModel::loadMoreIllustrations,
             )
         },
     )

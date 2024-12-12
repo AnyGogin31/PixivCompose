@@ -30,7 +30,9 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -44,12 +46,14 @@ import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
 import neilt.mobile.pixiv.desingsystem.components.search.CollapsibleSearchInput
+import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.illustration.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -79,7 +83,6 @@ private fun PixivScaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
             PixivTopBar(
-                items = bottomNavigationItems,
                 currentDestination = currentDestination,
                 targetSection = PixivMainSection,
             )
@@ -109,13 +112,13 @@ private fun PixivScaffold(
 
 @Composable
 private fun PixivTopBar(
-    items: List<BottomNavigationItem>,
     currentDestination: NavDestination? = null,
     targetSection: Destination,
+    searchManager: SearchManager = koinInject(),
 ) {
-    val selectedItem = items.firstOrNull { currentDestination.hasDestination(it.destination) }
+    val searchBehavior by remember { derivedStateOf { searchManager.searchBehavior } }
     CollapsibleSearchInput(
-        searchBehavior = selectedItem?.content?.searchBehavior,
+        searchBehavior = searchBehavior,
         currentDestination = currentDestination,
         targetSection = targetSection,
     )

@@ -22,20 +22,29 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.desingsystem.di
+package neilt.mobile.pixiv.desingsystem.components.search
 
-import neilt.mobile.pixiv.desingsystem.components.search.DefaultSearchManager
-import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import androidx.compose.runtime.mutableStateOf
 
-val designSystemModule = module {
-
-    singleOf(::DefaultSearchManager) bind SearchManager::class
-
-    includes(platformDesignSystemModule)
+interface SearchManager {
+    var searchBehavior: SearchBehavior?
+    fun updateSearchBehavior(newBehavior: SearchBehavior)
+    fun clearSearchBehavior()
 }
 
-internal expect val platformDesignSystemModule: Module
+class DefaultSearchManager : SearchManager {
+    private val _searchBehavior = mutableStateOf<SearchBehavior?>(null)
+    override var searchBehavior: SearchBehavior?
+        get() = _searchBehavior.value
+        set(value) {
+            _searchBehavior.value = value
+        }
+
+    override fun updateSearchBehavior(newBehavior: SearchBehavior) {
+        _searchBehavior.value = newBehavior
+    }
+
+    override fun clearSearchBehavior() {
+        _searchBehavior.value = null
+    }
+}

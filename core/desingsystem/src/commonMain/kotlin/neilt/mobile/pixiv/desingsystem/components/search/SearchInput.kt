@@ -76,7 +76,8 @@ fun SearchInput(
             .padding(
                 horizontal = 24.dp,
                 vertical = 8.dp,
-            ),
+            )
+            .padding(top = 24.dp),
         inputField = {
             SearchBarDefaults.InputField(
                 query = query,

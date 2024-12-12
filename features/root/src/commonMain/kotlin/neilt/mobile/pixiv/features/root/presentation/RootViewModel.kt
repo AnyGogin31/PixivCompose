@@ -33,6 +33,7 @@ import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationItemContent
+import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 import neilt.mobile.pixiv.desingsystem.icons.filled.Explore
 import neilt.mobile.pixiv.desingsystem.icons.filled.Home
@@ -48,7 +49,10 @@ import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_profile
 import org.jetbrains.compose.resources.stringResource
 
-class RootViewModel(val navigator: Navigator) : ViewModel() {
+class RootViewModel(
+    val navigator: Navigator,
+    private val searchManager: SearchManager,
+) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
@@ -60,6 +64,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
+                    searchManager.clearSearchBehavior()
                 }
             },
         ),
@@ -73,6 +78,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
+                    searchManager.clearSearchBehavior()
                 }
             },
         ),
@@ -87,6 +93,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
                     onClick = {
                         viewModelScope.launch {
                             navigator.navigateTo(PixivSettingsSection)
+                            searchManager.clearSearchBehavior()
                         }
                     },
                 ),
@@ -94,6 +101,7 @@ class RootViewModel(val navigator: Navigator) : ViewModel() {
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
+                    searchManager.clearSearchBehavior()
                 }
             },
         ),
