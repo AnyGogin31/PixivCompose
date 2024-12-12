@@ -38,11 +38,13 @@ class HomeService(private val client: HttpClient) {
     suspend fun fetchRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
+        offset: Int = 0,
     ): RecommendedIllustrationsResponse {
         return client.get("/v1/illust/recommended?filter=for_android") {
             headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
             parameter("include_ranking_illusts", includeRankingIllustrations)
             parameter("include_privacy_policy", includePrivacyPolicy)
+            parameter("offset", offset)
         }.body()
     }
 

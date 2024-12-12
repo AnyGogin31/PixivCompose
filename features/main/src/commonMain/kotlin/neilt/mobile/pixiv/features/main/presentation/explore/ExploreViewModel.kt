@@ -26,15 +26,19 @@ package neilt.mobile.pixiv.features.main.presentation.explore
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
@@ -45,6 +49,8 @@ internal class ExploreViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ViewState>(Empty)
     val uiState: StateFlow<ViewState> = _uiState
+
+    private var currentQuery: String? = null
 
     fun searchIllustrations(keyword: String) {
         if (keyword.isBlank()) {
@@ -69,6 +75,8 @@ internal class ExploreViewModel(
                     ),
                 )
 
+                currentQuery = keyword
+
                 _uiState.value =
                     if (results.isEmpty()) {
                         Empty
@@ -80,6 +88,25 @@ internal class ExploreViewModel(
                     message = e.message ?: "Error searching illustrations",
                 )
             }
+        }
+    }
+
+    suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
+        return withContext(Dispatchers.IO) {
+            if (currentQuery.isNullOrEmpty()) return@withContext emptyList()
+            searchRepository.getSearchIllustrations(
+                SearchIllustrationsRequest(
+                    keyword = currentQuery!!,
+                    sortOrder = null,
+                    searchTarget = null,
+                    aiType = null,
+                    minBookmarks = null,
+                    maxBookmarks = null,
+                    startDate = null,
+                    endDate = null,
+                    offset = offset,
+                ),
+            )
         }
     }
 

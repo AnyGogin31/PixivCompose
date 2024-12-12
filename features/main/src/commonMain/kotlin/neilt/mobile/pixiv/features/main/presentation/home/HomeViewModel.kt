@@ -38,6 +38,7 @@ import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 
@@ -68,6 +69,16 @@ internal class HomeViewModel(
                     message = e.message ?: "Error loading illustrations",
                 )
             }
+        }
+    }
+
+    suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
+        return withContext(Dispatchers.IO) {
+            homeRepository.getRecommendedIllustrations(
+                includeRankingIllustrations = false,
+                includePrivacyPolicy = false,
+                offset = offset,
+            )
         }
     }
 

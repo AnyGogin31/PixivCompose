@@ -31,6 +31,7 @@ interface HomeRepository {
     suspend fun getRecommendedIllustrations(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
+        offset: Int = 0,
     ): List<Illustration>
 
     suspend fun getRecommendedManga(

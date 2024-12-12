@@ -64,8 +64,9 @@ internal fun HomeView(
         onError = { ErrorView(message = it) },
         onLoaded = {
             IllustrationsGallery(
-                illustrations = it,
+                initialItems = it,
                 onIllustrationSelected = viewModel::navigateToIllustrationDetails,
+                loadMoreItems = viewModel::loadMoreIllustrations,
             )
         },
     )
@@ -74,13 +75,14 @@ internal fun HomeView(
 @Composable
 internal fun IllustrationsGallery(
     modifier: Modifier = Modifier,
-    illustrations: List<Illustration>,
+    initialItems: List<Illustration>,
     onIllustrationSelected: (Int) -> Unit,
+    loadMoreItems: suspend (offset: Int) -> List<Illustration>,
 ) {
     InfiniteScrollLazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
         columns = GridCells.Fixed(2),
-        initialItems = illustrations,
+        initialItems = initialItems,
         keySelector = { it.id },
         content = { item ->
             IllustrationItem(
@@ -97,7 +99,7 @@ internal fun IllustrationsGallery(
                     .padding(16.dp),
             )
         },
-        loadMoreItems = { emptyList() },
+        loadMoreItems = { loadMoreItems(it.size) },
     )
 }
 
