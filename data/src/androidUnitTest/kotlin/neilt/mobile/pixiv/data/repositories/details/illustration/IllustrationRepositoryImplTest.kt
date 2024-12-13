@@ -25,15 +25,16 @@
 package neilt.mobile.pixiv.data.repositories.details.illustration
 
 import kotlinx.coroutines.test.runTest
-import neilt.mobile.pixiv.data.provider.StorageProvider
+import neilt.mobile.pixiv.data.mapper.details.illustration.toModel
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.UserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileImageUrlsResponse
-import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
 import neilt.mobile.pixiv.data.repositories.illustration.IllustrationRepositoryImpl
+import neilt.mobile.pixiv.data.sources.illustration.IllustrationLocalDataSource
+import neilt.mobile.pixiv.data.sources.illustration.IllustrationRemoteDataSource
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
@@ -43,12 +44,15 @@ import kotlin.test.assertEquals
 
 class IllustrationRepositoryImplTest {
     private lateinit var repository: IllustrationRepositoryImpl
-    private val illustrationService: IllustrationService = mock()
-    private val storageProvider: StorageProvider = mock()
+    private val illustrationRemoteDataSource: IllustrationRemoteDataSource = mock()
+    private val illustrationLocalDataSource: IllustrationLocalDataSource = mock()
 
     @BeforeTest
     fun setup() {
-        repository = IllustrationRepositoryImpl(illustrationService, storageProvider)
+        repository = IllustrationRepositoryImpl(
+            illustrationLocalDataSource = illustrationLocalDataSource,
+            illustrationRemoteDataSource = illustrationRemoteDataSource,
+        )
     }
 
     @Test
@@ -80,7 +84,7 @@ class IllustrationRepositoryImplTest {
                 bookmarks = 500,
             ),
         )
-        `when`(illustrationService.fetchIllustration(illustrationId)).thenReturn(mockResponse)
+        `when`(illustrationRemoteDataSource.getIllustration(illustrationId)).thenReturn(mockResponse.illustrationDetails.toModel())
 
         val result = repository.getIllustration(illustrationId)
 
@@ -94,6 +98,20 @@ class IllustrationRepositoryImplTest {
         assertEquals(1000, result.views)
         assertEquals(500, result.bookmarks)
 
-        verify(illustrationService).fetchIllustration(illustrationId)
+        verify(illustrationRemoteDataSource).getIllustration(illustrationId)
+    }
+
+    @Test
+    fun `downloadIllustration saves image to local data source`() = runTest {
+        val url = "https://example.com/image.jpg"
+        val fileName = "image.jpg"
+        val imageData = byteArrayOf(1, 2, 3, 4, 5)
+
+        `when`(illustrationRemoteDataSource.getIllustrationFile(url)).thenReturn(imageData)
+
+        repository.downloadIllustration(url, fileName)
+
+        verify(illustrationRemoteDataSource).getIllustrationFile(url)
+        verify(illustrationLocalDataSource).saveImageSafely(imageData, fileName)
     }
 }

@@ -25,11 +25,11 @@
 package neilt.mobile.pixiv.data.repositories.search
 
 import kotlinx.coroutines.test.runTest
-import neilt.mobile.pixiv.data.remote.requests.search.toQueryMap
+import neilt.mobile.pixiv.data.mapper.home.toModel
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 import neilt.mobile.pixiv.data.remote.responses.search.IllustrationSearchResponse
-import neilt.mobile.pixiv.data.remote.services.search.SearchService
+import neilt.mobile.pixiv.data.sources.search.SearchRemoteDataSource
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
@@ -41,11 +41,11 @@ import kotlin.test.assertTrue
 
 class SearchRepositoryImplTest {
     private lateinit var repository: SearchRepositoryImpl
-    private val searchService: SearchService = mock()
+    private val searchRemoteDataSource: SearchRemoteDataSource = mock()
 
     @BeforeTest
     fun setup() {
-        repository = SearchRepositoryImpl(searchService)
+        repository = SearchRepositoryImpl(searchRemoteDataSource)
     }
 
     @Test
@@ -88,7 +88,7 @@ class SearchRepositoryImplTest {
             searchSpanLimit = 1,
             showUi = false,
         )
-        `when`(searchService.fetchSearchIllustrations(request.toQueryMap())).thenReturn(mockResponse)
+        `when`(searchRemoteDataSource.getSearchIllustrations(request.keyword)).thenReturn(mockResponse.illustrations.map { it.toModel() })
 
         val result = repository.getSearchIllustrations(request)
 
@@ -98,7 +98,7 @@ class SearchRepositoryImplTest {
         assertEquals("Illustration 2", result[1].title)
         assertEquals("large2", result[1].imageUrls.largeUrl)
 
-        verify(searchService).fetchSearchIllustrations(request.toQueryMap())
+        verify(searchRemoteDataSource).getSearchIllustrations(request.keyword)
     }
 
     @Test
@@ -120,12 +120,12 @@ class SearchRepositoryImplTest {
             searchSpanLimit = 1,
             showUi = false,
         )
-        `when`(searchService.fetchSearchIllustrations(request.toQueryMap())).thenReturn(mockResponse)
+        `when`(searchRemoteDataSource.getSearchIllustrations(request.keyword)).thenReturn(mockResponse.illustrations.map { it.toModel() })
 
         val result = repository.getSearchIllustrations(request)
 
         assertTrue(result.isEmpty())
 
-        verify(searchService).fetchSearchIllustrations(mapOf("word" to "test"))
+        verify(searchRemoteDataSource).getSearchIllustrations(request.keyword)
     }
 }

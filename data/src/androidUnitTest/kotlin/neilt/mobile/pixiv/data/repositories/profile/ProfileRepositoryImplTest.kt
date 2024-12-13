@@ -25,13 +25,14 @@
 package neilt.mobile.pixiv.data.repositories.profile
 
 import kotlinx.coroutines.test.runTest
+import neilt.mobile.pixiv.data.mapper.profile.toModel
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfilePublicityResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileUserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.UserDetailResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.WorkspaceResponse
-import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
+import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
@@ -42,11 +43,13 @@ import kotlin.test.assertTrue
 
 class ProfileRepositoryImplTest {
     private lateinit var repository: ProfileRepositoryImpl
-    private val profileService: ProfileService = mock()
+    private val profileRemoteDataSource: ProfileRemoteDataSource = mock()
 
     @BeforeTest
     fun setup() {
-        repository = ProfileRepositoryImpl(profileService)
+        repository = ProfileRepositoryImpl(
+            profileRemoteDataSource = profileRemoteDataSource,
+        )
     }
 
     @Test
@@ -111,7 +114,7 @@ class ProfileRepositoryImplTest {
                 comment = "Perfect workspace for creativity.",
             ),
         )
-        `when`(profileService.fetchUserDetail(userId.toInt())).thenReturn(mockResponse)
+        `when`(profileRemoteDataSource.getUserDetail(userId.toInt())).thenReturn(mockResponse.toModel())
 
         val result = repository.getUserDetail(userId.toInt())
 
@@ -121,6 +124,6 @@ class ProfileRepositoryImplTest {
         assertEquals("This is a test user.", result.user.comment)
         assertTrue(result.user.isFollowed)
 
-        verify(profileService).fetchUserDetail(userId.toInt())
+        verify(profileRemoteDataSource).getUserDetail(userId.toInt())
     }
 }
