@@ -25,8 +25,8 @@
 package neilt.mobile.pixiv.data.di
 
 import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
-import neilt.mobile.pixiv.data.repositories.details.illustration.IllustrationRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
+import neilt.mobile.pixiv.data.repositories.illustration.IllustrationRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.profile.ProfileRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository

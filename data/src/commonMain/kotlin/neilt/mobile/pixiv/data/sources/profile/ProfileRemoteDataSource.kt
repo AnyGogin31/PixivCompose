@@ -22,16 +22,21 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.profile
+package neilt.mobile.pixiv.data.sources.profile
 
-import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.data.mapper.profile.toModel
+import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
 import neilt.mobile.pixiv.domain.models.profile.UserDetail
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 
-class ProfileRepositoryImpl(
-    private val profileRemoteDataSource: ProfileRemoteDataSource,
-) : ProfileRepository {
-    override suspend fun getUserDetail(userId: Int): UserDetail {
-        return profileRemoteDataSource.getUserDetail(userId)
+class ProfileRemoteDataSource(
+    private val profileService: ProfileService,
+) {
+    suspend fun getUserDetail(userId: Int): UserDetail {
+        return withContext(Dispatchers.IO) {
+            profileService.fetchUserDetail(userId).toModel()
+        }
     }
 }

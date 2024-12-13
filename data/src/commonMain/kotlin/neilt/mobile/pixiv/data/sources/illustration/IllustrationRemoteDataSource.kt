@@ -22,16 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.profile
+package neilt.mobile.pixiv.data.sources.illustration
 
-import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
-import neilt.mobile.pixiv.domain.models.profile.UserDetail
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.data.mapper.details.illustration.toModel
+import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 
-class ProfileRepositoryImpl(
-    private val profileRemoteDataSource: ProfileRemoteDataSource,
-) : ProfileRepository {
-    override suspend fun getUserDetail(userId: Int): UserDetail {
-        return profileRemoteDataSource.getUserDetail(userId)
+class IllustrationRemoteDataSource(
+    private val illustrationService: IllustrationService,
+) {
+    suspend fun getIllustration(illustrationId: Int): IllustrationDetails {
+        return withContext(Dispatchers.IO) {
+            illustrationService.fetchIllustration(illustrationId).illustrationDetails.toModel()
+        }
+    }
+
+    suspend fun getIllustrationFile(url: String): ByteArray {
+        return withContext(Dispatchers.IO) {
+            illustrationService.downloadIllustration(url)
+        }
     }
 }

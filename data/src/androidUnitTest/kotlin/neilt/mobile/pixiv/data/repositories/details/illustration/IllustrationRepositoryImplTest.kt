@@ -33,6 +33,7 @@ import neilt.mobile.pixiv.data.remote.responses.details.illustration.TagResponse
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.UserResponse
 import neilt.mobile.pixiv.data.remote.responses.profile.ProfileImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
+import neilt.mobile.pixiv.data.repositories.illustration.IllustrationRepositoryImpl
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
