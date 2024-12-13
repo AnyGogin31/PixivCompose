@@ -24,23 +24,20 @@
 
 package neilt.mobile.pixiv.data.repositories.search
 
-import neilt.mobile.pixiv.data.mapper.details.illustration.toModel
-import neilt.mobile.pixiv.data.mapper.home.toModel
-import neilt.mobile.pixiv.data.remote.requests.search.toQueryMap
-import neilt.mobile.pixiv.data.remote.services.search.SearchService
+import neilt.mobile.pixiv.data.sources.search.SearchRemoteDataSource
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
 class SearchRepositoryImpl(
-    private val searchService: SearchService,
+    private val searchRemoteDataSource: SearchRemoteDataSource,
 ) : SearchRepository {
     override suspend fun getSearchIllustrations(request: SearchIllustrationsRequest): List<Illustration> {
-        return searchService.fetchSearchIllustrations(request.toQueryMap()).illustrations.map { it.toModel() }
+        return searchRemoteDataSource.getSearchIllustrations(request.keyword)
     }
 
     override suspend fun getSearchPredictionTags(query: String): List<Tag> {
-        return searchService.fetchSearchPredictionTags(query).tags.map { it.toModel() }
+        return searchRemoteDataSource.getSearchPredictionTags(query)
     }
 }

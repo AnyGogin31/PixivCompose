@@ -22,24 +22,29 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.details.illustration
+package neilt.mobile.pixiv.data.sources.search
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 import neilt.mobile.pixiv.data.mapper.details.illustration.toModel
-import neilt.mobile.pixiv.data.provider.StorageProvider
-import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
-import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
-import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
+import neilt.mobile.pixiv.data.mapper.home.toModel
+import neilt.mobile.pixiv.data.remote.services.search.SearchService
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import neilt.mobile.pixiv.domain.models.home.Illustration
 
-class IllustrationRepositoryImpl(
-    private val illustrationService: IllustrationService,
-    private val storageProvider: StorageProvider,
-) : IllustrationRepository {
-    override suspend fun getIllustration(illustrationId: Int): IllustrationDetails {
-        return illustrationService.fetchIllustration(illustrationId).illustrationDetails.toModel()
+class SearchRemoteDataSource(
+    private val searchService: SearchService,
+) {
+    suspend fun getSearchIllustrations(query: String): List<Illustration> {
+        return withContext(Dispatchers.IO) {
+            searchService.fetchSearchIllustrations(mapOf("word" to query)).illustrations.map { it.toModel() }
+        }
     }
 
-    override suspend fun downloadIllustration(url: String, fileName: String) {
-        val imageData = illustrationService.downloadIllustration(url)
-        storageProvider.uploadImage(imageData, fileName)
+    suspend fun getSearchPredictionTags(query: String): List<Tag> {
+        return withContext(Dispatchers.IO) {
+            searchService.fetchSearchPredictionTags(query).tags.map { it.toModel() }
+        }
     }
 }

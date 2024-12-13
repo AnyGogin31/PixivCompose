@@ -22,16 +22,24 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.repositories.profile
+package neilt.mobile.pixiv.data.sources.illustration
 
-import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
-import neilt.mobile.pixiv.domain.models.profile.UserDetail
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.data.provider.StorageProvider
 
-class ProfileRepositoryImpl(
-    private val profileRemoteDataSource: ProfileRemoteDataSource,
-) : ProfileRepository {
-    override suspend fun getUserDetail(userId: Int): UserDetail {
-        return profileRemoteDataSource.getUserDetail(userId)
+class IllustrationLocalDataSource(
+    private val storageProvider: StorageProvider,
+) {
+    suspend fun saveImageSafely(image: ByteArray, name: String): Result<Unit> {
+        return withContext(Dispatchers.IO) {
+            try {
+                storageProvider.uploadImage(image, name)
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
     }
 }

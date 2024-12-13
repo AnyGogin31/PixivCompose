@@ -25,11 +25,11 @@
 package neilt.mobile.pixiv.data.repositories.home
 
 import kotlinx.coroutines.test.runTest
-import neilt.mobile.pixiv.data.remote.requests.home.toFieldMap
+import neilt.mobile.pixiv.data.mapper.home.toModel
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
 import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 import neilt.mobile.pixiv.data.remote.responses.home.RecommendedIllustrationsResponse
-import neilt.mobile.pixiv.data.remote.services.home.HomeService
+import neilt.mobile.pixiv.data.sources.home.HomeRemoteDataSource
 import neilt.mobile.pixiv.domain.models.requests.RecommendedNovelsRequest
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
@@ -40,11 +40,13 @@ import kotlin.test.assertEquals
 
 class HomeRepositoryImplTest {
     private lateinit var repository: HomeRepositoryImpl
-    private val homeService: HomeService = mock()
+    private val homeRemoteDataSource: HomeRemoteDataSource = mock()
 
     @BeforeTest
     fun setup() {
-        repository = HomeRepositoryImpl(homeService)
+        repository = HomeRepositoryImpl(
+            homeRemoteDataSource = homeRemoteDataSource,
+        )
     }
 
     @Test
@@ -75,13 +77,13 @@ class HomeRepositoryImplTest {
             contestExists = false,
             nextUrl = null,
         )
-
         `when`(
-            homeService.fetchRecommendedIllustrations(
+            homeRemoteDataSource.getRecommendedIllustrations(
                 includeRankingIllustrations = true,
                 includePrivacyPolicy = true,
+                offset = 0,
             ),
-        ).thenReturn(mockResponse)
+        ).thenReturn(mockResponse.illustrations.map { it.toModel() })
 
         val result = repository.getRecommendedIllustrations(
             includeRankingIllustrations = true,
@@ -94,16 +96,17 @@ class HomeRepositoryImplTest {
         assertEquals("Illustration 2", result[1].title)
         assertEquals("large2", result[1].imageUrls.largeUrl)
 
-        verify(homeService).fetchRecommendedIllustrations(
+        verify(homeRemoteDataSource).getRecommendedIllustrations(
             includeRankingIllustrations = true,
             includePrivacyPolicy = true,
+            offset = 0,
         )
     }
 
     @Test
     fun `getRecommendedManga calls service and returns nothing if no data`() = runTest {
         `when`(
-            homeService.fetchRecommendedManga(
+            homeRemoteDataSource.getRecommendedManga(
                 includeRankingIllustrations = false,
                 includePrivacyPolicy = false,
             ),
@@ -114,7 +117,7 @@ class HomeRepositoryImplTest {
             includePrivacyPolicy = false,
         )
 
-        verify(homeService).fetchRecommendedManga(
+        verify(homeRemoteDataSource).getRecommendedManga(
             includeRankingIllustrations = false,
             includePrivacyPolicy = false,
         )
@@ -126,26 +129,21 @@ class HomeRepositoryImplTest {
         val version = "1.0"
 
         repository.submitPrivacyPolicyAgreement(agreement, version)
-        verify(homeService).submitPrivacyPolicyAgreement(agreement, version)
+        verify(homeRemoteDataSource).submitPrivacyPolicyAgreement(agreement, version)
     }
 
     @Test
     fun `submitRecommendedNovels calls service with correct parameters`() = runTest {
-        val readNovelIds = listOf(1L, 2L, 3L)
-        val viewNovelIds = listOf(4L, 5L)
-        val readTimestamps = listOf("2023-11-01T12:00:00Z")
-        val viewTimestamps = listOf("2023-11-02T15:00:00Z")
-
         val request = RecommendedNovelsRequest(
             includeRankingNovels = true,
             includePrivacyPolicy = false,
-            readNovelIds = readNovelIds,
-            viewNovelIds = viewNovelIds,
-            readNovelTimestamps = readTimestamps,
-            viewNovelTimestamps = viewTimestamps,
+            readNovelIds = listOf(1L, 2L, 3L),
+            viewNovelIds = listOf(4L, 5L),
+            readNovelTimestamps = listOf("2023-11-01T12:00:00Z"),
+            viewNovelTimestamps = listOf("2023-11-02T15:00:00Z"),
         )
 
         repository.submitRecommendedNovels(request)
-        verify(homeService).submitRecommendedNovels(request.toFieldMap())
+        verify(homeRemoteDataSource).submitRecommendedNovels(request)
     }
 }
