@@ -24,10 +24,24 @@
 
 package neilt.mobile.pixiv.data.di
 
+import neilt.mobile.pixiv.data.sources.auth.AuthRemoteDataSource
+import neilt.mobile.pixiv.data.sources.home.HomeRemoteDataSource
+import neilt.mobile.pixiv.data.sources.illustration.IllustrationRemoteDataSource
+import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
+import neilt.mobile.pixiv.data.sources.search.SearchRemoteDataSource
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val remoteModule = module {
+
+    singleOf(::AuthRemoteDataSource)
+    singleOf(::HomeRemoteDataSource)
+    singleOf(::HomeRemoteDataSource)
+    singleOf(::IllustrationRemoteDataSource)
+    singleOf(::ProfileRemoteDataSource)
+    singleOf(::SearchRemoteDataSource)
+
     includes(platformRemoteModule)
 }
 

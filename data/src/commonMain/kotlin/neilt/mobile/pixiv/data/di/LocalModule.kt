@@ -26,12 +26,18 @@ package neilt.mobile.pixiv.data.di
 
 import neilt.mobile.pixiv.data.local.db.PixivDatabase
 import neilt.mobile.pixiv.data.local.provider.DatabaseProvider
+import neilt.mobile.pixiv.data.sources.auth.AuthLocalDataSource
+import neilt.mobile.pixiv.data.sources.illustration.IllustrationLocalDataSource
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val localModule = module {
 
     single<PixivDatabase> { get<DatabaseProvider>().database }
+
+    singleOf(::AuthLocalDataSource)
+    singleOf(::IllustrationLocalDataSource)
 
     includes(platformLocalModule)
 }
