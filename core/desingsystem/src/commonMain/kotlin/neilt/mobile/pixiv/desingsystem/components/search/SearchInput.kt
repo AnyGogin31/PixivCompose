@@ -24,13 +24,14 @@
 
 package neilt.mobile.pixiv.desingsystem.components.search
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -73,14 +74,17 @@ fun SearchInput(
         }
     }
 
-    DockedSearchBar(
+    SearchBar(
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = 24.dp,
-                vertical = 8.dp,
-            )
-            .padding(top = 24.dp),
+            .animateContentSize()
+            .then(
+                if (isExpanded) {
+                    Modifier.padding(0.dp)
+                } else {
+                    Modifier.padding(horizontal = 16.dp)
+                },
+            ),
         inputField = {
             SearchBarDefaults.InputField(
                 query = query,
