@@ -38,4 +38,5 @@ data class SettingItem(
     val subtitle: StringResource,
     val icon: ImageVector,
     val onClick: () -> Unit = {},
+    val isEnable: Boolean = true,
 ) : SettingsElement

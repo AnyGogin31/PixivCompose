@@ -93,6 +93,7 @@ private fun SettingItemCard(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
         ),
         onClick = item.onClick,
+        enabled = item.isEnable,
     ) {
         Row(
             modifier = Modifier
