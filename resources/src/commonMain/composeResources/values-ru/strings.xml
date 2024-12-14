@@ -1,0 +1,55 @@
+<resources>
+    <!-- Навигационные ярлыки -->
+    <string name="navigation_home">Главная</string>
+    <string name="navigation_explore">Обзор</string>
+    <string name="navigation_profile">Профиль</string>
+
+    <!-- Уведомления -->
+    <string name="toast_downloading">Загрузка...</string>
+    <string name="toast_download_complete">Загрузка завершена</string>
+
+    <!-- Поиск -->
+    <string name="search_placeholder">Искать иллюстрации...</string>
+
+    <!-- Сообщения об ошибках -->
+    <string name="error_back">Назад</string>
+    <string name="no_illustrations_found">Иллюстрации не найдены</string>
+
+    <!-- Авторизация -->
+    <string name="login_title">Авторизация через Pixiv</string>
+    <string name="login_button">Войти через Pixiv</string>
+
+    <!-- Детали иллюстрации -->
+    <string name="views_and_bookmarks">Просмотры: %1$s, Закладки: %2$s</string>
+    <string name="author_avatar">Аватар автора</string>
+
+    <!-- Элемент иллюстрации -->
+    <string name="illustration_description">Иллюстрация: %1$s</string>
+
+    <!-- Профиль -->
+    <string name="profile_image_description">Изображение профиля</string>
+    <string name="twitter_handle">Twitter: @%1$s</string>
+    <string name="website_button">Веб-сайт</string>
+    <string name="profile_birth_date">Дата рождения</string>
+    <string name="profile_region">Регион</string>
+    <string name="profile_job">Работа</string>
+    <string name="profile_followers">Подписчики</string>
+
+    <!-- Настройки -->
+    <string name="settings_account_title">Аккаунт</string>
+    <string name="settings_account_subtitle">Управление данными аккаунта</string>
+    <string name="settings_appearance_title">Внешний вид</string>
+    <string name="settings_appearance_subtitle">Настройка темы и оформления</string>
+    <string name="settings_behavior_title">Поведение</string>
+    <string name="settings_behavior_subtitle">Настройка взаимодействия с приложением</string>
+    <string name="settings_cache_title">Кэш</string>
+    <string name="settings_cache_subtitle">Очистить или управлять сохранёнными данными</string>
+    <string name="settings_backup_title">Резервное копирование</string>
+    <string name="settings_backup_subtitle">Создание и восстановление резервных копий данных</string>
+    <string name="settings_analytics_title">Аналитика</string>
+    <string name="settings_analytics_subtitle">Просмотр и управление данными использования</string>
+    <string name="settings_updates_title">Обновления</string>
+    <string name="settings_updates_subtitle">Проверить обновления приложения</string>
+    <string name="settings_about_title">О приложении</string>
+    <string name="settings_about_subtitle">Версия приложения и информация о разработчиках</string>
+</resources>
