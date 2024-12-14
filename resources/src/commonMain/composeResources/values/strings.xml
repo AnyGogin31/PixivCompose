@@ -3,4 +3,53 @@
     <string name="navigation_home">Home</string>
     <string name="navigation_explore">Explore</string>
     <string name="navigation_profile">Profile</string>
+
+    <!-- Toast Messages -->
+    <string name="toast_downloading">Downloading...</string>
+    <string name="toast_download_complete">Download complete</string>
+
+    <!-- Search -->
+    <string name="search_placeholder">Search illustrations...</string>
+
+    <!-- Error messages -->
+    <string name="error_back">Back</string>
+    <string name="no_illustrations_found">No illustrations found</string>
+
+    <!-- Login -->
+    <string name="login_title">Pixiv Authorization</string>
+    <string name="login_button">Login with Pixiv</string>
+
+    <!-- Illustration Details -->
+    <string name="views_and_bookmarks">Views: %1$s, Bookmarks: %2$s</string>
+    <string name="author_avatar">Author avatar</string>
+
+    <!-- Illustration Item -->
+    <string name="illustration_description">Illustration: %1$s</string>
+
+    <!-- Profile -->
+    <string name="profile_image_description">Profile Image</string>
+    <string name="twitter_handle">Twitter: @%1$s</string>
+    <string name="website_button">Website</string>
+    <string name="profile_birth_date">Birth Date</string>
+    <string name="profile_region">Region</string>
+    <string name="profile_job">Job</string>
+    <string name="profile_followers">Followers</string>
+
+    <!-- Settings -->
+    <string name="settings_account_title">Account</string>
+    <string name="settings_account_subtitle">Manage your account details</string>
+    <string name="settings_appearance_title">Appearance</string>
+    <string name="settings_appearance_subtitle">Customize app theme and layout</string>
+    <string name="settings_behavior_title">Behavior</string>
+    <string name="settings_behavior_subtitle">Adjust app interaction settings</string>
+    <string name="settings_cache_title">Cache</string>
+    <string name="settings_cache_subtitle">Clear or manage stored data</string>
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_backup_subtitle">Backup and restore your data</string>
+    <string name="settings_analytics_title">Analytics</string>
+    <string name="settings_analytics_subtitle">View and manage usage data</string>
+    <string name="settings_updates_title">Updates</string>
+    <string name="settings_updates_subtitle">Check for app updates</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_about_subtitle">App version and developer info</string>
 </resources>

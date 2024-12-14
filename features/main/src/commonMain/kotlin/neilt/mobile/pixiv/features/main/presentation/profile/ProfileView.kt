@@ -53,6 +53,15 @@ import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.profile.Profile
 import neilt.mobile.pixiv.domain.models.profile.UserDetail
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.profile_birth_date
+import neilt.mobile.pixiv.resources.profile_followers
+import neilt.mobile.pixiv.resources.profile_image_description
+import neilt.mobile.pixiv.resources.profile_job
+import neilt.mobile.pixiv.resources.profile_region
+import neilt.mobile.pixiv.resources.twitter_handle
+import neilt.mobile.pixiv.resources.website_button
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -88,7 +97,7 @@ private fun ProfileContent(userDetail: UserDetail) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
                 model = user.profileImageUrls,
-                contentDescription = "Profile Image",
+                contentDescription = stringResource(Res.string.profile_image_description),
                 modifier = Modifier
                     .size(72.dp)
                     .clip(CircleShape),
@@ -129,13 +138,13 @@ private fun ProfileContent(userDetail: UserDetail) {
         Row {
             profile.twitterAccount?.let {
                 TextButton(onClick = { /* Open Twitter */ }) {
-                    Text("Twitter: @$it")
+                    Text(text = stringResource(Res.string.twitter_handle, it))
                 }
             }
             Spacer(modifier = Modifier.width(8.dp))
             profile.webpage?.let {
                 TextButton(onClick = { /* Open webpage */ }) {
-                    Text("Website")
+                    Text(text = stringResource(Res.string.website_button))
                 }
             }
         }
@@ -145,10 +154,22 @@ private fun ProfileContent(userDetail: UserDetail) {
 @Composable
 fun ProfileInfoSection(profile: Profile) {
     Column {
-        ProfileInfoItem(label = "Birth Date", value = profile.birthDay)
-        ProfileInfoItem(label = "Region", value = profile.region)
-        ProfileInfoItem(label = "Job", value = profile.job)
-        ProfileInfoItem(label = "Followers", value = profile.totalFollowUsers.toString())
+        ProfileInfoItem(
+            label = stringResource(Res.string.profile_birth_date),
+            value = profile.birthDay,
+        )
+        ProfileInfoItem(
+            label = stringResource(Res.string.profile_region),
+            value = profile.region,
+        )
+        ProfileInfoItem(
+            label = stringResource(Res.string.profile_job),
+            value = profile.job,
+        )
+        ProfileInfoItem(
+            label = stringResource(Res.string.profile_followers),
+            value = profile.totalFollowUsers.toString(),
+        )
     }
 }
 

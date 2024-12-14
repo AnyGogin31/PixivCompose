@@ -14,6 +14,8 @@ kotlin {
                 implementation(projects.core.navigation.navigationApi)
                 implementation(projects.core.state)
 
+                implementation(projects.resources)
+
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)

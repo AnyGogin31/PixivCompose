@@ -59,6 +59,10 @@ import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.illustration_description
+import neilt.mobile.pixiv.resources.no_illustrations_found
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -101,7 +105,7 @@ internal fun HomeView(
 
     state.whenStateExtended<List<Illustration>>(
         onLoading = { LoadingView() },
-        onEmpty = { EmptyView(message = "No illustrations found") },
+        onEmpty = { EmptyView(message = stringResource(Res.string.no_illustrations_found)) },
         onError = { ErrorView(message = it) },
         onLoaded = {
             IllustrationsGallery(
@@ -151,12 +155,14 @@ private fun IllustrationItem(
     illustration: Illustration,
     onClick: () -> Unit,
 ) {
+    val contentDescription = stringResource(Res.string.illustration_description, illustration.title)
+
     Card(
         modifier = modifier
             .padding(contentPadding)
             .fillMaxWidth()
             .aspectRatio(.75f)
-            .semantics { contentDescription = "Illustration: ${illustration.title}" },
+            .semantics { this.contentDescription = contentDescription },
         onClick = onClick,
     ) {
         Column(

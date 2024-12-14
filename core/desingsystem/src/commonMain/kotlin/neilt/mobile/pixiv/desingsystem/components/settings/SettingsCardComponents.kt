@@ -40,6 +40,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 
 fun LazyListScope.displaySettingsElements(
     elements: List<SettingsElement>,
@@ -107,11 +108,11 @@ private fun SettingItemCard(
             )
             Column {
                 Text(
-                    text = item.title,
+                    text = stringResource(item.title),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = item.subtitle,
+                    text = stringResource(item.subtitle),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

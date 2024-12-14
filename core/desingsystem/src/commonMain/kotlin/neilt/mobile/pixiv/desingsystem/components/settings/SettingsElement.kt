@@ -26,6 +26,7 @@ package neilt.mobile.pixiv.desingsystem.components.settings
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.StringResource
 
 @Stable
 sealed interface SettingsElement
@@ -33,8 +34,8 @@ sealed interface SettingsElement
 data class SettingGroup(val items: List<SettingItem>) : SettingsElement
 
 data class SettingItem(
-    val title: String,
-    val subtitle: String,
+    val title: StringResource,
+    val subtitle: StringResource,
     val icon: ImageVector,
     val onClick: () -> Unit = {},
 ) : SettingsElement

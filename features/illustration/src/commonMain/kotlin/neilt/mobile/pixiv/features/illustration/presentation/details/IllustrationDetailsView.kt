@@ -60,6 +60,10 @@ import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.author_avatar
+import neilt.mobile.pixiv.resources.views_and_bookmarks
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -134,7 +138,7 @@ private fun IllustrationDetailsContent(
             ) {
                 AsyncImage(
                     model = illustration.user.profileImageUrl,
-                    contentDescription = "Author avatar",
+                    contentDescription = stringResource(Res.string.author_avatar),
                     modifier = Modifier.clip(CircleShape),
                     contentScale = ContentScale.Crop,
                 )
@@ -146,7 +150,11 @@ private fun IllustrationDetailsContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Views: ${illustration.views}, Bookmarks: ${illustration.bookmarks}",
+            text = stringResource(
+                Res.string.views_and_bookmarks,
+                illustration.views,
+                illustration.bookmarks,
+            ),
             modifier = Modifier.padding(horizontal = 16.dp),
             style = MaterialTheme.typography.bodyMedium,
         )

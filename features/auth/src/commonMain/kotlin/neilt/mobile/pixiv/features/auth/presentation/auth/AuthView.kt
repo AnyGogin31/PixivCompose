@@ -42,6 +42,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.error_back
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -92,7 +95,7 @@ private fun ErrorView(
             modifier = Modifier.padding(bottom = 16.dp),
         )
         Button(onClick = onBack) {
-            Text("Back")
+            Text(text = stringResource(Res.string.error_back))
         }
     }
 }
