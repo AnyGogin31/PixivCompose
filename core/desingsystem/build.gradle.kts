@@ -12,6 +12,8 @@ kotlin {
 
                 implementation(projects.core.navigation.navigationApi)
 
+                implementation(projects.resources)
+
                 implementation(libs.coil.compose)
             }
         }

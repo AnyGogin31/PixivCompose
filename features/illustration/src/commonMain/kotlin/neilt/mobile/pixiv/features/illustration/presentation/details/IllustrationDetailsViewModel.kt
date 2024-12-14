@@ -39,6 +39,10 @@ import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 import neilt.mobile.pixiv.features.illustration.provider.ToastProvider
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.toast_download_complete
+import neilt.mobile.pixiv.resources.toast_downloading
+import org.jetbrains.compose.resources.getString
 
 internal class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
@@ -69,9 +73,9 @@ internal class IllustrationDetailsViewModel(
         }
 
         viewModelScope.launch {
-            toastProvider.showToast("Downloading...")
+            toastProvider.showToast(getString(Res.string.toast_downloading))
             illustrationRepository.downloadIllustration(url, fileName)
-            toastProvider.showToast("Download complete")
+            toastProvider.showToast(getString(Res.string.toast_download_complete))
         }
     }
 }

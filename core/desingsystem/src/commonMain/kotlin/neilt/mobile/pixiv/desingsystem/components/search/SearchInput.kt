@@ -44,6 +44,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.search_placeholder
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,7 +91,7 @@ fun SearchInput(
                 onSearch = onExecuteSearch,
                 expanded = isExpanded,
                 onExpandedChange = {},
-                placeholder = { Text("Search illustrations...") },
+                placeholder = { Text(text = stringResource(Res.string.search_placeholder)) },
             )
         },
         expanded = isExpanded,

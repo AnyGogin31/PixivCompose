@@ -37,6 +37,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.login_button
+import neilt.mobile.pixiv.resources.login_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -51,7 +55,7 @@ internal fun LoginView(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "Pixiv Authorization",
+            text = stringResource(Res.string.login_title),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 32.dp),
@@ -63,7 +67,7 @@ internal fun LoginView(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
         ) {
-            Text(text = "Login with Pixiv")
+            Text(text = stringResource(Res.string.login_button))
         }
     }
 }

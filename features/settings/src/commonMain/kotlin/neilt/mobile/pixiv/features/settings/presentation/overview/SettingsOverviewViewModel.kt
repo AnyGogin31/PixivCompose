@@ -36,26 +36,43 @@ import neilt.mobile.pixiv.desingsystem.icons.filled.ManageAccounts
 import neilt.mobile.pixiv.desingsystem.icons.filled.Palette
 import neilt.mobile.pixiv.desingsystem.icons.filled.Tune
 import neilt.mobile.pixiv.desingsystem.icons.filled.Update
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.settings_about_subtitle
+import neilt.mobile.pixiv.resources.settings_about_title
+import neilt.mobile.pixiv.resources.settings_account_subtitle
+import neilt.mobile.pixiv.resources.settings_account_title
+import neilt.mobile.pixiv.resources.settings_analytics_subtitle
+import neilt.mobile.pixiv.resources.settings_analytics_title
+import neilt.mobile.pixiv.resources.settings_appearance_subtitle
+import neilt.mobile.pixiv.resources.settings_appearance_title
+import neilt.mobile.pixiv.resources.settings_backup_subtitle
+import neilt.mobile.pixiv.resources.settings_backup_title
+import neilt.mobile.pixiv.resources.settings_behavior_subtitle
+import neilt.mobile.pixiv.resources.settings_behavior_title
+import neilt.mobile.pixiv.resources.settings_cache_subtitle
+import neilt.mobile.pixiv.resources.settings_cache_title
+import neilt.mobile.pixiv.resources.settings_updates_subtitle
+import neilt.mobile.pixiv.resources.settings_updates_title
 
 internal class SettingsOverviewViewModel : ViewModel() {
     val settingsElements = listOf(
         SettingItem(
-            title = "Account",
-            subtitle = "Manage your account details",
+            title = Res.string.settings_account_title,
+            subtitle = Res.string.settings_account_subtitle,
             icon = PixivIcons.Filled.ManageAccounts,
             onClick = { /* Open browser with account settings page */ },
         ),
         SettingGroup(
             items = listOf(
                 SettingItem(
-                    title = "Appearance",
-                    subtitle = "Customize app theme and layout",
+                    title = Res.string.settings_appearance_title,
+                    subtitle = Res.string.settings_appearance_subtitle,
                     icon = PixivIcons.Filled.Palette,
                     onClick = { /* Open appearance settings */ },
                 ),
                 SettingItem(
-                    title = "Behavior",
-                    subtitle = "Adjust app interaction settings",
+                    title = Res.string.settings_behavior_title,
+                    subtitle = Res.string.settings_behavior_subtitle,
                     icon = PixivIcons.Filled.Tune,
                     onClick = { /* Open behavior settings */ },
                 ),
@@ -64,20 +81,20 @@ internal class SettingsOverviewViewModel : ViewModel() {
         SettingGroup(
             items = listOf(
                 SettingItem(
-                    title = "Cache",
-                    subtitle = "Clear or manage stored data",
+                    title = Res.string.settings_cache_title,
+                    subtitle = Res.string.settings_cache_subtitle,
                     icon = PixivIcons.Filled.DeleteSweep,
                     onClick = { /* Open cache settings */ },
                 ),
                 SettingItem(
-                    title = "Backup",
-                    subtitle = "Backup and restore your data",
+                    title = Res.string.settings_backup_title,
+                    subtitle = Res.string.settings_backup_subtitle,
                     icon = PixivIcons.Filled.CloudUpload,
                     onClick = { /* Open backup settings */ },
                 ),
                 SettingItem(
-                    title = "Analytics",
-                    subtitle = "View and manage usage data",
+                    title = Res.string.settings_analytics_title,
+                    subtitle = Res.string.settings_analytics_subtitle,
                     icon = PixivIcons.Filled.Analytics,
                     onClick = { /* Open analytics settings */ },
                 ),
@@ -86,14 +103,14 @@ internal class SettingsOverviewViewModel : ViewModel() {
         SettingGroup(
             items = listOf(
                 SettingItem(
-                    title = "Updates",
-                    subtitle = "Check for app updates",
+                    title = Res.string.settings_updates_title,
+                    subtitle = Res.string.settings_updates_subtitle,
                     icon = PixivIcons.Filled.Update,
                     onClick = { /* Open update settings */ },
                 ),
                 SettingItem(
-                    title = "About",
-                    subtitle = "App version and developer info",
+                    title = Res.string.settings_about_title,
+                    subtitle = Res.string.settings_about_subtitle,
                     icon = PixivIcons.Filled.Info,
                     onClick = { /* Open about section */ },
                 ),
