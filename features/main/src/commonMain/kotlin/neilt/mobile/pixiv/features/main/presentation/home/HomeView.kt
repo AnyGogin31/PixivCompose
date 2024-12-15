@@ -196,7 +196,7 @@ private fun IllustrationItem(
 }
 
 @Composable
-private fun TagsPredictionList(
+internal fun TagsPredictionList(
     tags: List<Tag>,
     onTagSelected: (String) -> Unit,
 ) {

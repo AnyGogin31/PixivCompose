@@ -30,6 +30,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecommendedIllustrationsResponse(
     @SerialName("illusts") val illustrations: List<IllustrationResponse>,
-    @SerialName("contest_exists") val contestExists: Boolean,
+    @SerialName("contest_exists") val contestExists: Boolean? = null,
     @SerialName("next_url") val nextUrl: String?,
 )
