@@ -62,6 +62,7 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.illustration_description
 import neilt.mobile.pixiv.resources.no_illustrations_found
+import neilt.mobile.pixiv.resources.search_illustrations_placeholder
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -88,6 +89,9 @@ internal fun HomeView(
         override val onQueryChange: (String) -> Unit = viewModel::fetchTagsPrediction
         override val clearFocusAndCollapse: () -> Unit = clearFocusAndCollapse
         override val isExpanded: Boolean = predictionTags.isNotEmpty()
+        override val placeholder: @Composable () -> Unit = {
+            Text(text = stringResource(Res.string.search_illustrations_placeholder))
+        }
         override val content: @Composable ColumnScope.() -> Unit = {
             TagsPredictionList(
                 tags = predictionTags,
@@ -192,7 +196,7 @@ private fun IllustrationItem(
 }
 
 @Composable
-private fun TagsPredictionList(
+internal fun TagsPredictionList(
     tags: List<Tag>,
     onTagSelected: (String) -> Unit,
 ) {

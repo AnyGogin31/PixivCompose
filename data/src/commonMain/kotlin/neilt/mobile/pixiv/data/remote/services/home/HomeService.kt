@@ -51,12 +51,14 @@ class HomeService(private val client: HttpClient) {
     suspend fun fetchRecommendedManga(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
-    ) {
-        client.get("/v1/manga/recommended?filter=for_android") {
+        offset: Int = 0,
+    ): RecommendedIllustrationsResponse {
+        return client.get("/v1/manga/recommended?filter=for_android") {
             headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
             parameter("include_ranking_illusts", includeRankingIllustrations)
             parameter("include_privacy_policy", includePrivacyPolicy)
-        }
+            parameter("offset", offset)
+        }.body()
     }
 
     suspend fun submitPrivacyPolicyAgreement(

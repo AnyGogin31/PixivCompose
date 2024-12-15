@@ -36,13 +36,16 @@ import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationItemConte
 import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 import neilt.mobile.pixiv.desingsystem.icons.filled.Home
+import neilt.mobile.pixiv.desingsystem.icons.filled.MenuBook
 import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
+import neilt.mobile.pixiv.desingsystem.icons.outlined.MenuBook
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
+import neilt.mobile.pixiv.resources.navigation_manga
 import neilt.mobile.pixiv.resources.navigation_profile
 import org.jetbrains.compose.resources.stringResource
 
@@ -57,6 +60,20 @@ class RootViewModel(
                 label = { stringResource(Res.string.navigation_home) },
                 selectedIcon = PixivIcons.Filled.Home,
                 unselectedIcon = PixivIcons.Outlined.Home,
+            ),
+            onSelect = {
+                viewModelScope.launch {
+                    navigator.navigateTo(it)
+                    searchManager.clearSearchBehavior()
+                }
+            },
+        ),
+        BottomNavigationItem(
+            destination = PixivMainSection.MangaScreen,
+            content = NavigationItemContent(
+                label = { stringResource(Res.string.navigation_manga) },
+                selectedIcon = PixivIcons.Filled.MenuBook,
+                unselectedIcon = PixivIcons.Outlined.MenuBook,
             ),
             onSelect = {
                 viewModelScope.launch {

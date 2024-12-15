@@ -1,7 +1,7 @@
 <resources>
     <!-- Navigation labels -->
     <string name="navigation_home">Home</string>
-    <string name="navigation_explore">Explore</string>
+    <string name="navigation_manga">Manga</string>
     <string name="navigation_profile">Profile</string>
 
     <!-- Toast Messages -->
@@ -9,11 +9,13 @@
     <string name="toast_download_complete">Download complete</string>
 
     <!-- Search -->
-    <string name="search_placeholder">Search illustrations...</string>
+    <string name="search_illustrations_placeholder">Search illustrations...</string>
+    <string name="search_manga_placeholder">Search manga...</string>
 
     <!-- Error messages -->
     <string name="error_back">Back</string>
     <string name="no_illustrations_found">No illustrations found</string>
+    <string name="no_manga_found">No manga found</string>
 
     <!-- Login -->
     <string name="login_title">Pixiv Authorization</string>

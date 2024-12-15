@@ -51,6 +51,7 @@ fun CollapsibleSearchInput(
                 onQueryChange = it.onQueryChange,
                 clearFocusAndCollapse = it.clearFocusAndCollapse,
                 isExpanded = it.isExpanded,
+                placeholder = it.placeholder,
                 content = it.content,
             )
         }

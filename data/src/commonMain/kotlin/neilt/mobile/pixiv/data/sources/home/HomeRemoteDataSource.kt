@@ -54,12 +54,13 @@ class HomeRemoteDataSource(
         includeRankingIllustrations: Boolean = false,
         includePrivacyPolicy: Boolean = false,
         offset: Int = 0,
-    ) {
+    ): List<Illustration> {
         return withContext(Dispatchers.IO) {
             homeService.fetchRecommendedManga(
                 includeRankingIllustrations,
                 includePrivacyPolicy,
-            )
+                offset,
+            ).illustrations.map { it.toModel() }
         }
     }
 

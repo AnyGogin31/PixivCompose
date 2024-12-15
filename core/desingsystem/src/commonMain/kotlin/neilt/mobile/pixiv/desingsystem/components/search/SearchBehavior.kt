@@ -32,5 +32,6 @@ interface SearchBehavior {
     val onQueryChange: (String) -> Unit
     val clearFocusAndCollapse: () -> Unit
     val isExpanded: Boolean
+    val placeholder: @Composable () -> Unit
     val content: @Composable ColumnScope.() -> Unit
 }

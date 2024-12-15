@@ -105,12 +105,38 @@ class HomeRepositoryImplTest {
 
     @Test
     fun `getRecommendedManga calls service and returns nothing if no data`() = runTest {
+        val mockResponse = RecommendedIllustrationsResponse(
+            illustrations = listOf(
+                IllustrationResponse(
+                    id = 1,
+                    title = "Illustration 1",
+                    type = "type1",
+                    imageUrls = ImageUrlsResponse(
+                        squareMediumUrl = "square1",
+                        mediumUrl = "medium1",
+                        largeUrl = "large1",
+                    ),
+                ),
+                IllustrationResponse(
+                    id = 2,
+                    title = "Illustration 2",
+                    type = "type2",
+                    imageUrls = ImageUrlsResponse(
+                        squareMediumUrl = "square2",
+                        mediumUrl = "medium2",
+                        largeUrl = "large2",
+                    ),
+                ),
+            ),
+            contestExists = false,
+            nextUrl = null,
+        )
         `when`(
             homeRemoteDataSource.getRecommendedManga(
                 includeRankingIllustrations = false,
                 includePrivacyPolicy = false,
             ),
-        ).thenReturn(Unit)
+        ).thenReturn(mockResponse.illustrations.map { it.toModel() })
 
         repository.getRecommendedManga(
             includeRankingIllustrations = false,

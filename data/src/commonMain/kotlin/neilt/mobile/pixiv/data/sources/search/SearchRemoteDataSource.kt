@@ -42,6 +42,14 @@ class SearchRemoteDataSource(
         }
     }
 
+    suspend fun getSearchManga(query: String): List<Illustration> {
+        return withContext(Dispatchers.IO) {
+            searchService.fetchSearchIllustrations(mapOf("word" to query)).illustrations
+                .filter { it.type == "manga" }
+                .map { it.toModel() }
+        }
+    }
+
     suspend fun getSearchPredictionTags(query: String): List<Tag> {
         return withContext(Dispatchers.IO) {
             searchService.fetchSearchPredictionTags(query).tags.map { it.toModel() }
