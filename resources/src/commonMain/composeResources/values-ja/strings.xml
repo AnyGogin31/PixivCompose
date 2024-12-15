@@ -1,0 +1,57 @@
+<resources>
+    <!-- ナビゲーションラベル -->
+    <string name="navigation_home">ホーム</string>
+    <string name="navigation_manga">マンガ</string>
+    <string name="navigation_profile">プロフィール</string>
+
+    <!-- トーストメッセージ -->
+    <string name="toast_downloading">ダウンロード中...</string>
+    <string name="toast_download_complete">ダウンロードが完了しました</string>
+
+    <!-- 検索 -->
+    <string name="search_illustrations_placeholder">イラストを検索...</string>
+    <string name="search_manga_placeholder">マンガを検索...</string>
+
+    <!-- エラーメッセージ -->
+    <string name="error_back">戻る</string>
+    <string name="no_illustrations_found">イラストが見つかりません</string>
+    <string name="no_manga_found">マンガが見つかりません</string>
+
+    <!-- ログイン -->
+    <string name="login_title">Pixivでの認証</string>
+    <string name="login_button">Pixivでログイン</string>
+
+    <!-- イラストの詳細 -->
+    <string name="views_and_bookmarks">閲覧数: %1$s、ブックマーク数: %2$s</string>
+    <string name="author_avatar">作者のアバター</string>
+
+    <!-- イラスト項目 -->
+    <string name="illustration_description">イラスト: %1$s</string>
+
+    <!-- プロフィール -->
+    <string name="profile_image_description">プロフィール画像</string>
+    <string name="twitter_handle">Twitter: @%1$s</string>
+    <string name="website_button">ウェブサイト</string>
+    <string name="profile_birth_date">誕生日</string>
+    <string name="profile_region">地域</string>
+    <string name="profile_job">職業</string>
+    <string name="profile_followers">フォロワー</string>
+
+    <!-- 設定 -->
+    <string name="settings_account_title">アカウント</string>
+    <string name="settings_account_subtitle">アカウント情報を管理</string>
+    <string name="settings_appearance_title">外観</string>
+    <string name="settings_appearance_subtitle">テーマやレイアウトを設定</string>
+    <string name="settings_behavior_title">動作</string>
+    <string name="settings_behavior_subtitle">アプリの動作設定を調整</string>
+    <string name="settings_cache_title">キャッシュ</string>
+    <string name="settings_cache_subtitle">保存されたデータを削除または管理</string>
+    <string name="settings_backup_title">バックアップ</string>
+    <string name="settings_backup_subtitle">データのバックアップと復元</string>
+    <string name="settings_analytics_title">アナリティクス</string>
+    <string name="settings_analytics_subtitle">使用状況データの表示と管理</string>
+    <string name="settings_updates_title">アップデート</string>
+    <string name="settings_updates_subtitle">アプリの更新を確認</string>
+    <string name="settings_about_title">アプリについて</string>
+    <string name="settings_about_subtitle">バージョン情報と開発者情報</string>
+</resources>
