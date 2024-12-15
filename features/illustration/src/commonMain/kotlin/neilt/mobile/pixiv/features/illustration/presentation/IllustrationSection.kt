@@ -31,11 +31,15 @@ import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import neilt.mobile.core.navigation.Destination
 import neilt.mobile.pixiv.features.illustration.presentation.details.IllustrationDetailsView
+import neilt.mobile.pixiv.features.illustration.presentation.details.UserDetailView
 
 @Serializable
 data object PixivIllustrationSection : Destination {
     @Serializable
     data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
+
+    @Serializable
+    data class UserDetailScreen(val userId: Int) : Destination
 }
 
 fun NavGraphBuilder.addPixivIllustrationSection() {
@@ -45,6 +49,11 @@ fun NavGraphBuilder.addPixivIllustrationSection() {
         composable<PixivIllustrationSection.IllustrationDetailsScreen> {
             IllustrationDetailsView(
                 illustrationId = it.toRoute<PixivIllustrationSection.IllustrationDetailsScreen>().illustrationId,
+            )
+        }
+        composable<PixivIllustrationSection.UserDetailScreen> {
+            UserDetailView(
+                userId = it.toRoute<PixivIllustrationSection.UserDetailScreen>().userId,
             )
         }
     }

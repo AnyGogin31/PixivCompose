@@ -22,19 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.illustration.di
+package neilt.mobile.pixiv.features.illustration.presentation.details
 
-import neilt.mobile.pixiv.features.illustration.presentation.details.IllustrationDetailsViewModel
-import neilt.mobile.pixiv.features.illustration.presentation.details.UserDetailViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
+import org.koin.compose.viewmodel.koinViewModel
 
-val illustrationFeatureModule = module {
-    viewModelOf(::IllustrationDetailsViewModel)
-    viewModelOf(::UserDetailViewModel)
-
-    includes(platformIllustrationFeatureModule)
+@Composable
+internal fun UserDetailView(
+    userId: Int,
+    viewModel: UserDetailViewModel = koinViewModel(),
+) {
 }
-
-internal expect val platformIllustrationFeatureModule: Module
