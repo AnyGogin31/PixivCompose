@@ -1,7 +1,7 @@
 <resources>
     <!-- Навигационные ярлыки -->
     <string name="navigation_home">Главная</string>
-    <string name="navigation_explore">Обзор</string>
+    <string name="navigation_manga">Манга</string>
     <string name="navigation_profile">Профиль</string>
 
     <!-- Уведомления -->

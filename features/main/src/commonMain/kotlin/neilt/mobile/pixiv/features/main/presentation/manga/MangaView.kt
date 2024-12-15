@@ -22,16 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.di
+package neilt.mobile.pixiv.features.main.presentation.manga
 
-import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
-import neilt.mobile.pixiv.features.main.presentation.manga.MangaViewModel
-import neilt.mobile.pixiv.features.main.presentation.profile.ProfileViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
+import org.koin.compose.viewmodel.koinViewModel
 
-val mainFeatureModule = module {
-    viewModelOf(::HomeViewModel)
-    viewModelOf(::MangaViewModel)
-    viewModelOf(::ProfileViewModel)
+@Composable
+internal fun MangaView(
+    viewModel: MangaViewModel = koinViewModel(),
+) {
 }
