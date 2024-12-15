@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -45,9 +44,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import neilt.mobile.pixiv.resources.Res
-import neilt.mobile.pixiv.resources.search_placeholder
-import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,6 +53,7 @@ fun SearchInput(
     onQueryChange: (String) -> Unit,
     clearFocusAndCollapse: () -> Unit,
     isExpanded: Boolean,
+    placeholder: @Composable () -> Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val isKeyboardVisible by keyboardAsState()
@@ -95,7 +92,7 @@ fun SearchInput(
                 onSearch = onExecuteSearch,
                 expanded = isExpanded,
                 onExpandedChange = {},
-                placeholder = { Text(text = stringResource(Res.string.search_placeholder)) },
+                placeholder = placeholder,
             )
         },
         expanded = isExpanded,

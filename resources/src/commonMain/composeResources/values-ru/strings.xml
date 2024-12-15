@@ -9,11 +9,13 @@
     <string name="toast_download_complete">Загрузка завершена</string>
 
     <!-- Поиск -->
-    <string name="search_placeholder">Искать иллюстрации...</string>
+    <string name="search_illustrations_placeholder">Искать иллюстрации...</string>
+    <string name="search_manga_placeholder">Искать манги...</string>
 
     <!-- Сообщения об ошибках -->
     <string name="error_back">Назад</string>
     <string name="no_illustrations_found">Иллюстрации не найдены</string>
+    <string name="no_manga_found">Манги не найдены</string>
 
     <!-- Авторизация -->
     <string name="login_title">Авторизация через Pixiv</string>

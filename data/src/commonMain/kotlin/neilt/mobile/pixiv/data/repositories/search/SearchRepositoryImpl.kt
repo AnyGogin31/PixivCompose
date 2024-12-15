@@ -37,6 +37,10 @@ class SearchRepositoryImpl(
         return searchRemoteDataSource.getSearchIllustrations(request.keyword)
     }
 
+    override suspend fun getSearchManga(request: SearchIllustrationsRequest): List<Illustration> {
+        return searchRemoteDataSource.getSearchManga(request.keyword)
+    }
+
     override suspend fun getSearchPredictionTags(query: String): List<Tag> {
         return searchRemoteDataSource.getSearchPredictionTags(query)
     }

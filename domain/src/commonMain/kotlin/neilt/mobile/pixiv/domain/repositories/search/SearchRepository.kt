@@ -30,5 +30,6 @@ import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 
 interface SearchRepository {
     suspend fun getSearchIllustrations(request: SearchIllustrationsRequest): List<Illustration>
+    suspend fun getSearchManga(request: SearchIllustrationsRequest): List<Illustration>
     suspend fun getSearchPredictionTags(query: String): List<Tag>
 }

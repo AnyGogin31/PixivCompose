@@ -47,7 +47,8 @@ class HomeRepositoryImpl(
     override suspend fun getRecommendedManga(
         includeRankingIllustrations: Boolean,
         includePrivacyPolicy: Boolean,
-    ) {
+        offset: Int,
+    ): List<Illustration> {
         return homeRemoteDataSource.getRecommendedManga(
             includeRankingIllustrations,
             includePrivacyPolicy,
