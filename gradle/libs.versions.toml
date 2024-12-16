@@ -37,7 +37,7 @@ koin = "4.0.0"
 ktorClientCore = "3.0.2"
 
 # Testing
-junitJupiter = "5.11.3"
+junitJupiter = "5.11.4"
 mockito = "5.14.2"
 mockitoKotlin = "5.4.0"
 
