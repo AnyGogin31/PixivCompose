@@ -29,7 +29,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ImageUrlsResponse(
-    @SerialName("square_medium") val squareMediumUrl: String?,
-    @SerialName("medium") val mediumUrl: String?,
-    @SerialName("large") val largeUrl: String?,
+    @SerialName("square_medium") val squareMediumUrl: String? = null,
+    @SerialName("medium") val mediumUrl: String? = null,
+    @SerialName("large") val largeUrl: String? = null,
+    @SerialName("original") val original: String? = null,
+    @SerialName("original_image_url") val originalImage: String? = null,
+)
+
+@Serializable
+data class RootImageUrlsResponse(
+    @SerialName("image_urls") val imageUrls: ImageUrlsResponse,
 )

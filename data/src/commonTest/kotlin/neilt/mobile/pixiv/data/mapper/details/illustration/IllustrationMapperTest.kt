@@ -55,6 +55,12 @@ class IllustrationMapperTest {
                 TagResponse(name = "tag1", translatedName = "Tag 1"),
                 TagResponse(name = "tag2", translatedName = null),
             ),
+            metaSinglePage = ImageUrlsResponse(
+                squareMediumUrl = null,
+                mediumUrl = null,
+                largeUrl = null,
+            ),
+            metaPages = emptyList(),
             views = 1000,
             bookmarks = 500,
         )

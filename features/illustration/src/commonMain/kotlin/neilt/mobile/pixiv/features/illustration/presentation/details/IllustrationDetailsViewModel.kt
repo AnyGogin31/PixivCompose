@@ -70,14 +70,14 @@ internal class IllustrationDetailsViewModel(
         }
     }
 
-    fun downloadIllustration(url: String?, fileName: String) {
+    fun downloadIllustration(url: String?) {
         if (url.isNullOrEmpty()) {
             return
         }
 
         viewModelScope.launch {
             toastProvider.showToast(getString(Res.string.toast_downloading))
-            illustrationRepository.downloadIllustration(url, fileName)
+            illustrationRepository.downloadIllustration(url, url.substringAfterLast("/"))
             toastProvider.showToast(getString(Res.string.toast_download_complete))
         }
     }

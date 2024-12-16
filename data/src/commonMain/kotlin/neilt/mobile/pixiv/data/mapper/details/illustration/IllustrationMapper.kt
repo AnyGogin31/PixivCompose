@@ -40,6 +40,8 @@ fun IllustrationDetailsResponse.toModel() = IllustrationDetails(
     caption = caption,
     user = user.toModel(),
     tags = tags.map { it.toModel() },
+    metaSinglePage = metaSinglePage.toModel(),
+    metaPages = metaPages.map { it.imageUrls.toModel() },
     views = views,
     bookmarks = bookmarks,
 )

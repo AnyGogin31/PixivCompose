@@ -40,4 +40,6 @@ fun ImageUrlsResponse.toModel() = ImageUrls(
     squareMediumUrl = squareMediumUrl,
     mediumUrl = mediumUrl,
     largeUrl = largeUrl,
+    original = original,
+    originalImage = originalImage,
 )
