@@ -44,7 +44,15 @@ private fun provideImageLoader(context: Context): ImageLoader {
     return ImageLoader.Builder(context)
         .crossfade(true)
         .components {
-            add(Mapper<ImageUrls, String> { data, _ -> data.mediumUrl })
+            add(
+                Mapper<ImageUrls, String> { data, _ ->
+                    data.originalImage
+                        ?: data.original
+                        ?: data.largeUrl
+                        ?: data.mediumUrl
+                        ?: data.squareMediumUrl
+                },
+            )
             add(Mapper<ProfileImageUrls, String> { data, _ -> data.medium })
             add(
                 Interceptor {

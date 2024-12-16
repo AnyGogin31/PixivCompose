@@ -31,6 +31,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,12 +40,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -101,78 +101,94 @@ internal fun IllustrationDetailsView(
 @Composable
 private fun IllustrationDetailsContent(
     illustration: IllustrationDetails,
-    onIllustrationDownload: (url: String?, fileName: String) -> Unit,
+    onIllustrationDownload: (url: String?) -> Unit,
     onProfileClick: (userId: Int) -> Unit = {},
 ) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize(),
+    val isSinglePageEmpty = illustration.metaSinglePage.isEmpty()
+    val imageUrls = if (isSinglePageEmpty) illustration.metaPages else listOf(illustration.metaSinglePage)
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 16.dp),
     ) {
-        AsyncImage(
-            model = illustration.imageUrl,
-            contentDescription = illustration.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
-                .combinedClickable(
-                    onClick = { },
-                    onLongClick = {
-                        onIllustrationDownload(
-                            illustration.imageUrl.largeUrl,
-                            illustration.title,
-                        )
-                    },
-                ),
-            contentScale = ContentScale.Crop,
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Box(
+        items(imageUrls) { image ->
+            AsyncImage(
+                model = image,
+                contentDescription = null,
                 modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)),
-            ) {
-                AsyncImage(
-                    model = illustration.user.profileImageUrl,
-                    contentDescription = stringResource(Res.string.author_avatar),
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .clickable {
-                            onProfileClick(illustration.user.id)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .combinedClickable(
+                        onClick = { },
+                        onLongClick = {
+                            onIllustrationDownload(
+                                image.originalImage ?: image.original,
+                            )
                         },
-                    contentScale = ContentScale.Crop,
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = illustration.user.name, style = MaterialTheme.typography.titleMedium)
+                    ),
+                contentScale = ContentScale.Crop,
+            )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
-        Text(
-            text = stringResource(
-                Res.string.views_and_bookmarks,
-                illustration.views,
-                illustration.bookmarks,
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp),
-            style = MaterialTheme.typography.bodyMedium,
-        )
+        item {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)),
+                ) {
+                    AsyncImage(
+                        model = illustration.user.profileImageUrl,
+                        contentDescription = stringResource(Res.string.author_avatar),
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .clickable {
+                                onProfileClick(illustration.user.id)
+                            },
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = illustration.user.name, style = MaterialTheme.typography.titleMedium)
+            }
+        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(illustration.tags) { tag ->
-                TagChip(tag.name)
+        item {
+            Text(
+                text = stringResource(
+                    Res.string.views_and_bookmarks,
+                    illustration.views,
+                    illustration.bookmarks,
+                ),
+                modifier = Modifier.padding(horizontal = 16.dp),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
+            ) {
+                items(illustration.tags) { tag ->
+                    TagChip(tag.name)
+                }
             }
         }
     }
