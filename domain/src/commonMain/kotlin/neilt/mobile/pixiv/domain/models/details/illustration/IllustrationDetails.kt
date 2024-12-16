@@ -33,6 +33,8 @@ data class IllustrationDetails(
     val caption: String,
     val user: User,
     val tags: List<Tag>,
+    val metaSinglePage: ImageUrls,
+    val metaPages: List<ImageUrls>,
     val views: Int,
     val bookmarks: Int,
 )

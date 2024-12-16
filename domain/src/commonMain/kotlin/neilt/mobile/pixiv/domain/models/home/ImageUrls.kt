@@ -28,4 +28,13 @@ data class ImageUrls(
     val squareMediumUrl: String?,
     val mediumUrl: String?,
     val largeUrl: String?,
-)
+    val original: String?,
+    val originalImage: String?,
+) {
+    fun isEmpty(): Boolean =
+        squareMediumUrl == null &&
+            mediumUrl == null &&
+            largeUrl == null &&
+            original == null &&
+            originalImage == null
+}

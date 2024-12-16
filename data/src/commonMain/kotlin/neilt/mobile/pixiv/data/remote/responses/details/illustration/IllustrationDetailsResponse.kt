@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.data.remote.responses.details.illustration
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import neilt.mobile.pixiv.data.remote.responses.common.ImageUrlsResponse
+import neilt.mobile.pixiv.data.remote.responses.common.RootImageUrlsResponse
 
 @Serializable
 data class IllustrationDetailsResponse(
@@ -36,6 +37,8 @@ data class IllustrationDetailsResponse(
     @SerialName("caption") val caption: String,
     @SerialName("user") val user: UserResponse,
     @SerialName("tags") val tags: List<TagResponse>,
+    @SerialName("meta_single_page") val metaSinglePage: ImageUrlsResponse,
+    @SerialName("meta_pages") val metaPages: List<RootImageUrlsResponse>,
     @SerialName("total_view") val views: Int,
     @SerialName("total_bookmarks") val bookmarks: Int,
 )
