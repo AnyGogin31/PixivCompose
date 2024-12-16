@@ -26,6 +26,7 @@ package neilt.mobile.pixiv.features.illustration.presentation.details
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -89,6 +90,7 @@ internal fun IllustrationDetailsView(
                 IllustrationDetailsContent(
                     illustration = it,
                     onIllustrationDownload = viewModel::downloadIllustration,
+                    onProfileClick = viewModel::onProfileClick,
                 )
             },
         )
@@ -100,6 +102,7 @@ internal fun IllustrationDetailsView(
 private fun IllustrationDetailsContent(
     illustration: IllustrationDetails,
     onIllustrationDownload: (url: String?, fileName: String) -> Unit,
+    onProfileClick: (userId: Int) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -139,7 +142,11 @@ private fun IllustrationDetailsContent(
                 AsyncImage(
                     model = illustration.user.profileImageUrl,
                     contentDescription = stringResource(Res.string.author_avatar),
-                    modifier = Modifier.clip(CircleShape),
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable {
+                            onProfileClick(illustration.user.id)
+                        },
                     contentScale = ContentScale.Crop,
                 )
             }

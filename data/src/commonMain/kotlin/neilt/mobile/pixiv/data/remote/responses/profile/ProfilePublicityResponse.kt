@@ -29,9 +29,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProfilePublicityResponse(
-    @SerialName("gender") val gender: Int,
-    @SerialName("region") val region: Int,
-    @SerialName("birth_day") val birthDay: Int,
-    @SerialName("birth_year") val birthYear: Int,
-    @SerialName("job") val job: Int,
+    @SerialName("gender") val gender: Int?,
+    @SerialName("region") val region: Int?,
+    @SerialName("birth_day") val birthDay: Int?,
+    @SerialName("birth_year") val birthYear: Int?,
+    @SerialName("job") val job: Int?,
 )

@@ -33,11 +33,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
+import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
 import neilt.mobile.pixiv.features.illustration.provider.ToastProvider
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.toast_download_complete
@@ -47,6 +49,7 @@ import org.jetbrains.compose.resources.getString
 internal class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
     private val toastProvider: ToastProvider,
+    private val navigator: Navigator,
 ) : ViewModel() {
     private val _state = MutableStateFlow<ViewState>(LoadingState)
     val state: StateFlow<ViewState> = _state.asStateFlow()
@@ -76,6 +79,12 @@ internal class IllustrationDetailsViewModel(
             toastProvider.showToast(getString(Res.string.toast_downloading))
             illustrationRepository.downloadIllustration(url, fileName)
             toastProvider.showToast(getString(Res.string.toast_download_complete))
+        }
+    }
+
+    fun onProfileClick(userId: Int) {
+        viewModelScope.launch {
+            navigator.navigateTo(PixivIllustrationSection.UserDetailScreen(userId))
         }
     }
 }
