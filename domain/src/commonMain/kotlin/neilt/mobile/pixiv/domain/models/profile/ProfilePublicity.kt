@@ -25,9 +25,9 @@
 package neilt.mobile.pixiv.domain.models.profile
 
 data class ProfilePublicity(
-    val gender: Int,
-    val region: Int,
-    val birthDay: Int,
-    val birthYear: Int,
-    val job: Int,
+    val gender: Int?,
+    val region: Int?,
+    val birthDay: Int?,
+    val birthYear: Int?,
+    val job: Int?,
 )

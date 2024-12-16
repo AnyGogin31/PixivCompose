@@ -25,5 +25,29 @@
 package neilt.mobile.pixiv.features.illustration.presentation.details
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 
-internal class UserDetailViewModel : ViewModel()
+internal class UserDetailViewModel(
+    private val profileRepository: ProfileRepository,
+) : ViewModel() {
+    private val _uiState = MutableStateFlow<ViewState>(LoadingState)
+    val uiState: StateFlow<ViewState> = _uiState
+
+    suspend fun fetchUserDetail(userId: Int) {
+        _uiState.value = LoadingState
+        try {
+            val userDetail = profileRepository.getUserDetail(userId)
+            _uiState.value = LoadedState(data = userDetail)
+        } catch (e: Exception) {
+            _uiState.value = ErrorState(
+                e.message ?: "Error fetching profile",
+            )
+        }
+    }
+}
