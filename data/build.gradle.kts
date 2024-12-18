@@ -10,6 +10,7 @@ kotlin {
             dependencies {
                 implementation(projects.domain)
                 implementation(libs.koin.core)
+                implementation(libs.ktor.client.cio)
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.json)
                 implementation(libs.ktor.client.logging)
@@ -28,7 +29,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.client.okhttp)
                 implementation(libs.sqldelight.driver)
             }
         }

@@ -24,82 +24,12 @@
 
 package neilt.mobile.pixiv.data.di
 
-import android.util.Log
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
-import neilt.mobile.pixiv.data.remote.common.addAuthorizationInterceptor
-import neilt.mobile.pixiv.data.remote.services.auth.AuthService
-import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
-import neilt.mobile.pixiv.data.remote.services.home.HomeService
-import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
-import neilt.mobile.pixiv.data.remote.services.search.SearchService
-import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.domain.provider.AndroidPKCEProvider
 import neilt.mobile.pixiv.domain.provider.PKCEProvider
-import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
-private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
-
-private fun provideHttpClient(
-    baseUrl: String,
-    tokenProvider: TokenProvider? = null,
-): HttpClient {
-    return HttpClient(OkHttp) {
-        install(Logging) {
-            level = LogLevel.ALL
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Log.d("HttpClient", message)
-                }
-            }
-        }
-
-        install(ContentNegotiation) {
-            json(
-                Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                },
-            )
-        }
-
-        defaultRequest {
-            url(baseUrl)
-            headers.apply {
-                addAuthorizationInterceptor(tokenProvider)
-            }
-        }
-    }
-}
-
 internal actual val platformRemoteModule = module {
-    single<TokenProvider> { ActiveUserTokenProvider(authRepository = get()) }
-
-    single(named("OAuthApi")) { provideHttpClient(baseUrl = OAUTH_BASE_URL) }
-    single(named("PixivApi")) {
-        provideHttpClient(
-            baseUrl = PIXIV_BASE_URL,
-            tokenProvider = get(),
-        )
-    }
-
-    single { AuthService(get<HttpClient>(named("OAuthApi"))) }
-    single { HomeService(get<HttpClient>(named("PixivApi"))) }
-    single { SearchService(get<HttpClient>(named("PixivApi"))) }
-    single { ProfileService(get<HttpClient>(named("PixivApi"))) }
-    single { IllustrationService(get<HttpClient>(named("PixivApi"))) }
-
     singleOf(::AndroidPKCEProvider) bind PKCEProvider::class
 }

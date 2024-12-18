@@ -24,14 +24,67 @@
 
 package neilt.mobile.pixiv.data.di
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import neilt.mobile.pixiv.data.remote.common.addAuthorizationInterceptor
+import neilt.mobile.pixiv.data.remote.services.auth.AuthService
+import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
+import neilt.mobile.pixiv.data.remote.services.home.HomeService
+import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
+import neilt.mobile.pixiv.data.remote.services.search.SearchService
+import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.data.sources.auth.AuthRemoteDataSource
 import neilt.mobile.pixiv.data.sources.home.HomeRemoteDataSource
 import neilt.mobile.pixiv.data.sources.illustration.IllustrationRemoteDataSource
 import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
 import neilt.mobile.pixiv.data.sources.search.SearchRemoteDataSource
+import neilt.mobile.pixiv.domain.repositories.auth.TokenProvider
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+
+private const val OAUTH_BASE_URL = "https://oauth.secure.pixiv.net/"
+private const val PIXIV_BASE_URL = "https://app-api.pixiv.net/"
+
+private fun provideHttpClient(
+    baseUrl: String,
+    tokenProvider: TokenProvider? = null,
+): HttpClient {
+    return HttpClient(CIO) {
+        install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    println(message)
+                }
+            }
+            level = LogLevel.ALL
+        }
+
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                },
+            )
+        }
+
+        defaultRequest {
+            url(baseUrl)
+            headers.apply {
+                addAuthorizationInterceptor(tokenProvider)
+            }
+        }
+    }
+}
 
 internal val remoteModule = module {
 
@@ -41,6 +94,22 @@ internal val remoteModule = module {
     singleOf(::IllustrationRemoteDataSource)
     singleOf(::ProfileRemoteDataSource)
     singleOf(::SearchRemoteDataSource)
+
+    single<TokenProvider> { ActiveUserTokenProvider(authRepository = get()) }
+
+    single(named("OAuthApi")) { provideHttpClient(baseUrl = OAUTH_BASE_URL) }
+    single(named("PixivApi")) {
+        provideHttpClient(
+            baseUrl = PIXIV_BASE_URL,
+            tokenProvider = get(),
+        )
+    }
+
+    single { AuthService(get<HttpClient>(named("OAuthApi"))) }
+    single { HomeService(get<HttpClient>(named("PixivApi"))) }
+    single { SearchService(get<HttpClient>(named("PixivApi"))) }
+    single { ProfileService(get<HttpClient>(named("PixivApi"))) }
+    single { IllustrationService(get<HttpClient>(named("PixivApi"))) }
 
     includes(platformRemoteModule)
 }

@@ -15,12 +15,7 @@ kotlin {
                 implementation(projects.resources)
 
                 implementation(libs.coil.compose)
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil.network)
+                implementation(libs.coil.network.ktor)
             }
         }
     }

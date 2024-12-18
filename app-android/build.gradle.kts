@@ -24,7 +24,6 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
-    implementation(libs.coil.network)
 
     // AndroidX
     implementation(libs.android.core.splashscreen)

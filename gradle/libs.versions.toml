@@ -79,7 +79,7 @@ sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-exte
 
 # Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
-coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+coil-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
 
 # Koin
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
@@ -92,7 +92,7 @@ koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmo
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientCore" }
 ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientCore" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientCore" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCore" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCore" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientCore" }
 
