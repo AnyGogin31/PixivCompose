@@ -35,7 +35,6 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import neilt.mobile.pixiv.data.remote.common.addAuthorizationInterceptor
-import neilt.mobile.pixiv.data.remote.common.addPixivHeaders
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
@@ -79,7 +78,6 @@ private fun provideHttpClient(
         defaultRequest {
             url(baseUrl)
             headers.apply {
-                addPixivHeaders()
                 addAuthorizationInterceptor(tokenProvider)
             }
         }
