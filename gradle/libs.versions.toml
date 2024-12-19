@@ -9,7 +9,7 @@ ktlintGradlePlugin = "12.1.1"
 
 # Kotlin
 kotlinCompiler = "1.5.15"
-kotlinCoroutines = "1.9.0"
+kotlinCoroutines = "1.10.0"
 kotlinSerializationJson = "1.7.3"
 
 # Compose
