@@ -22,23 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.features.details.di
 
-import neilt.mobile.core.navigation.di.navigationModule
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.details.di.detailsFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
+import neilt.mobile.pixiv.features.details.provider.AndroidToastProvider
+import neilt.mobile.pixiv.features.details.provider.ToastProvider
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-val pixivModules = listOf(
-    designSystemModule,
-    repositoryModule,
-    authFeatureModule,
-    mainFeatureModule,
-    detailsFeatureModule,
-    settingsFeatureModule,
-    navigationModule,
-    sharedModule,
-)
+internal actual val platformDetailsFeatureModule = module {
+    singleOf(::AndroidToastProvider) bind ToastProvider::class
+}

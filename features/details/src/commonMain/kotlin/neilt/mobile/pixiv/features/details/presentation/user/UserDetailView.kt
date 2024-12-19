@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.profile
+package neilt.mobile.pixiv.features.details.presentation.user
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +39,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -65,23 +65,21 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal fun ProfileView(
-    viewModel: ProfileViewModel = koinViewModel(),
+internal fun UserDetailView(
+    userId: Int,
+    viewModel: UserDetailViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        state.whenState<UserDetail>(
-            onLoading = { LoadingView() },
-            onError = { ErrorView(message = it) },
-            onLoaded = { ProfileContent(userDetail = it) },
-        )
+    LaunchedEffect(userId) {
+        viewModel.fetchUserDetail(userId)
     }
+
+    state.whenState<UserDetail>(
+        onLoading = { LoadingView() },
+        onError = { ErrorView(message = it) },
+        onLoaded = { ProfileContent(userDetail = it) },
+    )
 }
 
 @Composable
@@ -180,7 +178,7 @@ fun ProfileInfoSection(profile: Profile) {
 }
 
 @Composable
-fun ProfileInfoItem(label: String, value: String) {
+private fun ProfileInfoItem(label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

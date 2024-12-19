@@ -43,7 +43,7 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
+import neilt.mobile.pixiv.features.details.presentation.PixivDetailsSection
 import neilt.mobile.pixiv.features.main.presentation.home.Empty
 
 internal class MangaViewModel(
@@ -106,7 +106,7 @@ internal class MangaViewModel(
     fun navigateToMangaDetails(illustrationId: Int) {
         viewModelScope.launch {
             navigator.navigateTo(
-                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId),
+                PixivDetailsSection.IllustrationDetailsScreen(illustrationId),
             )
         }
     }

@@ -13,7 +13,7 @@ kotlin {
                 implementation(projects.core.navigation.navigationImpl)
 
                 implementation(projects.features.auth)
-                implementation(projects.features.illustration)
+                implementation(projects.features.details)
                 implementation(projects.features.main)
                 implementation(projects.features.settings)
 

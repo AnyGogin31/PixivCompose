@@ -51,7 +51,7 @@ import neilt.mobile.pixiv.desingsystem.components.search.CollapsibleSearchInput
 import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
-import neilt.mobile.pixiv.features.illustration.presentation.addPixivIllustrationSection
+import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection

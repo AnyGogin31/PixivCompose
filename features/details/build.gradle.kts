@@ -10,11 +10,9 @@ kotlin {
                 implementation(projects.data)
                 implementation(projects.domain)
 
-                implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation.navigationApi)
+                implementation(projects.core.desingsystem)
                 implementation(projects.core.state)
-
-                implementation(projects.features.details)
 
                 implementation(projects.resources)
 
@@ -31,5 +29,5 @@ kotlin {
 }
 
 android {
-    namespace = "neilt.mobile.pixiv.features.main"
+    namespace = "neilt.mobile.pixiv.features.details"
 }

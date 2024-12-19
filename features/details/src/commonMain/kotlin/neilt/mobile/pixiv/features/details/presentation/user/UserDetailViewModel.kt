@@ -22,23 +22,32 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.features.details.presentation.user
 
-import neilt.mobile.core.navigation.di.navigationModule
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.details.di.detailsFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import neilt.mobile.pixiv.core.state.ErrorState
+import neilt.mobile.pixiv.core.state.LoadedState
+import neilt.mobile.pixiv.core.state.LoadingState
+import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 
-val pixivModules = listOf(
-    designSystemModule,
-    repositoryModule,
-    authFeatureModule,
-    mainFeatureModule,
-    detailsFeatureModule,
-    settingsFeatureModule,
-    navigationModule,
-    sharedModule,
-)
+internal class UserDetailViewModel(
+    private val profileRepository: ProfileRepository,
+) : ViewModel() {
+    private val _uiState = MutableStateFlow<ViewState>(LoadingState)
+    val uiState: StateFlow<ViewState> = _uiState
+
+    suspend fun fetchUserDetail(userId: Int) {
+        _uiState.value = LoadingState
+        try {
+            val userDetail = profileRepository.getUserDetail(userId)
+            _uiState.value = LoadedState(data = userDetail)
+        } catch (e: Exception) {
+            _uiState.value = ErrorState(
+                e.message ?: "Error fetching profile",
+            )
+        }
+    }
+}
