@@ -15,7 +15,6 @@ dependencies {
 
     implementation(projects.features.auth)
     implementation(projects.features.main)
-    implementation(projects.features.root)
 
     implementation(projects.shared)
 
