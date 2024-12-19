@@ -34,7 +34,7 @@ coil = "3.0.4"
 koin = "4.0.0"
 
 # Ktor
-ktorClientCore = "3.0.2"
+ktorClientCore = "3.0.3"
 
 # Testing
 junitJupiter = "5.11.4"
