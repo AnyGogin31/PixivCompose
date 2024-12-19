@@ -7,6 +7,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.core.navigation.navigationApi)
+
+                implementation(libs.koin.core)
             }
         }
 

@@ -28,4 +28,4 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun MainView(modifier: Modifier = Modifier) = PixivMultiplatformApp(modifier = modifier)
+fun MainView(modifier: Modifier = Modifier) = PixivMultiplatformView(modifier = modifier)

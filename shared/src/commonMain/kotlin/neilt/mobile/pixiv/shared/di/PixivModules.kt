@@ -22,26 +22,23 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv
+package neilt.mobile.pixiv.shared.di
 
-import android.app.Application
-import coil3.ImageLoader
-import coil3.SingletonImageLoader
-import neilt.mobile.pixiv.di.appModule
-import neilt.mobile.pixiv.shared.di.pixivModules
-import org.koin.android.ext.android.inject
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import neilt.mobile.core.navigation.di.navigationModule
+import neilt.mobile.pixiv.data.di.repositoryModule
+import neilt.mobile.pixiv.desingsystem.di.designSystemModule
+import neilt.mobile.pixiv.features.auth.di.authFeatureModule
+import neilt.mobile.pixiv.features.illustration.di.illustrationFeatureModule
+import neilt.mobile.pixiv.features.main.di.mainFeatureModule
+import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
 
-class PixivApplication : Application() {
-    private val imageLoader: ImageLoader by inject()
-
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            androidContext(this@PixivApplication)
-            modules(pixivModules + appModule)
-        }
-        SingletonImageLoader.setSafe { imageLoader }
-    }
-}
+val pixivModules = listOf(
+    designSystemModule,
+    repositoryModule,
+    authFeatureModule,
+    mainFeatureModule,
+    illustrationFeatureModule,
+    settingsFeatureModule,
+    navigationModule,
+    sharedModule,
+)

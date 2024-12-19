@@ -60,7 +60,7 @@ class DefaultNavigator : Navigator {
      */
     override suspend fun navigateTo(destination: Destination, navOptions: NavOptions) {
         handleAction(NavigationAction.NavigateTo(destination, navOptions)) {
-            if (!_navigationActions.trySend(it).isSuccess) {
+            if (_navigationActions.trySend(it).isFailure) {
                 throw IllegalStateException("Failed to enqueue navigation action")
             }
         }
@@ -73,7 +73,7 @@ class DefaultNavigator : Navigator {
      */
     override suspend fun navigateUp() {
         handleAction(NavigationAction.NavigateUp) {
-            if (!_navigationActions.trySend(it).isSuccess) {
+            if (_navigationActions.trySend(it).isFailure) {
                 throw IllegalStateException("Failed to enqueue navigate up action")
             }
         }

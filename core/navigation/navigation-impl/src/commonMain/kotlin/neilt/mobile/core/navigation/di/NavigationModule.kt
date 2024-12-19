@@ -22,16 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared
+package neilt.mobile.core.navigation.di
 
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.features.root.di.rootFeatureModule
+import neilt.mobile.core.navigation.DefaultNavigator
+import neilt.mobile.core.navigation.Navigator
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val pixivModules = module {
-
-    includes(
-        designSystemModule,
-        rootFeatureModule,
-    )
+val navigationModule = module {
+    singleOf(::DefaultNavigator) bind Navigator::class
 }

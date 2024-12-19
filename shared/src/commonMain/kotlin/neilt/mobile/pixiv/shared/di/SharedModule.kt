@@ -22,18 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared
+package neilt.mobile.pixiv.shared.di
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.features.root.presentation.RootContent
+import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
 
-@Composable
-internal fun PixivMultiplatformApp(
-    modifier: Modifier = Modifier,
-) {
-    PixivTheme {
-        RootContent(modifier = modifier)
-    }
+val sharedModule = module {
+    viewModelOf(::PixivMultiplatformViewModel)
 }
