@@ -24,28 +24,10 @@
 
 package neilt.mobile.pixiv.shared
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import neilt.mobile.core.navigation.Destination
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.core.navigation.components.NavigationObserver
-import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.desingsystem.components.animation.VerticalSlideVisibility
-import neilt.mobile.pixiv.desingsystem.components.navigation.AsyncNavHost
-import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
-import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
+import neilt.mobile.pixiv.desingsystem.components.scaffold.PixivScaffold
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
@@ -61,93 +43,15 @@ internal fun PixivMultiplatformView(
     PixivTheme {
         PixivScaffold(
             modifier = modifier,
-            navigator = viewModel.navigator,
+            fetchStartDestination = viewModel::computeStartDestination,
+            bottomNavigationTargetSection = PixivMainSection,
             bottomNavigationItems = viewModel.bottomNavigationItems,
-            computeStartDestination = viewModel::computeStartDestination,
-        )
-    }
-}
-
-@Composable
-private fun PixivScaffold(
-    navigator: Navigator,
-    bottomNavigationItems: List<BottomNavigationItem>,
-    modifier: Modifier = Modifier,
-    computeStartDestination: suspend () -> Destination,
-) {
-    val navController = rememberNavController()
-
-    val currentBackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = currentBackEntry?.destination
-
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        content = { innerPadding: PaddingValues ->
-            PixivContent(
-                modifier = Modifier.padding(innerPadding),
-                navController = navController,
-                navigator = navigator,
-                computeStartDestination = computeStartDestination,
-            )
-        },
-        floatingActionButton = {
-            PixivFloatingActionButton(
-                items = bottomNavigationItems,
-                currentDestination = currentDestination,
-            )
-        },
-        bottomBar = {
-            VerticalSlideVisibility(
-                visible = currentDestination.hasDestination<PixivMainSection>(),
-            ) {
-                BottomNavigationBar(
-                    items = bottomNavigationItems,
-                    currentDestination = currentDestination,
-                )
-            }
-        },
-    )
-}
-
-@Composable
-private fun PixivContent(
-    modifier: Modifier = Modifier,
-    navController: NavHostController,
-    navigator: Navigator,
-    computeStartDestination: suspend () -> Destination,
-) {
-    NavigationObserver(
-        navController = navController,
-        navigator = navigator,
-    )
-    AsyncNavHost(
-        modifier = modifier,
-        navController = navController,
-        fetchStartDestination = computeStartDestination,
-    ) {
-        addPixivAuthSection()
-        addPixivMainSection()
-        addPixivIllustrationSection()
-        addPixivSettingsSection()
-    }
-}
-
-@Composable
-private fun PixivFloatingActionButton(
-    modifier: Modifier = Modifier,
-    items: List<BottomNavigationItem>,
-    currentDestination: NavDestination? = null,
-) {
-    val selectedItem = items.firstOrNull { currentDestination.hasDestination(it.destination) }
-    selectedItem?.actionButton?.let { actionButton ->
-        FloatingActionButton(
-            modifier = modifier,
-            onClick = actionButton.onClick,
+            onBottomNavigationItemClick = viewModel::navigateWithPopUp,
         ) {
-            Icon(
-                imageVector = actionButton.icon,
-                contentDescription = null,
-            )
+            addPixivAuthSection()
+            addPixivMainSection()
+            addPixivIllustrationSection()
+            addPixivSettingsSection()
         }
     }
 }

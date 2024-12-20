@@ -54,7 +54,7 @@ import neilt.mobile.pixiv.resources.navigation_profile
 
 internal class PixivMultiplatformViewModel(
     private val authRepository: AuthRepository,
-    val navigator: Navigator,
+    private val navigator: Navigator,
 ) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
@@ -62,22 +62,12 @@ internal class PixivMultiplatformViewModel(
             label = Res.string.navigation_home,
             selectedIcon = PixivIcons.Filled.Home,
             unselectedIcon = PixivIcons.Outlined.Home,
-            onSelect = {
-                viewModelScope.launch {
-                    navigator.navigateTo(it)
-                }
-            },
         ),
         BottomNavigationItem(
             destination = PixivMainSection.MangaScreen,
             label = Res.string.navigation_manga,
             selectedIcon = PixivIcons.Filled.MenuBook,
             unselectedIcon = PixivIcons.Outlined.MenuBook,
-            onSelect = {
-                viewModelScope.launch {
-                    navigator.navigateTo(it)
-                }
-            },
         ),
         BottomNavigationItem(
             destination = PixivMainSection.ProfileScreen,
@@ -92,11 +82,6 @@ internal class PixivMultiplatformViewModel(
                     }
                 },
             ),
-            onSelect = {
-                viewModelScope.launch {
-                    navigator.navigateTo(it)
-                }
-            },
         ),
     )
 
@@ -104,6 +89,18 @@ internal class PixivMultiplatformViewModel(
         return withContext(Dispatchers.IO) {
             val activeUser = authRepository.getActiveUser()
             if (activeUser != null) PixivMainSection else PixivAuthSection
+        }
+    }
+
+    fun navigateWithPopUp(destination: Destination) {
+        viewModelScope.launch {
+            navigator.navigateTo(destination) {
+                popUpTo(destination) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
     }
 }

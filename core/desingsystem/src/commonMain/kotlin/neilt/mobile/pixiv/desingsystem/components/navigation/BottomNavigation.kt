@@ -38,9 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
 import neilt.mobile.core.navigation.Destination
-import neilt.mobile.core.navigation.extensions.hasDestination
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -57,13 +55,13 @@ data class BottomNavigationItem(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val actionButton: NavigationActionButton? = null,
-    val onSelect: (currentDestination: Destination) -> Unit = {},
 )
 
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavigationItem>,
-    currentDestination: NavDestination?,
+    isSelectedItem: (destination: Destination) -> Boolean,
+    onItemSelected: (destination: Destination) -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -76,7 +74,7 @@ fun BottomNavigationBar(
         tonalElevation = tonalElevation,
     ) {
         items.forEach { item ->
-            val isSelected = currentDestination.hasDestination(item.destination)
+            val isSelected = isSelectedItem(item.destination)
 
             NavigationBarItem(
                 icon = {
@@ -94,7 +92,7 @@ fun BottomNavigationBar(
                 },
                 selected = isSelected,
                 onClick = {
-                    if (!isSelected) item.onSelect(item.destination)
+                    if (!isSelected) onItemSelected(item.destination)
                 },
             )
         }

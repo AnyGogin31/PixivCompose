@@ -11,6 +11,7 @@ kotlin {
                 implementation(projects.domain)
 
                 implementation(projects.core.navigation.navigationApi)
+                implementation(projects.core.navigation.navigationImpl)
 
                 implementation(projects.resources)
 
