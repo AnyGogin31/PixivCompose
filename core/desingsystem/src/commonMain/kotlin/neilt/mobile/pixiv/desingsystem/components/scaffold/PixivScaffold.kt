@@ -53,7 +53,7 @@ fun PixivScaffold(
     fetchStartDestination: suspend () -> Destination,
     bottomNavigationTargetSection: Destination,
     bottomNavigationItems: List<BottomNavigationItem>,
-    onBottomNavigationItemClick: (destination: Destination) -> Unit,
+    onBottomNavigationItemClick: (startDestinationId: Int, destination: Destination) -> Unit,
     builder: NavGraphBuilder.() -> Unit,
 ) {
     val navController = rememberNavController()
@@ -76,7 +76,9 @@ fun PixivScaffold(
                 targetSection = bottomNavigationTargetSection,
                 currentDestination = currentDestination,
                 bottomNavigationItems = bottomNavigationItems,
-                onItemSelected = onBottomNavigationItemClick,
+                onItemSelected = {
+                    onBottomNavigationItemClick(navController.graph.startDestinationId, it)
+                },
             )
         },
         floatingActionButton = {

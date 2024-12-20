@@ -92,10 +92,13 @@ internal class PixivMultiplatformViewModel(
         }
     }
 
-    fun navigateWithPopUp(destination: Destination) {
+    fun navigateWithPopUp(
+        startDestinationId: Int,
+        destination: Destination,
+    ) {
         viewModelScope.launch {
             navigator.navigateTo(destination) {
-                popUpTo(destination) {
+                popUpTo(startDestinationId) {
                     saveState = true
                 }
                 launchSingleTop = true
