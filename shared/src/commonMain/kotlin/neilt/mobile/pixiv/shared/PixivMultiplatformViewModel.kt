@@ -32,7 +32,6 @@ import kotlinx.coroutines.launch
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
-import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationItemContent
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 import neilt.mobile.pixiv.desingsystem.icons.filled.Home
 import neilt.mobile.pixiv.desingsystem.icons.filled.MenuBook
@@ -46,17 +45,14 @@ import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_manga
 import neilt.mobile.pixiv.resources.navigation_profile
-import org.jetbrains.compose.resources.stringResource
 
 internal class PixivMultiplatformViewModel(val navigator: Navigator) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
-            content = NavigationItemContent(
-                label = { stringResource(Res.string.navigation_home) },
-                selectedIcon = PixivIcons.Filled.Home,
-                unselectedIcon = PixivIcons.Outlined.Home,
-            ),
+            label = Res.string.navigation_home,
+            selectedIcon = PixivIcons.Filled.Home,
+            unselectedIcon = PixivIcons.Outlined.Home,
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
@@ -65,11 +61,9 @@ internal class PixivMultiplatformViewModel(val navigator: Navigator) : ViewModel
         ),
         BottomNavigationItem(
             destination = PixivMainSection.MangaScreen,
-            content = NavigationItemContent(
-                label = { stringResource(Res.string.navigation_manga) },
-                selectedIcon = PixivIcons.Filled.MenuBook,
-                unselectedIcon = PixivIcons.Outlined.MenuBook,
-            ),
+            label = Res.string.navigation_manga,
+            selectedIcon = PixivIcons.Filled.MenuBook,
+            unselectedIcon = PixivIcons.Outlined.MenuBook,
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
@@ -78,18 +72,16 @@ internal class PixivMultiplatformViewModel(val navigator: Navigator) : ViewModel
         ),
         BottomNavigationItem(
             destination = PixivMainSection.ProfileScreen,
-            content = NavigationItemContent(
-                label = { stringResource(Res.string.navigation_profile) },
-                selectedIcon = PixivIcons.Filled.Profile,
-                unselectedIcon = PixivIcons.Outlined.Profile,
-                actionButton = NavigationActionButton(
-                    icon = Icons.Default.Settings,
-                    onClick = {
-                        viewModelScope.launch {
-                            navigator.navigateTo(PixivSettingsSection)
-                        }
-                    },
-                ),
+            label = Res.string.navigation_profile,
+            selectedIcon = PixivIcons.Filled.Profile,
+            unselectedIcon = PixivIcons.Outlined.Profile,
+            actionButton = NavigationActionButton(
+                icon = Icons.Default.Settings,
+                onClick = {
+                    viewModelScope.launch {
+                        navigator.navigateTo(PixivSettingsSection)
+                    }
+                },
             ),
             onSelect = {
                 viewModelScope.launch {

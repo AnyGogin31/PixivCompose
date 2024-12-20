@@ -131,7 +131,7 @@ private fun PixivFloatingActionButton(
     currentDestination: NavDestination? = null,
 ) {
     val selectedItem = items.firstOrNull { currentDestination.hasDestination(it.destination) }
-    selectedItem?.content?.actionButton?.let { actionButton ->
+    selectedItem?.actionButton?.let { actionButton ->
         FloatingActionButton(
             modifier = modifier,
             onClick = actionButton.onClick,
