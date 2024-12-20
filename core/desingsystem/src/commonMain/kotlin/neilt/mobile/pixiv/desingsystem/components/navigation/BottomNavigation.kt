@@ -63,7 +63,7 @@ data class BottomNavigationItem(
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavigationItem>,
-    currentDestination: NavDestination,
+    currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,

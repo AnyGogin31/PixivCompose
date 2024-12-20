@@ -42,8 +42,9 @@ import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.PixivTheme
+import neilt.mobile.pixiv.desingsystem.components.animation.VerticalSlideVisibility
+import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
-import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
@@ -93,11 +94,14 @@ private fun PixivScaffold(
             )
         },
         bottomBar = {
-            CollapsibleBottomNavigation(
-                items = bottomNavigationItems,
-                currentDestination = currentDestination,
-                targetSection = PixivMainSection,
-            )
+            VerticalSlideVisibility(
+                visible = currentDestination.hasDestination<PixivMainSection>(),
+            ) {
+                BottomNavigationBar(
+                    items = bottomNavigationItems,
+                    currentDestination = currentDestination,
+                )
+            }
         },
     )
 }

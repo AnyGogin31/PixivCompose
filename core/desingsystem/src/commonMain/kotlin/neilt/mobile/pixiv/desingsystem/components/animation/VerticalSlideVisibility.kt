@@ -22,34 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.desingsystem.components.navigation
+package neilt.mobile.pixiv.desingsystem.components.animation
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavDestination
-import neilt.mobile.core.navigation.Destination
-import neilt.mobile.core.navigation.extensions.hasDestination
+import androidx.compose.ui.Modifier
 
 @Composable
-fun CollapsibleBottomNavigation(
-    items: List<BottomNavigationItem>,
-    currentDestination: NavDestination? = null,
-    targetSection: Destination,
-) {
-    AnimatedVisibility(
-        visible = currentDestination.hasDestination(targetSection),
-        enter = fadeIn() + slideInVertically { it },
-        exit = fadeOut() + slideOutVertically { it },
-    ) {
-        currentDestination?.let {
-            BottomNavigationBar(
-                items = items,
-                currentDestination = it,
-            )
-        }
-    }
-}
+fun VerticalSlideVisibility(
+    visible: Boolean,
+    modifier: Modifier = Modifier,
+    slideUp: Boolean = false,
+    content: @Composable AnimatedVisibilityScope.() -> Unit,
+) = AnimatedVisibility(
+    modifier = modifier,
+    visible = visible,
+    enter = fadeIn() + slideInVertically { if (slideUp) -it else it },
+    exit = fadeOut() + slideOutVertically { if (slideUp) -it else it },
+    content = content,
+)
