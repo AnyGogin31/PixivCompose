@@ -31,31 +31,25 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import neilt.mobile.core.navigation.Destination
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.PixivTheme
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.CollapsibleBottomNavigation
-import neilt.mobile.pixiv.desingsystem.components.search.CollapsibleSearchInput
-import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -85,12 +79,6 @@ private fun PixivScaffold(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            PixivTopBar(
-                currentDestination = currentDestination,
-                targetSection = PixivMainSection,
-            )
-        },
         content = { innerPadding: PaddingValues ->
             PixivContent(
                 modifier = Modifier.padding(innerPadding),
@@ -111,20 +99,6 @@ private fun PixivScaffold(
                 targetSection = PixivMainSection,
             )
         },
-    )
-}
-
-@Composable
-private fun PixivTopBar(
-    currentDestination: NavDestination? = null,
-    targetSection: Destination,
-    searchManager: SearchManager = koinInject(),
-) {
-    val searchBehavior by remember { derivedStateOf { searchManager.searchBehavior } }
-    CollapsibleSearchInput(
-        searchBehavior = searchBehavior,
-        currentDestination = currentDestination,
-        targetSection = targetSection,
     )
 }
 

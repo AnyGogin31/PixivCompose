@@ -33,7 +33,6 @@ import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationItemContent
-import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 import neilt.mobile.pixiv.desingsystem.icons.filled.Home
 import neilt.mobile.pixiv.desingsystem.icons.filled.MenuBook
@@ -49,10 +48,7 @@ import neilt.mobile.pixiv.resources.navigation_manga
 import neilt.mobile.pixiv.resources.navigation_profile
 import org.jetbrains.compose.resources.stringResource
 
-internal class PixivMultiplatformViewModel(
-    internal val navigator: Navigator,
-    private val searchManager: SearchManager,
-) : ViewModel() {
+internal class PixivMultiplatformViewModel(val navigator: Navigator) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
@@ -64,7 +60,6 @@ internal class PixivMultiplatformViewModel(
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
-                    searchManager.clearSearchBehavior()
                 }
             },
         ),
@@ -78,7 +73,6 @@ internal class PixivMultiplatformViewModel(
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
-                    searchManager.clearSearchBehavior()
                 }
             },
         ),
@@ -93,7 +87,6 @@ internal class PixivMultiplatformViewModel(
                     onClick = {
                         viewModelScope.launch {
                             navigator.navigateTo(PixivSettingsSection)
-                            searchManager.clearSearchBehavior()
                         }
                     },
                 ),
@@ -101,7 +94,6 @@ internal class PixivMultiplatformViewModel(
             onSelect = {
                 viewModelScope.launch {
                     navigator.navigateTo(it)
-                    searchManager.clearSearchBehavior()
                 }
             },
         ),

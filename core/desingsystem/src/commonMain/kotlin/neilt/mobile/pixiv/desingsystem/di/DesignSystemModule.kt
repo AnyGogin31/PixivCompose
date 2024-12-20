@@ -32,13 +32,9 @@ import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.CachePolicy
 import coil3.request.crossfade
-import neilt.mobile.pixiv.desingsystem.components.search.DefaultSearchManager
-import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.domain.models.home.ImageUrls
 import neilt.mobile.pixiv.domain.models.profile.ProfileImageUrls
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal fun provideImageLoader(context: PlatformContext): ImageLoader {
@@ -74,9 +70,6 @@ internal fun provideImageLoader(context: PlatformContext): ImageLoader {
 }
 
 val designSystemModule = module {
-
-    singleOf(::DefaultSearchManager) bind SearchManager::class
-
     includes(platformDesignSystemModule)
 }
 

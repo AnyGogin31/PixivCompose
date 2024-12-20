@@ -26,7 +26,6 @@ package neilt.mobile.pixiv.features.main.presentation.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,15 +44,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import neilt.mobile.pixiv.desingsystem.components.list.InfiniteScrollLazyVerticalGrid
-import neilt.mobile.pixiv.desingsystem.components.search.SearchBehavior
-import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
@@ -62,9 +58,7 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.illustration_description
 import neilt.mobile.pixiv.resources.no_illustrations_found
-import neilt.mobile.pixiv.resources.search_illustrations_placeholder
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -72,40 +66,6 @@ internal fun HomeView(
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
-    val predictionTags by viewModel.predictionTags.collectAsState(emptyList())
-
-    val focusManager = LocalFocusManager.current
-    val clearFocusAndCollapse: () -> Unit = {
-        focusManager.clearFocus()
-    }
-
-    val illustrationsSearchBehavior = object : SearchBehavior {
-        override val onSearch: (String) -> Unit = {
-            viewModel.searchIllustrations(it)
-            clearFocusAndCollapse()
-            onQueryChange("")
-        }
-        override val onQueryChange: (String) -> Unit = viewModel::fetchTagsPrediction
-        override val clearFocusAndCollapse: () -> Unit = clearFocusAndCollapse
-        override val isExpanded: Boolean = predictionTags.isNotEmpty()
-        override val placeholder: @Composable () -> Unit = {
-            Text(text = stringResource(Res.string.search_illustrations_placeholder))
-        }
-        override val content: @Composable ColumnScope.() -> Unit = {
-            TagsPredictionList(
-                tags = predictionTags,
-                onTagSelected = {
-                    viewModel.searchIllustrations(it)
-                    clearFocusAndCollapse()
-                    onQueryChange("")
-                },
-            )
-        }
-    }
-
-    val searchManager: SearchManager = koinInject()
-    searchManager.updateSearchBehavior(illustrationsSearchBehavior)
 
     state.whenStateExtended<List<Illustration>>(
         onLoading = { LoadingView() },
