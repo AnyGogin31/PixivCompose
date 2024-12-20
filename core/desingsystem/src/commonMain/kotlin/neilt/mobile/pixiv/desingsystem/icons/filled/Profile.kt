@@ -27,7 +27,7 @@ package neilt.mobile.pixiv.desingsystem.icons.filled
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import neilt.mobile.pixiv.desingsystem.icons.IconDefaults.PathFillBrush
+import neilt.mobile.pixiv.desingsystem.icons.PixivIconDefaults.PathFillBrush
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 
 val PixivIcons.Filled.Profile: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
