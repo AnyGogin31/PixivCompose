@@ -28,7 +28,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Destination
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
@@ -39,6 +43,8 @@ import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.MenuBook
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
@@ -46,7 +52,10 @@ import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_manga
 import neilt.mobile.pixiv.resources.navigation_profile
 
-internal class PixivMultiplatformViewModel(val navigator: Navigator) : ViewModel() {
+internal class PixivMultiplatformViewModel(
+    private val authRepository: AuthRepository,
+    val navigator: Navigator,
+) : ViewModel() {
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
@@ -90,4 +99,11 @@ internal class PixivMultiplatformViewModel(val navigator: Navigator) : ViewModel
             },
         ),
     )
+
+    suspend fun computeStartDestination(): Destination {
+        return withContext(Dispatchers.IO) {
+            val activeUser = authRepository.getActiveUser()
+            if (activeUser != null) PixivMainSection else PixivAuthSection
+        }
+    }
 }

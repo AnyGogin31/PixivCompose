@@ -35,17 +35,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import neilt.mobile.core.navigation.Destination
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.core.navigation.components.NavigationObserver
 import neilt.mobile.core.navigation.extensions.hasDestination
 import neilt.mobile.pixiv.desingsystem.PixivTheme
 import neilt.mobile.pixiv.desingsystem.components.animation.VerticalSlideVisibility
+import neilt.mobile.pixiv.desingsystem.components.navigation.AsyncNavHost
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
-import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
@@ -63,6 +63,7 @@ internal fun PixivMultiplatformView(
             modifier = modifier,
             navigator = viewModel.navigator,
             bottomNavigationItems = viewModel.bottomNavigationItems,
+            computeStartDestination = viewModel::computeStartDestination,
         )
     }
 }
@@ -72,6 +73,7 @@ private fun PixivScaffold(
     navigator: Navigator,
     bottomNavigationItems: List<BottomNavigationItem>,
     modifier: Modifier = Modifier,
+    computeStartDestination: suspend () -> Destination,
 ) {
     val navController = rememberNavController()
 
@@ -85,6 +87,7 @@ private fun PixivScaffold(
                 modifier = Modifier.padding(innerPadding),
                 navController = navController,
                 navigator = navigator,
+                computeStartDestination = computeStartDestination,
             )
         },
         floatingActionButton = {
@@ -111,15 +114,16 @@ private fun PixivContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     navigator: Navigator,
+    computeStartDestination: suspend () -> Destination,
 ) {
     NavigationObserver(
         navController = navController,
         navigator = navigator,
     )
-    NavHost(
+    AsyncNavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = PixivAuthSection,
+        fetchStartDestination = computeStartDestination,
     ) {
         addPixivAuthSection()
         addPixivMainSection()

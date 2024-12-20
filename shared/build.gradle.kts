@@ -7,6 +7,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.data)
+                implementation(projects.domain)
 
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation.navigationApi)
