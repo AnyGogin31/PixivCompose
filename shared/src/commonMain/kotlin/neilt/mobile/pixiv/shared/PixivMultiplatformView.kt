@@ -32,6 +32,7 @@ import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
+import neilt.mobile.pixiv.features.search.presentation.addPixivSearchSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -51,6 +52,7 @@ internal fun PixivMultiplatformView(
             addPixivAuthSection()
             addPixivMainSection()
             addPixivIllustrationSection()
+            addPixivSearchSection()
             addPixivSettingsSection()
         }
     }

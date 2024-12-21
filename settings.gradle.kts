@@ -38,6 +38,7 @@ include(":domain")
 include(":features:auth")
 include(":features:details")
 include(":features:main")
+include(":features:search")
 include(":features:settings")
 
 include(":resources")

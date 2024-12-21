@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.neilt.multiplatform.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -11,23 +12,22 @@ kotlin {
 
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.navigation.navigationApi)
-                implementation(projects.core.navigation.navigationImpl)
-
-                implementation(projects.features.auth)
-                implementation(projects.features.details)
-                implementation(projects.features.main)
-                implementation(projects.features.search)
-                implementation(projects.features.settings)
+                implementation(projects.core.state)
 
                 implementation(projects.resources)
 
                 implementation(libs.koin.core)
+                implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
+                implementation(libs.coil.compose)
+
+                implementation(libs.kotlin.coroutines.core)
+                implementation(libs.android.lifecycle.viewmodel)
             }
         }
     }
 }
 
 android {
-    namespace = "neilt.mobile.pixiv.shared"
+    namespace = "neilt.mobile.pixiv.features.search"
 }
