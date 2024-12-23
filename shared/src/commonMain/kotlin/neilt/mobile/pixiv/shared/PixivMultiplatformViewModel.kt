@@ -25,6 +25,7 @@
 package neilt.mobile.pixiv.shared
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import neilt.mobile.core.navigation.Destination
+import neilt.mobile.core.navigation.NavOptions
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
@@ -46,6 +48,8 @@ import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
+import neilt.mobile.pixiv.features.search.presentation.PixivSearchSection
+import neilt.mobile.pixiv.features.search.presentation.explore.ExploreType
 import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
@@ -62,12 +66,34 @@ internal class PixivMultiplatformViewModel(
             label = Res.string.navigation_home,
             selectedIcon = PixivIcons.Filled.Home,
             unselectedIcon = PixivIcons.Outlined.Home,
+            actionButton = NavigationActionButton(
+                icon = Icons.Default.Search,
+                onClick = {
+                    navigateTo(
+                        PixivSearchSection.ExploreScreen(
+                            exploreType = ExploreType.ILLUSTRATION,
+                            query = "",
+                        ),
+                    )
+                },
+            ),
         ),
         BottomNavigationItem(
             destination = PixivMainSection.MangaScreen,
             label = Res.string.navigation_manga,
             selectedIcon = PixivIcons.Filled.MenuBook,
             unselectedIcon = PixivIcons.Outlined.MenuBook,
+            actionButton = NavigationActionButton(
+                icon = Icons.Default.Search,
+                onClick = {
+                    navigateTo(
+                        PixivSearchSection.ExploreScreen(
+                            exploreType = ExploreType.MANGA,
+                            query = "",
+                        ),
+                    )
+                },
+            ),
         ),
         BottomNavigationItem(
             destination = PixivMainSection.ProfileScreen,
@@ -77,9 +103,7 @@ internal class PixivMultiplatformViewModel(
             actionButton = NavigationActionButton(
                 icon = Icons.Default.Settings,
                 onClick = {
-                    viewModelScope.launch {
-                        navigator.navigateTo(PixivSettingsSection)
-                    }
+                    navigateTo(PixivSettingsSection)
                 },
             ),
         ),
@@ -96,14 +120,21 @@ internal class PixivMultiplatformViewModel(
         startDestinationId: Int,
         destination: Destination,
     ) {
-        viewModelScope.launch {
-            navigator.navigateTo(destination) {
-                popUpTo(startDestinationId) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
+        navigateTo(destination) {
+            popUpTo(startDestinationId) {
+                saveState = true
             }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    private fun navigateTo(
+        destination: Destination,
+        navOptions: NavOptions = {},
+    ) {
+        viewModelScope.launch {
+            navigator.navigateTo(destination, navOptions)
         }
     }
 }
