@@ -42,7 +42,7 @@ object Configuration {
 
     object App {
         const val APPLICATION_ID = "neilt.mobile.pixiv"
-        const val VERSION_NAME = "1.1.1"
-        const val VERSION_CODE = 6
+        const val VERSION_NAME = "1.1.2-rc01"
+        const val VERSION_CODE = 7
     }
 }
