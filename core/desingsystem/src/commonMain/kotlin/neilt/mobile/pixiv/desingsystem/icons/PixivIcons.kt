@@ -24,7 +24,15 @@
 
 package neilt.mobile.pixiv.desingsystem.icons
 
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+
 object PixivIcons {
     object Filled
     object Outlined
+}
+
+internal object PixivIconDefaults {
+    val PathFillBrush: Brush = SolidColor(Color.Gray)
 }

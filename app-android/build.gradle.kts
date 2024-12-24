@@ -15,7 +15,6 @@ dependencies {
 
     implementation(projects.features.auth)
     implementation(projects.features.main)
-    implementation(projects.features.root)
 
     implementation(projects.shared)
 
@@ -24,10 +23,6 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
-    implementation(libs.coil.network)
-
-    // AndroidX
-    implementation(libs.android.core.splashscreen)
 }
 
 android {

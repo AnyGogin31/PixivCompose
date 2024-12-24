@@ -11,16 +11,12 @@ kotlin {
                 implementation(projects.domain)
 
                 implementation(projects.core.navigation.navigationApi)
+                implementation(projects.core.navigation.navigationImpl)
 
                 implementation(projects.resources)
 
                 implementation(libs.coil.compose)
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil.network)
+                implementation(libs.coil.network.ktor)
             }
         }
     }

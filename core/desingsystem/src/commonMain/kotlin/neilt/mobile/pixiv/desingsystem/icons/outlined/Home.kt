@@ -27,12 +27,11 @@ package neilt.mobile.pixiv.desingsystem.icons.outlined
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import neilt.mobile.pixiv.desingsystem.icons.IconDefaults.PathFillBrush
+import neilt.mobile.pixiv.desingsystem.icons.PixivIconDefaults.PathFillBrush
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
 
 val PixivIcons.Outlined.Home: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
-        name = "Outlined.Home",
         defaultWidth = 24.dp,
         defaultHeight = 24.dp,
         viewportWidth = 960f,

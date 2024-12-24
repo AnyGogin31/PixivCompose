@@ -24,26 +24,18 @@
 
 package neilt.mobile.pixiv.features.main.presentation.manga
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalFocusManager
-import neilt.mobile.pixiv.desingsystem.components.search.SearchBehavior
-import neilt.mobile.pixiv.desingsystem.components.search.SearchManager
 import neilt.mobile.pixiv.desingsystem.components.views.EmptyView
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.features.main.presentation.home.IllustrationsGallery
-import neilt.mobile.pixiv.features.main.presentation.home.TagsPredictionList
 import neilt.mobile.pixiv.features.main.presentation.home.whenStateExtended
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.no_manga_found
-import neilt.mobile.pixiv.resources.search_manga_placeholder
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -51,40 +43,6 @@ internal fun MangaView(
     viewModel: MangaViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
-    val predictionTags by viewModel.predictionTags.collectAsState(emptyList())
-
-    val focusManager = LocalFocusManager.current
-    val clearFocusAndCollapse: () -> Unit = {
-        focusManager.clearFocus()
-    }
-
-    val illustrationsSearchBehavior = object : SearchBehavior {
-        override val onSearch: (String) -> Unit = {
-            viewModel.searchManga(it)
-            clearFocusAndCollapse()
-            onQueryChange("")
-        }
-        override val onQueryChange: (String) -> Unit = viewModel::fetchTagsPrediction
-        override val clearFocusAndCollapse: () -> Unit = clearFocusAndCollapse
-        override val isExpanded: Boolean = predictionTags.isNotEmpty()
-        override val placeholder: @Composable () -> Unit = {
-            Text(text = stringResource(Res.string.search_manga_placeholder))
-        }
-        override val content: @Composable ColumnScope.() -> Unit = {
-            TagsPredictionList(
-                tags = predictionTags,
-                onTagSelected = {
-                    viewModel.searchManga(it)
-                    clearFocusAndCollapse()
-                    onQueryChange("")
-                },
-            )
-        }
-    }
-
-    val searchManager: SearchManager = koinInject()
-    searchManager.updateSearchBehavior(illustrationsSearchBehavior)
 
     state.whenStateExtended<List<Illustration>>(
         onLoading = { LoadingView() },

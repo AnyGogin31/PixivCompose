@@ -43,7 +43,7 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import neilt.mobile.pixiv.features.illustration.presentation.PixivIllustrationSection
+import neilt.mobile.pixiv.features.details.presentation.PixivDetailsSection
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
@@ -105,7 +105,7 @@ internal class HomeViewModel(
     fun navigateToIllustrationDetails(illustrationId: Int) {
         viewModelScope.launch {
             navigator.navigateTo(
-                PixivIllustrationSection.IllustrationDetailsScreen(illustrationId),
+                PixivDetailsSection.IllustrationDetailsScreen(illustrationId),
             )
         }
     }

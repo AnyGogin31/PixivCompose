@@ -14,7 +14,7 @@ kotlin {
                 implementation(projects.core.navigation.navigationApi)
                 implementation(projects.core.state)
 
-                implementation(projects.features.illustration)
+                implementation(projects.features.details)
 
                 implementation(projects.resources)
 

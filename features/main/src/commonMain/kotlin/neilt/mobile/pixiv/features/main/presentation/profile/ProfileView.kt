@@ -155,19 +155,19 @@ private fun ProfileContent(userDetail: UserDetail) {
 fun ProfileInfoSection(profile: Profile) {
     Column {
         profile.birthDay?.let {
-            neilt.mobile.pixiv.features.illustration.presentation.details.ProfileInfoItem(
+            ProfileInfoItem(
                 label = stringResource(Res.string.profile_birth_date),
                 value = it,
             )
         }
         profile.region?.let {
-            neilt.mobile.pixiv.features.illustration.presentation.details.ProfileInfoItem(
+            ProfileInfoItem(
                 label = stringResource(Res.string.profile_region),
                 value = it,
             )
         }
         profile.job?.let {
-            neilt.mobile.pixiv.features.illustration.presentation.details.ProfileInfoItem(
+            ProfileInfoItem(
                 label = stringResource(Res.string.profile_job),
                 value = it,
             )
