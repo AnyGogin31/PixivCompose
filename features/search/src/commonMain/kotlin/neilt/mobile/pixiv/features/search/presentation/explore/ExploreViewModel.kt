@@ -25,5 +25,45 @@
 package neilt.mobile.pixiv.features.search.presentation.explore
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
+import neilt.mobile.pixiv.features.search.presentation.PixivSearchSection
 
-internal class ExploreViewModel : ViewModel()
+internal class ExploreViewModel(
+    private val searchRepository: SearchRepository,
+    private val navigator: Navigator,
+) : ViewModel() {
+    private val _predictionTags = MutableStateFlow<List<Tag>>(emptyList())
+    val predictionTags: StateFlow<List<Tag>> = _predictionTags
+
+    fun fetchTagsPrediction(query: String) {
+        if (query.isBlank()) {
+            _predictionTags.value = emptyList()
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                _predictionTags.value = searchRepository.getSearchPredictionTags(query)
+            } catch (e: Exception) {
+                _predictionTags.value = emptyList()
+            }
+        }
+    }
+
+    fun search(exploreType: ExploreType, query: String) {
+        viewModelScope.launch {
+            navigator.navigateTo(
+                PixivSearchSection.ResultScreen(
+                    exploreType = exploreType,
+                    keyword = query,
+                ),
+            )
+        }
+    }
+}

@@ -25,9 +25,11 @@
 package neilt.mobile.pixiv.features.search.di
 
 import neilt.mobile.pixiv.features.search.presentation.explore.ExploreViewModel
+import neilt.mobile.pixiv.features.search.presentation.result.ResultViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val searchFeatureModule = module {
     viewModelOf(::ExploreViewModel)
+    viewModelOf(::ResultViewModel)
 }
