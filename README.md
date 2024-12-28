@@ -13,7 +13,7 @@ The project emphasizes modularization, rigorous testing, and clean code practice
 
 ## Current Status
 - **Platform Support**: Android only. While the project is KMP-compatible, iOS support is planned for future updates.
-- **Localization**: Currently available in English, with plans to support multiple languages in upcoming versions.
+- **Localization**: Currently available in English, Russian, and Japanese, with plans to support additional languages in upcoming versions.
 - **Feature Development**: Active development is ongoing with many experimental features being implemented. Refinement and stabilization are scheduled for later stages.
 
 ---
