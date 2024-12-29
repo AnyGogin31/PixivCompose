@@ -15,6 +15,7 @@ kotlin {
                 implementation(projects.core.state)
 
                 implementation(projects.features.details.detailsNavigation)
+                implementation(projects.features.search.searchNavigation)
 
                 implementation(projects.resources)
 
