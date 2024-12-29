@@ -67,7 +67,7 @@ internal fun ResultView(
 
     IllustrationsGallery(
         initialItems = initialItems,
-        onIllustrationSelected = {},
+        onIllustrationSelected = viewModel::navigateToDetailsScreen,
         loadMoreItems = {
             viewModel.loadIllustrations(it, exploreType, keyword)
         },

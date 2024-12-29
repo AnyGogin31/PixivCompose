@@ -41,6 +41,7 @@ import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 import neilt.mobile.pixiv.features.details.PixivDetailsSection
 import neilt.mobile.pixiv.features.details.provider.ToastProvider
+import neilt.mobile.pixiv.features.search.PixivSearchSection
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.toast_download_complete
 import neilt.mobile.pixiv.resources.toast_downloading
@@ -85,6 +86,12 @@ internal class IllustrationDetailsViewModel(
     fun onProfileClick(userId: Int) {
         viewModelScope.launch {
             navigator.navigateTo(PixivDetailsSection.UserDetailScreen(userId))
+        }
+    }
+
+    fun onTagClick(text: String) {
+        viewModelScope.launch {
+            navigator.navigateTo(PixivSearchSection.ResultScreen(0, text))
         }
     }
 }

@@ -25,15 +25,20 @@
 package neilt.mobile.pixiv.features.search.presentation.result
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
+import neilt.mobile.pixiv.features.details.PixivDetailsSection
 
 internal class ResultViewModel(
     private val searchRepository: SearchRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
     suspend fun loadIllustrations(
         offset: Int = 0,
@@ -58,6 +63,12 @@ internal class ResultViewModel(
                 1 -> searchRepository.getSearchManga(request)
                 else -> searchRepository.getSearchManga(request)
             }
+        }
+    }
+
+    fun navigateToDetailsScreen(illustrationId: Int) {
+        viewModelScope.launch {
+            navigator.navigateTo(PixivDetailsSection.IllustrationDetailsScreen(illustrationId))
         }
     }
 }

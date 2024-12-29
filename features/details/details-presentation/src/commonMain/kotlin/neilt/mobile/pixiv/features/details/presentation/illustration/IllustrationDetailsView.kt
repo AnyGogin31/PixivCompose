@@ -91,6 +91,7 @@ internal fun IllustrationDetailsView(
                     illustration = it,
                     onIllustrationDownload = viewModel::downloadIllustration,
                     onProfileClick = viewModel::onProfileClick,
+                    onTagClick = viewModel::onTagClick,
                 )
             },
         )
@@ -103,6 +104,7 @@ private fun IllustrationDetailsContent(
     illustration: IllustrationDetails,
     onIllustrationDownload: (url: String?) -> Unit,
     onProfileClick: (userId: Int) -> Unit = {},
+    onTagClick: (text: String) -> Unit = {},
 ) {
     val isSinglePageEmpty = illustration.metaSinglePage.isEmpty()
     val imageUrls = if (isSinglePageEmpty) illustration.metaPages else listOf(illustration.metaSinglePage)
@@ -187,7 +189,7 @@ private fun IllustrationDetailsContent(
                 modifier = Modifier.padding(horizontal = 16.dp),
             ) {
                 items(illustration.tags) { tag ->
-                    TagChip(tag.name)
+                    TagChip(tag.name, onTagClick)
                 }
             }
         }
@@ -195,9 +197,15 @@ private fun IllustrationDetailsContent(
 }
 
 @Composable
-private fun TagChip(text: String) {
+private fun TagChip(
+    text: String,
+    onClick: (text: String) -> Unit = {},
+) {
     Box(
         modifier = Modifier
+            .clickable {
+                onClick(text)
+            }
             .background(
                 color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(16.dp),
