@@ -28,19 +28,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import kotlinx.serialization.Serializable
-import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.features.details.PixivDetailsSection
 import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationDetailsView
 import neilt.mobile.pixiv.features.details.presentation.user.UserDetailView
-
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
-
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
-}
 
 fun NavGraphBuilder.addPixivIllustrationSection() {
     navigation<PixivDetailsSection>(

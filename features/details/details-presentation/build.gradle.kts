@@ -14,6 +14,8 @@ kotlin {
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.state)
 
+                implementation(projects.features.details.detailsNavigation)
+
                 implementation(projects.resources)
 
                 implementation(libs.koin.core)

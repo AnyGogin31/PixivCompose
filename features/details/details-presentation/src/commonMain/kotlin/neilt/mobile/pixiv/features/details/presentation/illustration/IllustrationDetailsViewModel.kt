@@ -39,7 +39,7 @@ import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
-import neilt.mobile.pixiv.features.details.presentation.PixivDetailsSection
+import neilt.mobile.pixiv.features.details.PixivDetailsSection
 import neilt.mobile.pixiv.features.details.provider.ToastProvider
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.toast_download_complete
