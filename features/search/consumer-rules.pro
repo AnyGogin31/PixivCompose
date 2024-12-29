@@ -1,1 +1,0 @@
--keep enum neilt.mobile.pixiv.features.search.presentation.explore.ExploreType

@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import neilt.mobile.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import neilt.mobile.pixiv.features.search.presentation.PixivSearchSection
+import neilt.mobile.pixiv.features.search.PixivSearchSection
 
 internal class ExploreViewModel(
     private val searchRepository: SearchRepository,
@@ -56,7 +56,7 @@ internal class ExploreViewModel(
         }
     }
 
-    fun search(exploreType: ExploreType, query: String) {
+    fun search(exploreType: Int, query: String) {
         viewModelScope.launch {
             navigator.navigateTo(
                 PixivSearchSection.ResultScreen(

@@ -48,8 +48,7 @@ import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
-import neilt.mobile.pixiv.features.search.presentation.PixivSearchSection
-import neilt.mobile.pixiv.features.search.presentation.explore.ExploreType
+import neilt.mobile.pixiv.features.search.PixivSearchSection
 import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
@@ -71,7 +70,7 @@ internal class PixivMultiplatformViewModel(
                 onClick = {
                     navigateTo(
                         PixivSearchSection.ExploreScreen(
-                            exploreType = ExploreType.ILLUSTRATION,
+                            exploreType = 0,
                             query = "",
                         ),
                     )
@@ -88,7 +87,7 @@ internal class PixivMultiplatformViewModel(
                 onClick = {
                     navigateTo(
                         PixivSearchSection.ExploreScreen(
-                            exploreType = ExploreType.MANGA,
+                            exploreType = 1,
                             query = "",
                         ),
                     )
