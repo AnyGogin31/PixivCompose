@@ -11,8 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
@@ -33,6 +37,7 @@ internal fun ExploreView(
         initialQuery = query.orEmpty(),
         onQueryChange = viewModel::fetchTagsPrediction,
         isExpanded = true,
+        onBack = viewModel::navigateUp,
         content = {
             TagsPredictionList(
                 tags = predictionTags,
@@ -52,6 +57,7 @@ private fun SearchInput(
     initialQuery: String = "",
     onQueryChange: (String) -> Unit,
     isExpanded: Boolean,
+    onBack: () -> Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     var query by rememberSaveable { mutableStateOf(initialQuery) }
@@ -67,12 +73,12 @@ private fun SearchInput(
                 },
                 onSearch = onSearch,
                 expanded = isExpanded,
-                onExpandedChange = {},
+                onExpandedChange = { if (it.not()) onBack() },
                 placeholder = {},
             )
         },
         expanded = isExpanded,
-        onExpandedChange = {},
+        onExpandedChange = { if (it.not()) onBack() },
         content = content,
     )
 }

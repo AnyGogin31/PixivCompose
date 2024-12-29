@@ -66,4 +66,10 @@ internal class ExploreViewModel(
             )
         }
     }
+
+    fun navigateUp() {
+        viewModelScope.launch {
+            navigator.navigateUp()
+        }
+    }
 }
