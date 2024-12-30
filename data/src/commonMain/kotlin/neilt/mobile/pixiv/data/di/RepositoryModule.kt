@@ -34,6 +34,7 @@ import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationR
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -46,4 +47,8 @@ val repositoryModule = module {
     singleOf(::SearchRepositoryImpl) bind SearchRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
     singleOf(::IllustrationRepositoryImpl) bind IllustrationRepository::class
+
+    includes(platformRepositoryModule)
 }
+
+internal expect val platformRepositoryModule: Module
