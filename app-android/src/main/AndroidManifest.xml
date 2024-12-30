@@ -28,6 +28,19 @@
             </intent-filter>
         </activity-alias>
 
+        <activity-alias
+            android:name="neilt.mobile.pixiv.SnowIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_snow"
+            android:roundIcon="@mipmap/ic_launcher_snow"
+            android:targetActivity="neilt.mobile.pixiv.PixivActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <activity
             android:name="neilt.mobile.pixiv.PixivActivity"
             android:exported="true">

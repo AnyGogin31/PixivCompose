@@ -46,6 +46,7 @@ import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.MenuBook
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.domain.repositories.icon.IconRepository
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.search.PixivSearchSection
@@ -57,8 +58,15 @@ import neilt.mobile.pixiv.resources.navigation_profile
 
 internal class PixivMultiplatformViewModel(
     private val authRepository: AuthRepository,
+    private val iconRepository: IconRepository,
     private val navigator: Navigator,
 ) : ViewModel() {
+    init {
+        viewModelScope.launch {
+            iconRepository.updateIconIfNeed()
+        }
+    }
+
     val bottomNavigationItems = listOf(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,

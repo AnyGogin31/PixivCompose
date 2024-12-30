@@ -24,4 +24,5 @@
 
 <resources>
     <color name="ic_launcher_background">#00A147</color>
+    <color name="ic_launcher_background_snow">#3DB7DC</color>
 </resources>
