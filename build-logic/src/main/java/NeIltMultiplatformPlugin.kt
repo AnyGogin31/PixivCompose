@@ -24,7 +24,6 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import neilt.mobile.convention.configureKotlinMultiplatform
-import neilt.mobile.convention.configureLibrary
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
@@ -39,7 +38,6 @@ class NeIltMultiplatformPlugin : NeIltPlugin() {
 
     override fun Project.configureProject() {
         extensions.configure<LibraryExtension> {
-            configureLibrary(this)
             configureKotlinMultiplatform(this)
         }
     }
