@@ -35,22 +35,21 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import neilt.mobile.core.navigation.Destination
-import neilt.mobile.core.navigation.Navigator
-import neilt.mobile.core.navigation.components.NavigationObserver
-import neilt.mobile.core.navigation.extensions.hasDestination
+import neilt.mobile.pixiv.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.extensions.hasDestination
+import neilt.mobile.pixiv.core.navigation.observer.NavigationObserver
 import neilt.mobile.pixiv.desingsystem.components.animation.VerticalSlideVisibility
-import neilt.mobile.pixiv.desingsystem.components.navigation.AsyncNavHost
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationBar
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
-import org.koin.compose.koinInject
+import neilt.mobile.pixiv.desingsystem.foundation.animation.AsyncContent
 
 @Composable
 fun PixivScaffold(
     modifier: Modifier = Modifier,
-    fetchStartDestination: suspend () -> Destination,
+    computeStartDestination: suspend () -> Destination,
     bottomNavigationTargetSection: Destination,
     bottomNavigationItems: List<BottomNavigationItem>,
     onBottomNavigationItemClick: (startDestinationId: Int, destination: Destination) -> Unit,
@@ -67,7 +66,7 @@ fun PixivScaffold(
             PixivScaffoldContent(
                 modifier = Modifier.padding(innerPadding),
                 navController = navController,
-                fetchStartDestination = fetchStartDestination,
+                computeStartDestination = computeStartDestination,
                 builder = builder,
             )
         },
@@ -93,21 +92,23 @@ fun PixivScaffold(
 @Composable
 private fun PixivScaffoldContent(
     navController: NavHostController,
-    fetchStartDestination: suspend () -> Destination,
+    computeStartDestination: suspend () -> Destination,
     modifier: Modifier = Modifier,
-    navigator: Navigator = koinInject(),
     builder: NavGraphBuilder.() -> Unit,
 ) {
     NavigationObserver(
         navController = navController,
-        navigator = navigator,
     )
-    AsyncNavHost(
-        modifier = modifier,
-        navController = navController,
-        fetchStartDestination = fetchStartDestination,
-        builder = builder,
-    )
+    AsyncContent(
+        loadData = computeStartDestination,
+    ) { startDestination ->
+        NavHost(
+            modifier = modifier,
+            navController = navController,
+            startDestination = startDestination,
+            builder = builder,
+        )
+    }
 }
 
 @Composable

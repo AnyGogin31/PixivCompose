@@ -28,8 +28,8 @@ dependencyResolutionManagement {
 include(":app-android")
 
 include(":core:desingsystem")
-include(":core:navigation:navigation-api")
-include(":core:navigation:navigation-impl")
+include(":core:navigation")
+include(":core:router")
 include(":core:state")
 
 include(":data")

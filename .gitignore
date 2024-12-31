@@ -1,28 +1,32 @@
-# Ignore build directories everywhere
-**/build/**
+# Ignore build directories for all modules
+**/build/
+!src/**/build/
 
-# Ignore all .idea directories except some files and directories
-/.idea/*
+# Ignore server-generated files
+server-output/
+
+# Ignore IntelliJ IDEA project files
+.idea
 !.idea/copyright/
 
-# Ignore .kotlin directory
-/.kotlin
-
-# Ignore .iml files
+# Ignore IntelliJ module files
 *.iml
 
-# Ignore Gradle related directories and files
-/.gradle/*
+# Ignore Kotlin-specific cache directories
+.kotlin
 
-# Ignore captures directory
-/captures/
+# Ignore Gradle cache directories
+.gradle
 
-# Ignore external Native Build files and C++ related files
-.externalNativeBuild/
-.cxx/
+# Ignore captured files (e.g., screenshots, recordings)
+captures
 
-# Ignore local properties
+# Ignore C++ and external native build outputs
+.externalNativeBuild
+.cxx
+
+# Ignore local machine-specific properties
 local.properties
 
-# Ignore macOS-specific files
+# Ignore macOS system files
 .DS_Store

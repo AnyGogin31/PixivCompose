@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState

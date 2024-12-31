@@ -10,13 +10,13 @@ dependencies {
     implementation(projects.data)
     implementation(projects.domain)
 
-    implementation(projects.core.desingsystem)
-    implementation(projects.core.navigation.navigationApi)
-
     implementation(projects.features.auth)
     implementation(projects.features.main)
 
     implementation(projects.shared)
+
+    // AndroidX
+    implementation(libs.android.activity)
 
     // Koin
     implementation(libs.koin.android)

@@ -7,7 +7,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.core.navigation.navigationApi)
+                implementation(projects.core.navigation)
             }
         }
     }

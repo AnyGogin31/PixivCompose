@@ -26,6 +26,7 @@ package neilt.mobile.pixiv.shared
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.core.router.Router
 import neilt.mobile.pixiv.desingsystem.PixivTheme
 import neilt.mobile.pixiv.desingsystem.components.scaffold.PixivScaffold
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
@@ -34,17 +35,19 @@ import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import neilt.mobile.pixiv.features.search.presentation.addPixivSearchSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun PixivMultiplatformView(
     modifier: Modifier = Modifier,
+    router: Router = koinInject(),
     viewModel: PixivMultiplatformViewModel = koinViewModel(),
 ) {
     PixivTheme {
         PixivScaffold(
             modifier = modifier,
-            fetchStartDestination = viewModel::computeStartDestination,
+            computeStartDestination = router::computeStartDestination,
             bottomNavigationTargetSection = PixivMainSection,
             bottomNavigationItems = viewModel.bottomNavigationItems,
             onBottomNavigationItemClick = viewModel::navigateWithPopUp,

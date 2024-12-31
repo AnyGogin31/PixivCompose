@@ -28,7 +28,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import kotlinx.serialization.Serializable
-import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Destination
 import neilt.mobile.pixiv.features.settings.presentation.overview.SettingsOverviewView
 
 @Serializable

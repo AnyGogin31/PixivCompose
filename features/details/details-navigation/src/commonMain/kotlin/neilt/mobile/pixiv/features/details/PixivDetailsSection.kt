@@ -25,7 +25,7 @@
 package neilt.mobile.pixiv.features.details
 
 import kotlinx.serialization.Serializable
-import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Destination
 
 @Serializable
 data object PixivDetailsSection : Destination {

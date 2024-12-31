@@ -24,7 +24,8 @@
 
 package neilt.mobile.pixiv.shared.di
 
-import neilt.mobile.core.navigation.di.navigationModule
+import neilt.mobile.pixiv.core.navigation.di.navigationModule
+import neilt.mobile.pixiv.core.router.di.routerModule
 import neilt.mobile.pixiv.data.di.repositoryModule
 import neilt.mobile.pixiv.desingsystem.di.designSystemModule
 import neilt.mobile.pixiv.features.auth.di.authFeatureModule
@@ -35,6 +36,7 @@ import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
 
 val pixivModules = listOf(
     designSystemModule,
+    routerModule,
     repositoryModule,
     authFeatureModule,
     mainFeatureModule,

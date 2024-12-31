@@ -10,8 +10,8 @@ kotlin {
                 implementation(projects.domain)
 
                 implementation(projects.core.desingsystem)
-                implementation(projects.core.navigation.navigationApi)
-                implementation(projects.core.navigation.navigationImpl)
+                implementation(projects.core.navigation)
+                implementation(projects.core.router)
 
                 implementation(projects.features.auth)
                 implementation(projects.features.details.detailsNavigation)
