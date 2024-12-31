@@ -22,16 +22,11 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details
+package neilt.mobile.pixiv.core.navigation
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.pixiv.core.navigation.Destination
+import androidx.navigation.NavOptionsBuilder
 
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
-
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
-}
+/**
+ * Typealias for a lambda function used to configure [NavOptionsBuilder] when navigating.
+ */
+typealias NavOptions = NavOptionsBuilder.() -> Unit

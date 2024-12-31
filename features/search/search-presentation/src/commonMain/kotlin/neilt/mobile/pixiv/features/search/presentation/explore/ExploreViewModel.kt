@@ -29,7 +29,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 import neilt.mobile.pixiv.features.search.PixivSearchSection

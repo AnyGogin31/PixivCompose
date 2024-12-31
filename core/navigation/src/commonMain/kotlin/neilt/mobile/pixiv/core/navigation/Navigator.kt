@@ -22,16 +22,32 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details
+package neilt.mobile.pixiv.core.navigation
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.pixiv.core.navigation.Destination
+import kotlinx.coroutines.flow.Flow
 
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
+/**
+ * Interface for defining navigation behavior within an application.
+ *
+ * This interface provides methods for navigating to a destination or navigating up in the stack,
+ * along with a flow of navigation actions to observe.
+ */
+interface Navigator {
+    /**
+     * A flow of [NavigationAction] events representing navigation actions.
+     */
+    val navigationActions: Flow<NavigationAction>
 
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
+    /**
+     * Navigates to the specified [Destination] with the provided navigation options.
+     *
+     * @param destination The target [Destination] to navigate to.
+     * @param navOptions Additional navigation options for customizing the navigation behavior.
+     */
+    suspend fun navigateTo(destination: Destination, navOptions: NavOptions = {})
+
+    /**
+     * Navigates up in the navigation stack.
+     */
+    suspend fun navigateUp()
 }

@@ -30,9 +30,9 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import neilt.mobile.core.navigation.Destination
-import neilt.mobile.core.navigation.NavOptions
-import neilt.mobile.core.navigation.Navigator
+import neilt.mobile.pixiv.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.NavOptions
+import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons

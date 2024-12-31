@@ -27,7 +27,7 @@ package neilt.mobile.pixiv.core.router.internal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
-import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Destination
 import neilt.mobile.pixiv.core.router.Router
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection

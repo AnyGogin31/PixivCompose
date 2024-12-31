@@ -22,16 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details
+package neilt.mobile.pixiv.core.navigation
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.pixiv.core.navigation.Destination
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
+class NavigationActionTest {
+    object TestDestination : Destination
 
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
+    @Test
+    fun `NavigateTo action has correct destination and options`() {
+        val navOptions: NavOptions = { /* options */ }
+        val action = NavigationAction.NavigateTo(TestDestination, navOptions)
+
+        assertEquals(TestDestination, action.destination)
+        assertEquals(navOptions, action.navOptions)
+    }
+
+    @Test
+    fun `NavigateUp action is created correctly`() {
+        val action = NavigationAction.NavigateUp
+        assertNotNull(action)
+    }
 }

@@ -22,16 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details
+package neilt.mobile.pixiv.core.navigation
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.pixiv.core.navigation.Destination
-
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
-
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
-}
+/**
+ * Marker interface representing a navigation destination.
+ */
+interface Destination

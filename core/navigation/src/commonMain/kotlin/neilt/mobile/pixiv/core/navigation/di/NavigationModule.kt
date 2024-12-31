@@ -22,16 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details
+package neilt.mobile.pixiv.core.navigation.di
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.pixiv.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Navigator
+import neilt.mobile.pixiv.core.navigation.internal.DefaultNavigator
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
-
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
+val navigationModule = module {
+    singleOf(::DefaultNavigator) bind Navigator::class
 }

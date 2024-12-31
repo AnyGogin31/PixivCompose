@@ -24,7 +24,7 @@
 
 package neilt.mobile.pixiv.core.router
 
-import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Destination
 
 interface Router {
     suspend fun computeStartDestination(): Destination

@@ -22,16 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details
+package neilt.mobile.pixiv.core.navigation
 
-import kotlinx.serialization.Serializable
-import neilt.mobile.pixiv.core.navigation.Destination
+/**
+ * Represents navigation actions that can be performed within the navigation system.
+ */
+sealed interface NavigationAction {
+    /**
+     * Navigation action for navigating to a specific [Destination].
+     *
+     * @property destination The target [Destination].
+     * @property navOptions Additional navigation options, if any.
+     */
+    data class NavigateTo(
+        val destination: Destination,
+        val navOptions: NavOptions = {},
+    ) : NavigationAction
 
-@Serializable
-data object PixivDetailsSection : Destination {
-    @Serializable
-    data class IllustrationDetailsScreen(val illustrationId: Int) : Destination
-
-    @Serializable
-    data class UserDetailScreen(val userId: Int) : Destination
+    /**
+     * Navigation action for navigating up in the navigation stack.
+     */
+    data object NavigateUp : NavigationAction
 }

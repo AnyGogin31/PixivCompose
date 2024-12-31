@@ -30,7 +30,7 @@ import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Destination
 import neilt.mobile.pixiv.features.auth.presentation.auth.AuthView
 import neilt.mobile.pixiv.features.auth.presentation.login.LoginView
 
