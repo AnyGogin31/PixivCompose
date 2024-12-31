@@ -22,27 +22,10 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.core.router
 
-import neilt.mobile.core.navigation.di.navigationModule
-import neilt.mobile.pixiv.core.router.di.routerModule
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.details.di.detailsFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.search.di.searchFeatureModule
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
+import neilt.mobile.core.navigation.Destination
 
-val pixivModules = listOf(
-    designSystemModule,
-    routerModule,
-    repositoryModule,
-    authFeatureModule,
-    mainFeatureModule,
-    detailsFeatureModule,
-    searchFeatureModule,
-    settingsFeatureModule,
-    navigationModule,
-    sharedModule,
-)
+interface Router {
+    suspend fun computeStartDestination(): Destination
+}

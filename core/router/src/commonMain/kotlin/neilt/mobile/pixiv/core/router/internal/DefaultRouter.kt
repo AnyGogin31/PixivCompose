@@ -22,27 +22,27 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.core.router.internal
 
-import neilt.mobile.core.navigation.di.navigationModule
-import neilt.mobile.pixiv.core.router.di.routerModule
-import neilt.mobile.pixiv.data.di.repositoryModule
-import neilt.mobile.pixiv.desingsystem.di.designSystemModule
-import neilt.mobile.pixiv.features.auth.di.authFeatureModule
-import neilt.mobile.pixiv.features.details.di.detailsFeatureModule
-import neilt.mobile.pixiv.features.main.di.mainFeatureModule
-import neilt.mobile.pixiv.features.search.di.searchFeatureModule
-import neilt.mobile.pixiv.features.settings.di.settingsFeatureModule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
+import neilt.mobile.core.navigation.Destination
+import neilt.mobile.pixiv.core.router.Router
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.features.auth.presentation.PixivAuthSection
+import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 
-val pixivModules = listOf(
-    designSystemModule,
-    routerModule,
-    repositoryModule,
-    authFeatureModule,
-    mainFeatureModule,
-    detailsFeatureModule,
-    searchFeatureModule,
-    settingsFeatureModule,
-    navigationModule,
-    sharedModule,
-)
+internal class DefaultRouter(
+    private val authRepository: AuthRepository,
+) : Router {
+    override suspend fun computeStartDestination(): Destination {
+        return withContext(Dispatchers.IO) {
+            if (authRepository.getActiveUser() != null) {
+                PixivMainSection
+            } else {
+                PixivAuthSection
+            }
+        }
+    }
+}

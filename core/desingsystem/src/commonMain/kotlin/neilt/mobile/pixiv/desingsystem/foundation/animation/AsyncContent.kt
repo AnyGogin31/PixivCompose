@@ -22,10 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.desingsystem.components.navigation
+package neilt.mobile.pixiv.desingsystem.foundation.animation
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,37 +36,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import neilt.mobile.core.navigation.Destination
 
 @Composable
-fun AsyncNavHost(
-    navController: NavHostController,
-    fetchStartDestination: suspend () -> Destination,
+fun <T> AsyncContent(
+    loadData: suspend () -> T,
     modifier: Modifier = Modifier,
-    builder: NavGraphBuilder.() -> Unit,
+    enterAnimation: EnterTransition = fadeIn(),
+    exitAnimation: ExitTransition = fadeOut(),
+    content: @Composable (T) -> Unit,
 ) {
-    var startDestination by remember {
-        mutableStateOf<Destination?>(null)
-    }
+    var data by remember { mutableStateOf<T?>(null) }
 
     LaunchedEffect(Unit) {
-        startDestination = fetchStartDestination()
+        data = loadData()
     }
 
     AnimatedVisibility(
-        visible = startDestination != null,
-        enter = fadeIn(),
+        visible = data != null,
+        enter = enterAnimation,
+        exit = exitAnimation,
+        modifier = modifier,
     ) {
-        startDestination?.let { destination ->
-            NavHost(
-                navController = navController,
-                startDestination = destination,
-                builder = builder,
-                modifier = modifier,
-            )
+        data?.let {
+            content(it)
         }
     }
 }
