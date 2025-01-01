@@ -36,11 +36,13 @@ import kotlinx.serialization.json.Json
 import neilt.mobile.pixiv.data.remote.common.addAuthorizationInterceptor
 import neilt.mobile.pixiv.data.remote.services.auth.AuthService
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
+import neilt.mobile.pixiv.data.remote.services.github.GitHubService
 import neilt.mobile.pixiv.data.remote.services.home.HomeService
 import neilt.mobile.pixiv.data.remote.services.profile.ProfileService
 import neilt.mobile.pixiv.data.remote.services.search.SearchService
 import neilt.mobile.pixiv.data.repositories.auth.ActiveUserTokenProvider
 import neilt.mobile.pixiv.data.sources.auth.AuthRemoteDataSource
+import neilt.mobile.pixiv.data.sources.github.GitHubRemoteDataSource
 import neilt.mobile.pixiv.data.sources.home.HomeRemoteDataSource
 import neilt.mobile.pixiv.data.sources.illustration.IllustrationRemoteDataSource
 import neilt.mobile.pixiv.data.sources.profile.ProfileRemoteDataSource
@@ -89,7 +91,7 @@ private fun provideHttpClient(
 internal val remoteModule = module {
 
     singleOf(::AuthRemoteDataSource)
-    singleOf(::HomeRemoteDataSource)
+    singleOf(::GitHubRemoteDataSource)
     singleOf(::HomeRemoteDataSource)
     singleOf(::IllustrationRemoteDataSource)
     singleOf(::ProfileRemoteDataSource)
@@ -106,6 +108,7 @@ internal val remoteModule = module {
     }
 
     single { AuthService(get<HttpClient>(named("OAuthApi"))) }
+    singleOf(::GitHubService)
     single { HomeService(get<HttpClient>(named("PixivApi"))) }
     single { SearchService(get<HttpClient>(named("PixivApi"))) }
     single { ProfileService(get<HttpClient>(named("PixivApi"))) }

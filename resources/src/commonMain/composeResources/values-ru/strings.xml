@@ -7,6 +7,7 @@
     <!-- Уведомления -->
     <string name="toast_downloading">Загрузка...</string>
     <string name="toast_download_complete">Загрузка завершена</string>
+    <string name="new_version_available">Доступна новая версия приложения</string>
 
     <!-- Поиск -->
     <string name="search_illustrations_placeholder">Искать иллюстрации...</string>

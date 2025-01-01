@@ -22,17 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.data.remote.responses.github
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
-}
-
-internal expect val platformSharedModule: Module
+@Serializable
+data class GitHubReleaseResponse(
+    @SerialName("tag_name") val tagName: String,
+    @SerialName("name") val name: String? = null,
+    @SerialName("body") val body: String? = null,
+)

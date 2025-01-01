@@ -7,6 +7,7 @@
     <!-- トーストメッセージ -->
     <string name="toast_downloading">ダウンロード中...</string>
     <string name="toast_download_complete">ダウンロードが完了しました</string>
+    <string name="new_version_available">アプリの新しいバージョンが利用可能です</string>
 
     <!-- 検索 -->
     <string name="search_illustrations_placeholder">イラストを検索...</string>

@@ -22,17 +22,10 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.domain.repositories.github
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import neilt.mobile.pixiv.domain.models.github.GitHubRelease
 
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
+interface GitHubRepository {
+    suspend fun getLatestGitHubRelease(): GitHubRelease
 }
-
-internal expect val platformSharedModule: Module

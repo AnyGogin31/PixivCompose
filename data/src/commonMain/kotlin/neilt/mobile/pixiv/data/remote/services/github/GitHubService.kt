@@ -22,17 +22,31 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.data.remote.services.github
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import neilt.mobile.pixiv.data.remote.responses.github.GitHubReleaseResponse
 
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
+class GitHubService {
+    suspend fun fetchLatestGitHubRelease(): GitHubReleaseResponse {
+        val client = HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                    },
+                )
+            }
+        }
+        return client
+            .get("https://api.github.com/repos/AnyGogin31/PixivCompose/releases/latest")
+            .body()
+    }
 }
-
-internal expect val platformSharedModule: Module
