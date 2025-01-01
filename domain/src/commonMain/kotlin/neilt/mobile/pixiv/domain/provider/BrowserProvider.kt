@@ -22,22 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.domain.provider
 
-import neilt.mobile.pixiv.domain.provider.AndroidBrowserProvider
-import neilt.mobile.pixiv.domain.provider.AndroidPKCEProvider
-import neilt.mobile.pixiv.domain.provider.BrowserProvider
-import neilt.mobile.pixiv.domain.provider.PKCEProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.named
-import org.koin.dsl.bind
-import org.koin.dsl.module
-
-internal actual val platformRemoteModule = module {
-    single {
-        AndroidBrowserProvider(
-            context = getOrNull(named("activity")) ?: get(),
-        )
-    } bind BrowserProvider::class
-    singleOf(::AndroidPKCEProvider) bind PKCEProvider::class
+interface BrowserProvider {
+    suspend fun openChromeCustomTabs(url: String)
+    suspend fun openBrowser(url: String)
 }

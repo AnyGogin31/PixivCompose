@@ -25,6 +25,9 @@
 package neilt.mobile.pixiv.features.settings.presentation.overview
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.settings.SettingGroup
 import neilt.mobile.pixiv.desingsystem.components.settings.SettingItem
 import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
@@ -36,6 +39,7 @@ import neilt.mobile.pixiv.desingsystem.icons.filled.ManageAccounts
 import neilt.mobile.pixiv.desingsystem.icons.filled.Palette
 import neilt.mobile.pixiv.desingsystem.icons.filled.Tune
 import neilt.mobile.pixiv.desingsystem.icons.filled.Update
+import neilt.mobile.pixiv.domain.provider.BrowserProvider
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.settings_about_subtitle
 import neilt.mobile.pixiv.resources.settings_about_title
@@ -54,14 +58,20 @@ import neilt.mobile.pixiv.resources.settings_cache_title
 import neilt.mobile.pixiv.resources.settings_updates_subtitle
 import neilt.mobile.pixiv.resources.settings_updates_title
 
-internal class SettingsOverviewViewModel : ViewModel() {
+internal class SettingsOverviewViewModel(
+    private val browserProvider: BrowserProvider,
+    private val navigator: Navigator,
+) : ViewModel() {
     val settingsElements = listOf(
         SettingItem(
             title = Res.string.settings_account_title,
             subtitle = Res.string.settings_account_subtitle,
             icon = PixivIcons.Filled.ManageAccounts,
-            onClick = { /* Open browser with account settings page */ },
-            isEnable = false,
+            onClick = {
+                viewModelScope.launch {
+                    browserProvider.openChromeCustomTabs("https://pixiv.net/settings/account")
+                }
+            },
         ),
         SettingGroup(
             items = listOf(
