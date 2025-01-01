@@ -22,22 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.settings.presentation.overview
+package neilt.mobile.pixiv.features.settings.presentation.backup
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import neilt.mobile.pixiv.desingsystem.components.settings.displaySettingsElements
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal fun SettingsOverviewView(
-    viewModel: SettingsOverviewViewModel = koinViewModel(),
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        displaySettingsElements(viewModel.settingsElements)
-    }
-}
+internal fun BackupView() = Unit

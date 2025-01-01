@@ -22,26 +22,22 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.features.settings.presentation.overview
 
-import neilt.mobile.pixiv.data.provider.AndroidUpdateCheckerProvider
-import neilt.mobile.pixiv.domain.provider.AndroidBrowserProvider
-import neilt.mobile.pixiv.domain.provider.AndroidPKCEProvider
-import neilt.mobile.pixiv.domain.provider.BrowserProvider
-import neilt.mobile.pixiv.domain.provider.PKCEProvider
-import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
-import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.named
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.desingsystem.components.settings.displaySettingsElements
+import org.koin.compose.viewmodel.koinViewModel
 
-internal actual val platformRemoteModule = module {
-    single {
-        AndroidBrowserProvider(
-            context = getOrNull(named("activity")) ?: get(),
-        )
-    } bind BrowserProvider::class
-    singleOf(::AndroidPKCEProvider) bind PKCEProvider::class
-    factoryOf(::AndroidUpdateCheckerProvider) bind UpdateCheckerProvider::class
+@Composable
+internal fun SettingsOverviewView(
+    viewModel: OverviewViewModel = koinViewModel(),
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        displaySettingsElements(viewModel.settingsElements)
+    }
 }

@@ -24,10 +24,12 @@
 
 package neilt.mobile.pixiv.features.settings.di
 
-import neilt.mobile.pixiv.features.settings.presentation.overview.SettingsOverviewViewModel
+import neilt.mobile.pixiv.features.settings.presentation.overview.OverviewViewModel
+import neilt.mobile.pixiv.features.settings.presentation.updates.UpdatesViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val settingsFeatureModule = module {
-    viewModelOf(::SettingsOverviewViewModel)
+    viewModelOf(::OverviewViewModel)
+    viewModelOf(::UpdatesViewModel)
 }

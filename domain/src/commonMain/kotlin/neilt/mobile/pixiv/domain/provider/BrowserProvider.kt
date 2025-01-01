@@ -22,14 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.domain.provider
 
-import neilt.mobile.pixiv.shared.provider.AndroidUpdateCheckerProvider
-import neilt.mobile.pixiv.shared.provider.UpdateCheckerProvider
-import org.koin.core.module.dsl.factoryOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
-
-internal actual val platformSharedModule = module {
-    factoryOf(::AndroidUpdateCheckerProvider) bind UpdateCheckerProvider::class
+interface BrowserProvider {
+    suspend fun openChromeCustomTabs(url: String)
+    suspend fun openBrowser(url: String)
 }

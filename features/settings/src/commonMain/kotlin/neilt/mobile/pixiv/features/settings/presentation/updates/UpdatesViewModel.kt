@@ -22,9 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.features.settings.presentation.updates
 
-import org.koin.core.module.Module
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.domain.provider.BrowserProvider
+import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 
-internal actual val platformSharedModule: Module
-    get() = TODO("Not yet implemented")
+internal class UpdatesViewModel(
+    private val browserProvider: BrowserProvider,
+    private val updateCheckerProvider: UpdateCheckerProvider,
+) : ViewModel() {
+    suspend fun isUpdateAvailable(): Boolean {
+        return updateCheckerProvider.checkAppUpdates(null)
+    }
+
+    fun onUpdateClick() {
+        viewModelScope.launch {
+            browserProvider.openBrowser("https://github.com/AnyGogin31/PixivCompose/releases/latest")
+        }
+    }
+}

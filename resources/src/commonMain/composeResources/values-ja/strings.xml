@@ -55,4 +55,18 @@
     <string name="settings_updates_subtitle">アプリの更新を確認</string>
     <string name="settings_about_title">アプリについて</string>
     <string name="settings_about_subtitle">バージョン情報と開発者情報</string>
+
+    <!-- キャッシュ -->
+    <string name="coil_cache_size_title">Coilキャッシュサイズ:</string>
+    <string name="clear_cache_button">キャッシュをクリア</string>
+
+    <!-- アップデート -->
+    <string name="update_available">アップデートがあります</string>
+    <string name="update_button">最新バージョンに更新</string>
+    <string name="latest_version">最新バージョンがインストールされています</string>
+
+    <!-- について -->
+    <string name="about_app_title">アプリについて</string>
+    <string name="about_source_code_label">ソースコードはGitHubにあります:</string>
+    <string name="about_source_code_link">GitHubリポジトリ</string>
 </resources>

@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.provider
+package neilt.mobile.pixiv.features.settings.presentation.behavior
 
-interface UpdateCheckerProvider {
-    suspend fun checkAppUpdates()
-}
+import androidx.compose.runtime.Composable
+
+@Composable
+internal fun BehaviorView() = Unit

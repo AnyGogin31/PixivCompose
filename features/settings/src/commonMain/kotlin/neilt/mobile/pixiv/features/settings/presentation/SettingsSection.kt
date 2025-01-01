@@ -29,18 +29,53 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import kotlinx.serialization.Serializable
 import neilt.mobile.pixiv.core.navigation.Destination
+import neilt.mobile.pixiv.features.settings.presentation.about.AboutView
+import neilt.mobile.pixiv.features.settings.presentation.analytics.AnalyticsView
+import neilt.mobile.pixiv.features.settings.presentation.appearance.AppearanceView
+import neilt.mobile.pixiv.features.settings.presentation.backup.BackupView
+import neilt.mobile.pixiv.features.settings.presentation.behavior.BehaviorView
+import neilt.mobile.pixiv.features.settings.presentation.cache.CacheView
 import neilt.mobile.pixiv.features.settings.presentation.overview.SettingsOverviewView
+import neilt.mobile.pixiv.features.settings.presentation.updates.UpdatesView
 
 @Serializable
 data object PixivSettingsSection : Destination {
     @Serializable
-    data object SettingsOverviewScreen : Destination
+    data object AboutScreen : Destination
+
+    @Serializable
+    data object AppearanceScreen : Destination
+
+    @Serializable
+    data object AnalyticsScreen : Destination
+
+    @Serializable
+    data object BackupScreen : Destination
+
+    @Serializable
+    data object BehaviorScreen : Destination
+
+    @Serializable
+    data object CacheScreen : Destination
+
+    @Serializable
+    data object OverviewScreen : Destination
+
+    @Serializable
+    data object UpdatesScreen : Destination
 }
 
 fun NavGraphBuilder.addPixivSettingsSection() {
     navigation<PixivSettingsSection>(
-        startDestination = PixivSettingsSection.SettingsOverviewScreen,
+        startDestination = PixivSettingsSection.OverviewScreen,
     ) {
-        composable<PixivSettingsSection.SettingsOverviewScreen> { SettingsOverviewView() }
+        composable<PixivSettingsSection.AboutScreen> { AboutView() }
+        composable<PixivSettingsSection.AppearanceScreen> { AppearanceView() }
+        composable<PixivSettingsSection.AnalyticsScreen> { AnalyticsView() }
+        composable<PixivSettingsSection.BackupScreen> { BackupView() }
+        composable<PixivSettingsSection.BehaviorScreen> { BehaviorView() }
+        composable<PixivSettingsSection.CacheScreen> { CacheView() }
+        composable<PixivSettingsSection.OverviewScreen> { SettingsOverviewView() }
+        composable<PixivSettingsSection.UpdatesScreen> { UpdatesView() }
     }
 }

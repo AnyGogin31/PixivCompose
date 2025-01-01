@@ -4,15 +4,16 @@ plugins {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.android.annotation)
-            }
+        androidMain.dependencies {
+            implementation(libs.android.browser)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
+
+        commonMain.dependencies {
+            implementation(libs.android.annotation)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }

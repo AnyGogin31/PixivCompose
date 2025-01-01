@@ -22,26 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.data.di
+package neilt.mobile.pixiv.features.settings.presentation.appearance
 
-import neilt.mobile.pixiv.data.provider.AndroidUpdateCheckerProvider
-import neilt.mobile.pixiv.domain.provider.AndroidBrowserProvider
-import neilt.mobile.pixiv.domain.provider.AndroidPKCEProvider
-import neilt.mobile.pixiv.domain.provider.BrowserProvider
-import neilt.mobile.pixiv.domain.provider.PKCEProvider
-import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
-import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.named
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
 
-internal actual val platformRemoteModule = module {
-    single {
-        AndroidBrowserProvider(
-            context = getOrNull(named("activity")) ?: get(),
-        )
-    } bind BrowserProvider::class
-    singleOf(::AndroidPKCEProvider) bind PKCEProvider::class
-    factoryOf(::AndroidUpdateCheckerProvider) bind UpdateCheckerProvider::class
-}
+@Composable
+internal fun AppearanceView() = Unit
