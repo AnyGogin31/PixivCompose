@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,17 +46,22 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import dev.icerock.moko.permissions.compose.BindEffect
@@ -64,8 +70,10 @@ import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.author_avatar
+import neilt.mobile.pixiv.resources.illustration_description
 import neilt.mobile.pixiv.resources.views_and_bookmarks
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -87,9 +95,11 @@ internal fun IllustrationDetailsView(
     }
 
     val state by viewModel.state.collectAsState()
+    val relatedItems = remember { mutableStateListOf<Illustration>() }
 
     LaunchedEffect(illustrationId) {
         viewModel.loadIllustration(illustrationId)
+        relatedItems.addAll(viewModel.loadRelatedItems(illustrationId))
     }
 
     Column(
@@ -106,6 +116,8 @@ internal fun IllustrationDetailsView(
                     onIllustrationDownload = viewModel::downloadIllustration,
                     onProfileClick = viewModel::onProfileClick,
                     onTagClick = viewModel::onTagClick,
+                    relatedItems = relatedItems,
+                    onRelatedItemClick = viewModel::onRelatedItemClick,
                 )
             },
         )
@@ -119,6 +131,8 @@ private fun IllustrationDetailsContent(
     onIllustrationDownload: (url: String?) -> Unit,
     onProfileClick: (userId: Int) -> Unit = {},
     onTagClick: (text: String) -> Unit = {},
+    relatedItems: List<Illustration>,
+    onRelatedItemClick: (Int) -> Unit,
 ) {
     val isSinglePageEmpty = illustration.metaSinglePage.isEmpty()
     val imageUrls = if (isSinglePageEmpty) illustration.metaPages else listOf(illustration.metaSinglePage)
@@ -207,6 +221,20 @@ private fun IllustrationDetailsContent(
                 }
             }
         }
+
+        item {
+            Text(
+                text = "Related Illustrations",
+                modifier = Modifier.padding(horizontal = 16.dp),
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
+
+        items(relatedItems) {
+            IllustrationItem(illustration = it) {
+                onRelatedItemClick(it.id)
+            }
+        }
     }
 }
 
@@ -231,5 +259,48 @@ private fun TagChip(
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.secondary,
         )
+    }
+}
+
+@Composable
+private fun IllustrationItem(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(4.dp),
+    illustration: Illustration,
+    onClick: () -> Unit,
+) {
+    val contentDescription = stringResource(Res.string.illustration_description, illustration.title)
+
+    Card(
+        modifier = modifier
+            .padding(contentPadding)
+            .fillMaxWidth()
+            .aspectRatio(.75f)
+            .semantics { this.contentDescription = contentDescription },
+        onClick = onClick,
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            AsyncImage(
+                model = illustration.imageUrls,
+                contentDescription = illustration.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            )
+
+            Text(
+                text = illustration.title,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                softWrap = false,
+            )
+        }
     }
 }

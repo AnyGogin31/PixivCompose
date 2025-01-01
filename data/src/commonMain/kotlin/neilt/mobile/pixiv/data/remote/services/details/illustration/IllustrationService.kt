@@ -32,12 +32,24 @@ import io.ktor.client.request.url
 import io.ktor.http.URLBuilder
 import neilt.mobile.pixiv.data.remote.common.AUTHORIZATION_REQUIRED_HEADER
 import neilt.mobile.pixiv.data.remote.responses.details.illustration.IllustrationDetailsRootResponse
+import neilt.mobile.pixiv.data.remote.responses.related.IllustrationRelatedResponse
 
 class IllustrationService(private val client: HttpClient) {
     suspend fun fetchIllustration(illustrationId: Int): IllustrationDetailsRootResponse {
         return client.get("/v1/illust/detail?filter=for_android") {
             headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
             parameter("illust_id", illustrationId)
+        }.body()
+    }
+
+    suspend fun fetchRelatedIllustrations(
+        illustrationId: Int,
+        offset: Int,
+    ): IllustrationRelatedResponse {
+        return client.get("/v2/illust/related?filter=for_android") {
+            headers.append(AUTHORIZATION_REQUIRED_HEADER, "true")
+            parameter("illust_id", illustrationId)
+//            parameter("offset", offset)
         }.body()
     }
 
