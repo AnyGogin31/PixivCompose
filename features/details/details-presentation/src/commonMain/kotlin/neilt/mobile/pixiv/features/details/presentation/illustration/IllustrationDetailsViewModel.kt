@@ -26,6 +26,8 @@ package neilt.mobile.pixiv.features.details.presentation.illustration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,6 +53,7 @@ internal class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
     private val toastProvider: ToastProvider,
     private val navigator: Navigator,
+    private val controller: PermissionsController,
 ) : ViewModel() {
     private val _state = MutableStateFlow<ViewState>(LoadingState)
     val state: StateFlow<ViewState> = _state.asStateFlow()
@@ -77,9 +80,14 @@ internal class IllustrationDetailsViewModel(
         }
 
         viewModelScope.launch {
-            toastProvider.showToast(getString(Res.string.toast_downloading))
-            illustrationRepository.downloadIllustration(url, url.substringAfterLast("/"))
-            toastProvider.showToast(getString(Res.string.toast_download_complete))
+            try {
+                controller.providePermission(Permission.WRITE_STORAGE)
+                toastProvider.showToast(getString(Res.string.toast_downloading))
+                illustrationRepository.downloadIllustration(url, url.substringAfterLast("/")).getOrThrow()
+                toastProvider.showToast(getString(Res.string.toast_download_complete))
+            } catch (e: Exception) {
+                toastProvider.showToast(e.message ?: "Unknown error")
+            }
         }
     }
 

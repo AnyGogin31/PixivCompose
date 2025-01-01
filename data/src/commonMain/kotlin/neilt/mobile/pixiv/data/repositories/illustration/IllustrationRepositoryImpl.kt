@@ -37,8 +37,8 @@ class IllustrationRepositoryImpl(
         return illustrationRemoteDataSource.getIllustration(illustrationId)
     }
 
-    override suspend fun downloadIllustration(url: String, fileName: String) {
+    override suspend fun downloadIllustration(url: String, fileName: String): Result<Unit> {
         val imageData = illustrationRemoteDataSource.getIllustrationFile(url)
-        illustrationLocalDataSource.saveImageSafely(imageData, fileName)
+        return illustrationLocalDataSource.saveImageSafely(imageData, fileName)
     }
 }

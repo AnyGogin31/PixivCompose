@@ -24,6 +24,9 @@ kotlin {
                 implementation(libs.koin.compose.viewmodel)
                 implementation(libs.coil.compose)
 
+                implementation(libs.moko.permissions)
+                implementation(libs.moko.permissions.compose)
+
                 implementation(libs.kotlin.coroutines.core)
                 implementation(libs.android.lifecycle.viewmodel)
             }
