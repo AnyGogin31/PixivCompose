@@ -28,8 +28,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import neilt.mobile.pixiv.data.mapper.details.illustration.toModel
+import neilt.mobile.pixiv.data.mapper.home.toModel
 import neilt.mobile.pixiv.data.remote.services.details.illustration.IllustrationService
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.domain.models.home.Illustration
 
 class IllustrationRemoteDataSource(
     private val illustrationService: IllustrationService,
@@ -37,6 +39,14 @@ class IllustrationRemoteDataSource(
     suspend fun getIllustration(illustrationId: Int): IllustrationDetails {
         return withContext(Dispatchers.IO) {
             illustrationService.fetchIllustration(illustrationId).illustrationDetails.toModel()
+        }
+    }
+
+    suspend fun getRelatedIllustrations(illustrationId: Int, offset: Int): List<Illustration> {
+        return withContext(Dispatchers.IO) {
+            illustrationService.fetchRelatedIllustrations(illustrationId, offset).illustrations.map {
+                it.toModel()
+            }
         }
     }
 

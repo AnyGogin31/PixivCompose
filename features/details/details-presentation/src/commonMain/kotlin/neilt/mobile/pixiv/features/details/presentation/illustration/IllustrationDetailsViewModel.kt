@@ -39,6 +39,7 @@ import neilt.mobile.pixiv.core.state.ErrorState
 import neilt.mobile.pixiv.core.state.LoadedState
 import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 import neilt.mobile.pixiv.features.details.PixivDetailsSection
 import neilt.mobile.pixiv.features.details.provider.PermissionProvider
@@ -89,6 +90,18 @@ internal class IllustrationDetailsViewModel(
             } catch (e: Exception) {
                 toastProvider.showToast(e.message ?: "Unknown error")
             }
+        }
+    }
+
+    suspend fun loadRelatedItems(illustrationId: Int, offset: Int = 0): List<Illustration> {
+        return withContext(Dispatchers.IO) {
+            illustrationRepository.getRelatedIllustrations(illustrationId, offset)
+        }
+    }
+
+    fun onRelatedItemClick(illustrationId: Int) {
+        viewModelScope.launch {
+            navigator.navigateTo(PixivDetailsSection.IllustrationDetailsScreen(illustrationId))
         }
     }
 

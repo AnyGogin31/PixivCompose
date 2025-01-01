@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.data.repositories.illustration
 import neilt.mobile.pixiv.data.sources.illustration.IllustrationLocalDataSource
 import neilt.mobile.pixiv.data.sources.illustration.IllustrationRemoteDataSource
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 
 class IllustrationRepositoryImpl(
@@ -35,6 +36,10 @@ class IllustrationRepositoryImpl(
 ) : IllustrationRepository {
     override suspend fun getIllustration(illustrationId: Int): IllustrationDetails {
         return illustrationRemoteDataSource.getIllustration(illustrationId)
+    }
+
+    override suspend fun getRelatedIllustrations(illustrationId: Int, offset: Int): List<Illustration> {
+        return illustrationRemoteDataSource.getRelatedIllustrations(illustrationId, offset)
     }
 
     override suspend fun downloadIllustration(url: String, fileName: String): Result<Unit> {

@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.domain.repositories.details.illustration
+package neilt.mobile.pixiv.data.remote.responses.related
 
-import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
-import neilt.mobile.pixiv.domain.models.home.Illustration
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import neilt.mobile.pixiv.data.remote.responses.home.IllustrationResponse
 
-interface IllustrationRepository {
-    suspend fun getIllustration(illustrationId: Int): IllustrationDetails
-    suspend fun getRelatedIllustrations(illustrationId: Int, offset: Int): List<Illustration>
-    suspend fun downloadIllustration(url: String, fileName: String): Result<Unit>
-}
+@Serializable
+data class IllustrationRelatedResponse(
+    @SerialName("illusts") val illustrations: List<IllustrationResponse>,
+)
