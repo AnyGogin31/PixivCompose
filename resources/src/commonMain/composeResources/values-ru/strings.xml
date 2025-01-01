@@ -55,4 +55,8 @@
     <string name="settings_updates_subtitle">Проверить обновления приложения</string>
     <string name="settings_about_title">О приложении</string>
     <string name="settings_about_subtitle">Версия приложения и информация о разработчиках</string>
+
+    <!-- Кэш -->
+    <string name="coil_cache_size_title">Размер кэша Coil:</string>
+    <string name="clear_cache_button">Очистить кэш</string>
 </resources>

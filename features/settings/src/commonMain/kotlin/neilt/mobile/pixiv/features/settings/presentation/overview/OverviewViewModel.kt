@@ -106,7 +106,6 @@ internal class OverviewViewModel(
                     onClick = {
                         navigateTo(PixivSettingsSection.CacheScreen)
                     },
-                    isEnable = false,
                 ),
                 SettingItem(
                     title = Res.string.settings_backup_title,

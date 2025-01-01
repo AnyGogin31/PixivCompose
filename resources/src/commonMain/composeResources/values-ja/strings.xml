@@ -55,4 +55,8 @@
     <string name="settings_updates_subtitle">アプリの更新を確認</string>
     <string name="settings_about_title">アプリについて</string>
     <string name="settings_about_subtitle">バージョン情報と開発者情報</string>
+
+    <!-- キャッシュ -->
+    <string name="coil_cache_size_title">Coilキャッシュサイズ:</string>
+    <string name="clear_cache_button">キャッシュをクリア</string>
 </resources>

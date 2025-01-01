@@ -55,4 +55,8 @@
     <string name="settings_updates_subtitle">Check for app updates</string>
     <string name="settings_about_title">About</string>
     <string name="settings_about_subtitle">App version and developer info</string>
+
+    <!-- Cache -->
+    <string name="coil_cache_size_title">Coil Cache Size:</string>
+    <string name="clear_cache_button">Clear Cache</string>
 </resources>
