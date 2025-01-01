@@ -64,4 +64,9 @@
     <string name="update_available">Update available</string>
     <string name="update_button">Update to the latest version</string>
     <string name="latest_version">You have the latest version installed</string>
+
+    <!-- About -->
+    <string name="about_app_title">About Application</string>
+    <string name="about_source_code_label">You can find the source code on GitHub:</string>
+    <string name="about_source_code_link">GitHub Repository</string>
 </resources>

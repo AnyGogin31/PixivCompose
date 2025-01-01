@@ -144,7 +144,6 @@ internal class OverviewViewModel(
                     onClick = {
                         navigateTo(PixivSettingsSection.AboutScreen)
                     },
-                    isEnable = false,
                 ),
             ),
         ),
