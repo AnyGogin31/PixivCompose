@@ -22,17 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.data.sources.github
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import neilt.mobile.pixiv.data.mapper.github.toModel
+import neilt.mobile.pixiv.data.remote.services.github.GitHubService
+import neilt.mobile.pixiv.domain.models.github.GitHubRelease
 
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
+class GitHubRemoteDataSource(
+    private val gitHubService: GitHubService,
+) {
+    suspend fun getLatestGitHubRelease(): GitHubRelease {
+        return gitHubService.fetchLatestGitHubRelease().toModel()
+    }
 }
-
-internal expect val platformSharedModule: Module

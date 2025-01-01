@@ -7,6 +7,7 @@
     <!-- Toast Messages -->
     <string name="toast_downloading">Downloading...</string>
     <string name="toast_download_complete">Download complete</string>
+    <string name="new_version_available">New version of application available</string>
 
     <!-- Search -->
     <string name="search_illustrations_placeholder">Search illustrations...</string>

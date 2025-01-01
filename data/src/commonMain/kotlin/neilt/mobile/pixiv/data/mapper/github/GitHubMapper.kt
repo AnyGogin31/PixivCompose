@@ -22,17 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.data.mapper.github
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import neilt.mobile.pixiv.data.remote.responses.github.GitHubReleaseResponse
+import neilt.mobile.pixiv.domain.models.github.GitHubRelease
 
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
-}
-
-internal expect val platformSharedModule: Module
+fun GitHubReleaseResponse.toModel() = GitHubRelease(
+    tagName = tagName,
+    name = name,
+    body = body,
+)

@@ -50,14 +50,17 @@ import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_manga
 import neilt.mobile.pixiv.resources.navigation_profile
+import neilt.mobile.pixiv.shared.provider.UpdateCheckerProvider
 
 internal class PixivMultiplatformViewModel(
     private val iconRepository: IconRepository,
+    private val updateCheckerProvider: UpdateCheckerProvider,
     private val navigator: Navigator,
 ) : ViewModel() {
     init {
         viewModelScope.launch {
             iconRepository.updateIconIfNeed()
+            updateCheckerProvider.checkAppUpdates()
         }
     }
 

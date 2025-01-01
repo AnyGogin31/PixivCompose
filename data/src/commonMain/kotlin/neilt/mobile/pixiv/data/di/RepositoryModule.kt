@@ -25,12 +25,14 @@
 package neilt.mobile.pixiv.data.di
 
 import neilt.mobile.pixiv.data.repositories.auth.AuthRepositoryImpl
+import neilt.mobile.pixiv.data.repositories.github.GitHubRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.home.HomeRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.illustration.IllustrationRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.profile.ProfileRepositoryImpl
 import neilt.mobile.pixiv.data.repositories.search.SearchRepositoryImpl
 import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
+import neilt.mobile.pixiv.domain.repositories.github.GitHubRepository
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
@@ -43,6 +45,7 @@ val repositoryModule = module {
     includes(localModule, remoteModule)
 
     singleOf(::AuthRepositoryImpl) bind AuthRepository::class
+    singleOf(::GitHubRepositoryImpl) bind GitHubRepository::class
     singleOf(::HomeRepositoryImpl) bind HomeRepository::class
     singleOf(::SearchRepositoryImpl) bind SearchRepository::class
     singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class

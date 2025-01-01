@@ -24,15 +24,12 @@
 
 package neilt.mobile.pixiv.shared.di
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModelOf
+import neilt.mobile.pixiv.shared.provider.AndroidUpdateCheckerProvider
+import neilt.mobile.pixiv.shared.provider.UpdateCheckerProvider
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
+internal actual val platformSharedModule = module {
+    factoryOf(::AndroidUpdateCheckerProvider) bind UpdateCheckerProvider::class
 }
-
-internal expect val platformSharedModule: Module
