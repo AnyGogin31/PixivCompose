@@ -25,14 +25,9 @@
 package neilt.mobile.pixiv.shared.di
 
 import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val sharedModule = module {
     viewModelOf(::PixivMultiplatformViewModel)
-
-    includes(platformSharedModule)
 }
-
-internal expect val platformSharedModule: Module

@@ -136,7 +136,6 @@ internal class OverviewViewModel(
                     onClick = {
                         navigateTo(PixivSettingsSection.UpdatesScreen)
                     },
-                    isEnable = false,
                 ),
                 SettingItem(
                     title = Res.string.settings_about_title,

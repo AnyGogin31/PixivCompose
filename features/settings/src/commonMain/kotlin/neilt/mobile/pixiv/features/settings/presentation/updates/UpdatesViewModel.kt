@@ -22,8 +22,25 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.provider
+package neilt.mobile.pixiv.features.settings.presentation.updates
 
-interface UpdateCheckerProvider {
-    suspend fun checkAppUpdates()
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.domain.provider.BrowserProvider
+import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
+
+internal class UpdatesViewModel(
+    private val browserProvider: BrowserProvider,
+    private val updateCheckerProvider: UpdateCheckerProvider,
+) : ViewModel() {
+    suspend fun isUpdateAvailable(): Boolean {
+        return updateCheckerProvider.checkAppUpdates(null)
+    }
+
+    fun onUpdateClick() {
+        viewModelScope.launch {
+            browserProvider.openBrowser("https://github.com/AnyGogin31/PixivCompose/releases/latest")
+        }
+    }
 }

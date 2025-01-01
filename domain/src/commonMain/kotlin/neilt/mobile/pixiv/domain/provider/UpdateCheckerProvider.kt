@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.domain.provider
 
-import org.koin.core.module.Module
-
-internal actual val platformSharedModule: Module
-    get() = TODO("Not yet implemented")
+interface UpdateCheckerProvider {
+    suspend fun checkAppUpdates(newVersionAvailableMessage: String?): Boolean
+}

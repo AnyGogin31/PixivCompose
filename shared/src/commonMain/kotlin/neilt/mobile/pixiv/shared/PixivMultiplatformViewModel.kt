@@ -42,6 +42,7 @@ import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
 import neilt.mobile.pixiv.desingsystem.icons.outlined.MenuBook
 import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
+import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 import neilt.mobile.pixiv.domain.repositories.icon.IconRepository
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.search.PixivSearchSection
@@ -50,7 +51,8 @@ import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_manga
 import neilt.mobile.pixiv.resources.navigation_profile
-import neilt.mobile.pixiv.shared.provider.UpdateCheckerProvider
+import neilt.mobile.pixiv.resources.new_version_available
+import org.jetbrains.compose.resources.getString
 
 internal class PixivMultiplatformViewModel(
     private val iconRepository: IconRepository,
@@ -60,7 +62,7 @@ internal class PixivMultiplatformViewModel(
     init {
         viewModelScope.launch {
             iconRepository.updateIconIfNeed()
-            updateCheckerProvider.checkAppUpdates()
+            updateCheckerProvider.checkAppUpdates(getString(Res.string.new_version_available))
         }
     }
 

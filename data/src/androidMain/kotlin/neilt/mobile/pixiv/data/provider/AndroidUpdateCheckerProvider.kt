@@ -22,32 +22,35 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.provider
+package neilt.mobile.pixiv.data.provider
 
 import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
+import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 import neilt.mobile.pixiv.domain.repositories.github.GitHubRepository
-import neilt.mobile.pixiv.resources.Res
-import neilt.mobile.pixiv.resources.new_version_available
-import org.jetbrains.compose.resources.getString
 import java.util.regex.Pattern
 
 class AndroidUpdateCheckerProvider(
     private val context: Context,
     private val gitHubRepository: GitHubRepository,
 ) : UpdateCheckerProvider {
-    override suspend fun checkAppUpdates() {
-        try {
+    override suspend fun checkAppUpdates(newVersionAvailableMessage: String?): Boolean {
+        return try {
             val latestRelease = gitHubRepository.getLatestGitHubRelease().tagName
             val currentVersion = getAppVersionFromManifest() ?: throw Exception()
 
             val formattedLatestVersion = formatVersion(latestRelease)
             if (isUpdateAvailable(currentVersion, formattedLatestVersion)) {
-                Toast.makeText(context, getString(Res.string.new_version_available), Toast.LENGTH_SHORT).show()
+                newVersionAvailableMessage?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+                return true
             }
+            false
         } catch (e: Exception) {
             e.printStackTrace()
+            false
         }
     }
 
