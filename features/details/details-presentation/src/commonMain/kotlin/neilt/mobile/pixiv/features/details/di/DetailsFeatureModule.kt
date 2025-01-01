@@ -38,6 +38,7 @@ val detailsFeatureModule = module {
             illustrationRepository = get(),
             toastProvider = get(),
             navigator = get(),
+            permissionProvider = get(),
             controller = controller,
         )
     }

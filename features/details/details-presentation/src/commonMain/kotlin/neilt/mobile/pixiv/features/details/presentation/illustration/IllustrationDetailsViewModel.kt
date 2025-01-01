@@ -26,7 +26,6 @@ package neilt.mobile.pixiv.features.details.presentation.illustration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -42,6 +41,7 @@ import neilt.mobile.pixiv.core.state.LoadingState
 import neilt.mobile.pixiv.core.state.ViewState
 import neilt.mobile.pixiv.domain.repositories.details.illustration.IllustrationRepository
 import neilt.mobile.pixiv.features.details.PixivDetailsSection
+import neilt.mobile.pixiv.features.details.provider.PermissionProvider
 import neilt.mobile.pixiv.features.details.provider.ToastProvider
 import neilt.mobile.pixiv.features.search.PixivSearchSection
 import neilt.mobile.pixiv.resources.Res
@@ -53,6 +53,7 @@ internal class IllustrationDetailsViewModel(
     private val illustrationRepository: IllustrationRepository,
     private val toastProvider: ToastProvider,
     private val navigator: Navigator,
+    private val permissionProvider: PermissionProvider,
     private val controller: PermissionsController,
 ) : ViewModel() {
     private val _state = MutableStateFlow<ViewState>(LoadingState)
@@ -81,7 +82,7 @@ internal class IllustrationDetailsViewModel(
 
         viewModelScope.launch {
             try {
-                controller.providePermission(Permission.WRITE_STORAGE)
+                permissionProvider.checkWriteStoragePermission(controller)
                 toastProvider.showToast(getString(Res.string.toast_downloading))
                 illustrationRepository.downloadIllustration(url, url.substringAfterLast("/")).getOrThrow()
                 toastProvider.showToast(getString(Res.string.toast_download_complete))

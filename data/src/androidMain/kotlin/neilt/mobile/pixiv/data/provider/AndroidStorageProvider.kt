@@ -26,9 +26,9 @@ package neilt.mobile.pixiv.data.provider
 
 import android.content.ContentValues
 import android.content.Context
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import java.io.File
 import java.io.IOException
 
 class AndroidStorageProvider(private val context: Context) : StorageProvider {
@@ -38,30 +38,39 @@ class AndroidStorageProvider(private val context: Context) : StorageProvider {
     }
 
     override fun uploadImage(image: ByteArray, fileName: String) {
-        if (!isExternalStorageWritable()) {
-            throw IOException("External storage is not writable.")
+        val normalizedImageName = normalizeFileName(fileName)
+        val imageCollection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         }
 
-        val normalizedImageName = normalizeFileName(fileName)
-        val picturesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val newImageFile = File(picturesDirectory, normalizedImageName)
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, normalizedImageName)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                put(MediaStore.Images.Media.IS_PENDING, 1)
+                put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            }
+        }
+
+        val resolver = context.contentResolver
+        val imageUri = resolver.insert(imageCollection, contentValues)
+            ?: throw IOException("Failed to create media store record.")
 
         try {
-            newImageFile.outputStream().use { fileOutputStream ->
-                fileOutputStream.write(image)
+            resolver.openOutputStream(imageUri)?.use { outputStream ->
+                outputStream.write(image)
             }
-            scanMedia(newImageFile)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                contentValues.clear()
+                contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+                resolver.update(imageUri, contentValues, null, null)
+            }
         } catch (ioException: IOException) {
+            resolver.delete(imageUri, null, null)
             throw IOException("Failed to save image file: ${ioException.message}", ioException)
         }
-    }
-
-    private fun scanMedia(imageFile: File) {
-        val values = ContentValues().apply {
-            put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-        }
-        context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
     }
 
     private fun normalizeFileName(fileName: String): String {
@@ -74,9 +83,5 @@ class AndroidStorageProvider(private val context: Context) : StorageProvider {
         normalizedFileName = nameWithoutExtension.take(MAX_FILENAME_LENGTH) + extension
 
         return normalizedFileName
-    }
-
-    private fun isExternalStorageWritable(): Boolean {
-        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
     }
 }

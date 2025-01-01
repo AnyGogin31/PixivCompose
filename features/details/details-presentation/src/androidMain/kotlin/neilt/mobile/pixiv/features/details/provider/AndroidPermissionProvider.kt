@@ -22,17 +22,16 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.di
+package neilt.mobile.pixiv.features.details.provider
 
-import neilt.mobile.pixiv.features.details.provider.AndroidPermissionProvider
-import neilt.mobile.pixiv.features.details.provider.AndroidToastProvider
-import neilt.mobile.pixiv.features.details.provider.PermissionProvider
-import neilt.mobile.pixiv.features.details.provider.ToastProvider
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import android.os.Build
+import dev.icerock.moko.permissions.Permission
+import dev.icerock.moko.permissions.PermissionsController
 
-internal actual val platformDetailsFeatureModule = module {
-    singleOf(::AndroidPermissionProvider) bind PermissionProvider::class
-    singleOf(::AndroidToastProvider) bind ToastProvider::class
+class AndroidPermissionProvider : PermissionProvider {
+    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            controller.providePermission(Permission.WRITE_STORAGE)
+        }
+    }
 }
