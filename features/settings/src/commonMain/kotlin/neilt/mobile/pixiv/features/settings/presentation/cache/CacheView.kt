@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.settings.di
+package neilt.mobile.pixiv.features.settings.presentation.cache
 
-import neilt.mobile.pixiv.features.settings.presentation.overview.OverviewViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
 
-val settingsFeatureModule = module {
-    viewModelOf(::OverviewViewModel)
-}
+@Composable
+internal fun CacheView() = Unit

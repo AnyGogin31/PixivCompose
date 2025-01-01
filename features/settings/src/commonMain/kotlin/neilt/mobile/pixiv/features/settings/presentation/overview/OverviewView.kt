@@ -22,12 +22,22 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.settings.di
+package neilt.mobile.pixiv.features.settings.presentation.overview
 
-import neilt.mobile.pixiv.features.settings.presentation.overview.OverviewViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.desingsystem.components.settings.displaySettingsElements
+import org.koin.compose.viewmodel.koinViewModel
 
-val settingsFeatureModule = module {
-    viewModelOf(::OverviewViewModel)
+@Composable
+internal fun SettingsOverviewView(
+    viewModel: OverviewViewModel = koinViewModel(),
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        displaySettingsElements(viewModel.settingsElements)
+    }
 }
