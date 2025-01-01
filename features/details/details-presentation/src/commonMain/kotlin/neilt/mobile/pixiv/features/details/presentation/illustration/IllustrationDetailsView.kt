@@ -51,12 +51,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
@@ -66,12 +69,23 @@ import neilt.mobile.pixiv.resources.author_avatar
 import neilt.mobile.pixiv.resources.views_and_bookmarks
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun IllustrationDetailsView(
     illustrationId: Int,
-    viewModel: IllustrationDetailsViewModel = koinViewModel(),
 ) {
+    val factory = rememberPermissionsControllerFactory()
+    val controller = remember(factory) {
+        factory.createPermissionsController()
+    }
+
+    BindEffect(controller)
+
+    val viewModel: IllustrationDetailsViewModel = koinViewModel {
+        parametersOf(controller)
+    }
+
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(illustrationId) {

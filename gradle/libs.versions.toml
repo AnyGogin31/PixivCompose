@@ -36,6 +36,9 @@ koin = "4.0.1"
 # Ktor
 ktorClientCore = "3.0.3"
 
+# Moko
+mokoPermissions = "0.18.1"
+
 # Testing
 junitJupiter = "5.11.4"
 mockito = "5.14.2"
@@ -101,6 +104,10 @@ kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.re
 kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
+
+# Moko
+moko-permissions = { group = "dev.icerock.moko", name = "permissions", version.ref = "mokoPermissions" }
+moko-permissions-compose = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "mokoPermissions" }
 
 # Testing
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
