@@ -6,10 +6,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.data)
-                implementation(projects.domain)
-
+                implementation(projects.core.data)
                 implementation(projects.core.desingsystem)
+                implementation(projects.core.domain)
                 implementation(projects.core.navigation)
                 implementation(projects.core.router)
 

@@ -8,7 +8,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.domain)
                 implementation(libs.koin.core)
                 implementation(libs.ktor.client.cio)
                 implementation(libs.ktor.client.core)
@@ -17,6 +16,7 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.sqldelight.coroutines)
+                implementation(projects.core.domain)
             }
         }
 

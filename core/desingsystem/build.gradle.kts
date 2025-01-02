@@ -7,15 +7,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.koin.compose)
-
-                implementation(projects.domain)
-
-                implementation(projects.core.navigation)
-
-                implementation(projects.resources)
-
                 implementation(libs.coil.compose)
                 implementation(libs.coil.network.ktor)
+                implementation(projects.core.domain)
+                implementation(projects.core.navigation)
+                implementation(projects.resources)
             }
         }
     }

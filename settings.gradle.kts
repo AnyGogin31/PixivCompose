@@ -27,13 +27,12 @@ dependencyResolutionManagement {
 
 include(":app-android")
 
+include(":core:data")
 include(":core:desingsystem")
+include(":core:domain")
 include(":core:navigation")
 include(":core:router")
 include(":core:state")
-
-include(":data")
-include(":domain")
 
 include(":features:auth")
 include(":features:details:details-navigation")

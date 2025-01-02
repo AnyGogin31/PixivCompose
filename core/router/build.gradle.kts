@@ -6,8 +6,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.koin.core)
+            implementation(projects.core.domain)
             implementation(projects.core.navigation)
-            implementation(projects.domain)
             implementation(projects.features.auth)
             implementation(projects.features.main)
         }
