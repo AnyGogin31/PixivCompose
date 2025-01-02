@@ -25,5 +25,11 @@ kotlin {
 }
 
 android {
-    namespace = "neilt.mobile.pixiv"
+    namespace = "neilt.mobile.pixiv.app"
+}
+
+compose.desktop {
+    application {
+        mainClass = "neilt.mobile.pixiv.MainKt"
+    }
 }

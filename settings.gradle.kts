@@ -25,7 +25,7 @@ dependencyResolutionManagement {
     }
 }
 
-include(":app-android")
+include(":app")
 
 include(":core:data")
 include(":core:desingsystem")
