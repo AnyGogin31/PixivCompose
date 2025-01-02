@@ -23,26 +23,22 @@
  */
 
 import com.android.build.api.dsl.ApplicationExtension
-import neilt.mobile.convention.configureApplicationAndroid
-import neilt.mobile.convention.configureComposeAndroid
-import neilt.mobile.convention.configureKotlinAndroid
+import neilt.mobile.convention.configureApplicationMultiplatform
+import neilt.mobile.convention.configureComposeMultiplatform
+import neilt.mobile.convention.configureKotlinMultiplatform
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
-import org.gradle.plugin.use.PluginDependency
 
-class NeIltApplicationAndroid : NeIltPlugin() {
-    override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
-        target.libs.getPlugin("android-application")
-    }
-
+class NeIltMultiplatformApplicationPlugin : NeIltPlugin() {
     override fun Project.configureProject() {
+        pluginManager.apply(libs.getPlugin("android-application").get().pluginId)
+
         extensions.configure<ApplicationExtension> {
-            configureApplicationAndroid(this)
-            configureKotlinAndroid(this)
-            configureComposeAndroid(this)
+            configureApplicationMultiplatform(this)
+            configureKotlinMultiplatform(this)
+            configureComposeMultiplatform(this)
         }
     }
 }

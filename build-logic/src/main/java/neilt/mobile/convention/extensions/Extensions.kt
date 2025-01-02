@@ -22,18 +22,23 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.convention
+package neilt.mobile.convention.extensions
 
-import org.gradle.api.JavaVersion
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.compose.ComposeExtension
+import org.jetbrains.compose.ComposePlugin
+import org.jetbrains.compose.desktop.DesktopExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-internal object Configuration {
+internal val Project.compose: ComposeExtension
+    get() = this.extensions.getByType()
 
-    val JAVA_TARGET = JvmTarget.JVM_11
-    val JAVA_VERSION = JavaVersion.VERSION_11
+internal val KotlinMultiplatformExtension.compose : ComposePlugin.Dependencies
+    get() = extensions.getByType()
 
-    const val APPLICATION_ID = "neilt.mobile.pixiv"
-}
+internal val ComposeExtension.desktop: DesktopExtension
+    get() = this.extensions.getByType()
 
-//const val VERSION_NAME = "1.2.0"
-//const val VERSION_CODE = 10
+internal val Project.kotlin: KotlinMultiplatformExtension
+    get() = this.extensions.getByType()

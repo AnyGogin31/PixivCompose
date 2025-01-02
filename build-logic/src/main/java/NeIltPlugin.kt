@@ -22,28 +22,17 @@
  * SOFTWARE.
  */
 
-import neilt.mobile.convention.configureDetekt
 import neilt.mobile.convention.configureKtlint
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
-import org.gradle.plugin.use.PluginDependency
 
 abstract class NeIltPlugin : Plugin<Project> {
-    protected abstract val plugin: (target: Project) -> Provider<PluginDependency>
-
     override fun apply(target: Project) {
         with(target) {
-            configurePlugin()
             configureKtlint()
-            configureDetekt()
             configureProject()
         }
     }
 
     protected abstract fun Project.configureProject()
-
-    private fun Project.configurePlugin() {
-        pluginManager.apply(plugin(this).get().pluginId)
-    }
 }

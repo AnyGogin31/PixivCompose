@@ -45,19 +45,6 @@ internal fun VersionCatalog.getPlugin(pluginName: String): Provider<PluginDepend
 }
 
 /**
- * Retrieves a bundle from the VersionCatalog by its name.
- *
- * @param bundleName The name of the bundle to find.
- * @return A Provider containing the ExternalModuleDependencyBundle.
- * @throws NoSuchElementException If the bundle is not found in the catalog.
- */
-internal fun VersionCatalog.getBundle(bundleName: String): Provider<ExternalModuleDependencyBundle> {
-    return findBundle(bundleName).orElseThrow {
-        NoSuchElementException("Bundle with name $bundleName not found in the catalog")
-    }
-}
-
-/**
  * Retrieves a library from the VersionCatalog by its name.
  *
  * @param libraryName The name of the library to find.

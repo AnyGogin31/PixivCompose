@@ -25,22 +25,20 @@
 import com.android.build.api.dsl.LibraryExtension
 import neilt.mobile.convention.configureComposeMultiplatform
 import neilt.mobile.convention.configureKotlinMultiplatform
+import neilt.mobile.convention.configureLibraryMultiplatform
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
-import org.gradle.plugin.use.PluginDependency
 
 class NeIltMultiplatformComposePlugin : NeIltPlugin() {
-    override val plugin: (target: Project) -> Provider<PluginDependency> = { target: Project ->
-        target.libs.getPlugin("android-library")
-    }
-
     override fun Project.configureProject() {
+        pluginManager.apply(libs.getPlugin("android-library").get().pluginId)
+
         extensions.configure<LibraryExtension> {
             configureKotlinMultiplatform(this)
             configureComposeMultiplatform(this)
+            configureLibraryMultiplatform()
         }
     }
 }

@@ -24,16 +24,15 @@
 
 package neilt.mobile.convention
 
-import org.gradle.api.JavaVersion
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import neilt.mobile.convention.extensions.getLibrary
+import neilt.mobile.convention.extensions.kotlin
+import neilt.mobile.convention.extensions.libs
+import org.gradle.api.Project
 
-internal object Configuration {
-
-    val JAVA_TARGET = JvmTarget.JVM_11
-    val JAVA_VERSION = JavaVersion.VERSION_11
-
-    const val APPLICATION_ID = "neilt.mobile.pixiv"
+internal fun Project.configureLibraryMultiplatform() {
+    kotlin.apply {
+        sourceSets.commonMain.dependencies {
+            implementation(libs.getLibrary("koin-core"))
+        }
+    }
 }
-
-//const val VERSION_NAME = "1.2.0"
-//const val VERSION_CODE = 10

@@ -26,66 +26,46 @@ package neilt.mobile.convention
 
 import com.android.build.api.dsl.CommonExtension
 import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.getVersion
+import neilt.mobile.convention.extensions.kotlin
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 internal fun Project.configureKotlinMultiplatform(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     pluginManager.apply(libs.getPlugin("kotlin-multiplatform").get().pluginId)
 
-    extensions.configure<KotlinMultiplatformExtension> {
-        androidTarget()
+    kotlin.apply {
+        androidTarget {
+            compilerOptions {
+                jvmTarget.set(Configuration.JAVA_TARGET)
+            }
+        }
 
         iosX64()
         iosArm64()
         iosSimulatorArm64()
 
-        jvmToolchain(17)
+        jvm("desktop")
     }
 
     configureKotlin(commonExtension)
 }
-
-internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) {
-    pluginManager.apply(libs.getPlugin("kotlin-android").get().pluginId)
-
-    configureKotlin(commonExtension)
-}
-
 
 private fun Project.configureKotlin(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = Configuration.Sdk.COMPILE_SDK
+        compileSdk = libs.getVersion("android-compileSdk").toString().toInt()
 
         defaultConfig {
-            minSdk = Configuration.Sdk.MIN_SDK
+            minSdk = libs.getVersion("android-minSdk").toString().toInt()
         }
 
         compileOptions {
-            sourceCompatibility = Configuration.Java.JAVA_VERSION
-            targetCompatibility = Configuration.Java.JAVA_VERSION
-        }
-
-        kotlinOptions {
-            jvmTarget.set(Configuration.Java.JAVA_TARGET)
-        }
-    }
-}
-
-private fun Project.kotlinOptions(block: KotlinJvmCompilerOptions.() -> Unit) {
-    tasks.withType<KotlinJvmCompile>().configureEach {
-        compilerOptions {
-            block()
+            sourceCompatibility = Configuration.JAVA_VERSION
+            targetCompatibility = Configuration.JAVA_VERSION
         }
     }
 }

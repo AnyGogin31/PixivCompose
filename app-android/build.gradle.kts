@@ -1,15 +1,27 @@
 plugins {
     alias(libs.plugins.neilt.application.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 apply(from = "../scripts/git-hooks.gradle.kts")
 
-dependencies {
-    implementation(libs.android.activity)
-    implementation(libs.koin.android)
-    implementation(libs.coil.compose)
-    implementation(projects.shared)
+kotlin {
+    sourceSets {
+        val desktopMain by getting
+
+        androidMain.dependencies {
+            implementation(libs.android.activity)
+            implementation(libs.koin.android)
+        }
+
+        commonMain.dependencies {
+            implementation(libs.coil.compose)
+            implementation(projects.shared)
+        }
+
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
+    }
 }
 
 android {

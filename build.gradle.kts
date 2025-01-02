@@ -14,6 +14,5 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
 
     // Static Analyzer
-    alias(libs.plugins.detekt) apply false
     alias(libs.plugins.ktlint) apply false
 }

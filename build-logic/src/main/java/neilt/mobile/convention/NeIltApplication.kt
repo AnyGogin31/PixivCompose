@@ -25,23 +25,34 @@
 package neilt.mobile.convention
 
 import com.android.build.api.dsl.ApplicationExtension
+import neilt.mobile.convention.extensions.compose
+import neilt.mobile.convention.extensions.desktop
+import neilt.mobile.convention.extensions.getPlugin
+import neilt.mobile.convention.extensions.getVersion
+import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
-internal fun Project.configureApplicationAndroid(
+internal fun Project.configureApplicationMultiplatform(
+    applicationExtension: ApplicationExtension,
+) {
+    pluginManager.apply(libs.getPlugin("kotlin-compose").get().pluginId)
+
+    configureApplicationAndroid(applicationExtension)
+    configureApplicationDesktop()
+}
+
+private fun Project.configureApplicationAndroid(
     applicationExtension: ApplicationExtension,
 ) {
     applicationExtension.apply {
         defaultConfig {
-            applicationId = Configuration.App.APPLICATION_ID
+            applicationId = Configuration.APPLICATION_ID
 
-            targetSdk = Configuration.Sdk.TARGET_SDK
+            targetSdk = libs.getVersion("android-targetSdk").toString().toInt()
 
-            versionName = Configuration.App.VERSION_NAME
-            versionCode = Configuration.App.VERSION_CODE
-
-            vectorDrawables {
-                useSupportLibrary = true
-            }
+            versionName = libs.getVersion("version-name").toString()
+            versionCode = libs.getVersion("version-code").toString().toInt()
         }
 
         signingConfigs {
@@ -75,6 +86,22 @@ internal fun Project.configureApplicationAndroid(
                     "proguard-rules.pro"
                 )
             }
+        }
+
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            }
+        }
+    }
+}
+
+private fun Project.configureApplicationDesktop() {
+    compose.desktop.application {
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = Configuration.APPLICATION_ID
+            packageVersion = libs.getVersion("version-name").toString()
         }
     }
 }
