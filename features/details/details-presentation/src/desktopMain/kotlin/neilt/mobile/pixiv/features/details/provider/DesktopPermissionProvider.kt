@@ -24,10 +24,6 @@
 
 package neilt.mobile.pixiv.features.details.provider
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+class DesktopPermissionProvider : PermissionProvider {
+
 }

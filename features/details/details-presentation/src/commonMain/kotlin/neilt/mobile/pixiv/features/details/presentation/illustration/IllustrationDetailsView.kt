@@ -64,8 +64,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import dev.icerock.moko.permissions.compose.BindEffect
-import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import neilt.mobile.pixiv.core.state.whenState
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.components.views.LoadingView
@@ -77,22 +75,19 @@ import neilt.mobile.pixiv.resources.illustration_description
 import neilt.mobile.pixiv.resources.views_and_bookmarks
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun IllustrationDetailsView(
     illustrationId: Int,
 ) {
-    val factory = rememberPermissionsControllerFactory()
-    val controller = remember(factory) {
-        factory.createPermissionsController()
-    }
+//    val factory = rememberPermissionsControllerFactory()
+//    val controller = remember(factory) {
+//        factory.createPermissionsController()
+//    }
+//
+//    BindEffect(controller)
 
-    BindEffect(controller)
-
-    val viewModel: IllustrationDetailsViewModel = koinViewModel {
-        parametersOf(controller)
-    }
+    val viewModel: IllustrationDetailsViewModel = koinViewModel()
 
     val state by viewModel.state.collectAsState()
     val relatedItems = remember { mutableStateListOf<Illustration>() }

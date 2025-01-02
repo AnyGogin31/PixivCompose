@@ -25,14 +25,18 @@
 package neilt.mobile.pixiv.features.auth.presentation.login
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.domain.provider.BrowserProvider
 import neilt.mobile.pixiv.domain.provider.PKCEProvider
-import neilt.mobile.pixiv.features.auth.provider.UrlLauncherProvider
 
 internal class LoginViewModel(
-    private val urlLauncherProvider: UrlLauncherProvider,
+    private val browserProvider: BrowserProvider,
     private val pkceProvider: PKCEProvider,
 ) : ViewModel() {
     fun onLoginClick() {
-        urlLauncherProvider.openUrl(pkceProvider.getProvisionalAccountUrl())
+        viewModelScope.launch {
+            browserProvider.openChromeCustomTabs(pkceProvider.getProvisionalAccountUrl())
+        }
     }
 }

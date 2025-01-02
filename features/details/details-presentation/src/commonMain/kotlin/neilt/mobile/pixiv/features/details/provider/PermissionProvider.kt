@@ -24,8 +24,8 @@
 
 package neilt.mobile.pixiv.features.details.provider
 
-import dev.icerock.moko.permissions.PermissionsController
+//import dev.icerock.moko.permissions.PermissionsController
 
 interface PermissionProvider {
-    suspend fun checkWriteStoragePermission(controller: PermissionsController)
+//    suspend fun checkWriteStoragePermission(controller: PermissionsController)
 }

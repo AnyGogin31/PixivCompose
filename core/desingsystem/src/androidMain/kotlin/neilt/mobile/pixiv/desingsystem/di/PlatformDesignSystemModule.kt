@@ -26,12 +26,10 @@ package neilt.mobile.pixiv.desingsystem.di
 
 import neilt.mobile.pixiv.desingsystem.provider.AndroidThemeProvider
 import neilt.mobile.pixiv.desingsystem.provider.ThemeProvider
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal actual val platformDesignSystemModule = module {
-    singleOf(::AndroidThemeProvider) bind ThemeProvider::class
-
-    single { provideImageLoader(context = get()) }
+    factoryOf(::AndroidThemeProvider) bind ThemeProvider::class
 }

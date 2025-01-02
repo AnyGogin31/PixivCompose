@@ -22,12 +22,10 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.data.provider
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+class DesktopTimeProvider : TimeProvider {
+    override fun currentTimeMillis(): Long {
+        return System.currentTimeMillis()
+    }
 }

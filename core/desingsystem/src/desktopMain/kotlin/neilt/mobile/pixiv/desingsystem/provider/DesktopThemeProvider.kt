@@ -22,12 +22,17 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.desingsystem.provider
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+import androidx.compose.material3.ColorScheme
+
+internal class DesktopThemeProvider : ThemeProvider {
+    override val isDynamicColorSupported: Boolean
+        get() = false
+
+    override val dynamicDarkColorScheme: ColorScheme
+        get() = throw UnsupportedOperationException("Dynamic Theme not supported on Desktop")
+
+    override val dynamicLightColorScheme: ColorScheme
+        get() = throw UnsupportedOperationException("Dynamic Theme not supported on Desktop")
 }

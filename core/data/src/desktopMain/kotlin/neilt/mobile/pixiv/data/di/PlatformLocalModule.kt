@@ -22,12 +22,20 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.data.di
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+import neilt.mobile.pixiv.data.provider.AccountManagerProvider
+import neilt.mobile.pixiv.data.provider.DesktopAccountManagerProvider
+import neilt.mobile.pixiv.data.provider.DesktopStorageProvider
+import neilt.mobile.pixiv.data.provider.DesktopTimeProvider
+import neilt.mobile.pixiv.data.provider.StorageProvider
+import neilt.mobile.pixiv.data.provider.TimeProvider
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
+
+internal actual val platformLocalModule = module {
+    factoryOf(::DesktopStorageProvider) bind StorageProvider::class
+    factoryOf(::DesktopTimeProvider) bind TimeProvider::class
+    factoryOf(::DesktopAccountManagerProvider) bind AccountManagerProvider::class
 }

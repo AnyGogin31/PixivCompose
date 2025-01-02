@@ -24,24 +24,14 @@
 
 package neilt.mobile.pixiv.features.details.di
 
-import dev.icerock.moko.permissions.PermissionsController
 import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationDetailsViewModel
 import neilt.mobile.pixiv.features.details.presentation.user.UserDetailViewModel
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val detailsFeatureModule = module {
-    viewModel { (controller: PermissionsController) ->
-        IllustrationDetailsViewModel(
-            illustrationRepository = get(),
-            toastProvider = get(),
-            navigator = get(),
-            permissionProvider = get(),
-            controller = controller,
-        )
-    }
+    viewModelOf(::IllustrationDetailsViewModel)
     viewModelOf(::UserDetailViewModel)
 
     includes(platformDetailsFeatureModule)

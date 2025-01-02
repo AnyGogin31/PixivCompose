@@ -22,18 +22,8 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.di
+package neilt.mobile.pixiv.data.provider
 
-import neilt.mobile.pixiv.features.auth.provider.AndroidUrlLauncherProvider
-import neilt.mobile.pixiv.features.auth.provider.UrlLauncherProvider
-import org.koin.core.qualifier.named
-import org.koin.core.scope.get
-import org.koin.dsl.module
-
-internal actual val platformAuthFeatureModule = module {
-    single<UrlLauncherProvider> {
-        AndroidUrlLauncherProvider(
-            context = getOrNull(named("activity")) ?: get(),
-        )
-    }
+class DesktopStorageProvider : StorageProvider {
+    override fun uploadImage(image: ByteArray, fileName: String) = Unit
 }

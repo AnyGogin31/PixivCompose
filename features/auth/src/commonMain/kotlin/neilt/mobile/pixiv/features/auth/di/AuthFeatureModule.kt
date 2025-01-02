@@ -33,8 +33,4 @@ import org.koin.dsl.module
 val authFeatureModule = module {
     viewModelOf(::AuthViewModel)
     viewModelOf(::LoginViewModel)
-
-    includes(platformAuthFeatureModule)
 }
-
-internal expect val platformAuthFeatureModule: Module

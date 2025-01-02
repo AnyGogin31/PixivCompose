@@ -35,6 +35,7 @@ import coil3.request.crossfade
 import neilt.mobile.pixiv.domain.models.home.ImageUrls
 import neilt.mobile.pixiv.domain.models.profile.ProfileImageUrls
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal fun provideImageLoader(context: PlatformContext): ImageLoader {
@@ -70,6 +71,8 @@ internal fun provideImageLoader(context: PlatformContext): ImageLoader {
 }
 
 val designSystemModule = module {
+    singleOf(::provideImageLoader)
+
     includes(platformDesignSystemModule)
 }
 

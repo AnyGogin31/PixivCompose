@@ -22,12 +22,19 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.auth.di
+package neilt.mobile.pixiv.data.provider
 
-import org.koin.dsl.module
-
-internal actual val platformAuthFeatureModule = module {
-    throw NotImplementedError(
-        "This function is not implemented for the current platform. Platform-specific implementation required.",
-    )
+class DesktopAccountManagerProvider : AccountManagerProvider {
+    override fun addAccount(
+        accountName: String,
+        accountType: String,
+        accessToken: String,
+        refreshToken: String,
+        expiresAt: Long,
+        additionalData: Map<String, String>
+    ): Boolean = false
+    override fun getAccounts(accountType: String): List<AccountData> = emptyList()
+    override fun getAuthToken(accountName: String, accountType: String): String? = null
+    override fun updateAuthToken(accountName: String, accountType: String, newToken: String) = Unit
+    override fun updateAdditionalData(accountName: String, accountType: String, key: String, value: String) = Unit
 }

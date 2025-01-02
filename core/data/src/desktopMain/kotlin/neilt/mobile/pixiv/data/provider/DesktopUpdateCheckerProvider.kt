@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.data.provider
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
+
+class DesktopUpdateCheckerProvider : UpdateCheckerProvider {
+    override suspend fun checkAppUpdates(newVersionAvailableMessage: String?): Boolean {
+        return false
+    }
 }

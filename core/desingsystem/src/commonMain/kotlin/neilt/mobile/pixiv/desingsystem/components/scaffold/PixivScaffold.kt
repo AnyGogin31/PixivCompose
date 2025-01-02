@@ -76,7 +76,7 @@ fun PixivScaffold(
                 currentDestination = currentDestination,
                 bottomNavigationItems = bottomNavigationItems,
                 onItemSelected = {
-                    onBottomNavigationItemClick(navController.graph.startDestinationId, it)
+                    onBottomNavigationItemClick(/*navController.graph.startDestinationId*/0, it)
                 },
             )
         },

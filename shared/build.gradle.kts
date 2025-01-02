@@ -4,27 +4,36 @@ plugins {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(projects.core.data)
-                implementation(projects.core.desingsystem)
-                implementation(projects.core.domain)
-                implementation(projects.core.navigation)
-                implementation(projects.core.router)
+        val desktopMain by getting
 
-                implementation(projects.features.auth)
-                implementation(projects.features.details.detailsNavigation)
-                implementation(projects.features.details.detailsPresentation)
-                implementation(projects.features.main)
-                implementation(projects.features.search.searchNavigation)
-                implementation(projects.features.search.searchPresentation)
-                implementation(projects.features.settings)
+        androidMain.dependencies {
+            implementation(libs.kotlinx.coroutines.android)
+        }
 
-                implementation(projects.resources)
+        commonMain.dependencies {
+            implementation(projects.core.data)
+            implementation(projects.core.desingsystem)
+            implementation(projects.core.domain)
+            implementation(projects.core.navigation)
+            implementation(projects.core.router)
 
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose.viewmodel)
-            }
+            implementation(projects.features.auth)
+            implementation(projects.features.details.detailsNavigation)
+            implementation(projects.features.details.detailsPresentation)
+            implementation(projects.features.main)
+            implementation(projects.features.search.searchNavigation)
+            implementation(projects.features.search.searchPresentation)
+            implementation(projects.features.settings)
+
+            implementation(projects.resources)
+
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.kotlinx.coroutines.core)
+        }
+
+        desktopMain.dependencies {
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }

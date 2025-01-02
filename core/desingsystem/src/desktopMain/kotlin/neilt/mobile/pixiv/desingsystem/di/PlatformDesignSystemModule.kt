@@ -22,12 +22,14 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.desingsystem.di
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+import neilt.mobile.pixiv.desingsystem.provider.DesktopThemeProvider
+import neilt.mobile.pixiv.desingsystem.provider.ThemeProvider
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
+
+internal actual val platformDesignSystemModule = module {
+    factoryOf(::DesktopThemeProvider) bind ThemeProvider::class
 }

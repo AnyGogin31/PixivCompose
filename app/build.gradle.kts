@@ -11,6 +11,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.android.activity)
             implementation(libs.koin.android)
+            implementation(projects.features.auth)
         }
 
         commonMain.dependencies {
