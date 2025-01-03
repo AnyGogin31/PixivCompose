@@ -41,7 +41,7 @@ mokoPermissions = "0.18.1"
 
 # Testing
 junitJupiter = "5.11.4"
-mockito = "5.14.2"
+mockito = "5.15.2"
 mockitoKotlin = "5.4.0"
 
 # Detekt
