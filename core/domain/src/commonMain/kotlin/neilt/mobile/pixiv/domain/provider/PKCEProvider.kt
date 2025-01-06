@@ -39,6 +39,7 @@ interface PKCEProvider {
         const val CHALLENGE_METHOD_PLAIN = 1
 
         internal const val CLIENT_ANDROID = "pixiv-android"
+        internal const val CLIENT_DESKTOP = CLIENT_ANDROID
     }
 
     @IntDef(CHALLENGE_METHOD_S256, CHALLENGE_METHOD_PLAIN)

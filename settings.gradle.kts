@@ -22,6 +22,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://jogamp.org/deployment/maven")
     }
 }
 

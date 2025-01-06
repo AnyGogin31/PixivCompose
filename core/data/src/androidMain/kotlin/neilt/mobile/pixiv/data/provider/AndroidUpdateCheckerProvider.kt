@@ -27,9 +27,9 @@ package neilt.mobile.pixiv.data.provider
 import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
-import java.util.regex.Pattern
 import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 import neilt.mobile.pixiv.domain.repositories.github.GitHubRepository
+import java.util.regex.Pattern
 
 class AndroidUpdateCheckerProvider(
     private val context: Context,

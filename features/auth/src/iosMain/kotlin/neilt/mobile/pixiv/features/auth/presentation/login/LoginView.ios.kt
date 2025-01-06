@@ -25,9 +25,6 @@
 package neilt.mobile.pixiv.features.auth.presentation.login
 
 import androidx.compose.runtime.Composable
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal expect fun LoginView(
-    viewModel: LoginViewModel = koinViewModel(),
-)
+internal actual fun LoginView(viewModel: LoginViewModel) = Unit

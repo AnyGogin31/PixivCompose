@@ -24,17 +24,90 @@
 
 package neilt.mobile.pixiv.data.provider
 
+import kotlinx.serialization.json.Json
+import java.io.File
+
 class DesktopAccountManagerProvider : AccountManagerProvider {
+    private val storageFile: File = File("accounts.json")
+    private val json = Json { prettyPrint = true }
+
+    private fun loadAccounts(): AccountsList {
+        return if (storageFile.exists() && storageFile.length() > 0) {
+            try {
+                json.decodeFromString(AccountsList.serializer(), storageFile.readText())
+            } catch (e: Exception) {
+                AccountsList()
+            }
+        } else {
+            AccountsList()
+        }
+    }
+
+    private fun saveAccounts(accounts: AccountsList) {
+        storageFile.writeText(json.encodeToString(AccountsList.serializer(), accounts))
+    }
+
     override fun addAccount(
         accountName: String,
         accountType: String,
         accessToken: String,
         refreshToken: String,
         expiresAt: Long,
-        additionalData: Map<String, String>
-    ): Boolean = false
-    override fun getAccounts(accountType: String): List<AccountData> = emptyList()
-    override fun getAuthToken(accountName: String, accountType: String): String? = null
-    override fun updateAuthToken(accountName: String, accountType: String, newToken: String) = Unit
-    override fun updateAdditionalData(accountName: String, accountType: String, key: String, value: String) = Unit
+        additionalData: Map<String, String>,
+    ): Boolean {
+        val accountsList = loadAccounts()
+        val account = AccountData(
+            accountName,
+            accountType,
+            accessToken,
+            additionalData.toMutableMap().apply {
+                this["refresh_token"] = refreshToken
+                this["expires_at"] = expiresAt.toString()
+            },
+        )
+        accountsList.accounts.add(account)
+        saveAccounts(accountsList)
+        return true
+    }
+
+    override fun getAccounts(accountType: String): List<AccountData> {
+        val accountsList = loadAccounts()
+        return accountsList.accounts.filter { it.type == accountType }
+    }
+
+    override fun getAuthToken(accountName: String, accountType: String): String? {
+        val accountsList = loadAccounts()
+        return accountsList.accounts.find { it.name == accountName && it.type == accountType }?.authToken
+    }
+
+    override fun updateAuthToken(accountName: String, accountType: String, newToken: String) {
+        val accountsList = loadAccounts()
+        val account = accountsList.accounts.find { it.name == accountName && it.type == accountType }
+        account?.let {
+            accountsList.accounts.remove(account)
+            val updatedAccount = account.copy(authToken = newToken)
+            accountsList.accounts.add(updatedAccount)
+            saveAccounts(accountsList)
+        }
+    }
+
+    override fun updateAdditionalData(
+        accountName: String,
+        accountType: String,
+        key: String,
+        value: String,
+    ) {
+        val accountsList = loadAccounts()
+        val account = accountsList.accounts.find { it.name == accountName && it.type == accountType }
+        account?.let {
+            accountsList.accounts.remove(account)
+            val updatedAccount = account.copy(
+                additionalData = account.additionalData.toMutableMap().apply {
+                    this[key] = value
+                },
+            )
+            accountsList.accounts.add(updatedAccount)
+            saveAccounts(accountsList)
+        }
+    }
 }

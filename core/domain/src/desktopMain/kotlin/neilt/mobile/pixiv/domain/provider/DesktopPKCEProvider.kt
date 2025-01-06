@@ -24,9 +24,65 @@
 
 package neilt.mobile.pixiv.domain.provider
 
+import neilt.mobile.pixiv.domain.provider.PKCEProvider.Companion.CLIENT_DESKTOP
+import neilt.mobile.pixiv.domain.provider.PKCEProvider.Companion.CODE_VERIFIER_LENGTH
+import neilt.mobile.pixiv.domain.provider.PKCEProvider.Companion.PROVISIONAL_ACCOUNT_BASE_URL
+import java.security.MessageDigest
+import java.security.SecureRandom
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
+
 class DesktopPKCEProvider : PKCEProvider {
-    override fun getCodeVerifier(): String = ""
-    override fun getCodeChallenge(method: Int): String = ""
-    override fun getProvisionalAccountUrl(method: Int): String = ""
-    override fun clearCodeVerifier() = Unit
+    private var codeVerifier: String? = null
+
+    override fun getCodeVerifier(): String =
+        codeVerifier ?: generateRandomString().also { codeVerifier = it }
+
+    override fun getCodeChallenge(
+        @PKCEProvider.ChallengeMethod method: Int,
+    ): String =
+        getCodeVerifier().let { verifier ->
+            val challenge = when (method) {
+                PKCEProvider.CHALLENGE_METHOD_S256 -> generateSHA256Base64(verifier)
+                PKCEProvider.CHALLENGE_METHOD_PLAIN -> verifier
+                else -> throw IllegalArgumentException("Unsupported code challenge method")
+            }
+            challenge
+        }
+
+    override fun getProvisionalAccountUrl(
+        @PKCEProvider.ChallengeMethod method: Int,
+    ): String {
+        val challenge = getCodeChallenge(method)
+        val methodName = when (method) {
+            PKCEProvider.CHALLENGE_METHOD_S256 -> "S256"
+            PKCEProvider.CHALLENGE_METHOD_PLAIN -> "plain"
+            else -> throw IllegalArgumentException("Unsupported code challenge method")
+        }
+        return PROVISIONAL_ACCOUNT_BASE_URL +
+            "?code_challenge=$challenge" +
+            "&code_challenge_method=$methodName" +
+            "&client=$CLIENT_DESKTOP"
+    }
+
+    override fun clearCodeVerifier() {
+        codeVerifier = null
+    }
+
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun generateRandomString(): String {
+        val secureRandom = SecureRandom.getInstance("SHA1PRNG")
+        val bytes = ByteArray(CODE_VERIFIER_LENGTH).apply {
+            secureRandom.nextBytes(this)
+        }
+        return Base64.UrlSafe.encode(bytes).trimEnd('=')
+    }
+
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun generateSHA256Base64(input: String): String {
+        val digest = MessageDigest
+            .getInstance("SHA-256")
+            .digest(input.encodeToByteArray())
+        return Base64.UrlSafe.encode(digest).trimEnd('=')
+    }
 }

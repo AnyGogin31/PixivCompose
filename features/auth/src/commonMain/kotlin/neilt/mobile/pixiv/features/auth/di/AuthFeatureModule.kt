@@ -26,7 +26,6 @@ package neilt.mobile.pixiv.features.auth.di
 
 import neilt.mobile.pixiv.features.auth.presentation.auth.AuthViewModel
 import neilt.mobile.pixiv.features.auth.presentation.login.LoginViewModel
-import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 

@@ -21,6 +21,7 @@ kotlinSerializationJson = "1.7.3"
 
 # Compose
 composeNavigation = "2.8.0-alpha11"
+compose-desktop-browser-wtf = "1.9.40"
 
 # AndroidX
 androidActivity = "1.9.3"
@@ -64,6 +65,7 @@ ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle"
 
 # Compose
 compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+compose-desktop-browser-wtf = { group = "io.github.kevinnzou", name = "compose-webview-multiplatform", version.ref = "compose-desktop-browser-wtf" }
 
 # AndroidX
 android-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "androidActivity" }

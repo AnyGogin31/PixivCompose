@@ -24,6 +24,4 @@
 
 package neilt.mobile.pixiv.features.details.provider
 
-class DesktopPermissionProvider : PermissionProvider {
-
-}
+class DesktopPermissionProvider : PermissionProvider

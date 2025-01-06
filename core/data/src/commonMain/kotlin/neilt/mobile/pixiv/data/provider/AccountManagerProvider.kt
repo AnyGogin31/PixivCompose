@@ -24,6 +24,8 @@
 
 package neilt.mobile.pixiv.data.provider
 
+import kotlinx.serialization.Serializable
+
 interface AccountManagerProvider {
     fun addAccount(
         accountName: String,
@@ -52,9 +54,15 @@ interface AccountManagerProvider {
     )
 }
 
+@Serializable
 data class AccountData(
     val name: String,
     val type: String,
     val authToken: String?,
     val additionalData: Map<String, String>,
+)
+
+@Serializable
+data class AccountsList(
+    val accounts: MutableList<AccountData> = mutableListOf(),
 )
