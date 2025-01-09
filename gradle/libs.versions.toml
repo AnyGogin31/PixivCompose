@@ -1,7 +1,7 @@
 [versions]
 
 # Gradle Plugins
-androidGradlePlugin = "8.7.3"
+androidGradlePlugin = "8.8.0"
 kotlinGradlePlugin = "2.1.0"
 composeGradlePlugin = "1.7.3"
 detektGradlePlugin = "1.23.7"
