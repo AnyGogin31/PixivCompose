@@ -13,6 +13,7 @@ kotlin {
                 implementation(libs.coil.compose)
                 implementation(libs.kotlin.coroutines.core)
                 implementation(libs.android.lifecycle.viewmodel)
+                implementation(compose.materialIconsExtended)
                 implementation(projects.core.data)
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.domain)

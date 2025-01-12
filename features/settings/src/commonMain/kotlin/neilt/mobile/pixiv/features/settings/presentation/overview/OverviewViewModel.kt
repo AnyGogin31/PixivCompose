@@ -24,6 +24,15 @@
 
 package neilt.mobile.pixiv.features.settings.presentation.overview
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.CloudUpload
+import androidx.compose.material.icons.filled.DeleteSweep
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.ManageAccounts
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.Update
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -31,15 +40,6 @@ import neilt.mobile.pixiv.core.navigation.Destination
 import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.settings.SettingGroup
 import neilt.mobile.pixiv.desingsystem.components.settings.SettingItem
-import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
-import neilt.mobile.pixiv.desingsystem.icons.filled.Analytics
-import neilt.mobile.pixiv.desingsystem.icons.filled.CloudUpload
-import neilt.mobile.pixiv.desingsystem.icons.filled.DeleteSweep
-import neilt.mobile.pixiv.desingsystem.icons.filled.Info
-import neilt.mobile.pixiv.desingsystem.icons.filled.ManageAccounts
-import neilt.mobile.pixiv.desingsystem.icons.filled.Palette
-import neilt.mobile.pixiv.desingsystem.icons.filled.Tune
-import neilt.mobile.pixiv.desingsystem.icons.filled.Update
 import neilt.mobile.pixiv.domain.provider.BrowserProvider
 import neilt.mobile.pixiv.features.settings.presentation.PixivSettingsSection
 import neilt.mobile.pixiv.resources.Res
@@ -68,7 +68,7 @@ internal class OverviewViewModel(
         SettingItem(
             title = Res.string.settings_account_title,
             subtitle = Res.string.settings_account_subtitle,
-            icon = PixivIcons.Filled.ManageAccounts,
+            icon = Icons.Filled.ManageAccounts,
             onClick = {
                 viewModelScope.launch {
                     browserProvider.openChromeCustomTabs("https://pixiv.net/settings/account")
@@ -80,7 +80,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_appearance_title,
                     subtitle = Res.string.settings_appearance_subtitle,
-                    icon = PixivIcons.Filled.Palette,
+                    icon = Icons.Filled.Palette,
                     onClick = {
                         navigateTo(PixivSettingsSection.AppearanceScreen)
                     },
@@ -89,7 +89,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_behavior_title,
                     subtitle = Res.string.settings_behavior_subtitle,
-                    icon = PixivIcons.Filled.Tune,
+                    icon = Icons.Filled.Tune,
                     onClick = {
                         navigateTo(PixivSettingsSection.BehaviorScreen)
                     },
@@ -102,7 +102,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_cache_title,
                     subtitle = Res.string.settings_cache_subtitle,
-                    icon = PixivIcons.Filled.DeleteSweep,
+                    icon = Icons.Filled.DeleteSweep,
                     onClick = {
                         navigateTo(PixivSettingsSection.CacheScreen)
                     },
@@ -110,7 +110,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_backup_title,
                     subtitle = Res.string.settings_backup_subtitle,
-                    icon = PixivIcons.Filled.CloudUpload,
+                    icon = Icons.Filled.CloudUpload,
                     onClick = {
                         navigateTo(PixivSettingsSection.BackupScreen)
                     },
@@ -119,7 +119,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_analytics_title,
                     subtitle = Res.string.settings_analytics_subtitle,
-                    icon = PixivIcons.Filled.Analytics,
+                    icon = Icons.Filled.Analytics,
                     onClick = {
                         navigateTo(PixivSettingsSection.AnalyticsScreen)
                     },
@@ -132,7 +132,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_updates_title,
                     subtitle = Res.string.settings_updates_subtitle,
-                    icon = PixivIcons.Filled.Update,
+                    icon = Icons.Filled.Update,
                     onClick = {
                         navigateTo(PixivSettingsSection.UpdatesScreen)
                     },
@@ -140,7 +140,7 @@ internal class OverviewViewModel(
                 SettingItem(
                     title = Res.string.settings_about_title,
                     subtitle = Res.string.settings_about_subtitle,
-                    icon = PixivIcons.Filled.Info,
+                    icon = Icons.Filled.Info,
                     onClick = {
                         navigateTo(PixivSettingsSection.AboutScreen)
                     },

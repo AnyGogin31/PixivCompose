@@ -25,8 +25,14 @@
 package neilt.mobile.pixiv.shared
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -35,13 +41,6 @@ import neilt.mobile.pixiv.core.navigation.NavOptions
 import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.desingsystem.components.navigation.BottomNavigationItem
 import neilt.mobile.pixiv.desingsystem.components.navigation.NavigationActionButton
-import neilt.mobile.pixiv.desingsystem.icons.PixivIcons
-import neilt.mobile.pixiv.desingsystem.icons.filled.Home
-import neilt.mobile.pixiv.desingsystem.icons.filled.MenuBook
-import neilt.mobile.pixiv.desingsystem.icons.filled.Profile
-import neilt.mobile.pixiv.desingsystem.icons.outlined.Home
-import neilt.mobile.pixiv.desingsystem.icons.outlined.MenuBook
-import neilt.mobile.pixiv.desingsystem.icons.outlined.Profile
 import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 import neilt.mobile.pixiv.domain.repositories.icon.IconRepository
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
@@ -70,8 +69,8 @@ internal class PixivMultiplatformViewModel(
         BottomNavigationItem(
             destination = PixivMainSection.HomeScreen,
             label = Res.string.navigation_home,
-            selectedIcon = PixivIcons.Filled.Home,
-            unselectedIcon = PixivIcons.Outlined.Home,
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
             actionButton = NavigationActionButton(
                 icon = Icons.Default.Search,
                 onClick = {
@@ -87,8 +86,8 @@ internal class PixivMultiplatformViewModel(
         BottomNavigationItem(
             destination = PixivMainSection.MangaScreen,
             label = Res.string.navigation_manga,
-            selectedIcon = PixivIcons.Filled.MenuBook,
-            unselectedIcon = PixivIcons.Outlined.MenuBook,
+            selectedIcon = Icons.AutoMirrored.Filled.MenuBook,
+            unselectedIcon = Icons.AutoMirrored.Outlined.MenuBook,
             actionButton = NavigationActionButton(
                 icon = Icons.Default.Search,
                 onClick = {
@@ -104,8 +103,8 @@ internal class PixivMultiplatformViewModel(
         BottomNavigationItem(
             destination = PixivMainSection.ProfileScreen,
             label = Res.string.navigation_profile,
-            selectedIcon = PixivIcons.Filled.Profile,
-            unselectedIcon = PixivIcons.Outlined.Profile,
+            selectedIcon = Icons.Filled.Person,
+            unselectedIcon = Icons.Outlined.Person,
             actionButton = NavigationActionButton(
                 icon = Icons.Default.Settings,
                 onClick = {

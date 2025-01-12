@@ -27,6 +27,8 @@ kotlin {
 
             implementation(projects.resources)
 
+            implementation(compose.materialIconsExtended)
+
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.coroutines.core)
