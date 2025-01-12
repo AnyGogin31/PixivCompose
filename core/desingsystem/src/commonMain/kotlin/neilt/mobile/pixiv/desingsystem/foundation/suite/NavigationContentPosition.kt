@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.shared.di
+package neilt.mobile.pixiv.desingsystem.foundation.suite
 
-import neilt.mobile.pixiv.shared.PixivMultiplatformViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
-
-val sharedModule = module {
-    viewModelOf(::PixivMultiplatformViewModel)
+enum class NavigationContentPosition {
+    TOP,
+    CENTER,
 }

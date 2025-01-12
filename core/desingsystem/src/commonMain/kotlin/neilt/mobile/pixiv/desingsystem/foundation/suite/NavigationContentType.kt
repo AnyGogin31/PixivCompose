@@ -22,27 +22,9 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.desingsystem.components.animation
+package neilt.mobile.pixiv.desingsystem.foundation.suite
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-
-@Composable
-fun VerticalSlideVisibility(
-    visible: Boolean,
-    modifier: Modifier = Modifier,
-    slideUp: Boolean = false,
-    content: @Composable AnimatedVisibilityScope.() -> Unit,
-) = AnimatedVisibility(
-    modifier = modifier,
-    visible = visible,
-    enter = fadeIn() + slideInVertically { if (slideUp) -it else it },
-    exit = fadeOut() + slideOutVertically { if (slideUp) -it else it },
-    content = content,
-)
+enum class NavigationContentType {
+    SINGLE_PANE,
+    DUAL_PANE,
+}
