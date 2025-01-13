@@ -37,6 +37,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldLayout
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.window.core.layout.WindowHeightSizeClass
@@ -51,7 +52,7 @@ fun NavigationSuiteScaffold(
     modifier: Modifier = Modifier,
     containerColor: Color = NavigationSuiteScaffoldDefaults.containerColor,
     contentColor: Color = NavigationSuiteScaffoldDefaults.contentColor,
-    content: @Composable NavigationSuiteScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
@@ -96,17 +97,21 @@ fun NavigationSuiteScaffold(
             },
             layoutType = layoutType,
             content = {
-                Box(
-                    Modifier.consumeWindowInsets(
-                        when (layoutType) {
-                            NavigationSuiteType.NavigationBar -> NavigationBarDefaults.windowInsets
-                            NavigationSuiteType.NavigationRail -> NavigationRailDefaults.windowInsets
-                            NavigationSuiteType.NavigationDrawer -> DrawerDefaults.windowInsets
-                            else -> WindowInsets(0, 0, 0, 0)
-                        },
-                    ),
+                CompositionLocalProvider(
+                    LocalNavigationSuiteScope provides contentScope,
                 ) {
-                    contentScope.content()
+                    Box(
+                        Modifier.consumeWindowInsets(
+                            when (layoutType) {
+                                NavigationSuiteType.NavigationBar -> NavigationBarDefaults.windowInsets
+                                NavigationSuiteType.NavigationRail -> NavigationRailDefaults.windowInsets
+                                NavigationSuiteType.NavigationDrawer -> DrawerDefaults.windowInsets
+                                else -> WindowInsets(0, 0, 0, 0)
+                            },
+                        ),
+                    ) {
+                        content()
+                    }
                 }
             },
         )

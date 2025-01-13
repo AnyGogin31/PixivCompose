@@ -25,8 +25,13 @@
 package neilt.mobile.pixiv.desingsystem.foundation.suite
 
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
+import androidx.compose.runtime.compositionLocalOf
 
 interface NavigationSuiteScope {
     val contentType: NavigationContentType
     val layoutType: NavigationSuiteType
+}
+
+val LocalNavigationSuiteScope = compositionLocalOf<NavigationSuiteScope> {
+    error("NavigationSuiteScope is not provided. Please ensure you are wrapping your composables with a provider.")
 }
