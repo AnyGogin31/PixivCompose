@@ -80,7 +80,11 @@ fun NavigationSuiteScaffold(
 
         else -> NavigationContentType.SINGLE_PANE
     }
-    val contentScope = NavigationSuiteScopeImpl(contentType, layoutType)
+    val contentScope = NavigationSuiteScopeImpl(
+        contentType,
+        layoutType.toNavigationLayoutType(),
+        adaptiveInfo.windowSizeClass,
+    )
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -124,5 +128,6 @@ private val WindowSizeClass.isCompact: Boolean
 
 private class NavigationSuiteScopeImpl(
     override val contentType: NavigationContentType,
-    override val layoutType: NavigationSuiteType,
+    override val layoutType: NavigationLayoutType,
+    override val windowSizeClass: WindowSizeClass,
 ) : NavigationSuiteScope

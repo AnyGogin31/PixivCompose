@@ -24,9 +24,12 @@
 
 package neilt.mobile.pixiv.desingsystem.foundation.pane
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -51,6 +54,12 @@ fun TwoPane(
     val slotIdFirst = remember { TwoPaneSlot.FIRST }
     val slotIdSecond = remember { TwoPaneSlot.SECOND }
 
+    val animatedSplitFraction: Float by animateFloatAsState(
+        targetValue = splitFraction,
+        animationSpec = tween(durationMillis = 300),
+        label = "splitFractionAnimation",
+    )
+
     Layout(
         content = {
             Box(
@@ -74,8 +83,8 @@ fun TwoPane(
             }
 
             val splitX = layoutCoordinates.size.width * when (layoutDirection) {
-                LayoutDirection.Ltr -> splitFraction
-                LayoutDirection.Rtl -> 1 - splitFraction
+                LayoutDirection.Ltr -> animatedSplitFraction
+                LayoutDirection.Rtl -> 1 - animatedSplitFraction
             }
             val dividerWidthPixel = dividerWidth.toPx()
 

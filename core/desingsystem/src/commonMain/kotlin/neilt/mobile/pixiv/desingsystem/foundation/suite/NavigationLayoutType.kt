@@ -24,15 +24,21 @@
 
 package neilt.mobile.pixiv.desingsystem.foundation.suite
 
-import androidx.compose.runtime.compositionLocalOf
-import androidx.window.core.layout.WindowSizeClass
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 
-interface NavigationSuiteScope {
-    val contentType: NavigationContentType
-    val layoutType: NavigationLayoutType
-    val windowSizeClass: WindowSizeClass
+enum class NavigationLayoutType {
+    NAVIGATION_BAR,
+    NAVIGATION_RAIL,
+    NAVIGATION_DRAWER,
+    NONE,
 }
 
-val LocalNavigationSuiteScope = compositionLocalOf<NavigationSuiteScope> {
-    error("NavigationSuiteScope is not provided. Please ensure you are wrapping your composables with a provider.")
+internal fun NavigationSuiteType.toNavigationLayoutType(): NavigationLayoutType {
+    return when (this) {
+        NavigationSuiteType.NavigationBar -> NavigationLayoutType.NAVIGATION_BAR
+        NavigationSuiteType.NavigationRail -> NavigationLayoutType.NAVIGATION_RAIL
+        NavigationSuiteType.NavigationDrawer -> NavigationLayoutType.NAVIGATION_DRAWER
+
+        else -> NavigationLayoutType.NONE
+    }
 }
