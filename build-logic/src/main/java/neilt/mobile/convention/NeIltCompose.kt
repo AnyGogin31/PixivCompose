@@ -25,14 +25,13 @@
 package neilt.mobile.convention
 
 import com.android.build.api.dsl.CommonExtension
+import neilt.mobile.convention.extensions.compose
+import neilt.mobile.convention.extensions.getLibrary
 import neilt.mobile.convention.extensions.getPlugin
 import neilt.mobile.convention.extensions.getVersion
+import neilt.mobile.convention.extensions.kotlin
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.compose.ComposePlugin
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal fun Project.configureComposeMultiplatform(
     commonExtension: CommonExtension<*, *, *, *, *, *>
@@ -40,22 +39,14 @@ internal fun Project.configureComposeMultiplatform(
     pluginManager.apply(libs.getPlugin("kotlin-compose").get().pluginId)
     pluginManager.apply(libs.getPlugin("kotlin-compose-compiler").get().pluginId)
 
-    extensions.configure<KotlinMultiplatformExtension> {
+    kotlin.apply {
         sourceSets.commonMain.dependencies {
+            implementation(libs.getLibrary("koin-compose"))
             implementation(compose.runtime)
             implementation(compose.material3)
-
             implementation(compose.components.resources)
         }
     }
-
-    configureCompose(commonExtension)
-}
-
-internal fun Project.configureComposeAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>
-) {
-    pluginManager.apply(libs.getPlugin("kotlin-compose-compiler").get().pluginId)
 
     configureCompose(commonExtension)
 }
@@ -73,6 +64,3 @@ private fun Project.configureCompose(
         }
     }
 }
-
-private val KotlinMultiplatformExtension.compose : ComposePlugin.Dependencies
-    get() = extensions.getByType()

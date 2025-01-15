@@ -24,33 +24,74 @@
 
 package neilt.mobile.pixiv.shared
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.PermanentDrawerSheet
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import neilt.mobile.pixiv.core.navigation.Destination
+import neilt.mobile.pixiv.core.navigation.Navigator
+import neilt.mobile.pixiv.core.navigation.extensions.hasDestination
+import neilt.mobile.pixiv.core.navigation.observer.NavigationObserver
 import neilt.mobile.pixiv.core.router.Router
 import neilt.mobile.pixiv.desingsystem.PixivTheme
-import neilt.mobile.pixiv.desingsystem.components.scaffold.PixivScaffold
+import neilt.mobile.pixiv.desingsystem.foundation.animation.AsyncContent
+import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScaffold
+import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
+import neilt.mobile.pixiv.domain.repositories.icon.IconRepository
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
 import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
-import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import neilt.mobile.pixiv.features.search.presentation.addPixivSearchSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.new_version_available
+import neilt.mobile.pixiv.shared.navigation.TOP_LEVEL_DESTINATIONS
+import neilt.mobile.pixiv.shared.navigation.TopLevelDestination
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun PixivMultiplatformView(
     modifier: Modifier = Modifier,
-    router: Router = koinInject(),
-    viewModel: PixivMultiplatformViewModel = koinViewModel(),
 ) {
+    val iconRepository: IconRepository = koinInject()
+    val updateCheckerProvider: UpdateCheckerProvider = koinInject()
+
+    LaunchedEffect(key1 = Unit) {
+        iconRepository.updateIconIfNeed()
+        updateCheckerProvider.checkAppUpdates(getString(Res.string.new_version_available))
+    }
+
+    val router: Router = koinInject()
+
     PixivTheme {
-        PixivScaffold(
-            modifier = modifier,
+        PixivScaffoldAdaptive(
             computeStartDestination = router::computeStartDestination,
-            bottomNavigationTargetSection = PixivMainSection,
-            bottomNavigationItems = viewModel.bottomNavigationItems,
-            onBottomNavigationItemClick = viewModel::navigateWithPopUp,
+            modifier = modifier,
         ) {
             addPixivAuthSection()
             addPixivMainSection()
@@ -58,5 +99,145 @@ internal fun PixivMultiplatformView(
             addPixivSearchSection()
             addPixivSettingsSection()
         }
+    }
+}
+
+@Composable
+private fun PixivScaffoldAdaptive(
+    computeStartDestination: suspend () -> Destination,
+    modifier: Modifier = Modifier,
+    builder: NavGraphBuilder.() -> Unit,
+) {
+    val navController: NavHostController = rememberNavController()
+
+    val currentBackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination: NavDestination? = currentBackEntry?.destination
+
+    val navigator: Navigator = koinInject()
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+
+    @Composable
+    fun TopLevelDestination.renderLabel() {
+        Text(
+            text = stringResource(label),
+        )
+    }
+
+    @Composable
+    fun TopLevelDestination.renderIcon(isSelected: Boolean) {
+        Crossfade(targetState = isSelected) { isSelectedState ->
+            val icon = if (isSelectedState) selectedIcon else unselectedIcon
+            Icon(
+                imageVector = icon,
+                contentDescription = stringResource(label),
+            )
+        }
+    }
+
+    @Composable
+    fun renderNavigationItems(
+        navigationItem: @Composable (item: TopLevelDestination, isSelected: Boolean, onClick: () -> Unit) -> Unit,
+    ) {
+        PixivNavigationItemContainer(
+            isItemSelected = currentDestination::hasDestination,
+            onItemSelected = {
+                coroutineScope.launch {
+                    navigator.navigateTo(it) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            },
+            navigationItem = navigationItem,
+        )
+    }
+
+    NavigationSuiteScaffold(
+        navigationBar = {
+            BottomAppBar(
+                modifier = modifier.fillMaxWidth(),
+            ) {
+                renderNavigationItems { item, isSelected, onClick ->
+                    NavigationBarItem(
+                        selected = isSelected,
+                        onClick = onClick,
+                        icon = {
+                            item.renderIcon(isSelected)
+                        },
+                        label = {
+                            item.renderLabel()
+                        },
+                    )
+                }
+            }
+        },
+        navigationRail = {
+            NavigationRail(
+                modifier = modifier.fillMaxHeight(),
+            ) {
+                renderNavigationItems { item, isSelected, onClick ->
+                    NavigationRailItem(
+                        selected = isSelected,
+                        onClick = onClick,
+                        icon = {
+                            item.renderIcon(isSelected)
+                        },
+                        label = {
+                            item.renderLabel()
+                        },
+                    )
+                }
+            }
+        },
+        navigationDrawer = {
+            PermanentDrawerSheet(
+                modifier = modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp),
+            ) {
+                renderNavigationItems { item, isSelected, onClick ->
+                    NavigationDrawerItem(
+                        selected = isSelected,
+                        onClick = onClick,
+                        icon = {
+                            item.renderIcon(isSelected)
+                        },
+                        label = {
+                            item.renderLabel()
+                        },
+                    )
+                }
+            }
+        },
+        modifier = modifier,
+        content = {
+            NavigationObserver(
+                navController = navController,
+            )
+            AsyncContent(
+                loadData = computeStartDestination,
+            ) { startDestination ->
+                NavHost(
+                    modifier = modifier,
+                    navController = navController,
+                    startDestination = startDestination,
+                    builder = builder,
+                )
+            }
+        },
+    )
+}
+
+@Composable
+private fun PixivNavigationItemContainer(
+    isItemSelected: (destination: Destination) -> Boolean,
+    onItemSelected: (destination: Destination) -> Unit,
+    navigationItem: @Composable (item: TopLevelDestination, isSelected: Boolean, onClick: () -> Unit) -> Unit,
+) {
+    TOP_LEVEL_DESTINATIONS.forEach { item ->
+        val isSelected = isItemSelected(item.destination)
+        navigationItem(item, isSelected) { if (!isSelected) onItemSelected(item.destination) }
     }
 }

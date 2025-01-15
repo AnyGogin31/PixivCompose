@@ -31,13 +31,13 @@ plugins {
 group = "neilt.mobile.convention"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_17
+        jvmTarget = JvmTarget.JVM_11
     }
 }
 
@@ -51,15 +51,14 @@ dependencies {
     compileOnly(libs.kotlin.compose.gradlePlugin)
 
     // Static Analyzer
-    compileOnly(libs.detekt.gradlePlugin)
     compileOnly(libs.ktlint.gradlePlugin)
 }
 
 gradlePlugin {
     plugins {
-        register("neiltApplicationAndroid") {
-            id = "neilt.application.android"
-            implementationClass = "NeIltApplicationAndroid"
+        register("neiltMultiplatformApplication") {
+            id = "neilt.multiplatform.application"
+            implementationClass = "NeIltMultiplatformApplicationPlugin"
         }
 
         register("neiltMultiplatformCompose") {
@@ -67,9 +66,9 @@ gradlePlugin {
             implementationClass = "NeIltMultiplatformComposePlugin"
         }
 
-        register("neiltMultiplatform") {
-            id = "neilt.multiplatform"
-            implementationClass = "NeIltMultiplatformPlugin"
+        register("neiltMultiplatformLibrary") {
+            id = "neilt.multiplatform.library"
+            implementationClass = "NeIltMultiplatformLibraryPlugin"
         }
     }
 }

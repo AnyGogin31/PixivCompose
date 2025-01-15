@@ -24,22 +24,11 @@
 
 package neilt.mobile.pixiv.features.main.presentation.home
 
-import neilt.mobile.pixiv.core.state.ViewState
-import neilt.mobile.pixiv.core.state.onState
-import neilt.mobile.pixiv.core.state.whenState
+import neilt.mobile.pixiv.domain.models.home.Illustration
 
-internal object Empty : ViewState
-
-internal inline fun <reified T : Any> ViewState.whenStateExtended(
-    onLoading: () -> Unit = {},
-    onLoaded: (T) -> Unit = {},
-    onError: (String) -> Unit = {},
-    onEmpty: () -> Unit = {},
-) {
-    whenState(
-        onLoading = onLoading,
-        onLoaded = onLoaded,
-        onError = onError,
-    )
-    onState<Empty> { onEmpty() }
-}
+data class HomeViewState(
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
+    val illustrations: List<Illustration> = emptyList(),
+    val selectedIllustration: Illustration? = null,
+)

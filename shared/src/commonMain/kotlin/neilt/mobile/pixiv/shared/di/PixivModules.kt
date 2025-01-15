@@ -44,5 +44,4 @@ val pixivModules = listOf(
     searchFeatureModule,
     settingsFeatureModule,
     navigationModule,
-    sharedModule,
 )

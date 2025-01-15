@@ -1,5 +1,12 @@
 [versions]
 
+android-compileSdk = "35"
+android-minSdk = "24"
+android-targetSdk = "35"
+
+version-name = "1.2.0"
+version-code = "10"
+
 # Gradle Plugins
 androidGradlePlugin = "8.8.0"
 kotlinGradlePlugin = "2.1.0"
@@ -14,6 +21,8 @@ kotlinSerializationJson = "1.8.0"
 
 # Compose
 composeNavigation = "2.8.0-alpha11"
+compose-desktop-browser-wtf = "1.9.40"
+compose-adaptive = "1.0.1"
 
 # AndroidX
 androidActivity = "1.9.3"
@@ -44,9 +53,6 @@ junitJupiter = "5.11.4"
 mockito = "5.15.2"
 mockitoKotlin = "5.4.0"
 
-# Detekt
-detektRulesCompose = "0.4.22"
-
 
 [libraries]
 
@@ -56,15 +62,12 @@ android-tools-gradlePlugin = { group = "com.android.tools.build", name = "gradle
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlin-compose-gradlePlugin = { group = "org.jetbrains.compose", name = "org.jetbrains.compose.gradle.plugin", version.ref = "composeGradlePlugin" }
 
-detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
 ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlintGradlePlugin" }
-
-# Detekt
-detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektGradlePlugin" }
-detekt-rules-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektRulesCompose" }
 
 # Compose
 compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+compose-desktop-browser-wtf = { group = "io.github.kevinnzou", name = "compose-webview-multiplatform", version.ref = "compose-desktop-browser-wtf" }
+compose-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "compose-adaptive" }
 
 # AndroidX
 android-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "androidActivity" }
@@ -105,6 +108,10 @@ kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coro
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
 
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinCoroutines" }
+
 # Moko
 moko-permissions = { group = "dev.icerock.moko", name = "permissions", version.ref = "mokoPermissions" }
 moko-permissions-compose = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "mokoPermissions" }
@@ -133,10 +140,9 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 # Static Analyzer
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
 
 # Plugins defined by this project
-neilt-application-android = { id = "neilt.application.android" }
+neilt-application-android = { id = "neilt.multiplatform.application" }
 neilt-multiplatform-compose = { id = "neilt.multiplatform.compose" }
-neilt-multiplatform = { id = "neilt.multiplatform" }
+neilt-multiplatform = { id = "neilt.multiplatform.library" }

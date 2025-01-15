@@ -22,18 +22,19 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://jogamp.org/deployment/maven")
     }
 }
 
-include(":app-android")
+include(":app")
 
+include(":core:data")
 include(":core:desingsystem")
+include(":core:domain")
 include(":core:navigation")
 include(":core:router")
 include(":core:state")
-
-include(":data")
-include(":domain")
+include(":core:sugar")
 
 include(":features:auth")
 include(":features:details:details-navigation")

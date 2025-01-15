@@ -24,15 +24,10 @@
 
 package neilt.mobile.convention
 
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import neilt.mobile.convention.extensions.detektPlugins
-import neilt.mobile.convention.extensions.getLibrary
 import neilt.mobile.convention.extensions.getPlugin
-import neilt.mobile.convention.extensions.getVersion
 import neilt.mobile.convention.extensions.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
@@ -63,21 +58,6 @@ internal fun Project.configureKtlint() {
             exclude {
                 it.file.path.contains("generated")
             }
-        }
-    }
-}
-
-internal fun Project.configureDetekt() {
-    pluginManager.apply(libs.getPlugin("detekt").get().pluginId)
-
-    extensions.configure<DetektExtension> {
-        toolVersion = libs.getVersion("detektGradlePlugin").toString()
-        parallel = true
-        autoCorrect = true
-
-        dependencies {
-            detektPlugins(libs.getLibrary("detekt-formatting"))
-            detektPlugins(libs.getLibrary("detekt-rules-compose"))
         }
     }
 }

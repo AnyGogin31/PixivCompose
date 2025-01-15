@@ -27,22 +27,13 @@ package neilt.mobile.convention
 import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-object Configuration {
+internal object Configuration {
 
-    object Java {
-        val JAVA_TARGET = JvmTarget.JVM_17
-        val JAVA_VERSION = JavaVersion.VERSION_17
-    }
+    val JAVA_TARGET = JvmTarget.JVM_11
+    val JAVA_VERSION = JavaVersion.VERSION_11
 
-    object Sdk {
-        const val COMPILE_SDK = 35
-        const val TARGET_SDK = 35
-        const val MIN_SDK = 24
-    }
-
-    object App {
-        const val APPLICATION_ID = "neilt.mobile.pixiv"
-        const val VERSION_NAME = "1.2.0"
-        const val VERSION_CODE = 10
-    }
+    const val APPLICATION_ID = "neilt.mobile.pixiv"
 }
+
+//const val VERSION_NAME = "1.2.0"
+//const val VERSION_CODE = 10

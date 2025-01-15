@@ -25,13 +25,9 @@
 package neilt.mobile.pixiv.features.main.di
 
 import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
-import neilt.mobile.pixiv.features.main.presentation.manga.MangaViewModel
-import neilt.mobile.pixiv.features.main.presentation.profile.ProfileViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val mainFeatureModule = module {
     viewModelOf(::HomeViewModel)
-    viewModelOf(::MangaViewModel)
-    viewModelOf(::ProfileViewModel)
 }

@@ -26,10 +26,10 @@ package neilt.mobile.pixiv.desingsystem.di
 
 import neilt.mobile.pixiv.desingsystem.provider.IosThemeProvider
 import neilt.mobile.pixiv.desingsystem.provider.ThemeProvider
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal actual val platformDesignSystemModule = module {
-    singleOf(::IosThemeProvider) bind ThemeProvider::class
+    factoryOf(::IosThemeProvider) bind ThemeProvider::class
 }

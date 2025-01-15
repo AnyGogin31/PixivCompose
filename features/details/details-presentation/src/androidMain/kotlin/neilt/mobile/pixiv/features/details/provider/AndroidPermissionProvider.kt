@@ -24,14 +24,10 @@
 
 package neilt.mobile.pixiv.features.details.provider
 
-import android.os.Build
-import dev.icerock.moko.permissions.Permission
-import dev.icerock.moko.permissions.PermissionsController
-
 class AndroidPermissionProvider : PermissionProvider {
-    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            controller.providePermission(Permission.WRITE_STORAGE)
-        }
-    }
+//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+//            controller.providePermission(Permission.WRITE_STORAGE)
+//        }
+//    }
 }

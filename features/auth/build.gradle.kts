@@ -5,33 +5,27 @@ plugins {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(projects.data)
-                implementation(projects.domain)
+        val desktopMain by getting
 
-                implementation(projects.core.navigation)
-                implementation(projects.core.desingsystem)
-                implementation(projects.core.state)
-
-                implementation(projects.features.main)
-
-                implementation(projects.resources)
-
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.compose.viewmodel)
-                implementation(libs.coil.compose)
-
-                implementation(libs.kotlin.coroutines.core)
-                implementation(libs.android.lifecycle.viewmodel)
-            }
+        commonMain.dependencies {
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.coil.compose)
+            implementation(libs.kotlin.coroutines.core)
+            implementation(libs.android.lifecycle.viewmodel)
+            implementation(projects.core.data)
+            implementation(projects.core.desingsystem)
+            implementation(projects.core.domain)
+            implementation(projects.core.navigation)
+            implementation(projects.core.state)
+            implementation(projects.features.main)
+            implementation(projects.resources)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.android.browser)
-            }
+        desktopMain.dependencies {
+            implementation(libs.compose.desktop.browser.wtf)
+            implementation(compose.desktop.currentOs)
         }
     }
 }
