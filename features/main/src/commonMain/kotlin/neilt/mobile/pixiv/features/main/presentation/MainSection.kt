@@ -29,9 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import kotlinx.serialization.Serializable
 import neilt.mobile.pixiv.core.navigation.Destination
-import neilt.mobile.pixiv.features.main.presentation.home.HomeView
-import neilt.mobile.pixiv.features.main.presentation.manga.MangaView
-import neilt.mobile.pixiv.features.main.presentation.profile.ProfileView
+import neilt.mobile.pixiv.features.main.presentation.home.addPixivHomeView
 
 @Serializable
 data object PixivMainSection : Destination {
@@ -49,8 +47,8 @@ fun NavGraphBuilder.addPixivMainSection() {
     navigation<PixivMainSection>(
         startDestination = PixivMainSection.HomeScreen,
     ) {
-        composable<PixivMainSection.HomeScreen> { HomeView() }
-        composable<PixivMainSection.MangaScreen> { MangaView() }
-        composable<PixivMainSection.ProfileScreen> { ProfileView() }
+        addPixivHomeView()
+        composable<PixivMainSection.MangaScreen> {}
+        composable<PixivMainSection.ProfileScreen> {}
     }
 }

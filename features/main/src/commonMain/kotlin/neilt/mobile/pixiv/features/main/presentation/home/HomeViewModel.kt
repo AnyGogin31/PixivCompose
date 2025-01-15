@@ -31,27 +31,17 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import neilt.mobile.pixiv.core.navigation.Navigator
-import neilt.mobile.pixiv.core.state.ErrorState
-import neilt.mobile.pixiv.core.state.LoadedState
-import neilt.mobile.pixiv.core.state.LoadingState
-import neilt.mobile.pixiv.core.state.ViewState
-import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
-import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
-import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import neilt.mobile.pixiv.features.details.PixivDetailsSection
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
-    private val searchRepository: SearchRepository,
-    private val navigator: Navigator,
 ) : ViewModel() {
-    private val _state = MutableStateFlow<ViewState>(Empty)
-    val state: StateFlow<ViewState> = _state.asStateFlow()
+    private val _uiState = MutableStateFlow(HomeViewState())
+    val uiState: StateFlow<HomeViewState> = _uiState.asStateFlow()
 
     init {
         loadIllustrations()
@@ -59,7 +49,7 @@ internal class HomeViewModel(
 
     private fun loadIllustrations() {
         viewModelScope.launch {
-            _state.value = LoadingState
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
                 val illustrations = withContext(Dispatchers.IO) {
                     homeRepository.getRecommendedIllustrations(
@@ -67,85 +57,29 @@ internal class HomeViewModel(
                         includePrivacyPolicy = false,
                     )
                 }
-                _state.value = LoadedState(data = illustrations)
+                _uiState.update { it.copy(isLoading = false, illustrations = illustrations) }
             } catch (e: Exception) {
-                _state.value = ErrorState(
-                    message = e.message ?: "Error loading illustrations",
-                )
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message ?: "Error loading illustrations",
+                    )
+                }
             }
         }
     }
 
-    suspend fun loadMoreIllustrations(offset: Int, keyword: String? = null): List<Illustration> {
+    suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
         return withContext(Dispatchers.IO) {
-            if (keyword.isNullOrEmpty()) {
-                homeRepository.getRecommendedIllustrations(
-                    includeRankingIllustrations = false,
-                    includePrivacyPolicy = false,
-                    offset = offset,
-                )
-            } else {
-                searchRepository.getSearchIllustrations(
-                    SearchIllustrationsRequest(
-                        keyword = keyword,
-                        sortOrder = null,
-                        searchTarget = null,
-                        aiType = null,
-                        minBookmarks = null,
-                        maxBookmarks = null,
-                        startDate = null,
-                        endDate = null,
-                        offset = offset,
-                    ),
-                )
-            }
-        }
-    }
-
-    fun navigateToIllustrationDetails(illustrationId: Int) {
-        viewModelScope.launch {
-            navigator.navigateTo(
-                PixivDetailsSection.IllustrationDetailsScreen(illustrationId),
+            homeRepository.getRecommendedIllustrations(
+                includeRankingIllustrations = false,
+                includePrivacyPolicy = false,
+                offset = offset,
             )
         }
     }
 
-    fun searchIllustrations(keyword: String? = null) {
-        viewModelScope.launch {
-            _state.value = LoadingState
-
-            try {
-                val result = loadMoreIllustrations(0, keyword)
-
-                _state.value =
-                    if (result.isEmpty()) {
-                        Empty
-                    } else {
-                        LoadedState(data = result)
-                    }
-            } catch (e: Exception) {
-                _state.value = ErrorState(
-                    message = e.message ?: "Error searching illustrations",
-                )
-            }
-        }
-    }
-
-    private val _predictionTags = MutableStateFlow<List<Tag>>(emptyList())
-    val predictionTags: StateFlow<List<Tag>> = _predictionTags
-
-    fun fetchTagsPrediction(query: String) {
-        if (query.isBlank()) {
-            _predictionTags.value = emptyList()
-            return
-        }
-
-        viewModelScope.launch {
-            try {
-                _predictionTags.value = searchRepository.getSearchPredictionTags(query)
-            } catch (e: Exception) {
-                _predictionTags.value = emptyList()
-            }
-        }
+    fun onIllustrationClick(illustration: Illustration) {
+        _uiState.update { it.copy(selectedIllustration = illustration) }
     }
 }
