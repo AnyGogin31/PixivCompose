@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./docs/icons/ic_launcher_snow-playstore.png" width="200" />
+<img src="./docs/icons/ic_launcher-playstore.png" width="200" />
 
 </div>
 
