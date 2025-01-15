@@ -34,6 +34,7 @@ include(":core:domain")
 include(":core:navigation")
 include(":core:router")
 include(":core:state")
+include(":core:sugar")
 
 include(":features:auth")
 include(":features:details:details-navigation")
