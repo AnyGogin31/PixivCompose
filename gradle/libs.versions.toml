@@ -25,7 +25,7 @@ compose-desktop-browser-wtf = "1.9.40"
 compose-adaptive = "1.0.1"
 
 # AndroidX
-androidActivity = "1.9.3"
+androidActivity = "1.10.0"
 androidAnnotation = "1.9.1"
 androidBrowser = "1.8.0"
 androidViewmodel = "2.8.4"
