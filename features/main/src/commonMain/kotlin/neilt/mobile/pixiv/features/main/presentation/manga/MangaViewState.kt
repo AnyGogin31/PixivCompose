@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.di
+package neilt.mobile.pixiv.features.main.presentation.manga
 
-import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
-import neilt.mobile.pixiv.features.main.presentation.manga.MangaViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import neilt.mobile.pixiv.domain.models.home.Illustration
 
-val mainFeatureModule = module {
-    viewModelOf(::HomeViewModel)
-    viewModelOf(::MangaViewModel)
-}
+data class MangaViewState(
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
+    val illustrations: List<Illustration> = emptyList(),
+    val selectedIllustration: Illustration? = null,
+)

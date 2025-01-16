@@ -28,16 +28,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import neilt.mobile.pixiv.core.navigation.Destination
 import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.navigation_home
 import neilt.mobile.pixiv.resources.navigation_manga
-import neilt.mobile.pixiv.resources.navigation_profile
 import org.jetbrains.compose.resources.StringResource
 
 internal data class TopLevelDestination(
@@ -59,11 +56,5 @@ internal val TOP_LEVEL_DESTINATIONS = listOf(
         selectedIcon = Icons.AutoMirrored.Filled.MenuBook,
         unselectedIcon = Icons.AutoMirrored.Outlined.MenuBook,
         label = Res.string.navigation_manga,
-    ),
-    TopLevelDestination(
-        destination = PixivMainSection.ProfileScreen,
-        selectedIcon = Icons.Filled.Person,
-        unselectedIcon = Icons.Outlined.Person,
-        label = Res.string.navigation_profile,
     ),
 )

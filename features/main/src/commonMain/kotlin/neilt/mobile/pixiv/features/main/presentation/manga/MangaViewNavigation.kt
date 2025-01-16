@@ -22,14 +22,29 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.di
+package neilt.mobile.pixiv.features.main.presentation.manga
 
-import neilt.mobile.pixiv.features.main.presentation.home.HomeViewModel
-import neilt.mobile.pixiv.features.main.presentation.manga.MangaViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import neilt.mobile.pixiv.desingsystem.foundation.suite.LocalNavigationSuiteScope
+import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
+import org.koin.compose.viewmodel.koinViewModel
 
-val mainFeatureModule = module {
-    viewModelOf(::HomeViewModel)
-    viewModelOf(::MangaViewModel)
+internal fun NavGraphBuilder.addPixivMangaView() {
+    composable<PixivMainSection.MangaScreen> {
+        val viewModel: MangaViewModel = koinViewModel()
+
+        val uiState by viewModel.uiState.collectAsState()
+        val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
+
+        MangaView(
+            uiState = uiState,
+            navigationSuiteScope = navigationSuiteScope,
+            onIllustrationClick = viewModel::onIllustrationClick,
+            loadMoreIllustrations = viewModel::loadMoreIllustrations,
+        )
+    }
 }
