@@ -11,6 +11,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.kotlin.coroutines.core)
             implementation(libs.android.lifecycle.viewmodel)
+            implementation(libs.compose.adaptive)
             implementation(projects.core.desingsystem)
             implementation(projects.core.domain)
             implementation(projects.resources)

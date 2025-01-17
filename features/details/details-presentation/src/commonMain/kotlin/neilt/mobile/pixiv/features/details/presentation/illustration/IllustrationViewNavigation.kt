@@ -22,12 +22,34 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.di
+package neilt.mobile.pixiv.features.details.presentation.illustration
 
-import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.desingsystem.foundation.suite.LocalNavigationSuiteScope
+import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import org.koin.compose.viewmodel.koinViewModel
 
-val detailsFeatureModule = module {
-    viewModelOf(::IllustrationViewModel)
+@Composable
+fun IllustrationViewNavigation(
+    illustrationId: Int,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: IllustrationViewModel = koinViewModel()
+
+    LaunchedEffect(key1 = illustrationId) {
+        viewModel.loadIllustration(illustrationId)
+    }
+
+    val uiState by viewModel.uiState.collectAsState()
+    val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
+
+    IllustrationView(
+        uiState = uiState,
+        navigationSuiteScope = navigationSuiteScope,
+        modifier = modifier,
+    )
 }

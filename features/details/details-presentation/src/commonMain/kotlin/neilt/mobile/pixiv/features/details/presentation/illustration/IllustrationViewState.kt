@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.di
+package neilt.mobile.pixiv.features.details.presentation.illustration
 
-import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 
-val detailsFeatureModule = module {
-    viewModelOf(::IllustrationViewModel)
-}
+data class IllustrationViewState(
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
+    val illustration: IllustrationDetails? = null,
+)
