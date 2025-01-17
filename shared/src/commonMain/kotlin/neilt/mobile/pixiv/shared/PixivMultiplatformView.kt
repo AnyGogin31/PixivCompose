@@ -65,7 +65,6 @@ import neilt.mobile.pixiv.desingsystem.provider.provideImageLoader
 import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 import neilt.mobile.pixiv.domain.repositories.icon.IconRepository
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
-import neilt.mobile.pixiv.features.details.presentation.addPixivIllustrationSection
 import neilt.mobile.pixiv.features.main.presentation.addPixivMainSection
 import neilt.mobile.pixiv.features.search.presentation.addPixivSearchSection
 import neilt.mobile.pixiv.features.settings.presentation.addPixivSettingsSection
@@ -102,7 +101,6 @@ internal fun PixivMultiplatformView(
         ) {
             addPixivAuthSection()
             addPixivMainSection()
-            addPixivIllustrationSection()
             addPixivSearchSection()
             addPixivSettingsSection()
         }

@@ -45,9 +45,6 @@ koin = "4.0.1"
 # Ktor
 ktorClientCore = "3.0.3"
 
-# Moko
-mokoPermissions = "0.18.1"
-
 # Testing
 junitJupiter = "5.11.4"
 mockito = "5.15.2"
@@ -111,10 +108,6 @@ kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-s
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinCoroutines" }
-
-# Moko
-moko-permissions = { group = "dev.icerock.moko", name = "permissions", version.ref = "mokoPermissions" }
-moko-permissions-compose = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "mokoPermissions" }
 
 # Testing
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
