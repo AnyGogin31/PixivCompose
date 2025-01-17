@@ -49,6 +49,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil3.PlatformContext
+import coil3.compose.setSingletonImageLoaderFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import neilt.mobile.pixiv.core.navigation.Destination
@@ -59,6 +61,7 @@ import neilt.mobile.pixiv.core.router.Router
 import neilt.mobile.pixiv.desingsystem.PixivTheme
 import neilt.mobile.pixiv.desingsystem.foundation.animation.AsyncContent
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScaffold
+import neilt.mobile.pixiv.desingsystem.provider.provideImageLoader
 import neilt.mobile.pixiv.domain.provider.UpdateCheckerProvider
 import neilt.mobile.pixiv.domain.repositories.icon.IconRepository
 import neilt.mobile.pixiv.features.auth.presentation.addPixivAuthSection
@@ -78,6 +81,10 @@ import org.koin.compose.koinInject
 internal fun PixivMultiplatformView(
     modifier: Modifier = Modifier,
 ) {
+    setSingletonImageLoaderFactory { context: PlatformContext ->
+        provideImageLoader(context)
+    }
+
     val iconRepository: IconRepository = koinInject()
     val updateCheckerProvider: UpdateCheckerProvider = koinInject()
 
