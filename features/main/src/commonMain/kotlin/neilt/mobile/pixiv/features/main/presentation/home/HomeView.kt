@@ -58,11 +58,13 @@ import neilt.mobile.pixiv.desingsystem.foundation.pane.TwoPane
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationContentType
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationViewNavigation
 
 @Composable
 fun HomeView(
     uiState: HomeViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -72,6 +74,7 @@ fun HomeView(
             HomeViewDualPane(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
+                onCloseClick = onCloseClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -82,6 +85,7 @@ fun HomeView(
             HomeViewSinglePane(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
+                onCloseClick = onCloseClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -94,6 +98,7 @@ fun HomeView(
 private fun HomeViewDualPane(
     uiState: HomeViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -129,7 +134,10 @@ private fun HomeViewDualPane(
             when {
                 uiState.selectedIllustration != null -> {
                     splitFraction = splitFraction.replaceIfEquals(0.5f, 0.5f)
-                    TODO()
+                    IllustrationViewNavigation(
+                        illustrationId = uiState.selectedIllustration.id,
+                        onCloseClick = onCloseClick,
+                    )
                 }
 
                 else -> {
@@ -146,6 +154,7 @@ private fun HomeViewDualPane(
 private fun HomeViewSinglePane(
     uiState: HomeViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -167,7 +176,10 @@ private fun HomeViewSinglePane(
             uiState.errorMessage != null -> ErrorView(uiState.errorMessage)
 
             uiState.selectedIllustration != null -> {
-                TODO()
+                IllustrationViewNavigation(
+                    illustrationId = uiState.selectedIllustration.id,
+                    onCloseClick = onCloseClick,
+                )
             }
 
             else -> {

@@ -26,8 +26,14 @@ package neilt.mobile.pixiv.features.details.presentation.illustration
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
@@ -35,20 +41,26 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
+import coil3.compose.AsyncImage
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+import neilt.mobile.pixiv.domain.models.home.ImageUrls
 
 @Composable
 fun IllustrationView(
     uiState: IllustrationViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     IllustrationViewSinglePane(
         uiState = uiState,
         navigationSuiteScope = navigationSuiteScope,
+        onCloseClick = onCloseClick,
         modifier = modifier,
     )
 }
@@ -57,6 +69,7 @@ fun IllustrationView(
 private fun IllustrationViewSinglePane(
     uiState: IllustrationViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val windowWidthSizeClass: WindowWidthSizeClass = navigationSuiteScope
@@ -67,16 +80,21 @@ private fun IllustrationViewSinglePane(
         modifier = modifier,
     ) {
         IllustrationViewTopBar(
-            onCloseClick = { TODO() },
+            onCloseClick = onCloseClick,
         )
 
         when {
-            uiState.isLoading -> TODO()
+            uiState.isLoading -> {
+                ShimmerIllustrationDetails(
+                    windowWidthSizeClass = windowWidthSizeClass,
+                )
+            }
 
             uiState.errorMessage != null -> ErrorView(uiState.errorMessage)
 
             uiState.illustration != null -> {
                 IllustrationDetails(
+                    illustrationDetails = uiState.illustration,
                     windowWidthSizeClass = windowWidthSizeClass,
                 )
             }
@@ -106,8 +124,51 @@ private fun IllustrationViewTopBar(
 
 @Composable
 private fun IllustrationDetails(
+    illustrationDetails: IllustrationDetails,
+    windowWidthSizeClass: WindowWidthSizeClass,
+    modifier: Modifier = Modifier,
+) {
+    val (imageUrls, isSinglePage) = illustrationDetails.extractImageUrls()
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(8.dp),
+    ) {
+        items(
+            count = imageUrls.size,
+            key = { index: Int -> index },
+            span = { _: Int ->
+                GridItemSpan(
+                    currentLineSpan = if (isSinglePage) maxLineSpan else 1,
+                )
+            },
+        ) { index: Int ->
+            AsyncImage(
+                model = imageUrls[index],
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                contentScale = ContentScale.Crop,
+            )
+        }
+    }
+
+    TODO()
+}
+
+@Composable
+private fun ShimmerIllustrationDetails(
     windowWidthSizeClass: WindowWidthSizeClass,
     modifier: Modifier = Modifier,
 ) {
     TODO()
+}
+
+private fun IllustrationDetails.extractImageUrls(): Pair<List<ImageUrls>, Boolean> {
+    val images = metaPages.ifEmpty { listOf(metaSinglePage) }
+    val isSinglePage = images.size < 2
+
+    return Pair(images, isSinglePage)
 }

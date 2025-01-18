@@ -79,6 +79,10 @@ internal class HomeViewModel(
         }
     }
 
+    fun onCloseClick() {
+        _uiState.update { it.copy(selectedIllustration = null) }
+    }
+
     fun onIllustrationClick(illustration: Illustration) {
         _uiState.update { it.copy(selectedIllustration = illustration) }
     }

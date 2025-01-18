@@ -36,6 +36,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun IllustrationViewNavigation(
     illustrationId: Int,
+    onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: IllustrationViewModel = koinViewModel()
@@ -50,6 +51,7 @@ fun IllustrationViewNavigation(
     IllustrationView(
         uiState = uiState,
         navigationSuiteScope = navigationSuiteScope,
+        onCloseClick = onCloseClick,
         modifier = modifier,
     )
 }
