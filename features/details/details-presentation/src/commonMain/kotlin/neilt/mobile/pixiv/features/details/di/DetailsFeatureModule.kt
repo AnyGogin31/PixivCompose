@@ -24,17 +24,10 @@
 
 package neilt.mobile.pixiv.features.details.di
 
-import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationDetailsViewModel
-import neilt.mobile.pixiv.features.details.presentation.user.UserDetailViewModel
-import org.koin.core.module.Module
+import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val detailsFeatureModule = module {
-    viewModelOf(::IllustrationDetailsViewModel)
-    viewModelOf(::UserDetailViewModel)
-
-    includes(platformDetailsFeatureModule)
+    viewModelOf(::IllustrationViewModel)
 }
-
-internal expect val platformDetailsFeatureModule: Module

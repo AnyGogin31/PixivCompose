@@ -22,12 +22,36 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.features.details.presentation.illustration
 
-class AndroidPermissionProvider : PermissionProvider {
-//    override suspend fun checkWriteStoragePermission(controller: PermissionsController) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-//            controller.providePermission(Permission.WRITE_STORAGE)
-//        }
-//    }
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.desingsystem.foundation.suite.LocalNavigationSuiteScope
+import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import org.koin.compose.viewmodel.koinViewModel
+
+@Composable
+fun IllustrationViewNavigation(
+    illustrationId: Int,
+    onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: IllustrationViewModel = koinViewModel()
+
+    LaunchedEffect(key1 = illustrationId) {
+        viewModel.loadIllustration(illustrationId)
+    }
+
+    val uiState by viewModel.uiState.collectAsState()
+    val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
+
+    IllustrationView(
+        uiState = uiState,
+        navigationSuiteScope = navigationSuiteScope,
+        onCloseClick = onCloseClick,
+        modifier = modifier,
+    )
 }

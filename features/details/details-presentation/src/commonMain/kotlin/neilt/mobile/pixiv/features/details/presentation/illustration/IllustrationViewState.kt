@@ -22,8 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.features.details.presentation.illustration
 
-interface ToastProvider {
-    fun showToast(message: String)
-}
+import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
+
+data class IllustrationViewState(
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
+    val illustration: IllustrationDetails? = null,
+)

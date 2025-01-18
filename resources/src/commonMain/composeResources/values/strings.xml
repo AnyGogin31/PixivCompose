@@ -27,6 +27,7 @@
     <!-- Illustration Details -->
     <string name="views_and_bookmarks">Views: %1$s, Bookmarks: %2$s</string>
     <string name="author_avatar">Author avatar</string>
+    <string name="close_details_screen">Close details screen</string>
 
     <!-- Illustration Item -->
     <string name="illustration_description">Illustration: %1$s</string>

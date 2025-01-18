@@ -22,8 +22,13 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.provider
+package neilt.mobile.pixiv.features.main.presentation.manga
 
-class DesktopToastProvider : ToastProvider {
-    override fun showToast(message: String) = Unit
-}
+import neilt.mobile.pixiv.domain.models.home.Illustration
+
+data class MangaViewState(
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
+    val illustrations: List<Illustration> = emptyList(),
+    val selectedIllustration: Illustration? = null,
+)

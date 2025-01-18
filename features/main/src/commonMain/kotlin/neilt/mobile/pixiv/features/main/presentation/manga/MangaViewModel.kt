@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.home
+package neilt.mobile.pixiv.features.main.presentation.manga
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,11 +37,11 @@ import kotlinx.coroutines.withContext
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
 
-internal class HomeViewModel(
+internal class MangaViewModel(
     private val homeRepository: HomeRepository,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(HomeViewState())
-    val uiState: StateFlow<HomeViewState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(MangaViewState())
+    val uiState: StateFlow<MangaViewState> = _uiState.asStateFlow()
 
     init {
         loadIllustrations()
@@ -52,7 +52,7 @@ internal class HomeViewModel(
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {
                 val illustrations = withContext(Dispatchers.IO) {
-                    homeRepository.getRecommendedIllustrations(
+                    homeRepository.getRecommendedManga(
                         includeRankingIllustrations = false,
                         includePrivacyPolicy = false,
                     )
@@ -71,16 +71,12 @@ internal class HomeViewModel(
 
     suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
         return withContext(Dispatchers.IO) {
-            homeRepository.getRecommendedIllustrations(
+            homeRepository.getRecommendedManga(
                 includeRankingIllustrations = false,
                 includePrivacyPolicy = false,
                 offset = offset,
             )
         }
-    }
-
-    fun onCloseClick() {
-        _uiState.update { it.copy(selectedIllustration = null) }
     }
 
     fun onIllustrationClick(illustration: Illustration) {

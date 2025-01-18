@@ -22,32 +22,29 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.details.presentation.user
+package neilt.mobile.pixiv.features.main.presentation.manga
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import neilt.mobile.pixiv.core.state.ErrorState
-import neilt.mobile.pixiv.core.state.LoadedState
-import neilt.mobile.pixiv.core.state.LoadingState
-import neilt.mobile.pixiv.core.state.ViewState
-import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import neilt.mobile.pixiv.desingsystem.foundation.suite.LocalNavigationSuiteScope
+import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
+import org.koin.compose.viewmodel.koinViewModel
 
-internal class UserDetailViewModel(
-    private val profileRepository: ProfileRepository,
-) : ViewModel() {
-    private val _uiState = MutableStateFlow<ViewState>(LoadingState)
-    val uiState: StateFlow<ViewState> = _uiState
+internal fun NavGraphBuilder.addPixivMangaView() {
+    composable<PixivMainSection.MangaScreen> {
+        val viewModel: MangaViewModel = koinViewModel()
 
-    suspend fun fetchUserDetail(userId: Int) {
-        _uiState.value = LoadingState
-        try {
-            val userDetail = profileRepository.getUserDetail(userId)
-            _uiState.value = LoadedState(data = userDetail)
-        } catch (e: Exception) {
-            _uiState.value = ErrorState(
-                e.message ?: "Error fetching profile",
-            )
-        }
+        val uiState by viewModel.uiState.collectAsState()
+        val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
+
+        MangaView(
+            uiState = uiState,
+            navigationSuiteScope = navigationSuiteScope,
+            onIllustrationClick = viewModel::onIllustrationClick,
+            loadMoreIllustrations = viewModel::loadMoreIllustrations,
+        )
     }
 }

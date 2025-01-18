@@ -27,6 +27,7 @@ package neilt.mobile.pixiv.desingsystem.foundation.fake
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -56,4 +57,22 @@ fun ShimmerLazyVerticalGrid(
             shimmerItemContent()
         }
     }
+}
+
+@Composable
+fun ShimmerLazyVerticalGrid(
+    columns: GridCells,
+    modifier: Modifier = Modifier,
+    itemSpacing: Dp = 8.dp,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    content: LazyGridScope.() -> Unit,
+) {
+    LazyVerticalGrid(
+        columns = columns,
+        modifier = modifier,
+        contentPadding = contentPadding,
+        horizontalArrangement = Arrangement.spacedBy(itemSpacing),
+        verticalArrangement = Arrangement.spacedBy(itemSpacing),
+        content = content,
+    )
 }
