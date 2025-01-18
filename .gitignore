@@ -2,9 +2,6 @@
 **/build/
 !src/**/build/
 
-# Ignore server-generated files
-server-output/
-
 # Ignore IntelliJ IDEA project files
 .idea
 !.idea/copyright/

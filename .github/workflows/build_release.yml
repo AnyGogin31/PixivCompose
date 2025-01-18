@@ -45,7 +45,7 @@ jobs:
         with:
           repository: ${{ secrets.KEY_STORE_GIT_REPOSITORY }}
           token: ${{ secrets.GIT_ACCESS_TOKEN }}
-          path: app-android/keystore
+          path: app/keystore
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -66,5 +66,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.event.inputs.tagname }}
           draft: true
-          file: app-android/build/outputs/apk/release/app-android-release.apk
+          file: app/build/outputs/apk/release/app-release.apk
           asset_name: PixivCompose-${{ github.event.inputs.tagname }}.apk

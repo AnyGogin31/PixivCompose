@@ -48,6 +48,8 @@ internal fun Project.configureKotlinMultiplatform(
         iosSimulatorArm64()
 
         jvm("desktop")
+
+        jvmToolchain(Configuration.JAVA_TOOLCHAIN)
     }
 
     configureKotlin(commonExtension)
