@@ -25,6 +25,7 @@
     <!-- イラストの詳細 -->
     <string name="views_and_bookmarks">閲覧数: %1$s、ブックマーク数: %2$s</string>
     <string name="author_avatar">作者のアバター</string>
+    <string name="close_details_screen">詳細画面を閉じる</string>
 
     <!-- イラスト項目 -->
     <string name="illustration_description">イラスト: %1$s</string>

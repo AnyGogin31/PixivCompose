@@ -25,6 +25,7 @@
     <!-- Детали иллюстрации -->
     <string name="views_and_bookmarks">Просмотры: %1$s, Закладки: %2$s</string>
     <string name="author_avatar">Аватар автора</string>
+    <string name="close_details_screen">Закрыть экран деталей</string>
 
     <!-- Элемент иллюстрации -->
     <string name="illustration_description">Иллюстрация: %1$s</string>

@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,11 +63,14 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
 import coil3.compose.AsyncImage
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
+import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerBox
+import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerLazyVerticalGrid
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 import neilt.mobile.pixiv.domain.models.home.ImageUrls
 import neilt.mobile.pixiv.resources.Res
 import neilt.mobile.pixiv.resources.author_avatar
+import neilt.mobile.pixiv.resources.close_details_screen
 import neilt.mobile.pixiv.resources.views_and_bookmarks
 import org.jetbrains.compose.resources.stringResource
 
@@ -136,7 +140,7 @@ private fun IllustrationViewTopBar(
         IconButton(onClick = onCloseClick) {
             Icon(
                 imageVector = Icons.Filled.Close,
-                contentDescription = null, // TODO
+                contentDescription = stringResource(Res.string.close_details_screen),
             )
         }
     }
@@ -278,7 +282,90 @@ private fun ShimmerIllustrationDetails(
 ) {
     val gridColumns by rememberGridCells(windowWidthSizeClass)
 
-    TODO()
+    ShimmerLazyVerticalGrid(
+        columns = gridColumns,
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(8.dp),
+        itemSpacing = 8.dp,
+    ) {
+        items(
+            count = 2,
+        ) {
+            ShimmerBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .aspectRatio(0.75f),
+            )
+        }
+
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+        ) {
+            Spacer(
+                modifier = Modifier.height(16.dp),
+            )
+        }
+
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ShimmerBox(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape),
+                )
+
+                Spacer(
+                    modifier = Modifier.width(8.dp),
+                )
+
+                ShimmerBox(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .fillMaxWidth(0.3f),
+                )
+            }
+        }
+
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+        ) {
+            Spacer(
+                modifier = Modifier.height(16.dp),
+            )
+        }
+
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+        ) {
+            ShimmerBox(
+                modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth(),
+            )
+        }
+    }
 }
 
 @Composable
