@@ -22,30 +22,19 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.manga
+// TODO: Rework after complete code migration
 
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import neilt.mobile.pixiv.desingsystem.foundation.suite.LocalNavigationSuiteScope
+package neilt.mobile.pixiv.features.details.presentation.manga
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
-import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
-import org.koin.compose.viewmodel.koinViewModel
 
-internal fun NavGraphBuilder.addPixivMangaView() {
-    composable<PixivMainSection.MangaScreen> {
-        val viewModel: MangaViewModel = koinViewModel()
-
-        val uiState by viewModel.uiState.collectAsState()
-        val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
-
-        MangaView(
-            uiState = uiState,
-            navigationSuiteScope = navigationSuiteScope,
-            onCloseClick = viewModel::onCloseClick,
-            onIllustrationClick = viewModel::onIllustrationClick,
-            loadMoreIllustrations = viewModel::loadMoreIllustrations,
-        )
-    }
+@Composable
+fun MangaView(
+    uiState: MangaViewState,
+    navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
 }

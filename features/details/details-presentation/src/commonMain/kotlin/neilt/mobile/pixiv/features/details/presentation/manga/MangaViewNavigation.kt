@@ -22,30 +22,36 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.main.presentation.manga
+package neilt.mobile.pixiv.features.details.presentation.manga
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.compose.ui.Modifier
 import neilt.mobile.pixiv.desingsystem.foundation.suite.LocalNavigationSuiteScope
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
-import neilt.mobile.pixiv.features.main.presentation.PixivMainSection
 import org.koin.compose.viewmodel.koinViewModel
 
-internal fun NavGraphBuilder.addPixivMangaView() {
-    composable<PixivMainSection.MangaScreen> {
-        val viewModel: MangaViewModel = koinViewModel()
+@Composable
+fun MangaViewNavigation(
+    mangaId: Int,
+    onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: MangaViewModel = koinViewModel()
 
-        val uiState by viewModel.uiState.collectAsState()
-        val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
-
-        MangaView(
-            uiState = uiState,
-            navigationSuiteScope = navigationSuiteScope,
-            onCloseClick = viewModel::onCloseClick,
-            onIllustrationClick = viewModel::onIllustrationClick,
-            loadMoreIllustrations = viewModel::loadMoreIllustrations,
-        )
+    LaunchedEffect(key1 = mangaId) {
+        viewModel.loadManga(mangaId)
     }
+
+    val uiState by viewModel.uiState.collectAsState()
+    val navigationSuiteScope: NavigationSuiteScope = LocalNavigationSuiteScope.current
+
+    MangaView(
+        uiState = uiState,
+        navigationSuiteScope = navigationSuiteScope,
+        onCloseClick = onCloseClick,
+        modifier = modifier,
+    )
 }

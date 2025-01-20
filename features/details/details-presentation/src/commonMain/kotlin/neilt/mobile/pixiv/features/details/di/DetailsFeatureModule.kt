@@ -25,9 +25,11 @@
 package neilt.mobile.pixiv.features.details.di
 
 import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationViewModel
+import neilt.mobile.pixiv.features.details.presentation.manga.MangaViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val detailsFeatureModule = module {
     viewModelOf(::IllustrationViewModel)
+    viewModelOf(::MangaViewModel)
 }

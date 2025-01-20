@@ -29,6 +29,6 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 data class MangaViewState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
-    val illustrations: List<Illustration> = emptyList(),
-    val selectedIllustration: Illustration? = null,
+    val manga: List<Illustration> = emptyList(),
+    val selectedManga: Illustration? = null,
 )

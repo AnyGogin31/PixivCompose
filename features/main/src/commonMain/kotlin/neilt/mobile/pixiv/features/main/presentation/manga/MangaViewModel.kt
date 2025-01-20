@@ -57,7 +57,7 @@ internal class MangaViewModel(
                         includePrivacyPolicy = false,
                     )
                 }
-                _uiState.update { it.copy(isLoading = false, illustrations = illustrations) }
+                _uiState.update { it.copy(isLoading = false, manga = illustrations) }
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
@@ -79,7 +79,11 @@ internal class MangaViewModel(
         }
     }
 
+    fun onCloseClick() {
+        _uiState.update { it.copy(selectedManga = null) }
+    }
+
     fun onIllustrationClick(illustration: Illustration) {
-        _uiState.update { it.copy(selectedIllustration = illustration) }
+        _uiState.update { it.copy(selectedManga = illustration) }
     }
 }

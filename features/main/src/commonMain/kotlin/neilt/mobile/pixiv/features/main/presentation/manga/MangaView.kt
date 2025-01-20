@@ -22,6 +22,9 @@
  * SOFTWARE.
  */
 
+// TODO: Rename after complete code migration
+// TODO: Rework after complete code migration
+
 package neilt.mobile.pixiv.features.main.presentation.manga
 
 import androidx.compose.foundation.layout.Box
@@ -58,6 +61,7 @@ import neilt.mobile.pixiv.desingsystem.foundation.pane.TwoPane
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationContentType
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.features.details.presentation.manga.MangaViewNavigation
 
 // Yes, this is the same implementation as in HomeView. In the future, it would be worth combining them to reduce the amount of code. :)
 
@@ -65,6 +69,7 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 fun MangaView(
     uiState: MangaViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -74,6 +79,7 @@ fun MangaView(
             MangaViewDualPane(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
+                onCloseClick = onCloseClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -84,6 +90,7 @@ fun MangaView(
             MangaViewSinglePane(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
+                onCloseClick = onCloseClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -96,6 +103,7 @@ fun MangaView(
 private fun MangaViewDualPane(
     uiState: MangaViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -120,7 +128,7 @@ private fun MangaViewDualPane(
                 else -> {
                     IllustartionGallery(
                         windowWidthSizeClass = windowWidthSizeClass,
-                        initialItems = uiState.illustrations,
+                        initialItems = uiState.manga,
                         loadMoreIllustrations = loadMoreIllustrations,
                         onIllustrationClick = onIllustrationClick,
                     )
@@ -129,9 +137,12 @@ private fun MangaViewDualPane(
         },
         secondContent = {
             when {
-                uiState.selectedIllustration != null -> {
+                uiState.selectedManga != null -> {
                     splitFraction = splitFraction.replaceIfEquals(0.5f, 0.5f)
-                    TODO()
+                    MangaViewNavigation(
+                        mangaId = uiState.selectedManga.id,
+                        onCloseClick = onCloseClick,
+                    )
                 }
 
                 else -> {
@@ -148,6 +159,7 @@ private fun MangaViewDualPane(
 private fun MangaViewSinglePane(
     uiState: MangaViewState,
     navigationSuiteScope: NavigationSuiteScope,
+    onCloseClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -168,14 +180,17 @@ private fun MangaViewSinglePane(
 
             uiState.errorMessage != null -> ErrorView(uiState.errorMessage)
 
-            uiState.selectedIllustration != null -> {
-                TODO()
+            uiState.selectedManga != null -> {
+                MangaViewNavigation(
+                    mangaId = uiState.selectedManga.id,
+                    onCloseClick = onCloseClick,
+                )
             }
 
             else -> {
                 IllustartionGallery(
                     windowWidthSizeClass = windowWidthSizeClass,
-                    initialItems = uiState.illustrations,
+                    initialItems = uiState.manga,
                     loadMoreIllustrations = loadMoreIllustrations,
                     onIllustrationClick = onIllustrationClick,
                 )
@@ -184,7 +199,6 @@ private fun MangaViewSinglePane(
     }
 }
 
-// TODO: Rework after complete code migration
 @Composable
 private fun IllustartionGallery(
     windowWidthSizeClass: WindowWidthSizeClass,
@@ -219,7 +233,6 @@ private fun IllustartionGallery(
     )
 }
 
-// TODO: Rework after complete code migration
 @Composable
 private fun IllustrationItem(
     modifier: Modifier = Modifier,
