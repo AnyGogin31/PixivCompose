@@ -19,7 +19,7 @@ kotlin {
                 implementation(projects.core.domain)
                 implementation(projects.core.navigation)
                 implementation(projects.core.sugar)
-                implementation(projects.features.details.detailsPresentation)
+                implementation(projects.features.details)
                 implementation(projects.resources)
             }
         }

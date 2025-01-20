@@ -18,8 +18,7 @@ kotlin {
             implementation(projects.core.router)
 
             implementation(projects.features.auth)
-            implementation(projects.features.details.detailsNavigation)
-            implementation(projects.features.details.detailsPresentation)
+            implementation(projects.features.details)
             implementation(projects.features.main)
             implementation(projects.features.search.searchNavigation)
             implementation(projects.features.search.searchPresentation)

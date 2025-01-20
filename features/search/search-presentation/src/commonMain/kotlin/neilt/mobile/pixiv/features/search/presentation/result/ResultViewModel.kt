@@ -34,7 +34,6 @@ import neilt.mobile.pixiv.core.navigation.Navigator
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
-import neilt.mobile.pixiv.features.details.PixivDetailsSection
 
 internal class ResultViewModel(
     private val searchRepository: SearchRepository,
@@ -68,7 +67,7 @@ internal class ResultViewModel(
 
     fun navigateToDetailsScreen(illustrationId: Int) {
         viewModelScope.launch {
-            navigator.navigateTo(PixivDetailsSection.IllustrationDetailsScreen(illustrationId))
+//            navigator.navigateTo(PixivDetailsSection.IllustrationDetailsScreen(illustrationId))
         }
     }
 }
