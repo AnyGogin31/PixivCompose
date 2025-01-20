@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,6 +63,8 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
 import coil3.compose.AsyncImage
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
+import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerBox
+import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerLazyVerticalGrid
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
 import neilt.mobile.pixiv.domain.models.details.illustration.IllustrationDetails
 import neilt.mobile.pixiv.domain.models.home.ImageUrls
@@ -166,6 +169,9 @@ private fun MangaDetails(
                     currentLineSpan = maxLineSpan,
                 )
             },
+            contentType = {
+                DetailsItemContentType.MANGA_POSTER
+            },
         ) {
             Box(
                 contentAlignment = Alignment.Center,
@@ -187,6 +193,9 @@ private fun MangaDetails(
                     currentLineSpan = maxLineSpan,
                 )
             },
+            contentType = {
+                DetailsItemContentType.SPACER
+            },
         ) {
             Spacer(
                 modifier = Modifier.height(16.dp),
@@ -198,6 +207,9 @@ private fun MangaDetails(
                 GridItemSpan(
                     currentLineSpan = maxLineSpan,
                 )
+            },
+            contentType = {
+                DetailsItemContentType.AUTHOR_AND_POPULARITY
             },
         ) {
             Row(
@@ -245,6 +257,9 @@ private fun MangaDetails(
         items(
             count = imageUrls.size,
             key = { index: Int -> index },
+            contentType = {
+                DetailsItemContentType.MANGA_IMAGES
+            },
         ) { index: Int ->
             AsyncImage(
                 model = imageUrls[index],
@@ -265,7 +280,93 @@ private fun ShimmerMangaDetails(
 ) {
     val gridColumns by rememberGridCells(windowWidthSizeClass)
 
-    TODO()
+    ShimmerLazyVerticalGrid(
+        columns = gridColumns,
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(8.dp),
+        itemSpacing = 8.dp,
+    ) {
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+        ) {
+            Box(
+                contentAlignment = Alignment.Center,
+            ) {
+                ShimmerBox(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .wrapContentHeight()
+                        .aspectRatio(0.75f),
+                )
+            }
+        }
+
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+        ) {
+            Spacer(
+                modifier = Modifier.height(16.dp),
+            )
+        }
+
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan = maxLineSpan,
+                )
+            },
+            contentType = {
+                DetailsItemContentType.AUTHOR_AND_POPULARITY
+            },
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ShimmerBox(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape),
+                )
+
+                Spacer(
+                    modifier = Modifier.width(8.dp),
+                )
+
+                ShimmerBox(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .fillMaxWidth(0.3f),
+                )
+
+                ShimmerBox(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .fillMaxWidth(),
+                )
+            }
+        }
+
+        items(
+            count = 6,
+        ) {
+            ShimmerBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .aspectRatio(0.75f),
+            )
+        }
+    }
 }
 
 @Composable
@@ -285,4 +386,11 @@ private fun rememberGridCells(windowWidthSizeClass: WindowWidthSizeClass): State
 
 private fun IllustrationDetails.extractImageUrls(): List<ImageUrls> {
     return metaPages.ifEmpty { listOf(metaSinglePage) }
+}
+
+private enum class DetailsItemContentType {
+    MANGA_POSTER,
+    SPACER,
+    AUTHOR_AND_POPULARITY,
+    MANGA_IMAGES,
 }
