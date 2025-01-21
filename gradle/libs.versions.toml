@@ -40,7 +40,7 @@ sqldelight = "2.0.2"
 coil = "3.0.4"
 
 # Koin
-koin = "4.0.1"
+koin = "4.0.2"
 
 # Ktor
 ktorClientCore = "3.0.3"
