@@ -20,7 +20,7 @@ kotlinCoroutines = "1.10.1"
 kotlinSerializationJson = "1.8.0"
 
 # Compose
-composeNavigation = "2.8.0-alpha11"
+composeNavigation = "2.8.0-alpha12"
 compose-desktop-browser-wtf = "1.9.40"
 compose-adaptive = "1.0.1"
 
