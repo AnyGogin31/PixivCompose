@@ -17,8 +17,6 @@ kotlin {
                 implementation(projects.core.desingsystem)
                 implementation(projects.core.domain)
                 implementation(projects.core.navigation)
-                implementation(projects.core.state)
-                implementation(projects.features.search.searchNavigation)
                 implementation(projects.resources)
             }
         }
