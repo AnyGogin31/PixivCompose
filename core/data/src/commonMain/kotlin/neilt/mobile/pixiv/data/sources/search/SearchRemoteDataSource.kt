@@ -36,15 +36,25 @@ import neilt.mobile.pixiv.domain.models.home.Illustration
 class SearchRemoteDataSource(
     private val searchService: SearchService,
 ) {
-    suspend fun getSearchIllustrations(query: String): List<Illustration> {
+    suspend fun getSearchIllustrations(query: String, offset: Int = 0): List<Illustration> {
         return withContext(Dispatchers.IO) {
-            searchService.fetchSearchIllustrations(mapOf("word" to query)).illustrations.map { it.toModel() }
+            searchService.fetchSearchIllustrations(
+                mapOf(
+                    "word" to query,
+                    "offset" to offset.toString(),
+                ),
+            ).illustrations.map { it.toModel() }
         }
     }
 
-    suspend fun getSearchManga(query: String): List<Illustration> {
+    suspend fun getSearchManga(query: String, offset: Int = 0): List<Illustration> {
         return withContext(Dispatchers.IO) {
-            searchService.fetchSearchIllustrations(mapOf("word" to query)).illustrations
+            searchService.fetchSearchIllustrations(
+                mapOf(
+                    "word" to query,
+                    "offset" to offset.toString(),
+                ),
+            ).illustrations
                 .filter { it.type == "manga" }
                 .map { it.toModel() }
         }

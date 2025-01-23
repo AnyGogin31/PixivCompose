@@ -37,10 +37,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.FlowPreview
@@ -48,17 +45,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import neilt.mobile.pixiv.resources.Res
+import neilt.mobile.pixiv.resources.back
+import neilt.mobile.pixiv.resources.search
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(FlowPreview::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DockedSearchBar(
     onQueryChange: (query: String) -> Unit,
+    searchQuery: String,
+    onSearchQueryChange: (query: String) -> Unit,
     isExpanded: Boolean,
     onExpandedChange: (expanded: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    var searchQuery by remember { mutableStateOf("") }
     val searchQueryFlow = remember { MutableStateFlow("") }
 
     LaunchedEffect(key1 = Unit) {
@@ -75,8 +77,8 @@ fun DockedSearchBar(
             SearchBarDefaults.InputField(
                 query = searchQuery,
                 onQueryChange = { query: String ->
-                    searchQuery = query
                     searchQueryFlow.value = query
+                    onSearchQueryChange(query)
                 },
                 onSearch = { _: String ->
                     onExpandedChange(false)
@@ -88,19 +90,19 @@ fun DockedSearchBar(
                     if (isExpanded) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null, // TODO
+                            contentDescription = stringResource(Res.string.back),
                             modifier = Modifier
                                 .padding(start = 16.dp)
                                 .clickable {
-                                    onExpandedChange(false)
-                                    searchQuery = ""
                                     searchQueryFlow.value = ""
+                                    onSearchQueryChange("")
+                                    onExpandedChange(false)
                                 },
                         )
                     } else {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = null, // TODO
+                            contentDescription = stringResource(Res.string.search),
                             modifier = Modifier.padding(start = 16.dp),
                         )
                     }

@@ -47,6 +47,8 @@ internal class HomeViewModel(
     private val _uiState = MutableStateFlow(HomeViewState())
     val uiState: StateFlow<HomeViewState> = _uiState.asStateFlow()
 
+    private var currentSearchKeyword: String? = null
+
     init {
         loadIllustrations()
     }
@@ -74,12 +76,29 @@ internal class HomeViewModel(
     }
 
     suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
+        val keyword = currentSearchKeyword
         return withContext(Dispatchers.IO) {
-            homeRepository.getRecommendedIllustrations(
-                includeRankingIllustrations = false,
-                includePrivacyPolicy = false,
-                offset = offset,
-            )
+            if (keyword != null) {
+                searchRepository.getSearchIllustrations(
+                    SearchIllustrationsRequest(
+                        keyword = keyword,
+                        sortOrder = null,
+                        searchTarget = null,
+                        aiType = null,
+                        minBookmarks = null,
+                        maxBookmarks = null,
+                        startDate = null,
+                        endDate = null,
+                        offset = offset,
+                    ),
+                )
+            } else {
+                homeRepository.getRecommendedIllustrations(
+                    includeRankingIllustrations = false,
+                    includePrivacyPolicy = false,
+                    offset = offset,
+                )
+            }
         }
     }
 
@@ -88,6 +107,7 @@ internal class HomeViewModel(
     }
 
     fun onTagClick(tag: Tag) {
+        currentSearchKeyword = tag.name
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
             try {

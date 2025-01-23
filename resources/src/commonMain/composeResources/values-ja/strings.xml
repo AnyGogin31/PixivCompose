@@ -12,6 +12,8 @@
     <!-- 検索 -->
     <string name="search_illustrations_placeholder">イラストを検索...</string>
     <string name="search_manga_placeholder">マンガを検索...</string>
+    <string name="search">検索</string>
+    <string name="back">戻る</string>
 
     <!-- エラーメッセージ -->
     <string name="error_back">戻る</string>

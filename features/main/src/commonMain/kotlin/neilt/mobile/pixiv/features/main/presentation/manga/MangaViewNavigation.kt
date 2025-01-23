@@ -44,6 +44,7 @@ internal fun NavGraphBuilder.addPixivMangaView() {
             uiState = uiState,
             navigationSuiteScope = navigationSuiteScope,
             onCloseClick = viewModel::onCloseClick,
+            onTagClick = viewModel::onTagClick,
             onIllustrationClick = viewModel::onIllustrationClick,
             loadMoreIllustrations = viewModel::loadMoreIllustrations,
         )

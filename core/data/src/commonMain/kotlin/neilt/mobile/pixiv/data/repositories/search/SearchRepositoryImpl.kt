@@ -34,11 +34,11 @@ class SearchRepositoryImpl(
     private val searchRemoteDataSource: SearchRemoteDataSource,
 ) : SearchRepository {
     override suspend fun getSearchIllustrations(request: SearchIllustrationsRequest): List<Illustration> {
-        return searchRemoteDataSource.getSearchIllustrations(request.keyword)
+        return searchRemoteDataSource.getSearchIllustrations(request.keyword, request.offset)
     }
 
     override suspend fun getSearchManga(request: SearchIllustrationsRequest): List<Illustration> {
-        return searchRemoteDataSource.getSearchManga(request.keyword)
+        return searchRemoteDataSource.getSearchManga(request.keyword, request.offset)
     }
 
     override suspend fun getSearchPredictionTags(query: String): List<Tag> {

@@ -60,8 +60,10 @@ import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerLazyVerticalGrid
 import neilt.mobile.pixiv.desingsystem.foundation.pane.TwoPane
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationContentType
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.features.details.presentation.manga.MangaViewNavigation
+import neilt.mobile.pixiv.features.search.presentation.SearchViewNavigation
 
 // Yes, this is the same implementation as in HomeView. In the future, it would be worth combining them to reduce the amount of code. :)
 
@@ -70,6 +72,7 @@ fun MangaView(
     uiState: MangaViewState,
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
+    onTagClick: (tag: Tag) -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -80,6 +83,7 @@ fun MangaView(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
+                onTagClick = onTagClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -91,6 +95,7 @@ fun MangaView(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
+                onTagClick = onTagClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -104,6 +109,7 @@ private fun MangaViewDualPane(
     uiState: MangaViewState,
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
+    onTagClick: (tag: Tag) -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -116,6 +122,11 @@ private fun MangaViewDualPane(
 
     TwoPane(
         firstContent = {
+            SearchViewNavigation(
+                onTagClick = onTagClick,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
             when {
                 uiState.isLoading -> {
                     ShimmerIllustartionGallery(
@@ -160,6 +171,7 @@ private fun MangaViewSinglePane(
     uiState: MangaViewState,
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
+    onTagClick: (tag: Tag) -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -171,6 +183,11 @@ private fun MangaViewSinglePane(
     Box(
         modifier = modifier,
     ) {
+        SearchViewNavigation(
+            onTagClick = onTagClick,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
         when {
             uiState.isLoading -> {
                 ShimmerIllustartionGallery(

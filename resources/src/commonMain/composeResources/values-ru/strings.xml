@@ -12,6 +12,8 @@
     <!-- Поиск -->
     <string name="search_illustrations_placeholder">Искать иллюстрации...</string>
     <string name="search_manga_placeholder">Искать манги...</string>
+    <string name="search">Поиск</string>
+    <string name="back">Назад</string>
 
     <!-- Сообщения об ошибках -->
     <string name="error_back">Назад</string>

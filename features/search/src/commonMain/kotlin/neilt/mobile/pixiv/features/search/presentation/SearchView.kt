@@ -55,8 +55,15 @@ fun SearchView(
         isExpanded = expanded
     }
 
+    var searchQuery by remember { mutableStateOf("") }
+    val onSearchQueryChange = fun(query: String) {
+        searchQuery = query
+    }
+
     DockedSearchBar(
         onQueryChange = onQueryChange,
+        searchQuery = searchQuery,
+        onSearchQueryChange = onSearchQueryChange,
         isExpanded = isExpanded,
         onExpandedChange = onExpandedChange,
         modifier = modifier,
@@ -71,6 +78,7 @@ fun SearchView(
                     tags = uiState.tags,
                     onTagClick = { tag: Tag ->
                         onTagClick(tag)
+                        onSearchQueryChange(tag.name)
                         onExpandedChange(false)
                     },
                 )

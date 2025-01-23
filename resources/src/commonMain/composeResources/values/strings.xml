@@ -14,6 +14,8 @@
     <!-- Search -->
     <string name="search_illustrations_placeholder">Search illustrations...</string>
     <string name="search_manga_placeholder">Search manga...</string>
+    <string name="search">Search</string>
+    <string name="back">Back</string>
 
     <!-- Error messages -->
     <string name="error_back">Back</string>

@@ -34,14 +34,20 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
+import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
 internal class MangaViewModel(
     private val homeRepository: HomeRepository,
+    private val searchRepository: SearchRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MangaViewState())
     val uiState: StateFlow<MangaViewState> = _uiState.asStateFlow()
+
+    private var currentSearchKeyword: String? = null
 
     init {
         loadIllustrations()
@@ -70,17 +76,65 @@ internal class MangaViewModel(
     }
 
     suspend fun loadMoreIllustrations(offset: Int): List<Illustration> {
+        val keyword = currentSearchKeyword
         return withContext(Dispatchers.IO) {
-            homeRepository.getRecommendedManga(
-                includeRankingIllustrations = false,
-                includePrivacyPolicy = false,
-                offset = offset,
-            )
+            if (keyword != null) {
+                searchRepository.getSearchManga(
+                    SearchIllustrationsRequest(
+                        keyword = keyword,
+                        sortOrder = null,
+                        searchTarget = null,
+                        aiType = null,
+                        minBookmarks = null,
+                        maxBookmarks = null,
+                        startDate = null,
+                        endDate = null,
+                        offset = offset,
+                    ),
+                )
+            } else {
+                homeRepository.getRecommendedIllustrations(
+                    includeRankingIllustrations = false,
+                    includePrivacyPolicy = false,
+                    offset = offset,
+                )
+            }
         }
     }
 
     fun onCloseClick() {
         _uiState.update { it.copy(selectedManga = null) }
+    }
+
+    fun onTagClick(tag: Tag) {
+        currentSearchKeyword = tag.name
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+            try {
+                val manga = withContext(Dispatchers.IO) {
+                    searchRepository.getSearchManga(
+                        SearchIllustrationsRequest(
+                            keyword = tag.name,
+                            sortOrder = null,
+                            searchTarget = null,
+                            aiType = null,
+                            minBookmarks = null,
+                            maxBookmarks = null,
+                            startDate = null,
+                            endDate = null,
+                        ),
+                    )
+                }
+                _uiState.update { it.copy(isLoading = false, manga = manga) }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message ?: "Error loading manga",
+                    )
+                }
+            }
+        }
     }
 
     fun onIllustrationClick(illustration: Illustration) {
