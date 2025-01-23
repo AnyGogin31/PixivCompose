@@ -50,6 +50,9 @@ junitJupiter = "5.11.4"
 mockito = "5.15.2"
 mockitoKotlin = "5.4.0"
 
+# Logback ❤️
+ch-qos-logback = "1.5.16"
+
 
 [libraries]
 
@@ -114,6 +117,9 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.r
 
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+
+# Logback ❤️
+ch-qos-logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "ch-qos-logback" }
 
 [plugins]
 
