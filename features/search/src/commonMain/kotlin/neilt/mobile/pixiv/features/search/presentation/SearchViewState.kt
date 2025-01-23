@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.search.di
+package neilt.mobile.pixiv.features.search.presentation
 
-import neilt.mobile.pixiv.features.search.presentation.SearchViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 
-val searchFeatureModule = module {
-    viewModelOf(::SearchViewModel)
-}
+data class SearchViewState(
+    val isLoading: Boolean = true,
+    val errorMessage: String? = null,
+    val tags: List<Tag>? = null,
+)

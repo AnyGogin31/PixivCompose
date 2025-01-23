@@ -22,12 +22,28 @@
  * SOFTWARE.
  */
 
-package neilt.mobile.pixiv.features.search.di
+package neilt.mobile.pixiv.features.search.presentation
 
-import neilt.mobile.pixiv.features.search.presentation.SearchViewModel
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import org.koin.compose.viewmodel.koinViewModel
 
-val searchFeatureModule = module {
-    viewModelOf(::SearchViewModel)
+@Composable
+fun SearchViewNavigation(
+    onTagClick: (tag: Tag) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: SearchViewModel = koinViewModel()
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    SearchView(
+        uiState = uiState,
+        onQueryChange = viewModel::onQueryChange,
+        onTagClick = onTagClick,
+        modifier = modifier,
+    )
 }
