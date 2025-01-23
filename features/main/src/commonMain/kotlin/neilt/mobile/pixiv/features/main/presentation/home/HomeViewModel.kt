@@ -34,11 +34,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
+import neilt.mobile.pixiv.domain.models.requests.SearchIllustrationsRequest
 import neilt.mobile.pixiv.domain.repositories.home.HomeRepository
+import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
 internal class HomeViewModel(
     private val homeRepository: HomeRepository,
+    private val searchRepository: SearchRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeViewState())
     val uiState: StateFlow<HomeViewState> = _uiState.asStateFlow()
@@ -81,6 +85,36 @@ internal class HomeViewModel(
 
     fun onCloseClick() {
         _uiState.update { it.copy(selectedIllustration = null) }
+    }
+
+    fun onTagClick(tag: Tag) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+            try {
+                val illustrations = withContext(Dispatchers.IO) {
+                    searchRepository.getSearchIllustrations(
+                        SearchIllustrationsRequest(
+                            keyword = tag.name,
+                            sortOrder = null,
+                            searchTarget = null,
+                            aiType = null,
+                            minBookmarks = null,
+                            maxBookmarks = null,
+                            startDate = null,
+                            endDate = null,
+                        ),
+                    )
+                }
+                _uiState.update { it.copy(isLoading = false, illustrations = illustrations) }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message ?: "Error loading illustrations",
+                    )
+                }
+            }
+        }
     }
 
     fun onIllustrationClick(illustration: Illustration) {

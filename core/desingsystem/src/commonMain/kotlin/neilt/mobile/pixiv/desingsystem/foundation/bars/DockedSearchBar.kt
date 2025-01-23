@@ -53,16 +53,13 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 fun DockedSearchBar(
     onQueryChange: (query: String) -> Unit,
+    isExpanded: Boolean,
+    onExpandedChange: (expanded: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val searchQueryFlow = remember { MutableStateFlow("") }
-
-    var isExpanded by remember { mutableStateOf(false) }
-    val onExpandedChange = fun(expanded: Boolean) {
-        isExpanded = expanded
-    }
 
     LaunchedEffect(key1 = Unit) {
         searchQueryFlow
@@ -82,7 +79,7 @@ fun DockedSearchBar(
                     searchQueryFlow.value = query
                 },
                 onSearch = { _: String ->
-                    isExpanded = false
+                    onExpandedChange(false)
                 },
                 expanded = isExpanded,
                 onExpandedChange = onExpandedChange,
@@ -95,7 +92,7 @@ fun DockedSearchBar(
                             modifier = Modifier
                                 .padding(start = 16.dp)
                                 .clickable {
-                                    isExpanded = false
+                                    onExpandedChange(false)
                                     searchQuery = ""
                                     searchQueryFlow.value = ""
                                 },

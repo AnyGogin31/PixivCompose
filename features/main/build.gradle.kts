@@ -20,6 +20,7 @@ kotlin {
                 implementation(projects.core.navigation)
                 implementation(projects.core.sugar)
                 implementation(projects.features.details)
+                implementation(projects.features.search)
                 implementation(projects.resources)
             }
         }

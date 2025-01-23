@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+// TODO: Rework after complete code migration
+
 package neilt.mobile.pixiv.desingsystem.components.list
 
 import androidx.compose.foundation.layout.Box

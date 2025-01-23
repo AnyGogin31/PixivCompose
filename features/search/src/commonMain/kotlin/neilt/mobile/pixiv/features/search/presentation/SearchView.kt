@@ -26,13 +26,21 @@ package neilt.mobile.pixiv.features.search.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import neilt.mobile.pixiv.desingsystem.components.views.ErrorView
 import neilt.mobile.pixiv.desingsystem.foundation.bars.DockedSearchBar
+import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerBox
+import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerLazyColumn
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 
 @Composable
@@ -42,19 +50,29 @@ fun SearchView(
     onTagClick: (tag: Tag) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var isExpanded by remember { mutableStateOf(false) }
+    val onExpandedChange = fun(expanded: Boolean) {
+        isExpanded = expanded
+    }
+
     DockedSearchBar(
         onQueryChange = onQueryChange,
+        isExpanded = isExpanded,
+        onExpandedChange = onExpandedChange,
         modifier = modifier,
     ) {
         when {
-            uiState.isLoading -> TODO()
+            uiState.isLoading -> ShimmerAutoCompleteList()
 
             uiState.errorMessage != null -> ErrorView(uiState.errorMessage)
 
             uiState.tags != null -> {
                 AutoCompleteList(
                     tags = uiState.tags,
-                    onTagClick = onTagClick,
+                    onTagClick = { tag: Tag ->
+                        onTagClick(tag)
+                        onExpandedChange(false)
+                    },
                 )
             }
         }
@@ -88,5 +106,21 @@ private fun AutoCompleteList(
                     },
             )
         }
+    }
+}
+
+@Composable
+private fun ShimmerAutoCompleteList(
+    modifier: Modifier = Modifier,
+) {
+    ShimmerLazyColumn(
+        itemCount = 8,
+        modifier = modifier,
+    ) {
+        ShimmerBox(
+            modifier = Modifier
+                .height(20.dp)
+                .fillMaxWidth(),
+        )
     }
 }

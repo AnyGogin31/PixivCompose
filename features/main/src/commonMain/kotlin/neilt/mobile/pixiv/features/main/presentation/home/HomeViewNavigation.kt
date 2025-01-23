@@ -44,6 +44,7 @@ internal fun NavGraphBuilder.addPixivHomeView() {
             uiState = uiState,
             navigationSuiteScope = navigationSuiteScope,
             onCloseClick = viewModel::onCloseClick,
+            onTagClick = viewModel::onTagClick,
             onIllustrationClick = viewModel::onIllustrationClick,
             loadMoreIllustrations = viewModel::loadMoreIllustrations,
         )

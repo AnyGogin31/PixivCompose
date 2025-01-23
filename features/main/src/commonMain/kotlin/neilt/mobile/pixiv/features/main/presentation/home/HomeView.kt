@@ -57,14 +57,17 @@ import neilt.mobile.pixiv.desingsystem.foundation.fake.ShimmerLazyVerticalGrid
 import neilt.mobile.pixiv.desingsystem.foundation.pane.TwoPane
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationContentType
 import neilt.mobile.pixiv.desingsystem.foundation.suite.NavigationSuiteScope
+import neilt.mobile.pixiv.domain.models.details.illustration.Tag
 import neilt.mobile.pixiv.domain.models.home.Illustration
 import neilt.mobile.pixiv.features.details.presentation.illustration.IllustrationViewNavigation
+import neilt.mobile.pixiv.features.search.presentation.SearchViewNavigation
 
 @Composable
 fun HomeView(
     uiState: HomeViewState,
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
+    onTagClick: (tag: Tag) -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -75,6 +78,7 @@ fun HomeView(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
+                onTagClick = onTagClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -86,6 +90,7 @@ fun HomeView(
                 uiState = uiState,
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
+                onTagClick = onTagClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -99,6 +104,7 @@ private fun HomeViewDualPane(
     uiState: HomeViewState,
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
+    onTagClick: (tag: Tag) -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -111,6 +117,11 @@ private fun HomeViewDualPane(
 
     TwoPane(
         firstContent = {
+            SearchViewNavigation(
+                onTagClick = onTagClick,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
             when {
                 uiState.isLoading -> {
                     ShimmerIllustartionGallery(
@@ -155,6 +166,7 @@ private fun HomeViewSinglePane(
     uiState: HomeViewState,
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
+    onTagClick: (tag: Tag) -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -166,6 +178,11 @@ private fun HomeViewSinglePane(
     Box(
         modifier = modifier,
     ) {
+        SearchViewNavigation(
+            onTagClick = onTagClick,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
         when {
             uiState.isLoading -> {
                 ShimmerIllustartionGallery(
