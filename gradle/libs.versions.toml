@@ -9,7 +9,7 @@ version-code = "10"
 
 # Gradle Plugins
 androidGradlePlugin = "8.8.0-alpha05"
-kotlinGradlePlugin = "2.1.0"
+kotlinGradlePlugin = "2.1.10"
 composeGradlePlugin = "1.7.3"
 detektGradlePlugin = "1.23.7"
 ktlintGradlePlugin = "12.1.1"
