@@ -34,6 +34,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun SearchViewNavigation(
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: SearchViewModel = koinViewModel()
@@ -44,6 +45,7 @@ fun SearchViewNavigation(
         uiState = uiState,
         onQueryChange = viewModel::onQueryChange,
         onTagClick = onTagClick,
+        onProfileClick = onProfileClick,
         modifier = modifier,
     )
 }

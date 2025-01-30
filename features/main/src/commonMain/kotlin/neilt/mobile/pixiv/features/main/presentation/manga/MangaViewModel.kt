@@ -137,6 +137,10 @@ internal class MangaViewModel(
         }
     }
 
+    fun onProfileClick() {
+        // TODO
+    }
+
     fun onIllustrationClick(illustration: Illustration) {
         _uiState.update { it.copy(selectedManga = illustration) }
     }

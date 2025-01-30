@@ -25,9 +25,11 @@
 package neilt.mobile.pixiv.features.search.presentation
 
 import neilt.mobile.pixiv.domain.models.details.illustration.Tag
+import neilt.mobile.pixiv.domain.models.profile.ProfileImageUrls
 
 data class SearchViewState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
     val tags: List<Tag>? = null,
+    val profileImageUrls: ProfileImageUrls? = null,
 )

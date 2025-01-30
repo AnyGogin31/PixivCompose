@@ -73,6 +73,7 @@ fun MangaView(
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -84,6 +85,7 @@ fun MangaView(
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
                 onTagClick = onTagClick,
+                onProfileClick = onProfileClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -96,6 +98,7 @@ fun MangaView(
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
                 onTagClick = onTagClick,
+                onProfileClick = onProfileClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -110,6 +113,7 @@ private fun MangaViewDualPane(
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -124,6 +128,7 @@ private fun MangaViewDualPane(
         firstContent = {
             SearchViewNavigation(
                 onTagClick = onTagClick,
+                onProfileClick = onProfileClick,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -172,6 +177,7 @@ private fun MangaViewSinglePane(
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -185,6 +191,7 @@ private fun MangaViewSinglePane(
     ) {
         SearchViewNavigation(
             onTagClick = onTagClick,
+            onProfileClick = onProfileClick,
             modifier = Modifier.fillMaxWidth(),
         )
 

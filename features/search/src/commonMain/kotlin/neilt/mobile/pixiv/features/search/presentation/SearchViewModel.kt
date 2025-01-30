@@ -34,13 +34,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import neilt.mobile.pixiv.domain.repositories.auth.AuthRepository
+import neilt.mobile.pixiv.domain.repositories.profile.ProfileRepository
 import neilt.mobile.pixiv.domain.repositories.search.SearchRepository
 
 internal class SearchViewModel(
     private val searchRepository: SearchRepository,
+    private val authRepository: AuthRepository,
+    private val profileRepository: ProfileRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchViewState())
     val uiState: StateFlow<SearchViewState> = _uiState.asStateFlow()
+
+    init {
+        loadProfileImageUrls()
+    }
 
     fun onQueryChange(query: String) {
         viewModelScope.launch {
@@ -63,6 +71,14 @@ internal class SearchViewModel(
                     )
                 }
             }
+        }
+    }
+
+    private fun loadProfileImageUrls() {
+        viewModelScope.launch {
+            val userId = authRepository.getActiveUser()?.id?.toIntOrNull() ?: return@launch
+            val profileImageUrls = profileRepository.getUserDetail(userId)
+            _uiState.update { it.copy(profileImageUrls = profileImageUrls.user.profileImageUrls) }
         }
     }
 }

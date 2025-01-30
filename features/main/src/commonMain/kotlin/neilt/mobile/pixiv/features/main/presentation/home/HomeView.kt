@@ -68,6 +68,7 @@ fun HomeView(
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -79,6 +80,7 @@ fun HomeView(
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
                 onTagClick = onTagClick,
+                onProfileClick = onProfileClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -91,6 +93,7 @@ fun HomeView(
                 navigationSuiteScope = navigationSuiteScope,
                 onCloseClick = onCloseClick,
                 onTagClick = onTagClick,
+                onProfileClick = onProfileClick,
                 onIllustrationClick = onIllustrationClick,
                 loadMoreIllustrations = loadMoreIllustrations,
                 modifier = modifier,
@@ -105,6 +108,7 @@ private fun HomeViewDualPane(
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -119,6 +123,7 @@ private fun HomeViewDualPane(
         firstContent = {
             SearchViewNavigation(
                 onTagClick = onTagClick,
+                onProfileClick = onProfileClick,
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -167,6 +172,7 @@ private fun HomeViewSinglePane(
     navigationSuiteScope: NavigationSuiteScope,
     onCloseClick: () -> Unit,
     onTagClick: (tag: Tag) -> Unit,
+    onProfileClick: () -> Unit,
     onIllustrationClick: (illustration: Illustration) -> Unit,
     loadMoreIllustrations: suspend (offset: Int) -> List<Illustration>,
     modifier: Modifier = Modifier,
@@ -180,6 +186,7 @@ private fun HomeViewSinglePane(
     ) {
         SearchViewNavigation(
             onTagClick = onTagClick,
+            onProfileClick = onProfileClick,
             modifier = Modifier.fillMaxWidth(),
         )
 

@@ -59,6 +59,7 @@ fun DockedSearchBar(
     isExpanded: Boolean,
     onExpandedChange: (expanded: Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    trailingIcon: @Composable (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val searchQueryFlow = remember { MutableStateFlow("") }
@@ -107,6 +108,7 @@ fun DockedSearchBar(
                         )
                     }
                 },
+                trailingIcon = trailingIcon,
             )
         },
         expanded = isExpanded,

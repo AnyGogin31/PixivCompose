@@ -137,6 +137,10 @@ internal class HomeViewModel(
         }
     }
 
+    fun onProfileClick() {
+        // TODO
+    }
+
     fun onIllustrationClick(illustration: Illustration) {
         _uiState.update { it.copy(selectedIllustration = illustration) }
     }
